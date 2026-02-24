@@ -26,5 +26,10 @@ coverage*
 # Logs
 *.log
 
+# Secrets / local env
+.env.local
+**/.env.local
+
 # Generated
 **/generated/
+**/Generated/

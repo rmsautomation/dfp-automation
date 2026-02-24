@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WarehouseReceipts xmlns="http://www.magaya.com/XMLSchema/V1">
+	<WarehouseReceipt GUID="37ff3e0a-c7ad-4608-bb65-325beb719406" Type="WH">
+		<CreatedOn>2026-02-24T13:45:30-05:00</CreatedOn>
+		<Number>TC3072</Number>
+		<CreatedByName>Administrator</CreatedByName>
+		<Version>104</Version>
+		<IssuedByName>Postgress SQL II</IssuedByName>
+		<IssuedBy GUID="267c4164-7119-4328-9640-7fdb7add1ec2">
+			<Type>ForwardingAgent</Type>
+			<Name>Postgress SQL II</Name>
+			<CreatedOn>2025-04-22T17:34:44-04:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<NetworkID>38442</NetworkID>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsKnownShipper>true</IsKnownShipper>
+			<IsPrepaid>true</IsPrepaid>
+		</IssuedBy>
+		<ShipperName>automation</ShipperName>
+		<Shipper GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Shipper>
+		<ConsigneeName>automation</ConsigneeName>
+		<Consignee GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Consignee>
+		<CarrierName>CMA</CarrierName>
+		<Carrier GUID="ac792761-aef7-4c79-bcdc-94f9d9f7e1e3">
+			<Type>Carrier</Type>
+			<Name>CMA</Name>
+			<CreatedOn>2025-01-31T10:49:44-05:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsPrepaid>true</IsPrepaid>
+			<CarrierInfo>
+				<CarrierTypeCode>Ocean</CarrierTypeCode>
+			</CarrierInfo>
+		</Carrier>
+		<Items>
+			<Item GUID="c5554560-ee2a-4c99-bf10-433d3c4ac0ff" Type="WI">
+				<Version>105</Version>
+				<Status>OnHand</Status>
+				<Pieces>1</Pieces>
+				<Description>automationCommodity</Description>
+				<PieceQuantity>0.00</PieceQuantity>
+				<IsSummarized>false</IsSummarized>
+				<WarehouseReceiptGUID>37ff3e0a-c7ad-4608-bb65-325beb719406</WarehouseReceiptGUID>
+				<PackageName>Box</PackageName>
+				<WHRItemID>1</WHRItemID>
+				<LocationCode>RCV01</LocationCode>
+				<Length Unit="in">10.00</Length>
+				<Height Unit="in">10.00</Height>
+				<Width Unit="in">10.00</Width>
+				<Weight Unit="lb">10.00</Weight>
+				<ContainedPiecesWeightIncluded>true</ContainedPiecesWeightIncluded>
+				<Volume Unit="ft3">0.57999999999999996003</Volume>
+				<VolumeWeight Unit="vlb">6.03759036144577887484</VolumeWeight>
+				<PieceWeight Unit="lb">10.00</PieceWeight>
+				<PieceVolume Unit="ft3">0.57999999999999996003</PieceVolume>
+				<Package>
+					<Type>Box</Type>
+					<Code>BOX</Code>
+					<Name>Box</Name>
+				</Package>
+				<Currency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</Currency>
+				<UnitaryValue Currency="USD">100.00</UnitaryValue>
+				<QuantityUnit>50</QuantityUnit>
+				<Model>automationModel</Model>
+				<PartNumber>AUTOMATION</PartNumber>
+				<ItemDefinition GUID="025b460c-14f6-44bd-83ec-beb0b88af28f" Type="IV">
+					<CreatedOn>2025-02-20T10:17:49-05:00</CreatedOn>
+					<PartNumber>AUTOMATION</PartNumber>
+					<Description>automationCommodity</Description>
+					<Model>automationModel</Model>
+					<Pieces>5</Pieces>
+					<AmountPerPallet>100</AmountPerPallet>
+					<PiecesInCompoundItems>0</PiecesInCompoundItems>
+					<ArrivingPiecesInCompoundItems>0</ArrivingPiecesInCompoundItems>
+					<AvailablePiecesForSale>5</AvailablePiecesForSale>
+					<Package>
+						<Type>Box</Type>
+						<Code>BOX</Code>
+						<Name>Box</Name>
+					</Package>
+					<InventoryType>FIFO</InventoryType>
+					<UnitaryValue Currency="USD">100.00</UnitaryValue>
+					<DefaultQuantityToOrder>50</DefaultQuantityToOrder>
+					<Length Unit="in">10.00</Length>
+					<Height Unit="in">10.00</Height>
+					<Width Unit="in">10.00</Width>
+					<Weight Unit="lb">10.00</Weight>
+					<Volume Unit="ft3">0.57999999999999996003</Volume>
+					<UnitOfMeasurement>50</UnitOfMeasurement>
+					<CommodityTypeName>FAK General Commodity</CommodityTypeName>
+					<CommodityType Code="FAK GENERA">
+						<Description>FAK General Commodity</Description>
+					</CommodityType>
+					<ItemType>StockItem</ItemType>
+				</ItemDefinition>
+				<Location Code="RCV01">
+					<Description>Receiving</Description>
+					<Type>Receiving</Type>
+					<WarehouseZoneName>Default Zone</WarehouseZoneName>
+					<IsDisabled>false</IsDisabled>
+				</Location>
+				<IncludeInSED>false</IncludeInSED>
+				<IsContainer>false</IsContainer>
+				<WarehouseReceiptNumber>TC3072</WarehouseReceiptNumber>
+				<IsPallet>false</IsPallet>
+				<IsOverstock>false</IsOverstock>
+				<NotLoaded>false</NotLoaded>
+				<InTask>false</InTask>
+				<CommodityTypeName>FAK General Commodity</CommodityTypeName>
+				<EntryDate>2026-02-24T13:45:30-05:00</EntryDate>
+			</Item>
+		</Items>
+		<MeasurementUnits>
+			<LengthUnit>in</LengthUnit>
+			<VolumeUnit>ft3</VolumeUnit>
+			<WeightUnit>lb</WeightUnit>
+			<VolumeWeightUnit>vlb</VolumeWeightUnit>
+			<AreaUnit>ft2</AreaUnit>
+			<LengthPrecision>2</LengthPrecision>
+			<VolumePrecision>2</VolumePrecision>
+			<WeightPrecision>2</WeightPrecision>
+			<VolumeWeightPrecision>2</VolumeWeightPrecision>
+			<AreaPrecision>2</AreaPrecision>
+			<VolumeWeightFactor>166.00</VolumeWeightFactor>
+		</MeasurementUnits>
+		<CreatorNetworkID>38442</CreatorNetworkID>
+		<TotalPieces>1</TotalPieces>
+		<TotalWeight Unit="lb">10.00</TotalWeight>
+		<TotalVolume Unit="ft3">0.57999999999999996003</TotalVolume>
+		<TotalVolumeWeight Unit="vlb">6.03759036144577887484</TotalVolumeWeight>
+		<ChargeableWeight Unit="lb">10.00</ChargeableWeight>
+		<Events>
+			<Event>
+				<Date>2026-02-24T13:48:05-05:00</Date>
+				<EventDefinition>
+					<Name>Arrived at warehouse</Name>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>WH</OwnerType>
+				<OwnerNumber>TC3072</OwnerNumber>
+				<OwnerGUID>37ff3e0a-c7ad-4608-bb65-325beb719406</OwnerGUID>
+			</Event>
+		</Events>
+		<TotalValue Currency="USD">0.00</TotalValue>
+		<Status>OnHand</Status>
+		<BillingClient GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</BillingClient>
+		<LastItemID>1</LastItemID>
+		<IsOnline>false</IsOnline>
+		<IsLiquidated>false</IsLiquidated>
+		<CustomFields>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>stringcustomfield</InternalName>
+					<DisplayName>StringCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>STRINGCUSTOMFIELD3072</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Logical</Type>
+					<InternalName>booleancustomfield</InternalName>
+					<DisplayName>BooleanCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>false</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Integer</Type>
+					<InternalName>integercustomfield</InternalName>
+					<DisplayName>IntegerCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>3072</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Decimal</Type>
+					<InternalName>decimalcustomfield</InternalName>
+					<DisplayName>DecimalCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<Precision>2</Precision>
+				</CustomFieldDefinition>
+				<Value>30.72</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>PickList</Type>
+					<InternalName>picklistcustomfield</InternalName>
+					<DisplayName>PickListCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>Option1</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Date</Type>
+					<InternalName>datecustomfield</InternalName>
+					<DisplayName>DateCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<DateTimeFormat>false</DateTimeFormat>
+					<DateSystemTime>false</DateSystemTime>
+				</CustomFieldDefinition>
+				<Value>2026-02-24-05:00</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Money</Type>
+					<InternalName>moneycustomfield</InternalName>
+					<DisplayName>MoneyCustomField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<Precision>2</Precision>
+				</CustomFieldDefinition>
+				<Value>30.72 USD</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Lookup</Type>
+					<InternalName>lookupcutomsfield</InternalName>
+					<DisplayName>LookupCutomsField</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<LookupItems>
+						<LookupItem>Client</LookupItem>
+					</LookupItems>
+				</CustomFieldDefinition>
+				<Value>automationUpdated</Value>
+				<RelatedObject>
+					<Entity GUID="c9edaaa2-673e-4bdd-a558-f279b42d8449">
+						<Type>Client</Type>
+						<Name>automationUpdated</Name>
+						<CreatedOn>2025-01-31T13:24:59-05:00</CreatedOn>
+						<PrimaryIdType>Other</PrimaryIdType>
+						<TransactionDueDays>30</TransactionDueDays>
+						<IsBillable>true</IsBillable>
+						<PaymentTerms>
+							<Description>Net 30</Description>
+							<NetDueDays>30</NetDueDays>
+							<DiscountPercentage>0.00</DiscountPercentage>
+							<DiscountPaidDays>0</DiscountPaidDays>
+							<OperationType>All</OperationType>
+							<TransactionDate>Transaction</TransactionDate>
+						</PaymentTerms>
+						<IsPrepaid>true</IsPrepaid>
+					</Entity>
+				</RelatedObject>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>qatest</InternalName>
+					<DisplayName>QATest</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>QATEST3072</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>guidwh</InternalName>
+					<DisplayName>GUIDWH</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>GUID</Value>
+			</CustomField>
+		</CustomFields>
+	</WarehouseReceipt>
+</WarehouseReceipts>

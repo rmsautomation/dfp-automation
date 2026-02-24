@@ -16,7 +16,7 @@ bin/
 obj/
 
 # Playwright artifacts
-Artifacts/
+DFP.Playwright/Artifacts/codegen*.jsonl
 
 # Test results / coverage
 TestResults/
@@ -33,3 +33,6 @@ coverage*
 # Generated
 **/generated/
 **/Generated/
+
+# Local XML staging (not part of project)
+XMLFilesDFP/

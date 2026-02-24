@@ -1,0 +1,15 @@
+{
+    "page":  "dashboard",
+    "generatedAt":  "2026-02-24T00:35:41.1110039-05:00",
+    "selectors":  [
+                      "#navSidebar \u003e\u003e internal:role=link[name=\"Shipments\"i]",
+                      "a \u003e\u003e internal:has-text=/^Dashboard$/",
+                      "internal:role=button[name=\"A\"s]",
+                      "internal:role=button[name=\"Shipments\"i]",
+                      "internal:role=heading[name=\"Shipments with upcoming events\"i]",
+                      "internal:role=link[name=\"Create shipment\"i]",
+                      "internal:text=\"Aylin Annia\"s",
+                      "internal:text=\"Here is a snapshot of what\u0027s\"i",
+                      "internal:text=\"Loading ops data...\"i"
+                  ]
+}

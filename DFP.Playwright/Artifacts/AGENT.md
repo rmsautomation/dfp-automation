@@ -27,6 +27,11 @@ macOS/Linux (PowerShell):
 pwsh ./DFP.Playwright/Artifacts/agent-run.ps1 -PageKey login -BaseUrl "https://..."
 ```
 
+## Example: Login
+```bash
+pwsh ./DFP.Playwright/Artifacts/agent-run.ps1 -PageKey login -BaseUrl "https://tu-url"
+```
+
 ## Notes
 - The generator uses the Feature filename as the page key.
   Example: `Login.feature` -> page key `login` -> `selectors.login.json`

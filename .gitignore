@@ -1,0 +1,30 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET build output
+bin/
+obj/
+
+# Playwright artifacts
+Artifacts/
+
+# Test results / coverage
+TestResults/
+*.trx
+coverage*
+
+# Logs
+*.log
+
+# Generated
+**/generated/

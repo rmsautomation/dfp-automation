@@ -16,7 +16,7 @@ bin/
 obj/
 
 # Playwright artifacts
-Artifacts/
+DFP.Playwright/Artifacts/codegen*.jsonl
 
 # Test results / coverage
 TestResults/

@@ -1,11 +1,27 @@
 param(
     [Parameter(Mandatory=$false)]
-    [string]$ArtifactsRoot = "D:\AnniaSources\DFP\DFP.Playwright\Artifacts",
+    [string]$ArtifactsRoot,
     [Parameter(Mandatory=$false)]
-    [string]$SelectorsRoot = "D:\AnniaSources\DFP\DFP.Playwright\Artifacts\Selectors",
+    [string]$SelectorsRoot,
     [Parameter(Mandatory=$false)]
-    [string]$GeneratedSelectorsPath = "D:\AnniaSources\DFP\DFP.Playwright\Support\Selectors.generated.cs"
+    [string]$GeneratedSelectorsPath
 )
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Resolve-Path (Join-Path $scriptRoot "..")
+
+if ([string]::IsNullOrWhiteSpace($ArtifactsRoot)) {
+    $ArtifactsRoot = Join-Path $projectRoot "Artifacts"
+}
+if ([string]::IsNullOrWhiteSpace($SelectorsRoot)) {
+    $SelectorsRoot = Join-Path $ArtifactsRoot "Selectors"
+}
+if ([string]::IsNullOrWhiteSpace($GeneratedSelectorsPath)) {
+    $GeneratedSelectorsPath = Join-Path $projectRoot "Support\Selectors.generated.cs"
+}
+
+$ArtifactsRoot = [System.IO.Path]::TrimEndingDirectorySeparator($ArtifactsRoot)
+$SelectorsRoot = [System.IO.Path]::TrimEndingDirectorySeparator($SelectorsRoot)
 
 function Get-SelectorsFromJsonl([string]$path, [int]$startLine) {
     if (!(Test-Path $path)) { return @() }
@@ -224,7 +240,8 @@ function Process-JsonlFile([string]$jsonlPath) {
 
     # Update LoginPage.cs only for login page key
     if ($pageKey -eq "login") {
-        Update-LoginPageIfPresent "D:\AnniaSources\DFP\DFP.Playwright\Pages\Web\LoginPage.cs" $login
+        $loginPage = Join-Path $projectRoot "Pages\Web\LoginPage.cs"
+        Update-LoginPageIfPresent $loginPage $login
     }
 }
 

@@ -2,16 +2,32 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$PageKey,
     [Parameter(Mandatory=$false)]
-    [string]$FeaturesRoot = "D:\AnniaSources\DFP\DFP.Playwright\Features",
+    [string]$FeaturesRoot,
     [Parameter(Mandatory=$false)]
-    [string]$PagesOut = "D:\AnniaSources\DFP\DFP.Playwright\Pages\Generated",
+    [string]$PagesOut,
     [Parameter(Mandatory=$false)]
-    [string]$StepsOut = "D:\AnniaSources\DFP\DFP.Playwright\StepDefinitions\Generated",
+    [string]$StepsOut,
     [Parameter(Mandatory=$false)]
-    [string]$SelectorsRoot = "D:\AnniaSources\DFP\DFP.Playwright\Artifacts\Selectors",
+    [string]$SelectorsRoot,
     [Parameter(Mandatory=$false)]
     [string]$NamespaceRoot = "DFP.Playwright"
 )
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Resolve-Path (Join-Path $scriptRoot "..")
+
+if ([string]::IsNullOrWhiteSpace($FeaturesRoot)) {
+    $FeaturesRoot = Join-Path $projectRoot "Features"
+}
+if ([string]::IsNullOrWhiteSpace($PagesOut)) {
+    $PagesOut = Join-Path $projectRoot "Pages\Generated"
+}
+if ([string]::IsNullOrWhiteSpace($StepsOut)) {
+    $StepsOut = Join-Path $projectRoot "StepDefinitions\Generated"
+}
+if ([string]::IsNullOrWhiteSpace($SelectorsRoot)) {
+    $SelectorsRoot = Join-Path $projectRoot "Artifacts\Selectors"
+}
 
 function Ensure-Dir($path) {
     if (!(Test-Path $path)) { New-Item -ItemType Directory -Force $path | Out-Null }

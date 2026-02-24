@@ -4,8 +4,15 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$BaseUrl,
     [Parameter(Mandatory=$false)]
-    [string]$ArtifactsRoot = "D:\AnniaSources\DFP\DFP.Playwright\Artifacts"
+    [string]$ArtifactsRoot
 )
+
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$projectRoot = Resolve-Path (Join-Path $scriptRoot "..")
+
+if ([string]::IsNullOrWhiteSpace($ArtifactsRoot)) {
+    $ArtifactsRoot = Join-Path $projectRoot "Artifacts"
+}
 
 $watcherScript = Join-Path $ArtifactsRoot "codegen-watch.ps1"
 $codegenScript = Join-Path $ArtifactsRoot "codegen-start.ps1"
@@ -18,14 +25,26 @@ if (!(Test-Path $agentScript)) { throw "Missing: $agentScript" }
 # Start watcher in background
 $job = Start-Job -ScriptBlock {
     param($scriptPath)
-    powershell -ExecutionPolicy Bypass -File $scriptPath
+    if (Get-Command "pwsh" -ErrorAction SilentlyContinue) {
+        pwsh -File $scriptPath
+    } else {
+        powershell -ExecutionPolicy Bypass -File $scriptPath
+    }
 } -ArgumentList $watcherScript
 
 # Launch codegen (interactive)
-powershell -ExecutionPolicy Bypass -File $codegenScript -PageKey $PageKey -BaseUrl $BaseUrl
+if (Get-Command "pwsh" -ErrorAction SilentlyContinue) {
+    pwsh -File $codegenScript -PageKey $PageKey -BaseUrl $BaseUrl
+} else {
+    powershell -ExecutionPolicy Bypass -File $codegenScript -PageKey $PageKey -BaseUrl $BaseUrl
+}
 
 # After codegen exits, run generator
-powershell -ExecutionPolicy Bypass -File $agentScript -PageKey $PageKey
+if (Get-Command "pwsh" -ErrorAction SilentlyContinue) {
+    pwsh -File $agentScript -PageKey $PageKey
+} else {
+    powershell -ExecutionPolicy Bypass -File $agentScript -PageKey $PageKey
+}
 
 # Stop watcher job
 Stop-Job $job | Out-Null

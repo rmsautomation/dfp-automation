@@ -33,3 +33,6 @@ coverage*
 # Generated
 **/generated/
 **/Generated/
+
+# Local XML staging (not part of project)
+XMLFilesDFP/

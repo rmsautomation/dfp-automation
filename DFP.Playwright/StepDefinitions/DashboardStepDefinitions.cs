@@ -21,7 +21,7 @@ namespace DFP.Playwright.StepDefinitions
             _dashboard = dashboard;
         }
 
-        [Given(@"^the Warehouse Receipt ""([^""]+)""( with Custom Fields)? is imported$")]
+        [Given("the Warehouse Receipt {string} with Custom Fields is imported")]
         public async Task TheWarehouseReceiptWithCustomFieldsIsImported(string receiptNumber)
         {
             var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
@@ -62,7 +62,7 @@ namespace DFP.Playwright.StepDefinitions
             await session.EndSessionAsync();
         }
 
-        [Given(@"^the Shipment ""([^""]+)""( with Custom Fields)? is imported$")]
+        [Given("the Shipment {string} with Custom Fields is imported")]
         public async Task TheShipmentWithCustomFieldsIsImported(string shipmentNumber)
         {
             var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")

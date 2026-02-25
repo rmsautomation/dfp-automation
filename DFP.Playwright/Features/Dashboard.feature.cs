@@ -179,7 +179,7 @@ namespace DFP.Playwright.Features
             {
                 await this.ScenarioStartAsync();
 #line 13
-    await testRunner.GivenAsync("the Warehouse Receipt \"TC_3072\" is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("the Warehouse Receipt \"TC_3072\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -199,7 +199,7 @@ namespace DFP.Playwright.Features
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 16
-    this.ScenarioInitialize(scenarioInfo, ruleInfo);
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
             {
@@ -209,7 +209,7 @@ namespace DFP.Playwright.Features
             {
                 await this.ScenarioStartAsync();
 #line 17
-    await testRunner.GivenAsync("the Shipment \"TC_3072\" is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("the Shipment \"TC5305\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

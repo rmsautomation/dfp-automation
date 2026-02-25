@@ -56,19 +56,54 @@ namespace DFP.Playwright.Helpers
             string warehouseNumber,
             bool forceDelete = true)
         {
+            await ImportTransactionFromResourcesAsync(soap, accessKey, "WH", warehouseGuid, warehouseNumber, forceDelete);
+        }
+
+        public static async Task ImportShipmentFromResourcesAsync(
+            CSSoapServiceSoapClient soap,
+            int accessKey,
+            string shipmentGuid,
+            string shipmentNumber,
+            bool forceDelete = true)
+        {
+            await ImportTransactionFromResourcesAsync(soap, accessKey, "SH", shipmentGuid, shipmentNumber, forceDelete);
+        }
+
+        public static async Task ImportTransactionFromResourcesAsync(
+            CSSoapServiceSoapClient soap,
+            int accessKey,
+            string transactionType,
+            string transactionGuid,
+            string transactionNumber,
+            bool forceDelete = true)
+        {
             var root = TransactionsRootPath();
             if (!Directory.Exists(root))
                 throw new DirectoryNotFoundException($"Transaction XML folder not found: {root}");
 
-            var whFolder = Path.Combine(root, "Warehouse Receipts");
-            var files = Directory.EnumerateFiles(whFolder, "*.xml", SearchOption.AllDirectories)
+            var type = (transactionType ?? "").Trim().ToUpperInvariant();
+            if (string.IsNullOrWhiteSpace(type))
+                throw new ArgumentException("transactionType is required.", nameof(transactionType));
+            if (string.IsNullOrWhiteSpace(transactionGuid))
+                throw new ArgumentException("transactionGuid is required.", nameof(transactionGuid));
+            if (string.IsNullOrWhiteSpace(transactionNumber))
+                throw new ArgumentException("transactionNumber is required.", nameof(transactionNumber));
+
+            var folder = FolderToType
+                .FirstOrDefault(kvp => string.Equals(kvp.Value, type, StringComparison.OrdinalIgnoreCase))
+                .Key;
+            if (string.IsNullOrWhiteSpace(folder))
+                throw new InvalidOperationException($"No folder mapping found for transaction type '{type}'.");
+
+            var transactionFolder = Path.Combine(root, folder);
+            var files = Directory.EnumerateFiles(transactionFolder, "*.xml", SearchOption.AllDirectories)
                                  .OrderBy(f => f)
                                  .ToList();
             if (files.Count == 0)
-                throw new FileNotFoundException($"No WH XML files found under: {whFolder}");
+                throw new FileNotFoundException($"No XML files found under: {transactionFolder}");
 
             string? file = null;
-            var targetNumber = NormalizeNumber(warehouseNumber);
+            var targetNumber = NormalizeNumber(transactionNumber);
             foreach (var f in files)
             {
                 try
@@ -90,56 +125,18 @@ namespace DFP.Playwright.Helpers
 
             if (file == null)
             {
-                throw new FileNotFoundException($"No WH XML matched Number '{warehouseNumber}' under: {whFolder}");
+                throw new FileNotFoundException($"No XML matched Number '{transactionNumber}' under: {transactionFolder}");
             }
 
-            await UpsertTransactionFromFileAsync(soap, accessKey, "WH", warehouseGuid, file, forceDelete, warehouseGuid, warehouseNumber);
-        }
-
-        public static async Task ImportShipmentFromResourcesAsync(
-            CSSoapServiceSoapClient soap,
-            int accessKey,
-            string shipmentGuid,
-            string shipmentNumber,
-            bool forceDelete = true)
-        {
-            var root = TransactionsRootPath();
-            if (!Directory.Exists(root))
-                throw new DirectoryNotFoundException($"Transaction XML folder not found: {root}");
-
-            var shFolder = Path.Combine(root, "Shipments");
-            var files = Directory.EnumerateFiles(shFolder, "*.xml", SearchOption.AllDirectories)
-                                 .OrderBy(f => f)
-                                 .ToList();
-            if (files.Count == 0)
-                throw new FileNotFoundException($"No SH XML files found under: {shFolder}");
-
-            string? file = null;
-            foreach (var f in files)
-            {
-                try
-                {
-                    var doc = XDocument.Load(f);
-                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim();
-                    if (!string.IsNullOrWhiteSpace(number) &&
-                        string.Equals(NormalizeNumber(number), NormalizeNumber(shipmentNumber), StringComparison.OrdinalIgnoreCase))
-                    {
-                        file = f;
-                        break;
-                    }
-                }
-                catch
-                {
-                    // ignore malformed file
-                }
-            }
-
-            if (file == null)
-            {
-                throw new FileNotFoundException($"No SH XML matched Number '{shipmentNumber}' under: {shFolder}");
-            }
-
-            await UpsertTransactionFromFileAsync(soap, accessKey, "SH", shipmentGuid, file, forceDelete, shipmentGuid, shipmentNumber);
+            await UpsertTransactionFromFileAsync(
+                soap,
+                accessKey,
+                type,
+                transactionGuid,
+                file,
+                forceDelete,
+                transactionGuid,
+                transactionNumber);
         }
 
         public static async Task UpsertTransactionFromFileAsync(

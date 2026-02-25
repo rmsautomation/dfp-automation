@@ -61,3 +61,21 @@ pwsh ./DFP.Playwright/bin/Debug/net9.0/playwright.sh install
 Notes:
 - `codegen-start.ps1` auto-builds if the Playwright script isn't found.
 - The `install` step is needed once per machine to download browsers.
+
+## Password Environment Variable (Required)
+`DFP.Playwright/Config/.env.local` uses:
+`DFP_PASSWORD=Env.DFP_PASSWORD`
+
+That means the real password must exist in the OS environment variable `DFP_PASSWORD`.
+
+Windows (PowerShell):
+```powershell
+[System.Environment]::SetEnvironmentVariable("DFP_PASSWORD","<your-password>","User")
+```
+
+macOS/Linux (pwsh):
+```bash
+pwsh -Command '[System.Environment]::SetEnvironmentVariable("DFP_PASSWORD","<your-password>","User")'
+```
+
+After setting it, open a new terminal/session before running tests/agent scripts.

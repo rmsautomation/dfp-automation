@@ -16,6 +16,7 @@ if ([string]::IsNullOrWhiteSpace($PageKey)) {
 
 $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Resolve-Path (Join-Path $scriptRoot "..")
+$isWin = ($env:OS -eq "Windows_NT") -or ($PSVersionTable.PSEdition -eq "Desktop")
 
 if ([string]::IsNullOrWhiteSpace($ArtifactsRoot)) {
     $ArtifactsRoot = Join-Path $projectRoot "Artifacts"
@@ -42,13 +43,18 @@ if ([string]::IsNullOrWhiteSpace($BaseUrl)) {
     throw "BaseUrl not found. Provide -BaseUrl or set BASE_URL in Config/.env.local or env."
 }
 
-$ArtifactsRoot = [System.IO.Path]::TrimEndingDirectorySeparator($ArtifactsRoot)
+# PowerShell 5.1 compatible trim of trailing separators
+$ArtifactsRoot = $ArtifactsRoot.TrimEnd('\','/')
 if (!(Test-Path $ArtifactsRoot)) { New-Item -ItemType Directory -Force $ArtifactsRoot | Out-Null }
 
 $jsonlPath = Join-Path $ArtifactsRoot ("codegen.{0}.jsonl" -f $PageKey)
 
 $binRoot = Join-Path $projectRoot ("bin\{0}\net9.0" -f $Configuration)
-$playwrightScript = Join-Path $binRoot ($IsWindows ? "playwright.ps1" : "playwright.sh")
+if ($isWin) {
+    $playwrightScript = Join-Path $binRoot "playwright.ps1"
+} else {
+    $playwrightScript = Join-Path $binRoot "playwright.sh"
+}
 if (!(Test-Path $playwrightScript)) {
     Write-Host "Playwright script not found. Building project ($Configuration)..."
     & "dotnet" "build" $projectRoot "-c" $Configuration
@@ -61,7 +67,7 @@ if (!(Test-Path $playwrightScript)) {
 }
 
 Write-Host "Running: $playwrightScript codegen --target=jsonl --output $jsonlPath $BaseUrl"
-if ($IsWindows) {
+if ($isWin) {
     & $playwrightScript "codegen" "--target=jsonl" "--output" $jsonlPath $BaseUrl
 } else {
     & "bash" $playwrightScript "codegen" "--target=jsonl" "--output" $jsonlPath $BaseUrl

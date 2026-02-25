@@ -70,5 +70,5 @@ Write-Host "Running: $playwrightScript codegen --target=jsonl --output $jsonlPat
 if ($isWin) {
     & $playwrightScript "codegen" "--target=jsonl" "--output" $jsonlPath $BaseUrl
 } else {
-    & "bash" $playwrightScript "codegen" "--target=jsonl" "--output" $jsonlPath $BaseUrl
+    & "pwsh" "-File" $playwrightScript "codegen" "--target=jsonl" "--output" $jsonlPath $BaseUrl
 }

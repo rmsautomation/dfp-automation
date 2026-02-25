@@ -27,8 +27,8 @@ namespace DFP.Playwright.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Dashboard", "  As a user\r\n  I want to access shipments from the dashboard\r\n  So I can review s" +
-                "hipment activity", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Dashboard", "  As a user\n  I want to access shipments from the dashboard\n  So I can review shi" +
+                "pment activity", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Dashboard.feature"
 #line hidden

@@ -19,6 +19,17 @@ namespace DFP.Playwright.Support
                 "internal:text=\"Loading ops data...\"i",
             };
         }
+        public static class ShipmentTags
+        {
+            public static readonly string[] All = new[]
+            {
+                "internal:role=button >> internal:has-text=/^$/ >> nth=1",
+                "internal:role=button[name=\"Save\"i]",
+                "internal:role=combobox[name=\"Type to search\"i]",
+                "internal:text=\"Add addingTag...\"i",
+                "internal:text=\"addingTag\"i",
+            };
+        }
         public static class login
         {
             public const string Username = "internal:role=textbox[name=\"Username\"i]";
@@ -36,6 +47,32 @@ namespace DFP.Playwright.Support
                 "internal:text=\"Aylin Annia\"s",
                 "internal:text=\"Here is a snapshot of what's\"i",
                 "internal:text=\"Loading ops data...\"i",
+            };
+        }
+        public static class shipments
+        {
+            public static readonly string[] All = new[]
+            {
+                "h3 >> internal:text=\"Ocean FCL Los Angeles to\"i",
+                "internal:role=button >> internal:has-text=/^$/ >> nth=1",
+                "internal:role=button[name=\"Confirm\"i]",
+                "internal:role=button[name=\"Go to shipment\"i]",
+                "internal:role=button[name=\"Send booking\"i]",
+                "internal:role=heading[name=\"Instant Ocean Quotation\"i]",
+                "internal:role=heading[name=\"Ocean FCL Los Angeles to\"i]",
+                "internal:role=heading[name=\"Quotation QUO-\"i]",
+                "internal:role=heading[name=\"Your quotations\"s]",
+                "internal:role=link[name=\"Offers\"i]",
+                "internal:role=link[name=\"Quotations\"i]",
+                "internal:role=link[name=\"Transport Instructions\"i]",
+                "internal:role=textbox[name=\"Give your booking a name or\"i]",
+                "internal:text=\"Booked\"i >> nth=0",
+                "internal:text=\"My Portal › Quotations › QUO-\"i",
+                "internal:text=\"My Portal › Quotations\"i",
+                "internal:text=\"My Portal › Shipments › Draft\"i",
+                "internal:text=\"Qwyk › My Portal › Shipments\"i",
+                "internal:text=\"Your booking has been sent.\"i",
+                "qwyk-quotation-offer-card >> internal:has-text=\"PIL PIL 31 December 2050 FAK\"i >> internal:role=button",
             };
         }
     }

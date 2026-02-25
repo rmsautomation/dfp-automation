@@ -184,6 +184,9 @@ namespace DFP.Playwright.Pages.Web
             var editButton = await FindLocatorAsync(new[]
             {
                 "internal:role=button[name=\"Edit\"i]",
+                "button:has(svg[data-icon='pen-to-square'])",
+                "button:has(fa-icon svg[data-icon='pen-to-square'])",
+                "//button[.//*[name()='svg' and @data-icon='pen-to-square']]",
                 "//button[contains(@aria-label,'edit') or contains(@title,'Edit') or normalize-space(text())='Edit']"
             });
             await ClickAsync(editButton);

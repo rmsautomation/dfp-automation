@@ -180,6 +180,10 @@ function Update-LoginPageIfPresent([string]$path, $login) {
         return
     }
 
+    $uEscaped = Escape-CSharpString $u
+    $pEscaped = Escape-CSharpString $p
+    $sEscaped = Escape-CSharpString $s
+
     $block = @"
         private static readonly string[] UsernameSelectors =
         {

@@ -12,6 +12,12 @@
     <Content Include="Config\.env.local">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Config\.env.stg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\.env.prod">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\TransactionsXml\**\*.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

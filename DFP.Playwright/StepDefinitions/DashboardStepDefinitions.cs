@@ -36,14 +36,12 @@ namespace DFP.Playwright.StepDefinitions
                 .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
                 .ToArray());
             var specificGuidKey = $"WAREHOUSE_RECEIPT_GUID_{suffix}";
-            var whGuid = Environment.GetEnvironmentVariable(specificGuidKey)
-                         ?? Environment.GetEnvironmentVariable("WAREHOUSE_RECEIPT_GUID")
-                         ?? "";
+            var whGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
             if (string.IsNullOrWhiteSpace(whGuid) || string.IsNullOrWhiteSpace(whId))
-                throw new InvalidOperationException($"Warehouse GUID is required. Set {specificGuidKey} or WAREHOUSE_RECEIPT_GUID.");
+                throw new InvalidOperationException($"Warehouse GUID is required. Set {specificGuidKey}.");
 
             var session = new ApiSession(username, password);
             var err = await session.StartSessionAsync();
@@ -77,14 +75,12 @@ namespace DFP.Playwright.StepDefinitions
                 .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
                 .ToArray());
             var specificGuidKey = $"SHIPMENT_GUID_{suffix}";
-            var shGuid = Environment.GetEnvironmentVariable(specificGuidKey)
-                         ?? Environment.GetEnvironmentVariable("SHIPMENT_GUID")
-                         ?? "";
+            var shGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
             if (string.IsNullOrWhiteSpace(shGuid) || string.IsNullOrWhiteSpace(shId))
-                throw new InvalidOperationException($"Shipment GUID is required. Set {specificGuidKey} or SHIPMENT_GUID.");
+                throw new InvalidOperationException($"Shipment GUID is required. Set {specificGuidKey}.");
 
             var session = new ApiSession(username, password);
             var err = await session.StartSessionAsync();

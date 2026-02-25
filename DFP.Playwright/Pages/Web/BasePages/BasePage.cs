@@ -26,6 +26,22 @@ namespace DFP.Playwright.Pages.Web.BasePages
             // Playwright already auto-waits for element to be actionable
             await locator.ClickAsync();
         }
+
+        // Use after clicks that trigger a full page navigation (Angular router change).
+        // DOMContentLoaded resolves immediately if the page already reached that state — NOT a hard wait.
+        protected async Task ClickAndWaitForNavigationAsync(ILocator locator)
+        {
+            await locator.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+        }
+
+        // Use after clicks that submit data to the API (save, confirm, send booking).
+        // NetworkIdle waits until there are no pending network requests for 500ms.
+        protected async Task ClickAndWaitForNetworkAsync(ILocator locator)
+        {
+            await locator.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
         protected async Task ClickForceAsync(ILocator locator)
         {
             // Playwright already auto-waits for element to be actionable

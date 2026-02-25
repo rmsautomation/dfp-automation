@@ -133,7 +133,7 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task<bool> IsUsernameInputVisibleAsync()
         {
-            var locator = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 1000);
+            var locator = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 8000);
             return locator != null && await locator.IsVisibleAsync();
         }
 

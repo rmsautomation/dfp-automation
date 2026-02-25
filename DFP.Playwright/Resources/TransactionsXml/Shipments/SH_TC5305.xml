@@ -1,0 +1,674 @@
+<?xml version="1.0"?>
+	<OceanShipment GUID="27d587ed-a14c-4474-964b-d6d5c7c9b348" Type="SH" xmlns="http://www.magaya.com/XMLSchema/V1">
+		<CreatedOn>2026-02-24T13:51:29-05:00</CreatedOn>
+		<Number>TC5305</Number>
+		<CreatedByName>Administrator</CreatedByName>
+		<Version>106</Version>
+		<ModeOfTransportation Code="12">
+			<Description>Barge</Description>
+			<Method>Ocean</Method>
+		</ModeOfTransportation>
+		<ModeOfTransportCode>12</ModeOfTransportCode>
+		<ShipperName>automation</ShipperName>
+		<Shipper GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Shipper>
+		<ConsigneeName>automation</ConsigneeName>
+		<Consignee GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Consignee>
+		<Items>
+			<Item GUID="91909343-3a6f-4d44-956b-58a0d3c82ac2" Type="WI">
+				<Version>105</Version>
+				<Status>Loaded</Status>
+				<Pieces>1</Pieces>
+				<Description>automationCommodity</Description>
+				<PieceQuantity>0.00</PieceQuantity>
+				<IsSummarized>false</IsSummarized>
+				<PackageName>Box</PackageName>
+				<WHRItemID>0</WHRItemID>
+				<LocationCode>RCV01</LocationCode>
+				<Length Unit="in">10.00</Length>
+				<Height Unit="in">10.00</Height>
+				<Width Unit="in">10.00</Width>
+				<Weight Unit="lb">10.00</Weight>
+				<ContainedPiecesWeightIncluded>true</ContainedPiecesWeightIncluded>
+				<Volume Unit="ft3">0.57999999999999996003</Volume>
+				<VolumeWeight Unit="vlb">6.03759036144577887484</VolumeWeight>
+				<PieceWeight Unit="lb">10.00</PieceWeight>
+				<PieceVolume Unit="ft3">0.57999999999999996003</PieceVolume>
+				<Package>
+					<Type>Box</Type>
+					<Code>BOX</Code>
+					<Name>Box</Name>
+				</Package>
+				<Currency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</Currency>
+				<UnitaryValue Currency="USD">100.00</UnitaryValue>
+				<QuantityUnit>50</QuantityUnit>
+				<Model>automationModel</Model>
+				<PartNumber>AUTOMATION</PartNumber>
+				<ItemDefinition GUID="025b460c-14f6-44bd-83ec-beb0b88af28f" Type="IV">
+					<CreatedOn>2025-02-20T10:17:49-05:00</CreatedOn>
+					<PartNumber>AUTOMATION</PartNumber>
+					<Description>automationCommodity</Description>
+					<Model>automationModel</Model>
+					<Pieces>5</Pieces>
+					<AmountPerPallet>100</AmountPerPallet>
+					<PiecesInCompoundItems>0</PiecesInCompoundItems>
+					<ArrivingPiecesInCompoundItems>0</ArrivingPiecesInCompoundItems>
+					<AvailablePiecesForSale>5</AvailablePiecesForSale>
+					<Package>
+						<Type>Box</Type>
+						<Code>BOX</Code>
+						<Name>Box</Name>
+					</Package>
+					<InventoryType>FIFO</InventoryType>
+					<UnitaryValue Currency="USD">100.00</UnitaryValue>
+					<DefaultQuantityToOrder>50</DefaultQuantityToOrder>
+					<Length Unit="in">10.00</Length>
+					<Height Unit="in">10.00</Height>
+					<Width Unit="in">10.00</Width>
+					<Weight Unit="lb">10.00</Weight>
+					<Volume Unit="ft3">0.57999999999999996003</Volume>
+					<UnitOfMeasurement>50</UnitOfMeasurement>
+					<CommodityTypeName>FAK General Commodity</CommodityTypeName>
+					<CommodityType Code="FAK GENERA">
+						<Description>FAK General Commodity</Description>
+					</CommodityType>
+					<ItemType>StockItem</ItemType>
+				</ItemDefinition>
+				<OutShipmentGUID>27d587ed-a14c-4474-964b-d6d5c7c9b348</OutShipmentGUID>
+				<Location Code="RCV01">
+					<Description>Receiving</Description>
+					<Type>Receiving</Type>
+					<WarehouseZoneName>Default Zone</WarehouseZoneName>
+					<IsDisabled>false</IsDisabled>
+				</Location>
+				<IncludeInSED>false</IncludeInSED>
+				<IsContainer>false</IsContainer>
+				<OutMasterWayBillNumber>TC5305</OutMasterWayBillNumber>
+				<OutHouseWayBillNumber>TC5305</OutHouseWayBillNumber>
+				<LastReceptionNetworkID>0</LastReceptionNetworkID>
+				<ShipmentType>Ocean</ShipmentType>
+				<OutDate>2026-02-24T13:51:29-05:00</OutDate>
+				<OrderIndex>1</OrderIndex>
+				<IsPallet>false</IsPallet>
+				<IsOverstock>false</IsOverstock>
+				<NotLoaded>false</NotLoaded>
+				<InTask>false</InTask>
+				<CommodityTypeName>FAK General Commodity</CommodityTypeName>
+			</Item>
+		</Items>
+		<MeasurementUnits>
+			<LengthUnit>in</LengthUnit>
+			<VolumeUnit>ft3</VolumeUnit>
+			<WeightUnit>lb</WeightUnit>
+			<VolumeWeightUnit>vlb</VolumeWeightUnit>
+			<AreaUnit>ft2</AreaUnit>
+			<LengthPrecision>2</LengthPrecision>
+			<VolumePrecision>2</VolumePrecision>
+			<WeightPrecision>2</WeightPrecision>
+			<VolumeWeightPrecision>2</VolumeWeightPrecision>
+			<AreaPrecision>2</AreaPrecision>
+			<VolumeWeightFactor>166.00</VolumeWeightFactor>
+		</MeasurementUnits>
+		<CreatorNetworkID>38442</CreatorNetworkID>
+		<Charges UseSequenceOrder="false">
+			<Charge GUID="34208519-3ebb-426d-b38c-04ad409a76ad">
+				<Type>Standard</Type>
+				<Entity GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+					<Type>Client</Type>
+					<Name>automation</Name>
+					<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+					<Email>rmsautomation24@gmail.com</Email>
+					<PrimaryIdType>Other</PrimaryIdType>
+					<Balance Currency="USD">32795.00</Balance>
+					<TransactionDueDays>30</TransactionDueDays>
+					<IsBillable>true</IsBillable>
+					<PaymentTerms>
+						<Description>Net 30</Description>
+						<NetDueDays>30</NetDueDays>
+						<DiscountPercentage>0.00</DiscountPercentage>
+						<DiscountPaidDays>0</DiscountPaidDays>
+						<OperationType>All</OperationType>
+						<TransactionDate>Transaction</TransactionDate>
+					</PaymentTerms>
+					<IsPrepaid>true</IsPrepaid>
+				</Entity>
+				<Quantity>1.00</Quantity>
+				<Price Currency="USD">100.0000000</Price>
+				<HomeCurrency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</HomeCurrency>
+				<Amount Currency="USD">100.00</Amount>
+				<IsPrepaid>true</IsPrepaid>
+				<IsThirdPartyCharge>false</IsThirdPartyCharge>
+				<ChargeDefinition>
+					<Type>Other</Type>
+					<Description>Bill of Lading Documentation fee</Description>
+					<Code>DOC-BL</Code>
+					<AccountDefinition>
+						<Type>Income</Type>
+						<Name>Documentation</Name>
+						<Currency Code="USD">
+							<Name>United States Dollar</Name>
+							<ExchangeRate>1.00</ExchangeRate>
+							<DecimalPlaces>2</DecimalPlaces>
+							<IsHomeCurrency>true</IsHomeCurrency>
+						</Currency>
+					</AccountDefinition>
+					<Amount Currency="USD">0.00</Amount>
+					<Currency Code="USD">
+						<Name>United States Dollar</Name>
+						<ExchangeRate>1.00</ExchangeRate>
+						<DecimalPlaces>2</DecimalPlaces>
+						<IsHomeCurrency>true</IsHomeCurrency>
+					</Currency>
+					<Enforce3rdPartyBilling>false</Enforce3rdPartyBilling>
+				</ChargeDefinition>
+				<Status>Open</Status>
+				<PriceInCurrency Currency="USD">100.0000000</PriceInCurrency>
+				<AmountInCurrency Currency="USD">100.00</AmountInCurrency>
+				<ExchangeRate>1.00</ExchangeRate>
+				<Currency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</Currency>
+				<ShowInDocuments>true</ShowInDocuments>
+				<IsCredit>false</IsCredit>
+				<IsFromSegment>false</IsFromSegment>
+				<CreatedAt>
+					<GUID>27d587ed-a14c-4474-964b-d6d5c7c9b348</GUID>
+					<Type>OceanShipment</Type>
+					<Number>TC5305</Number>
+				</CreatedAt>
+			</Charge>
+		</Charges>
+		<Events>
+			<Event>
+				<Date>2026-02-24T13:56:19-05:00</Date>
+				<EventDefinition>
+					<Name>Arrived at warehouse</Name>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>SH</OwnerType>
+				<OwnerNumber>TC5305</OwnerNumber>
+				<OwnerGUID>27d587ed-a14c-4474-964b-d6d5c7c9b348</OwnerGUID>
+			</Event>
+		</Events>
+		<TotalPieces>1</TotalPieces>
+		<TotalWeight Unit="lb">10.00</TotalWeight>
+		<TotalVolume Unit="ft3">0.57999999999999996003</TotalVolume>
+		<TotalVolumeWeight Unit="vlb">6.03759036144577887484</TotalVolumeWeight>
+		<ChargeableWeight Unit="lb">10.00</ChargeableWeight>
+		<TotalValue Currency="USD">0.00</TotalValue>
+		<DescriptionOfGoods>FAK</DescriptionOfGoods>
+		<OriginPort Code="USLAX">
+			<Country Code="US">United States</Country>
+			<Method>Air</Method>
+			<Method>Ocean</Method>
+			<Method>Ground</Method>
+			<Method>Mail</Method>
+			<Name>Los Angeles</Name>
+		</OriginPort>
+		<DestinationPort Code="CNSHA">
+			<Country Code="CN">China</Country>
+			<Method>Air</Method>
+			<Method>Ocean</Method>
+			<Method>Ground</Method>
+			<Method>Mail</Method>
+			<Name>Shanghai</Name>
+		</DestinationPort>
+		<Status>Loaded</Status>
+		<LayoutType>Straight</LayoutType>
+		<Direction>Outgoing</Direction>
+		<EstimatedArrivalDate>2026-02-24T13:51:29-05:00</EstimatedArrivalDate>
+		<EstimatedDepartureDate>2026-02-24T13:51:29-05:00</EstimatedDepartureDate>
+		<Importer GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Importer>
+		<BillingClient GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</BillingClient>
+		<LastDateOfDeparture>2026-02-24T13:51:29-05:00</LastDateOfDeparture>
+		<SpottingDate>2026-02-24T13:51:29-05:00</SpottingDate>
+		<PickupDate>2026-02-24T13:51:29-05:00</PickupDate>
+		<CutoffDate>2026-02-24T13:51:29-05:00</CutoffDate>
+		<MasterWayBillNumber>TC5305</MasterWayBillNumber>
+		<MasterNumber>TC5305</MasterNumber>
+		<HasAttachments>true</HasAttachments>
+		<Attachments>
+			<Attachment>
+				<Name>test</Name>
+				<Extension>jpg</Extension>
+				<IsImage>true</IsImage>
+				<IsInternal>false</IsInternal>
+				<Size>8008</Size>
+				<Data>/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCADBAYADASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzG0/s
+AaPO16dSOp5YQpCEEJzs2szH5uP3mVA+b5eV5NLfxaLDZKtnLPPdiWRGk8zEZUEbWCmMHaQSBkg/
+KSVXIFfYTLef2gm0232Ip8wKnzAwz05wQcj0xt/i3ZSO6j1IyH7HJZqmzAE0bMQ/97gjgf3e/qK9
+r+2Nb8n4/wDAOb6v5/gfJmvL4ZGnwnRpZXut48wPGygLt5wSxzz7Dt9BSg/sL7LH9oGom48s7/LK
+BC+JcAZGcZ8jJ/66f7NfW9jH4gS5/wCJhJpcsG/rbxSIwXYecFmGS2OOwB5JPGttHoKzo5n7KHJZ
+vzcrv8iY4XlVrnxtcDw2dKLWz6quohVwkixtEzYTd8wIIAPm44Ocp0wc0LIWRm/06S4SIY/1CBmP
+zDPUjHy7iOvIA4zkfak6j7PJwPun+VN2j0H5Vqs40+D8f+AV9X8z45uzoItZVsk1JrjcBFJM8YQr
+ufLMoBIO3y8AHg7uTxUNk2lDTr4XqXTXh8v7J5O0J97595JyPlzjAPNfZm0ego2j0FH9sf3Px/4A
+ew8z4lbbuOwELngE5IFJX23tHoKNo9BVf21/c/H/AIAvq/mfElFfbe0ego2j0FH9tf3Px/4AfV/M
++JKK+29o9BUbMFkIPlhdvUtzn6elH9tf3Px/4AfV/M+KKK+0DLMYiQtqkm5cDzCwK8bucDB+9j8P
+pTjNJ5rBUtjGCu1jNgkfxZG3gjtyc+1P+2f7n4/8APq/mfFtFfavmj/pj1/v9s/T0/X86bBIxV/t
+H2cMHbZ5b5ymflzkcHGM9aX9tf3Px/4AfV/M+LKK+zxPcbUzDZhi3zj7QcAZ6g7OTjtx9aUzTZOI
+rX7xAPnnlecH7vXOOO3qaf8AbX9z8f8AgB9X8z4vor7PhnnYx+dDaID9/ZcFsdenyjP8Pp1Ppy3z
+7st/qLEDGf8Aj5JycDj7nAznn0HTng/tn+5+P/AD6v5nxlRX2ssiZbcYgM/Lhs5GO/pzmnb4f7yf
+mKX9tf3Px/4AfV/M+J6K+2N8P95PzFG+H+8n5ij+2v7n4/8AAD6v5nxPRX2xvh/vJ+Yo3w/3k/MU
+f21/c/H/AIAfV/M+J6K+2N8P95PzFG+H+8n5ij+2v7n4/wDAD6v5nxPRX2xvh/vJ+Yo3w/3k/MUf
+21/c/H/gB9X8z4nor7Y3w/3k/MUb4f7yfmKP7a/ufj/wA+r+Z8T0V9sb4f7yfmKN8P8AeT8xR/bX
+9z8f+AH1fzPieivtjfD/AHk/MUb4f7yfmKP7a/ufj/wA+r+Z8T0V9sb4f7yfmKVTGxwpQn2o/tr+
+5+P/AAA+r+Z8TUV9t7R6CjaPQUf21/c/H/gB9X8z4kor7b2j0FG0ego/tr+5+P8AwA+r+Z8SVoaY
+dJUXD6n9rZ1VTbxQKu2RgwJEjEghSoIyuTkg9sH7L2j0FG0egpSzi6tyfj/wBqhZ3v8AgfJWj3Xh
+03+ozXtnFBbTS/6PBI8knkxMWyAwUkkfKMnB75Fc/cm3Mx+yrKsXbzWBJ59gO2K+1do9BRtHoKmO
+bcsnLkevn/wDGOC5akqnM9badNOxXlGrf21AYXshpXlnzldH8/fzjac7ccjqOMHrn5ZpDe/aUEUc
+HkBhvZnO4jDZwMYBzs78jPTio5f7U/tWExG0/s7b+9DhvNLYblT0AB2deuW6YGbEzTqhMMcbtxgO
+5UHnnkA9vz9q8U7xyGQ58xVXnja2ePyFPpqFzneqjnjBzx+VOoAjn/495P8AdP8AKm06f/j3k/3T
+/Km0wCiiigQUUUUAFFFFABVeY3izfuI4JIyh4dyhVgDjkA5BOB2xgnnOBYqtd6haWLW63dxHD9ol
+EEPmHAeQgkKD6nBwKAHM115bFYofMBIVDIcEZ4Jbbxx2weeM96C135sf7qHy8sH/AHhyB/CR8vPu
+Pfqcclxe2toIjc3MMImkWKLzHC73boq56k9gKqT69plvc/Znug1xu2+TGjSSE+W0gwqgk5VGI9SC
+Bk8UAWZnvfk8iGA4b5xJIRkYPQhT3x1Hr7U3N+63SDyImG4W8hBcHgEMy5HQkgjPO3ORnAeb22VU
+ZpVVXiMwZuBsGMkk9Mbh1pLm/tbS3lnmmASIhX2gs244woUcljuUBQMkkADkUKV1oFrbiW0l4cJd
+W6K4VSXifKMSSDjOCMAA8j+LAJxVqmRzRTJvikR13MmVYEblJDD6gggjsQao2muaberbmK8g3XTS
+LboZV3TeWSGKDPzDjOR2INK+th2vqaNFV7W+tryIy28odRJJF0IO6NyjjB9GBGaZJqunRWX22S/t
+UtdiSee0yhNrnCtuzjBPQ9+1FwsW6KgW8gdwkcqSHzTE2xgdjgFiD6HA6e4qtea5plhAk9xexCOS
+ZrdCmXLSjdmMBckv8rDaOSRjGeKqzJTTNCiqJ1iwGlw6m1yq2c8ayRyspAKsu4HGMjj1q6jB0VwC
+AwBG5SD+IPIpDFooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAKk0u
+qjWYo4oYTpx2eZIfvj5Zt2Pm/vCDt/E3X+GTzdT+07fslp9n343/AGpt23nnb5eM/d4z3PPHNS4v
+NaTxTZ2kGlpJozwM1xemVQ0cnO0Bd2SOOeD94cjBqeGbV/tzpPZ2gti7lJY7hiyoMbdylRlieeOA
+MjJwNyGWC979tVBbwfZcfNL5x3g+gTbg/wDfQqzTEMhL+YiqA3y7WzkYHJ4GDnPHNPoAjn/495P9
+0/yptOn/AOPeT/dP8qbTAKKKKBBRRRQAUUUUAFQy2ttO26W3ikOUOXQHlDuU/geR6Hmpqhuo5pbZ
+o4JzBKcYkCBsc88HjpkU0JjZ7CzufK+0WkEvlSCWPzIw2xxnDDPQjJwevJpJ9PsrmMx3Fpbyockr
+JGGByhQ8Ed0JX6EjpVGHTdUTcJdenkUrtB+zRBhhgQ2QuN2NyngDkEKCDmUWN+Gt86xOViILDyY8
+zYVRhzt6ZDMdoU/NwQBT5V3C7XQuSWltNCYZbeKSMxmIoyAgoeCuPQ4GR7VLtAJIAyep9ax7fS9W
+iuA8viK4ni8xWMbWsQO0YO0EKOpzkkH5TgYPzVqQo8YYPKZMsSMjGB6Umkthu9xI7WCFVWGFI1V2
+cLGNo3MSWOB6kkn3OaPsltuib7PDmJ2kjOwfIzZDMPQnc2T33H1rMh03WI9QkuZNfeWEvIUtTaRi
+NVP3ASPmJXpncMjHAOSbUNnepIrS6pLIgkd9giRcgjAQnH3VOSOh+7knB3Dir7jemhZitbeFg0Vv
+FGQXIKIBy7bn/NuT6nmm3VhZ30TxXdpBcRyAB0mjDhgDkAg9cHke9SQK8cKpJIZGHVyMZrFsdJ12
+3likuvE0l3t2+ZG1lEiPyc/dwQSNvfggnBBAUUU1dgr2ubEVpbQPI8VvEjSSec5VQCz4A3H3wAM0
+R2ltEAI7eJMSNKNqAYds7m+p3Nk9Tk+tVfsV4LF4F1a5MzMpFzJFEWReMgAKF5APJBwW7gAU5bW7
+Ebq2oyO21VVjEoxjPzHA5Y556DgYA5yPvcl6bIsCzthbR2wtoRBGAqRbBtQAYAA6DAqaqmowXVzY
+Sw2V4bK5bGy48oSbORn5TweMj8ar6dZalaRst3q73xBk2NJbohwSNm7ZgErgjIxnd06UWVr3GadF
+UkgvlkcvfK6MpwvkYKthcYOegIY4OfvDnjmzCrRwRpJI0rqoDSEYLEdzjikxJklFZdrZarHHCtzq
+4mKqBIy2qoXYODnqQMrlSMd8jFSahZ31zBGlnqklpIo5cQo+84xyCOnU4GOcc4yC7a2uPoaFFY7a
+frDPbt/bhXyyDIqWibZcPnBzkgFSQcHqFIxghr8UNwsgeW5LgF/lCYBBYlfyGBnvjPGcUNWVxPex
+awfQ0YPoahuEllRfIu2gcL/cDKTkHkEZ7Y4I4J74IrtbXzKFGrOuclmECZySCAvGAowRzk4PXPNS
+Nl7B9DSVEqT+Ype7yitnAjwWGAME+ucnIx16cVMxBYkUAJRRmjNMAoozRQAUUUUAFFFFABRRRQAU
+UUUANaS4S9RfLMlvIMZRQPKI3EliWyQflACrkEHPB4jkuL1bzyksd8J2Ym84ADO7dkdeNq9M53j0
+JDZbq+XVobePTt9ky5ku/PUbGw3GzqR8oBP+2uAfmKtvbvUYXb7Jpf2lVRzkzqhZguVAB7E/KScY
+yOCMkIZHBf6rJZfaJtFMUgDE24uUaQkAdP4eTuxlh/DnGSFuwSXLSMs9ukahFIZZNwLEtkdB0AU5
+77vamW89088yXFn5SKx8uRZAwdfcdQevHIxjnOQLVAEc/wDx7yf7p/lTadP/AMe8n+6f5U2mAUUU
+UCCiiigAooooAKx/FEF1ceHrqKyV2uG2bAhwfvrn9M1sVFdS2ltbNc3arsXAzs3EknAAABJJJAAH
+JJoTs7kVaaqQlB9VY8wXStf8z5rDUCny8C4IPAweenJ56cUyPSPEKmTzLTUWBUhNs+3DdieuR7cf
+WvTI7vS5bK2vE8owXJVYm8v7xboMYyPx6d6sEWQEpKwARf6wkDC8A8+nBBrb2ztseP8A2HTv/Ef4
+f5HlzaTrvkALYamJu7NdZU9ewAPp37H149H0tJYtIso5wwlWCMOG67tozn8amEumsu4Na48zyv4e
+H/u/73t1qXy7Tcq+XDlhlRtHP0rOdS6sztweXxw0nKMm76ahRT/s0H/PCP8A74FH2aD/AJ4R/wDf
+AqDvGUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/
+zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/zwj/AO+BR9mg
+/wCeEf8A3wKAGUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKA
+GUU/7NB/zwj/AO+BR9mg/wCeEf8A3wKAGUU/7NB/zwj/AO+BWbqGp6bpk6wz2d27Mu4G20yadcZI
++9GjAHjpnP501FydkFy/SjrVKS/06NYma0uSJYxIu3TpmIB6ZAT5T6qcEdxVyMQtCk0UQQOoIzHs
+bB55BAI+hpdbDcZJXa0HUUUUyQooooAKKKKACiiigCRiwZQFyCcE56DHWqkd3d+a8c2nSLiTaJI5
+EZGUk4bkhuABkY4JwNwGasmVxMIxBIVOP3gK7R1989h2/iHvhkksy3EaJbl4mUlpNwG05UAYPXIL
+H/gPuKQyYEkcgj60tVluZTNs+xzhcZ8wlNv3sY+9np83Tp78VYPAJAz7UAMn/wCPeT/dP8qbVO0u
+r25t7z7ZZC2Cu6xYk3b0HAY8DBPJxzxjvwLlMAooooEFFFFABRRRQAVV1PT21PTHtknNvJvSSOUK
+G2Ojq6nB6jKjI71arL8R+IbbwvoNzrF4k0lvb7d6wqC53MFGASB1Yd6cYuTUVuwvYuQ2t4mnRQPe
+L56AqZY4jg8ELw7MeODkscke9Oa1uS8JF/KqIcuAiZk6cE44HBzgA88EYrzi4+OugWlw9vc6VrkE
+yHDxy20asp9wZMiki+Ovh+4kjjh0vW5Hlfy41S3jJduPlA8zk8jj3FdH1LENX5GTzxvuelWdvcQB
+vtF41znAXMargDPPA5J79uOAKs7V3Bto3AYBxzXPeF/Flt4rsLi7tLa7thb3LW0kV3GEdXUKSMAn
++8P1rc8xvWuecXF8slqUn2JqKh8xvWjzG9akZNRUPmN60eY3rQBNRUPmN60eY3rQBNRUPmN60eY3
+rQBNRUPmN60eY3rQBNRUPmN60eY3rQBNRUPmN60eY3rQBNRUPmN60eY3rQBNRUPmN60b29aAJqim
+t4rhNkyK6ghhnsRyCPQg96N7HvRvb1oAc8Sybd4zsbcPY/5ND/dqIzhSoLgFjhQe55P8gfyp24ng
+0AwooopiCiiigAooooAKKKKAIJby5TVYrRdPleB1DNdB12Jw+cjOcghB7+Zx91sOiu55GlDadcxh
+HKqXaP8AeAZ+ZcOeDgdcHkZA5w97iRdQithbSNG8bu04xtQgqAp75OT+X5I14q3i2xinLNj5xESg
+yHPLdB9w5/3l/vCkMfazm6tIbgwyw+aiv5cq7XTIzhh2I71NRRQBHP8A8e8n+6f5U2nT/wDHvJ/u
+n+VNpgFFFFAgooooAKKKKACsLxh4e/4SrwveaL9q+y/adn77y9+3a6t0yM/dx171u05AGBz61UZO
+ElKO6C19GeJv8BLiQoX8XSsUwFLWRO3AAGP3vGAqj6AelSxfA2/gu0u4fGlzHcooRZktWDqoUKAG
+EuQAoAA9Bivadi0bFrr/ALRxP834L/Iz9jDscn4I8Jy+D9JurObU31GW4u3unneMoxLKoOcs2T8u
+c57101TbFo2LXJObnJyluzRKysiGiluJILW2luJ32RRIXdj2UDJP5VHa3llfW8dxZ3MVzBLkJLC4
+dGxnOCOOx/KoHcfRRLPawDM08cY5OXcDoMnr6Dn6U+NoplLRurqGKkq2cEHBH1BBH4UBcZRU2xaN
+i0AQ0VNsWjYtAENFTbFo2LQBDRU2xaNi0AQ0VNsWjYtAENFTbFo2LQBDRU2xaNi0AVJ7S2uv+Pi2
+hmyjJ+8QN8rcMOex7jvUjbyybSoAPzArnIwenPHOPX+on2LRsWncFoVngil2+ZEj7WDLuUHBHQj3
+p6571NsWmsoAGKQXG0UUUxBRRRQAUUUUAFFFFAE1FFFIYUUUUARz/wDHvJ/un+VNp0//AB7yf7p/
+lTaYBRRRQIKKKKACiiigArifi5/ySvW/rB/6OjrtqVWVQQwPJ9CaulP2c4z7NMTV00fH8b+G00rT
+YZ4ruS6knWW9nhfBii3OrRIpGC20I4bJGWxxg5jRvDa6SQ8erSalsbDB41hLYXHGCwAJfPPOxem8
+7PsTdF/d/wDHD/hRui/u/wDjh/wr1lm9vsP7/wDgGH1fzPlRrn4dnVXlXT/EC2bs/wC68+P92G3h
+dvf5fkIBY53HJOz95U8Q/wDCGTWUtx4dXVbe5NyuLa8ZSoiPmE7doP3cRj5nJO49cZr623Rf3f8A
+xw/4Ubov7v8A44f8Kj+1LNPlen97/gDVDS1wuIxLDtMUcvIYJJ93IIIPQ9CM/hVKezWUFJdKs5lA
+NvHnBAhZRuDZX5QSNu0bs4Unvi3OsFzC0Mylo2+8pU4Yeh9R6joRwax28LaAzFvsLA+WIhteQbYw
+4dUGDwgZRhRwOQBgkV5C31N5baE0tpcwzXK2ei6U0MykMzzmNpc72IcCIjBd27n77HrwdGXz48G2
+ghZmkXzN7lPl4BbhTkgdAcZxjIrJg8LaDazrPbWb28qoYleGSRCqGQSbBgjC7hwvQDgYHFRJ4P8A
+DkdutuLBmgUxnypJJXRti7F3KSQ2F+XnOQADkAUJAzWjbU/ti+ZFaC2ZWDBZG3oQx2nphgy4yPl2
+kHl88KjakqDzIrV2Mr5KyMoEfmfL/Cct5fJ6DcMdDkVYdH063NuYvtai3iWGNRczbQqsGGV3YJyB
+kkEkcEkVUHhHw4LWK2Gmjyoo5YkGZMqkgZXXOc4wzADtnjFMaNON9UJ3SW9mAVHyLOxw3z5+bbyP
+9X2GMt1wAWLLrIZt1pYspZNuLlxgFfnz8hyQ3TpkHnbjmkvhbw6l1FcrpkXnQqFiYqx8vCooK+hA
+ijAI5G3g8nMcnhDw1KbsvpURa7jEU7bWzIAQ2Sf7xIBLfeJVSScDCQzZ33hucCKIQqrAljy7fKVI
+x0X74OeeBU6FyvzqoOT9054zx29P8msF/Cnh+W2a3ksneJoTAwaSU713l/mOcswclgx+YEkggmmQ
++DvDVvqsmqRabsvJJTM8gaT5mLK+SM4PzIrAYwCMinpqTqdHRTPNT/a/75NHmp/tf98mkMfRTPNT
+/a/75NHmp/tf98mgB9FM81P9r/vk0ean+1/3yaAH0UzzU/2v++TR5qf7X/fJoAfRTPNT/a/75NHm
+p/tf98mgB9Mk6D60ean+1/3yaazq2AM/iCKAEooopiCiiigAooooAKKKKAJqKKKQwooooAjn/wCP
+eT/dP8qbTp/+PeT/AHT/ACptMAooooEFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUU
+UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQBNRRRSGFFFFAEc/
+/HvJ/un+VNp0/wDx7yf7p/lTaYBRRRQIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
+opOc9Mf1oAWiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAmooopDC
+iiigCOf/AI95P90/yptOn/495P8AdP8AKm0wCiiigQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUU
+UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAE1FF
+FIYUUUUARz/8e8n+6f5U2nT/APHvJ/un+VNpgFFFFAgooooAKKKKACiiigAooooAKKKKACiiigAo
+oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAJqK
++BrcW7SAXEkkceDlo0DnOOOCR3wDzwOeehstFpINnsvLwhyPtRNoo8oYXOz958/O7rszgdMnCegz
+7wor4I22fnYE03leVnd5Q3eZsztxu+7v43Zzj5sZ+Wp7VdJGoQfa5rxrLdEZvKiVZCDt8wLliAR8
+20nrgZAyQAD7sn/495P90/yptfCiLpQjn3y3jSGFfJKxqoEuY9275jlQPNAxgkhDxkgI8emiK4Md
+3dtIrDyVa2UBxlslj5h28bTgBuSR2BI3YFqfdlFfDMdrpJjsjJqcyyTLm4C2uVtz5m0DJYFvkBfg
+dwPUh0kWiwR6pD9pu7mdJVWwniQJFKgJ3M6t8wyNpA7ZOaHpqC1PuSivhTbpbXMI8+8jgKR+afJV
+2V8gPtG4ZGMkZI7A/wB6nXEGlxrZGC/uJfMQNcqbYKYD0IX5zv7kdMjb0JIUTurg1Z2PumivhK3T
+TmuLdbm6uo4WU+e8VurtG2WwFUuA4xt5JXqeDgEuSPTDHamS7u1dmP2kLaqRGu4YKHzBvO3JwQvI
+AzzkAH3XRXwqsWk/bHVr28+y4TbILRd5OV3ZTzMDALkfMclVB27iVu6TpuiX1tE1/r8emyec6yh4
+JZT5e1ShUIuD828HLDt+IncLH27RXxTDoWhNEhn8Y2MchlAdUs7lgI+MsCYxluvy4A4HPPGNqEFv
+a380Npepe26t+7uERkDj12sAQfUevcjmgD7vor4GooA++aK+BqKAPvmivgaigD75or4GooA++aK+
+BqKAPvmivgaigD75or4GooA++aK+BqKAPvmivgaigD75or4GooA++aK+BqKAPvmivgaigD75or4G
+ooA++aK+BqKAPvmivgatrwp/yMtp/wAD/wDQGrWhT9rVjTva7S+8zrT9nTlPsm/uPt+ivnS0FkZk
+N7JcLFu+cQxgkjI6Ekc43fTA654ZP9mCwfZzMW8v98ZAAN+T93H8OMdec56dK+g/1f1t7T/yX/gn
+if23pfk/H/gHilFFFfNHvhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAU
+UUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABWz4U/5GW0/4H/6A1FF
+dWC/3mn/AIl+Zz4v/d6no/yPTKKKK/Qz4c//2Q==</Data>
+			</Attachment>
+		</Attachments>
+		<ShipmentOptions>
+			<IsShipperConsigneeRelated>false</IsShipperConsigneeRelated>
+			<IsRoutedTransaction>true</IsRoutedTransaction>
+			<IsAirWayBillDetailExpanded>false</IsAirWayBillDetailExpanded>
+			<IsBillOfLadingDetailExpanded>false</IsBillOfLadingDetailExpanded>
+			<IsCargoManifestDetailExpanded>true</IsCargoManifestDetailExpanded>
+			<FillDocsWithAccountingInfo>false</FillDocsWithAccountingInfo>
+			<AirWayBillWeightUnit>Kg</AirWayBillWeightUnit>
+			<BillOfLadingWeightUnit>Kg</BillOfLadingWeightUnit>
+			<ShowContainerDetails>false</ShowContainerDetails>
+			<ShowWHRsInCargoManifest>false</ShowWHRsInCargoManifest>
+			<ShowDimensionsInAWB>false</ShowDimensionsInAWB>
+			<ShowDimensionsDetailedInAWB>false</ShowDimensionsDetailedInAWB>
+			<UseNotesAsMarksNumbersInBL>false</UseNotesAsMarksNumbersInBL>
+			<BillOfLadingGroupSimilarItems>false</BillOfLadingGroupSimilarItems>
+		</ShipmentOptions>
+		<IsLessThanFullLoad>true</IsLessThanFullLoad>
+		<Service>PortToPort</Service>
+		<IsOnline>false</IsOnline>
+		<IsLiquidated>false</IsLiquidated>
+		<DeliverToEntityName>automation</DeliverToEntityName>
+		<DeliverToEntity GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">32795.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</DeliverToEntity>
+		<CustomFields>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>PickList</Type>
+					<InternalName>inco_terms</InternalName>
+					<DisplayName>INCO Terms</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>Exworks</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Logical</Type>
+					<InternalName>boolean</InternalName>
+					<DisplayName>Boolean</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>true</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>dfp_shipper_reference</InternalName>
+					<DisplayName>DFP Shipper Reference</DisplayName>
+					<Description>Shipper Reference</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>SHIPPER5305</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>dfp_consignee_reference</InternalName>
+					<DisplayName>DFP Consignee Reference</DisplayName>
+					<Description> Consignee Reference</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>CONSIGNEEREF5305</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>dfp_pricing</InternalName>
+					<DisplayName>DFP Pricing</DisplayName>
+					<Description>Pricinig</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>PRICING5305</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>dfp_forwarder</InternalName>
+					<DisplayName>DFP Forwarder</DisplayName>
+					<Description>Forwarder</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>FORWARDER5305</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>PickList</Type>
+					<InternalName>dfp_payment_terms</InternalName>
+					<DisplayName>DFP Payment terms</DisplayName>
+					<Description>Payment terms</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>COLLECT</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>PickList</Type>
+					<InternalName>dfp_inco_terms</InternalName>
+					<DisplayName>DFP INCO Terms</DisplayName>
+					<Description> INCO Terms</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>DAT</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>dfp_cargo_ready</InternalName>
+					<DisplayName>DFP Cargo ready</DisplayName>
+					<Description>Cargo ready</Description>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>CARGO5305</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>shipper_reference</InternalName>
+					<DisplayName>Shipper Reference</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>SHIUPPER53052</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>shipment_guid</InternalName>
+					<DisplayName>Shipment Guid</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>GUID5305</Value>
+			</CustomField>
+		</CustomFields>
+		<OceanShipmentInfo>
+			<BillOfLadingNumber>TC5305</BillOfLadingNumber>
+		</OceanShipmentInfo>
+	</OceanShipment>

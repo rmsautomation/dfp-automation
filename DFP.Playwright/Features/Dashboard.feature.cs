@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Dashboard.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Dashboard.feature.ndjson", 5);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Open shipments from dashboard")]
@@ -150,6 +150,66 @@ namespace DFP.Playwright.Features
 #line hidden
 #line 9
     await testRunner.ThenAsync("I should see the create shipments option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipts")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipts")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
+        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipts()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "3072"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipts", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 12
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 13
+    await testRunner.GivenAsync("the Warehouse Receipt \"TC_3072\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Link Shipment with PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Link Shipment with PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7873")]
+        public async global::System.Threading.Tasks.Task LinkShipmentWithPO()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "7873"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Link Shipment with PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 16
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 17
+    await testRunner.GivenAsync("the Shipment \"TC5305\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

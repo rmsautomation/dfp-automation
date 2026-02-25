@@ -166,9 +166,9 @@ function Build-GeneratedSelectors($pageMaps) {
 function Update-LoginPageIfPresent([string]$path, $login) {
     if (!(Test-Path $path)) { return }
 
-    $u = $login.username
-    $p = $login.password
-    $s = $login.submit
+    $u = Escape-CSharpString $login.username
+    $p = Escape-CSharpString $login.password
+    $s = Escape-CSharpString $login.submit
 
     if ([string]::IsNullOrWhiteSpace($u) -or [string]::IsNullOrWhiteSpace($p) -or [string]::IsNullOrWhiteSpace($s)) {
         return
@@ -177,17 +177,17 @@ function Update-LoginPageIfPresent([string]$path, $login) {
     $block = @"
         private static readonly string[] UsernameSelectors =
         {
-            \"$u\"
+            "$u"
         };
 
         private static readonly string[] PasswordSelectors =
         {
-            \"$p\"
+            "$p"
         };
 
         private static readonly string[] SignInButtonSelectors =
         {
-            \"$s\"
+            "$s"
         };
 "@
 

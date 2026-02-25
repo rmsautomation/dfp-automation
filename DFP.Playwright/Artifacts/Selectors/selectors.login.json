@@ -1,6 +1,6 @@
 {
     "page":  "login",
-    "generatedAt":  "2026-02-24T00:35:41.1894135-05:00",
+    "generatedAt":  "2026-02-24T23:01:05.7940825-05:00",
     "selectors":  [
                       "a \u003e\u003e internal:has-text=/^Dashboard$/",
                       "internal:role=button[name=\"A\"s]",
@@ -16,6 +16,7 @@
     "login":  {
                   "username":  "internal:role=textbox[name=\"Username\"i]",
                   "submit":  "internal:role=button[name=\"Sign in\"i]",
-                  "password":  "internal:role=textbox[name=\"Password\"i]"
+                  "password":  "internal:role=textbox[name=\"Password\"i]",
+                  "heading":  "internal:role=heading[name=\"Sign in to your account\"i]"
               }
 }

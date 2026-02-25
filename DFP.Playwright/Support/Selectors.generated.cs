@@ -13,6 +13,7 @@ namespace DFP.Playwright.Support
                 "internal:role=button[name=\"Shipments\"i]",
                 "internal:role=heading[name=\"Shipments with upcoming events\"i]",
                 "internal:role=link[name=\"Create shipment\"i]",
+                "internal:role=link[name=\"Shipments\"i]",
                 "internal:text=\"Aylin Annia\"s",
                 "internal:text=\"Here is a snapshot of what's\"i",
                 "internal:text=\"Loading ops data...\"i",

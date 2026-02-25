@@ -20,8 +20,8 @@ if ([string]::IsNullOrWhiteSpace($GeneratedSelectorsPath)) {
     $GeneratedSelectorsPath = Join-Path $projectRoot "Support\Selectors.generated.cs"
 }
 
-$ArtifactsRoot = [System.IO.Path]::TrimEndingDirectorySeparator($ArtifactsRoot)
-$SelectorsRoot = [System.IO.Path]::TrimEndingDirectorySeparator($SelectorsRoot)
+$ArtifactsRoot = $ArtifactsRoot.TrimEnd('\','/')
+$SelectorsRoot = $SelectorsRoot.TrimEnd('\','/')
 
 function Get-SelectorsFromJsonl([string]$path, [int]$startLine) {
     if (!(Test-Path $path)) { return @() }
@@ -72,11 +72,16 @@ function Infer-LoginSelectors($all) {
     $username = $all | Where-Object { $_ -match "Username" -and $_ -match "role=|textbox|input" } | Select-Object -First 1
     $password = $all | Where-Object { $_ -match "Password" -and $_ -match "role=|textbox|input" } | Select-Object -First 1
     $submit = $all | Where-Object { $_ -match "Sign in" -and $_ -match "role=|button" } | Select-Object -First 1
+    $heading = $all | Where-Object { $_ -match "Sign in to your account" -and $_ -match "role=|heading|text" } | Select-Object -First 1
+    if ([string]::IsNullOrWhiteSpace($heading)) {
+        $heading = "internal:role=heading[name=`"Sign in to your account`"i]"
+    }
 
     return @{
         username = $username
         password = $password
         submit = $submit
+        heading = $heading
     }
 }
 
@@ -169,8 +174,9 @@ function Update-LoginPageIfPresent([string]$path, $login) {
     $u = Escape-CSharpString $login.username
     $p = Escape-CSharpString $login.password
     $s = Escape-CSharpString $login.submit
+    $h = Escape-CSharpString $login.heading
 
-    if ([string]::IsNullOrWhiteSpace($u) -or [string]::IsNullOrWhiteSpace($p) -or [string]::IsNullOrWhiteSpace($s)) {
+    if ([string]::IsNullOrWhiteSpace($u) -or [string]::IsNullOrWhiteSpace($p) -or [string]::IsNullOrWhiteSpace($s) -or [string]::IsNullOrWhiteSpace($h)) {
         return
     }
 
@@ -183,6 +189,11 @@ function Update-LoginPageIfPresent([string]$path, $login) {
         private static readonly string[] PasswordSelectors =
         {
             "$p"
+        };
+
+        private static readonly string[] LoginHeadingSelectors =
+        {
+            "$h"
         };
 
         private static readonly string[] SignInButtonSelectors =

@@ -26,7 +26,7 @@ namespace DFP.Playwright.Helpers
             ["Inventory"] = "IV",
         };
 
-        public static async Task ImportAllFromResourcesAsync(CSSoapServiceSoapClient soap, int accessKey)
+        public static async Task ImportAllFromResourcesAsync(CSSoapServiceSoapClient soap, int accessKey, bool forceDelete = true)
         {
             var root = TransactionsRootPath();
 
@@ -45,8 +45,101 @@ namespace DFP.Playwright.Helpers
                 if (string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(guid))
                     continue;
 
-                await UpsertTransactionFromFileAsync(soap, accessKey, type, guid, file);
+                await UpsertTransactionFromFileAsync(soap, accessKey, type, guid, file, forceDelete);
             }
+        }
+
+        public static async Task ImportWarehouseReceiptFromResourcesAsync(
+            CSSoapServiceSoapClient soap,
+            int accessKey,
+            string warehouseGuid,
+            string warehouseNumber,
+            bool forceDelete = true)
+        {
+            var root = TransactionsRootPath();
+            if (!Directory.Exists(root))
+                throw new DirectoryNotFoundException($"Transaction XML folder not found: {root}");
+
+            var whFolder = Path.Combine(root, "Warehouse Receipts");
+            var files = Directory.EnumerateFiles(whFolder, "*.xml", SearchOption.AllDirectories)
+                                 .OrderBy(f => f)
+                                 .ToList();
+            if (files.Count == 0)
+                throw new FileNotFoundException($"No WH XML files found under: {whFolder}");
+
+            string? file = null;
+            var targetNumber = NormalizeNumber(warehouseNumber);
+            foreach (var f in files)
+            {
+                try
+                {
+                    var doc = XDocument.Load(f);
+                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim();
+                    if (!string.IsNullOrWhiteSpace(number) &&
+                        string.Equals(NormalizeNumber(number), targetNumber, StringComparison.OrdinalIgnoreCase))
+                    {
+                        file = f;
+                        break;
+                    }
+                }
+                catch
+                {
+                    // ignore malformed file
+                }
+            }
+
+            if (file == null)
+            {
+                throw new FileNotFoundException($"No WH XML matched Number '{warehouseNumber}' under: {whFolder}");
+            }
+
+            await UpsertTransactionFromFileAsync(soap, accessKey, "WH", warehouseGuid, file, forceDelete, warehouseGuid, warehouseNumber);
+        }
+
+        public static async Task ImportShipmentFromResourcesAsync(
+            CSSoapServiceSoapClient soap,
+            int accessKey,
+            string shipmentGuid,
+            string shipmentNumber,
+            bool forceDelete = true)
+        {
+            var root = TransactionsRootPath();
+            if (!Directory.Exists(root))
+                throw new DirectoryNotFoundException($"Transaction XML folder not found: {root}");
+
+            var shFolder = Path.Combine(root, "Shipments");
+            var files = Directory.EnumerateFiles(shFolder, "*.xml", SearchOption.AllDirectories)
+                                 .OrderBy(f => f)
+                                 .ToList();
+            if (files.Count == 0)
+                throw new FileNotFoundException($"No SH XML files found under: {shFolder}");
+
+            string? file = null;
+            foreach (var f in files)
+            {
+                try
+                {
+                    var doc = XDocument.Load(f);
+                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim();
+                    if (!string.IsNullOrWhiteSpace(number) &&
+                        string.Equals(NormalizeNumber(number), NormalizeNumber(shipmentNumber), StringComparison.OrdinalIgnoreCase))
+                    {
+                        file = f;
+                        break;
+                    }
+                }
+                catch
+                {
+                    // ignore malformed file
+                }
+            }
+
+            if (file == null)
+            {
+                throw new FileNotFoundException($"No SH XML matched Number '{shipmentNumber}' under: {shFolder}");
+            }
+
+            await UpsertTransactionFromFileAsync(soap, accessKey, "SH", shipmentGuid, file, forceDelete, shipmentGuid, shipmentNumber);
         }
 
         public static async Task UpsertTransactionFromFileAsync(
@@ -54,17 +147,31 @@ namespace DFP.Playwright.Helpers
             int accessKey,
             string type,
             string guid,
-            string transactionXmlPath)
+            string transactionXmlPath,
+            bool forceDelete = true,
+            string? overrideGuid = null,
+            string? overrideNumber = null)
         {
-            var existingXml = await TryGetTransactionXmlAsync(soap, accessKey, type, guid);
+            var checkGuid = !string.IsNullOrWhiteSpace(overrideGuid) ? overrideGuid : guid;
+            var existingXml = await TryGetTransactionXmlAsync(soap, accessKey, type, checkGuid);
 
             if (existingXml != null)
             {
-                // Skip if already exists
-                return;
+                if (forceDelete)
+                {
+                    // Delete if already exists (to allow re-import)
+                    var delErr = await soap.DeleteTransactionAsync(accessKey, type, checkGuid);
+                    if (delErr != api_session_error.no_error)
+                        throw new InvalidOperationException($"DeleteTransaction failed. Type={type}, GUID={checkGuid}, Error={delErr}");
+                }
+                else
+                {
+                    // Skip if already exists
+                    return;
+                }
             }
 
-            await SetTransactionOnlyAsync(soap, accessKey, type, transactionXmlPath);
+            await SetTransactionOnlyAsync(soap, accessKey, type, transactionXmlPath, overrideGuid, overrideNumber);
         }
 
         public static string TransactionsRootPath()
@@ -95,9 +202,20 @@ namespace DFP.Playwright.Helpers
             CSSoapServiceSoapClient soap,
             int accessKey,
             string type,
-            string transactionXmlPath)
+            string transactionXmlPath,
+            string? overrideGuid = null,
+            string? overrideNumber = null)
         {
-            var xml = XDocument.Load(transactionXmlPath).ToString(SaveOptions.DisableFormatting);
+            var doc = XDocument.Load(transactionXmlPath);
+            if (string.Equals(type, "WH", StringComparison.OrdinalIgnoreCase))
+            {
+                NormalizeWarehouseReceipt(doc, overrideGuid, overrideNumber);
+            }
+            else if (string.Equals(type, "SH", StringComparison.OrdinalIgnoreCase))
+            {
+                NormalizeShipment(doc, overrideGuid, overrideNumber);
+            }
+            var xml = doc.ToString(SaveOptions.DisableFormatting);
 
             var req = new SetTransactionRequest
             {
@@ -111,6 +229,92 @@ namespace DFP.Playwright.Helpers
 
             if (res.@return != api_session_error.no_error)
                 throw new InvalidOperationException($"SetTransaction failed. Type={type}, File={transactionXmlPath}, Error={res.@return}, Msg={res.error_desc}");
+        }
+
+        private static string NormalizeNumber(string? s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return "";
+            var chars = s.Where(char.IsLetterOrDigit).ToArray();
+            return new string(chars).ToUpperInvariant();
+        }
+
+        private static void NormalizeWarehouseReceipt(XDocument doc, string? overrideGuid, string? overrideNumber)
+        {
+            var root = doc.Root;
+            if (root == null)
+                return;
+
+            var now = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            if (!string.IsNullOrWhiteSpace(overrideGuid))
+            {
+                var guidAttr = root.Attribute("GUID");
+                if (guidAttr == null)
+                    root.SetAttributeValue("GUID", overrideGuid);
+
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "WarehouseReceiptGUID")
+                        el.Value = overrideGuid;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(overrideNumber))
+            {
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "Number")
+                        el.Value = overrideNumber;
+                    if (el.Name.LocalName == "WarehouseReceiptNumber")
+                        el.Value = overrideNumber;
+                }
+            }
+
+            // Update CreatedOn only
+            foreach (var el in root.Descendants())
+            {
+                if (el.Name.LocalName == "CreatedOn")
+                    el.Value = now;
+            }
+        }
+
+        private static void NormalizeShipment(XDocument doc, string? overrideGuid, string? overrideNumber)
+        {
+            var root = doc.Root;
+            if (root == null)
+                return;
+
+            var now = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            if (!string.IsNullOrWhiteSpace(overrideGuid))
+            {
+                var guidAttr = root.Attribute("GUID");
+                if (guidAttr == null)
+                    root.SetAttributeValue("GUID", overrideGuid);
+
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "ShipmentGUID")
+                        el.Value = overrideGuid;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(overrideNumber))
+            {
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "Number")
+                        el.Value = overrideNumber;
+                    if (el.Name.LocalName == "ShipmentNumber")
+                        el.Value = overrideNumber;
+                }
+            }
+
+            foreach (var el in root.Descendants())
+            {
+                if (el.Name.LocalName == "CreatedOn")
+                    el.Value = now;
+            }
         }
 
         private static async Task<string?> TryGetTransactionXmlAsync(

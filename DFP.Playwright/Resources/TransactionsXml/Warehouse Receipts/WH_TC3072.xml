@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<WarehouseReceipts xmlns="http://www.magaya.com/XMLSchema/V1">
-	<WarehouseReceipt GUID="37ff3e0a-c7ad-4608-bb65-325beb719406" Type="WH">
+<?xml version="1.0"?>
+<WarehouseReceipt Type="WH" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<CreatedOn>2026-02-24T13:45:30-05:00</CreatedOn>
 		<Number>TC3072</Number>
 		<CreatedByName>Administrator</CreatedByName>
@@ -374,4 +373,3 @@
 			</CustomField>
 		</CustomFields>
 	</WarehouseReceipt>
-</WarehouseReceipts>

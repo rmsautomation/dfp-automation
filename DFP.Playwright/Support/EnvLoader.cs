@@ -13,11 +13,16 @@ namespace DFP.Playwright.Support
         {
             var env = Environment.GetEnvironmentVariable("ENV") ?? "local";
 
-            var envPath = Path.Combine(
-                AppContext.BaseDirectory,
-                "Config",
-                $".env.{env}"
-            );
+            var baseDir = AppContext.BaseDirectory;
+            var envPath = Path.Combine(baseDir, "Config", $".env.{env}");
+            if (!File.Exists(envPath))
+            {
+                var fallback = Path.Combine(baseDir, "Config", ".env.local");
+                if (File.Exists(fallback))
+                {
+                    envPath = fallback;
+                }
+            }
 
             if (!File.Exists(envPath))
                 throw new FileNotFoundException($".env file not found: {envPath}");

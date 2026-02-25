@@ -13,23 +13,16 @@ namespace DFP.Playwright.StepDefinitions
     {
         private readonly DFP.Playwright.Support.TestContext _tc;
         private readonly DashboardPage _dashboard;
-        private readonly LoginPage _login;
-        private readonly WarehouseReceiptsPage _warehouseReceipts;
-
         public DashboardStepDefinitions(
             DFP.Playwright.Support.TestContext tc,
-            DashboardPage dashboard,
-            LoginPage login,
-            WarehouseReceiptsPage warehouseReceipts)
+            DashboardPage dashboard)
         {
             _tc = tc;
             _dashboard = dashboard;
-            _login = login;
-            _warehouseReceipts = warehouseReceipts;
         }
 
-        [Given("a Warehouse Receipt with Custom Fields exists")]
-        public async Task AWarehouseReceiptWithCustomFieldsExists()
+        [Given(@"^the Warehouse Receipt ""([^""]+)""( with Custom Fields)? is imported$")]
+        public async Task TheWarehouseReceiptWithCustomFieldsIsImported(string receiptNumber)
         {
             var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
                            ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
@@ -37,9 +30,20 @@ namespace DFP.Playwright.StepDefinitions
             var password = Environment.GetEnvironmentVariable("CORRECT_PASSWORD")
                            ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
                            ?? "";
+            var whId = receiptNumber?.Trim() ?? "";
+
+            var suffix = new string(whId
+                .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
+                .ToArray());
+            var specificGuidKey = $"WAREHOUSE_RECEIPT_GUID_{suffix}";
+            var whGuid = Environment.GetEnvironmentVariable(specificGuidKey)
+                         ?? Environment.GetEnvironmentVariable("WAREHOUSE_RECEIPT_GUID")
+                         ?? "";
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
+            if (string.IsNullOrWhiteSpace(whGuid) || string.IsNullOrWhiteSpace(whId))
+                throw new InvalidOperationException($"Warehouse GUID is required. Set {specificGuidKey} or WAREHOUSE_RECEIPT_GUID.");
 
             var session = new ApiSession(username, password);
             var err = await session.StartSessionAsync();
@@ -48,7 +52,53 @@ namespace DFP.Playwright.StepDefinitions
 
             SoapClientConfigurator.Configure(session.CSSoap);
 
-            await TransactionImportHelper.ImportAllFromResourcesAsync(session.CSSoap, session.Key);
+            await TransactionImportHelper.ImportWarehouseReceiptFromResourcesAsync(
+                session.CSSoap,
+                session.Key,
+                whGuid,
+                whId,
+                forceDelete: true);
+
+            await session.EndSessionAsync();
+        }
+
+        [Given(@"^the Shipment ""([^""]+)""( with Custom Fields)? is imported$")]
+        public async Task TheShipmentWithCustomFieldsIsImported(string shipmentNumber)
+        {
+            var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
+                           ?? "";
+            var password = Environment.GetEnvironmentVariable("CORRECT_PASSWORD")
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
+                           ?? "";
+            var shId = shipmentNumber?.Trim() ?? "";
+
+            var suffix = new string(shId
+                .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
+                .ToArray());
+            var specificGuidKey = $"SHIPMENT_GUID_{suffix}";
+            var shGuid = Environment.GetEnvironmentVariable(specificGuidKey)
+                         ?? Environment.GetEnvironmentVariable("SHIPMENT_GUID")
+                         ?? "";
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
+            if (string.IsNullOrWhiteSpace(shGuid) || string.IsNullOrWhiteSpace(shId))
+                throw new InvalidOperationException($"Shipment GUID is required. Set {specificGuidKey} or SHIPMENT_GUID.");
+
+            var session = new ApiSession(username, password);
+            var err = await session.StartSessionAsync();
+            if (err != api_session_error.no_error)
+                throw new InvalidOperationException($"StartSession failed: {err}");
+
+            SoapClientConfigurator.Configure(session.CSSoap);
+
+            await TransactionImportHelper.ImportShipmentFromResourcesAsync(
+                session.CSSoap,
+                session.Key,
+                shGuid,
+                shId,
+                forceDelete: true);
 
             await session.EndSessionAsync();
         }
@@ -71,42 +121,6 @@ namespace DFP.Playwright.StepDefinitions
             await _dashboard.IShouldSeeTheCreateShipmentsOption();
         }
 
-        [Given("Login into the Portal")]
-        public async Task LoginIntoThePortal()
-        {
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("BASE_URL is required.");
-
-            var username = Environment.GetEnvironmentVariable(Constants.DFP_USERNAME) ?? "";
-            var password = Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD) ?? "";
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                throw new InvalidOperationException("DFP_USERNAME/DFP_PASSWORD are required.");
-
-            await _login.NavigateAsync();
-            if (await _login.IsUsernameInputVisibleAsync())
-            {
-                await _login.LoginToDFPAsync(username, password);
-            }
-        }
-
-        [When("Go to Warehouse / Warehouse Receipts")]
-        public async Task GoToWarehouseWarehouseReceipts()
-        {
-            await _warehouseReceipts.GoToWarehouseReceiptsAsync();
-        }
-
-        [When("Select Table View")]
-        public async Task SelectTableView()
-        {
-            await _warehouseReceipts.SelectTableViewAsync();
-        }
-
-        [Then("Verify the Custom fields")]
-        public async Task VerifyTheCustomFields()
-        {
-            await _warehouseReceipts.VerifyCustomFieldsAsync();
-        }
     }
 }
 

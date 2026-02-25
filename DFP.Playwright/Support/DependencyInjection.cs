@@ -31,12 +31,6 @@ namespace DFP.Playwright.Support
                 return new DashboardPage(tc.Page!);
             });
 
-            services.AddScoped<WarehouseReceiptsPage>(sp =>
-            {
-                var tc = sp.GetRequiredService<TestContext>();
-                return new WarehouseReceiptsPage(tc.Page!);
-            });
-
             return services;
         }
     }

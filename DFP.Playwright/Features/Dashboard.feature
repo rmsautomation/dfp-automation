@@ -9,8 +9,8 @@ Feature: Dashboard
 
   @3072
   Scenario: Verify Customs fields in Warehouse Receipts
-    Given the Warehouse Receipt "TC3072" with Custom Fields is imported
+    Given the transaction "WH" "TC3072" with Custom Fields is imported
 
   @7873
   Scenario: Link Shipment with PO
-    Given the Shipment "TC5305" with Custom Fields is imported
+    Given the transaction "SH" "TC5305" with Custom Fields is imported

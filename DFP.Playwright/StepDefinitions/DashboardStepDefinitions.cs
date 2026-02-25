@@ -21,47 +21,19 @@ namespace DFP.Playwright.StepDefinitions
             _dashboard = dashboard;
         }
 
-        [Given("the Warehouse Receipt {string} with Custom Fields is imported")]
-        public async Task TheWarehouseReceiptWithCustomFieldsIsImported(string receiptNumber)
+        [Given(@"^the transaction ""([^""]+)"" ""([^""]+)"" is imported$")]
+        public async Task TheTransactionIsImported(string transactionType, string transactionNumber)
         {
-            var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
-                           ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
-                           ?? "";
-            var password = Environment.GetEnvironmentVariable("CORRECT_PASSWORD")
-                           ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
-                           ?? "";
-            var whId = receiptNumber?.Trim() ?? "";
-
-            var suffix = new string(whId
-                .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
-                .ToArray());
-            var specificGuidKey = $"WAREHOUSE_RECEIPT_GUID_{suffix}";
-            var whGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
-
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
-            if (string.IsNullOrWhiteSpace(whGuid) || string.IsNullOrWhiteSpace(whId))
-                throw new InvalidOperationException($"Warehouse GUID is required. Set {specificGuidKey}.");
-
-            var session = new ApiSession(username, password);
-            var err = await session.StartSessionAsync();
-            if (err != api_session_error.no_error)
-                throw new InvalidOperationException($"StartSession failed: {err}");
-
-            SoapClientConfigurator.Configure(session.CSSoap);
-
-            await TransactionImportHelper.ImportWarehouseReceiptFromResourcesAsync(
-                session.CSSoap,
-                session.Key,
-                whGuid,
-                whId,
-                forceDelete: true);
-
-            await session.EndSessionAsync();
+            await ImportTransactionByTypeAndNumberAsync(transactionType, transactionNumber);
         }
 
-        [Given("the Shipment {string} with Custom Fields is imported")]
-        public async Task TheShipmentWithCustomFieldsIsImported(string shipmentNumber)
+        [Given(@"^the transaction ""([^""]+)"" ""([^""]+)"" with Custom Fields is imported$")]
+        public async Task TheTransactionWithCustomFieldsIsImported(string transactionType, string transactionNumber)
+        {
+            await ImportTransactionByTypeAndNumberAsync(transactionType, transactionNumber);
+        }
+
+        private async Task ImportTransactionByTypeAndNumberAsync(string transactionType, string transactionNumber)
         {
             var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
                            ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
@@ -69,18 +41,25 @@ namespace DFP.Playwright.StepDefinitions
             var password = Environment.GetEnvironmentVariable("CORRECT_PASSWORD")
                            ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
                            ?? "";
-            var shId = shipmentNumber?.Trim() ?? "";
-
-            var suffix = new string(shId
+            var type = (transactionType ?? "").Trim().ToUpperInvariant();
+            var number = transactionNumber?.Trim() ?? "";
+            var suffix = new string(number
                 .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
                 .ToArray());
-            var specificGuidKey = $"SHIPMENT_GUID_{suffix}";
-            var shGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
+            var specificGuidKey = type switch
+            {
+                "WH" => $"WAREHOUSE_RECEIPT_GUID_{suffix}",
+                "SH" => $"SHIPMENT_GUID_{suffix}",
+                _ => $"{type}_GUID_{suffix}"
+            };
+            var transactionGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
-            if (string.IsNullOrWhiteSpace(shGuid) || string.IsNullOrWhiteSpace(shId))
-                throw new InvalidOperationException($"Shipment GUID is required. Set {specificGuidKey}.");
+            if (string.IsNullOrWhiteSpace(transactionGuid) || string.IsNullOrWhiteSpace(number))
+                throw new InvalidOperationException($"Transaction GUID is required. Set {specificGuidKey}.");
+            if (string.IsNullOrWhiteSpace(type))
+                throw new InvalidOperationException("Transaction type is required.");
 
             var session = new ApiSession(username, password);
             var err = await session.StartSessionAsync();
@@ -89,11 +68,12 @@ namespace DFP.Playwright.StepDefinitions
 
             SoapClientConfigurator.Configure(session.CSSoap);
 
-            await TransactionImportHelper.ImportShipmentFromResourcesAsync(
+            await TransactionImportHelper.ImportTransactionFromResourcesAsync(
                 session.CSSoap,
                 session.Key,
-                shGuid,
-                shId,
+                type,
+                transactionGuid,
+                number,
                 forceDelete: true);
 
             await session.EndSessionAsync();

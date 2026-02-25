@@ -178,7 +178,7 @@ namespace DFP.Playwright.Features
             {
                 await this.ScenarioStartAsync();
 #line 12
-    await testRunner.GivenAsync("the Warehouse Receipt \"TC3072\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("the transaction \"WH\" \"TC3072\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -208,7 +208,7 @@ namespace DFP.Playwright.Features
             {
                 await this.ScenarioStartAsync();
 #line 16
-    await testRunner.GivenAsync("the Shipment \"TC5305\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("the transaction \"SH\" \"TC5305\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

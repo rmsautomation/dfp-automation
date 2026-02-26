@@ -118,18 +118,9 @@ namespace DFP.Playwright.Features
             await testRunner.CollectScenarioErrorsAsync();
         }
         
-        public virtual async global::System.Threading.Tasks.Task FeatureBackgroundAsync()
-        {
-#line 7
-  #line hidden
-#line 8
-    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-        }
-        
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipment.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipment.feature.ndjson", 7);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -144,7 +135,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Create a shipment from a created quotation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 11
+#line 8
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -154,71 +145,71 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
+#line 9
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 12
-    await testRunner.WhenAsync("I open the first  quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 10
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 13
+#line 11
     await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 14
+#line 12
     await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 13
     await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 16
-    await testRunner.WhenAsync("clicks on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 14
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 15
     await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 18
+#line 16
     await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 19
+#line 17
     await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 20
+#line 18
     await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 19
     await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 22
+#line 20
     await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 21
     await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 24
+#line 22
     await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 25
-    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipemnt", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 23
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 26
+#line 24
     await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("ShipmentSearch")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ShipmentSearch")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Search shipment by reference")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Search shipment by reference")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
-        public async global::System.Threading.Tasks.Task ShipmentSearch()
+        public async global::System.Threading.Tasks.Task SearchShipmentByReference()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("ShipmentSearch", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Search shipment by reference", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 29
+#line 27
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -228,23 +219,52 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
-#line hidden
-#line 30
+#line 28
     await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 31
+#line 29
     await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 32
+#line 30
     await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 33
+#line 31
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 34
+#line 32
     await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Select first Shipment in the List")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Select first Shipment in the List")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
+        public async global::System.Threading.Tasks.Task SelectFirstShipmentInTheList()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Select first Shipment in the List", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 35
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 36
+    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 37
+    await testRunner.WhenAsync("user selects the first shipment from the list", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -260,11 +280,11 @@ namespace DFP.Playwright.Features
             string[] tagsOfScenario = new string[] {
                     "9340"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
+            string pickleIndex = "3";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add and validate tags across shipment list, table and details views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 38
+#line 41
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -274,193 +294,362 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
-  await this.FeatureBackgroundAsync();
-#line hidden
-#line 40
-    await testRunner.WhenAsync("I open the first  quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 41
-    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 42
-    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
 #line 43
-    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 44
-    await testRunner.WhenAsync("clicks on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 45
-    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 46
-    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 47
-    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 48
-    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 49
-    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 50
-    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 51
-    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 52
-    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 53
-    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipemnt", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 54
-    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 55
+    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 56
-    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 57
-    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 58
-    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 59
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 60
-    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 61
+    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 62
+    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 63
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 64
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 65
     await testRunner.ThenAsync("a tag icon should be displayed below the shipment name or on the left side of exi" +
                         "sting tags", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 62
+#line 66
     await testRunner.AndAsync("the tag icon tooltip should say \"Add a customized tag to your shipment. You can a" +
                         "dd up to 5 tags\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 63
+#line 67
     await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 64
-    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 65
-    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 66
-    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 68
-    await testRunner.ThenAsync("the tag should be visible in Shipment list view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 69
-    await testRunner.WhenAsync("user opens the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 70
-    await testRunner.ThenAsync("the tag should be visible in Shipment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 72
-    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 73
-    await testRunner.WhenAsync("I open the first  quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 74
-    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 75
-    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 76
-    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 77
-    await testRunner.WhenAsync("clicks on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 78
-    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 79
-    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 80
-    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 81
-    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 82
-    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 83
-    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 84
-    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 85
-    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 86
-    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipemnt", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 87
-    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 89
-    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 90
-    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 91
-    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 92
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 93
-    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 94
-    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 95
     await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 96
-    await testRunner.WhenAsync("user assigns the existing tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 69
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 97
+#line 70
     await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 99
+#line 72
     await testRunner.ThenAsync("the tag should be visible in Shipment list view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 100
+#line 73
     await testRunner.WhenAsync("user opens the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 101
+#line 74
     await testRunner.ThenAsync("the tag should be visible in Shipment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 103
+#line 76
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 77
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 78
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 79
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 80
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 81
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 82
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 83
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 84
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 85
+    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 86
+    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 87
+    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 88
+    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 89
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 90
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 91
+    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 93
     await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
+#line 94
+    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 95
+    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 96
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 97
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 98
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 99
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 100
+    await testRunner.WhenAsync("user assigns the existing tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 101
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 103
+    await testRunner.ThenAsync("the tag should be visible in Shipment list view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
 #line 104
-    await testRunner.WhenAsync("I reset the search filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("user opens the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 105
+    await testRunner.ThenAsync("the tag should be visible in Shipment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 107
+    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 108
+    await testRunner.WhenAsync("I reset the search filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 109
     await testRunner.ThenAsync("the tag should be visible on 2 shipments in Shipment list view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 106
+#line 110
     await testRunner.AndAsync("the tag should be visible on 2 shipments in Shipment Table view", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Validate maximum 5 tags per shipment and visibility across all views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Validate maximum 5 tags per shipment and visibility across all views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9344_MoreThan5tagsSH")]
+        public async global::System.Threading.Tasks.Task ValidateMaximum5TagsPerShipmentAndVisibilityAcrossAllViews()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "9344_MoreThan5tagsSH"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate maximum 5 tags per shipment and visibility across all views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 114
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 116
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 117
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 118
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 119
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 120
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 121
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 122
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 123
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 124
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 125
+    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 126
+    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 127
+    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 128
+    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 129
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 130
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 131
+    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 133
+    await testRunner.GivenAsync("user navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 134
+    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 135
+    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 136
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 137
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 139
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 140
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 141
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 142
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 144
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 145
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 146
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 147
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 149
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 150
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 151
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 152
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 154
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 155
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 156
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 157
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 159
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 160
+    await testRunner.ThenAsync("a field should appear to select an existing tag or create a new tag", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 161
+    await testRunner.WhenAsync("user creates and assigns a new tag to the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 162
+    await testRunner.ThenAsync("the tag should be visible on the selected shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 164
+    await testRunner.WhenAsync("user clicks the tag icon on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 165
+    await testRunner.ThenAsync("the system should show the error \"A maximum of 5 Tags are allowed per shipment\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 167
+    await testRunner.ThenAsync("all created tags should be visible in Shipment list view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 168
+    await testRunner.WhenAsync("user opens the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 169
+    await testRunner.ThenAsync("all created tags should be visible in Shipment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 170
+    await testRunner.ThenAsync("all created tags should be visible in Shipment Table view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

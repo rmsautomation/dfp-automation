@@ -31,6 +31,12 @@ namespace DFP.Playwright.Support
                 return new DashboardPage(tc.Page!);
             });
 
+            services.AddScoped<ShipmentPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new ShipmentPage(tc.Page!);
+            });
+
             return services;
         }
     }

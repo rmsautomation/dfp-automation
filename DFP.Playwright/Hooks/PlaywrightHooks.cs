@@ -11,11 +11,13 @@ namespace DFP.Playwright.Hooks
     {
         private readonly Support.TestContext _tc;
         private readonly FeatureContext _fc;
+        private readonly ScenarioContext _sc;
 
-        public PlaywrightHooks(Support.TestContext tc, FeatureContext fc)
+        public PlaywrightHooks(Support.TestContext tc, FeatureContext fc, ScenarioContext sc)
         {
             _tc = tc;
             _fc = fc;
+            _sc = sc;
         }
 
         [BeforeTestRun]
@@ -54,7 +56,9 @@ namespace DFP.Playwright.Hooks
             Console.WriteLine($"Headless: {headless}");
 
             var featureTitle = _fc?.FeatureInfo?.Title ?? "";
-            if (!featureTitle.Equals("Login", StringComparison.OrdinalIgnoreCase))
+            var skipAutoLogin = featureTitle.Equals("Login", StringComparison.OrdinalIgnoreCase)
+                                || HasTag("Login");
+            if (!skipAutoLogin)
             {
                 Console.WriteLine("Auto-login: starting (feature != Login)");
                 await EnsureLoggedInAsync();
@@ -106,6 +110,19 @@ namespace DFP.Playwright.Hooks
 
             if (!loggedIn)
                 throw new TimeoutException("Auto-login did not reach a logged-in state within 15s.");
+        }
+
+        private bool HasTag(string tag)
+        {
+            if (string.IsNullOrWhiteSpace(tag))
+                return false;
+
+            var target = tag.Trim();
+            var featureTags = _fc?.FeatureInfo?.Tags ?? Array.Empty<string>();
+            var scenarioTags = _sc?.ScenarioInfo?.Tags ?? Array.Empty<string>();
+
+            return featureTags.Any(t => t.Equals(target, StringComparison.OrdinalIgnoreCase))
+                   || scenarioTags.Any(t => t.Equals(target, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

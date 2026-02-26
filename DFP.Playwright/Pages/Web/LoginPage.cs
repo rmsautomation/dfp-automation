@@ -26,16 +26,16 @@ namespace DFP.Playwright.Pages.Web
             "internal:role=textbox[name=\"Password\"i]"
         };
 
-        private static readonly string[] LoginHeadingSelectors =
-        {
-            "internal:role=heading[name=\"Sign in to your account\"i]"
-        };
-
         private static readonly string[] SignInButtonSelectors =
         {
             "internal:role=button[name=\"Sign in\"i]"
         };
         // codegen:login-end
+
+        private static readonly string[] LoginHeadingSelectors =
+        {
+            "internal:role=heading[name=\"Sign in to your account\"i]"
+        };
 
         // Selectors captured by codegen for 'login'
         public static readonly string[] Selectors = new[]
@@ -133,7 +133,7 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task<bool> IsUsernameInputVisibleAsync()
         {
-            var locator = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 1000);
+            var locator = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 8000);
             return locator != null && await locator.IsVisibleAsync();
         }
 

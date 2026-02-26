@@ -28,9 +28,9 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "Shipment"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipment", "  As a user\n  I want to create a shipment from an existing quotation in the DFP P" +
-                "ortal\n  So I can convert created quotes into active shipments without re-enterin" +
-                "g data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipment", "  As a user\r\n  I want to create a shipment from an existing quotation in the DFP " +
+                "Portal\r\n  So I can convert created quotes into active shipments without re-enter" +
+                "ing data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Shipment.feature"
 #line hidden
@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipment.feature.ndjson", 7);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipment.feature.ndjson", 10);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -650,6 +650,154 @@ namespace DFP.Playwright.Features
 #line hidden
 #line 170
     await testRunner.ThenAsync("all created tags should be visible in Shipment Table view", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Hide a completed shipment via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Hide a completed shipment via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9634")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("27d587ed-a14c-4474-964b-d6d5c7c9b348", "4", null, DisplayName="Hide a completed shipment via API(27d587ed-a14c-4474-964b-d6d5c7c9b348,4)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("a0f26e1f-073b-4522-8862-38a5d68a29e4", "5", null, DisplayName="Hide a completed shipment via API(a0f26e1f-073b-4522-8862-38a5d68a29e4,5)")]
+        public async global::System.Threading.Tasks.Task HideACompletedShipmentViaAPI(string shipment_Id, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "API",
+                    "9634"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("shipment_id", shipment_Id);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Hide a completed shipment via API", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 150
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 151
+    await testRunner.GivenAsync("I have a portal API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 152
+    await testRunner.WhenAsync(string.Format("I hide shipment with id \"{0}\" via API", shipment_Id), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 153
+    await testRunner.ThenAsync("the hide shipment request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Unhide a completed shipment via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Unhide a completed shipment via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9634")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("27d587ed-a14c-4474-964b-d6d5c7c9b348", "6", null, DisplayName="Unhide a completed shipment via API(27d587ed-a14c-4474-964b-d6d5c7c9b348,6)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("a0f26e1f-073b-4522-8862-38a5d68a29e4", "7", null, DisplayName="Unhide a completed shipment via API(a0f26e1f-073b-4522-8862-38a5d68a29e4,7)")]
+        public async global::System.Threading.Tasks.Task UnhideACompletedShipmentViaAPI(string shipment_Id, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "API",
+                    "9634"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("shipment_id", shipment_Id);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Unhide a completed shipment via API", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 162
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 163
+    await testRunner.GivenAsync("I have a portal API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 164
+    await testRunner.WhenAsync(string.Format("I unhide shipment with id \"{0}\" via API", shipment_Id), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 165
+    await testRunner.ThenAsync("the unhide shipment request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Link shipment to purchase order and order line via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Link shipment to purchase order and order line via API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7873")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("PUT_SHIPMENT_ID", "PUT_PO_ID", "PUT_CARGO_ITEM_ID", "PUT_ORDER_LINE_ID", "8", null, DisplayName="Link shipment to purchase order and order line via API(PUT_SHIPMENT_ID,PUT_PO_ID," +
+            "PUT_CARGO_ITEM_ID,PUT_ORDER_LINE_ID,8)")]
+        public async global::System.Threading.Tasks.Task LinkShipmentToPurchaseOrderAndOrderLineViaAPI(string shipment_Id, string purchase_Order_Id, string cargo_Item_Id, string order_Line_Id, string @__pickleIndex, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "API",
+                    "7873"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("shipment_id", shipment_Id);
+            argumentsOfScenario.Add("purchase_order_id", purchase_Order_Id);
+            argumentsOfScenario.Add("cargo_item_id", cargo_Item_Id);
+            argumentsOfScenario.Add("order_line_id", order_Line_Id);
+            string pickleIndex = @__pickleIndex;
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Link shipment to purchase order and order line via API", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 174
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 175
+    await testRunner.GivenAsync("I have a portal API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 176
+    await testRunner.WhenAsync(string.Format("I link shipment with id \"{0}\" to purchase order \"{1}\" via API", shipment_Id, purchase_Order_Id), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 177
+    await testRunner.AndAsync(string.Format("I link cargo item \"{0}\" to order line \"{1}\" for shipment \"{2}\" via API", cargo_Item_Id, order_Line_Id, shipment_Id), ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 178
+    await testRunner.ThenAsync("the link requests should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

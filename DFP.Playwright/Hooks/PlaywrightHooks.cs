@@ -57,7 +57,8 @@ namespace DFP.Playwright.Hooks
 
             var featureTitle = _fc?.FeatureInfo?.Title ?? "";
             var skipAutoLogin = featureTitle.Equals("Login", StringComparison.OrdinalIgnoreCase)
-                                || HasTag("Login");
+                                || HasTag("Login")
+                                || HasTag("API");
             if (!skipAutoLogin)
             {
                 Console.WriteLine("Auto-login: starting (feature != Login)");

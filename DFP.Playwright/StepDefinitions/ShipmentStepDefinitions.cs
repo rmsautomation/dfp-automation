@@ -15,14 +15,14 @@ namespace DFP.Playwright.StepDefinitions
             _tc = tc;
             _shipmentPage = shipmentPage;
         }
-
+// ── Shipment Creation steps ───────────────────────────────────────────────
         [Given("I am on the Quotations List page")]
         public async Task IAmOnTheQuotationsListPage()
         {
             await _shipmentPage.IAmOnTheQuotationsListPage();
         }
 
-        [When("I open the first  quotation in Status Booked")]
+        [When("I open the first quotation in Status Booked")]
         public async Task IOpenTheFirstQuotationInStatusBooked()
         {
             await _shipmentPage.IOpenTheFirstQuotationInStatusBooked();
@@ -46,8 +46,8 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.TheListOfTheOffersShouldAppear();
         }
 
-        [When("clicks on Book Now button")]
-        public async Task ClicksOnBookNowButton()
+        [When("I click on Book Now button")]
+        public async Task IClickOnBookNowButton()
         {
             await _shipmentPage.ClicksOnBookNowButton();
         }
@@ -100,10 +100,10 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IClickOnSendBookingButton();
         }
 
-        [Then("I should click on Go To Shipment button to see the shipemnt")]
-        public async Task IShouldClickOnGoToShipmentButtonToSeeTheShipemnt()
+        [Then("I should click on Go To Shipment button to see the shipment")]
+        public async Task IShouldClickOnGoToShipmentButtonToSeeTheShipment()
         {
-            await _shipmentPage.IShouldClickOnGoToShipmentButtonToSeeTheShipemnt();
+            await _shipmentPage.IShouldClickOnGoToShipmentButtonToSeeTheShipment();
         }
 
         [Then("the shipment should display the shipment name")]
@@ -229,6 +229,38 @@ namespace DFP.Playwright.StepDefinitions
         public async Task TheTagShouldBeVisibleOn2ShipmentsInShipmentTableView()
         {
             await _shipmentPage.TheTagShouldBeVisibleOn2ShipmentsInTableView();
+        }
+
+        // ── @9344_MoreThan5tagsSH steps ───────────────────────────────────────────
+
+        [When("user selects the first shipment from the list")]
+        public async Task UserSelectsTheFirstShipmentFromTheList()
+        {
+            await _shipmentPage.UserSelectsFirstShipmentFromList();
+        }
+
+        [Then("the system should show the error {string}")]
+        public async Task TheSystemShouldShowTheError(string expectedError)
+        {
+            await _shipmentPage.TheSystemShouldShowTheMaxTagsError(expectedError);
+        }
+
+        [Then("all created tags should be visible in Shipment list view")]
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentListView()
+        {
+            await _shipmentPage.AllCreatedTagsShouldBeVisibleInShipmentListView();
+        }
+
+        [Then("all created tags should be visible in Shipment details")]
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentDetails()
+        {
+            await _shipmentPage.AllCreatedTagsShouldBeVisibleInShipmentDetails();
+        }
+
+        [Then("all created tags should be visible in Shipment Table view")]
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentTableView()
+        {
+            await _shipmentPage.AllCreatedTagsShouldBeVisibleInShipmentTableView();
         }
     }
 }

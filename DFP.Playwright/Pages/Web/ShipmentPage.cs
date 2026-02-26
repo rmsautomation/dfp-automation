@@ -11,6 +11,7 @@ namespace DFP.Playwright.Pages.Web
     {
         private string _shipmentName = string.Empty;
         private string _tagName = string.Empty;
+        private readonly List<string> _allTagNames = new();
 
         public ShipmentPage(IPage page) : base(page)
         {
@@ -379,7 +380,7 @@ namespace DFP.Playwright.Pages.Web
             await ClickAndWaitForNetworkAsync(sendBookingButton);
         }
 
-        public async Task IShouldClickOnGoToShipmentButtonToSeeTheShipemnt()
+        public async Task IShouldClickOnGoToShipmentButtonToSeeTheShipment()
         {
             var confirmation = await TryFindLocatorAsync(BookingConfirmationSelectors, timeoutMs: 15000);
             Assert.IsNotNull(confirmation,
@@ -407,9 +408,18 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task UserNavigatedToShipmentsList()
         {
+            // Replicates "Open shipments from dashboard": go to dashboard, then click Shipments nav link
             var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            var shipmentsNavLink = await FindLocatorAsync(new[]
+            {
+                "#navSidebar >> internal:role=link[name=\"Shipments\"i]",
+                "internal:role=link[name=\"Shipments\"i]",
+                "a:has-text(\"Shipments\")"
+            });
+            await ClickAndWaitForNetworkAsync(shipmentsNavLink);
         }
 
         public async Task IClickOnShowMoreFilters()
@@ -521,7 +531,13 @@ namespace DFP.Playwright.Pages.Web
         public async Task UserClicksTheTagIcon()
         {
             var tagIcon = await FindLocatorAsync(TagIconSelectors);
-            await ClickAsync(tagIcon);
+
+            // When 5 tags already exist the button is rendered as disabled.
+            // Clicking a disabled button times out in Playwright (actionability check).
+            // The tooltip verification is handled by TheSystemShouldShowTheMaxTagsError.
+            var disabledAttr = await tagIcon.GetAttributeAsync("disabled");
+            if (disabledAttr == null)
+                await ClickAsync(tagIcon);
         }
 
         public async Task ATagInputFieldShouldAppear()
@@ -537,6 +553,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task UserCreatesAndAssignsNewTag(string tagName)
         {
             _tagName = tagName;
+            _allTagNames.Add(tagName);
             await AddTagInternalAsync(_tagName);
         }
 
@@ -637,6 +654,168 @@ namespace DFP.Playwright.Pages.Web
             var count = await tagBadges.CountAsync();
             Assert.IsGreaterThanOrEqualTo(count, 2,
                 $"Expected tag '{_tagName}' on at least 2 shipments in Table view, but found {count} row(s) with this tag.");
+        }
+
+        // ── @9344 methods ─────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Identifies the first shipment in the list and stores its name in _shipmentName
+        /// so that subsequent steps (open details, verify tags) can reference it.
+        /// Also resets _allTagNames ready for a fresh tag-collection cycle.
+        /// </summary>
+        public async Task UserSelectsFirstShipmentFromList()
+        {
+            _allTagNames.Clear();
+
+            var firstShipmentLink = await TryFindLocatorAsync(new[]
+            {
+                "(//qwyk-shipment-list-item)[1]//a",
+                "(//article[contains(@class,'shipment') or contains(@class,'card')])[1]//a",
+                "(//a[contains(@href,'/shipments/')])[1]"
+            }, timeoutMs: 10000);
+
+            Assert.IsNotNull(firstShipmentLink,
+                "No shipments were found in the Shipments List.");
+
+            var name = (await firstShipmentLink.InnerTextAsync()).Trim();
+            if (!string.IsNullOrEmpty(name))
+                _shipmentName = name;
+        }
+
+        /// <summary>
+        /// When 5 tags exist the tag button is disabled (pointer-events:none).
+        /// Playwright's actionability check would timeout on a plain HoverAsync,
+        /// so we use Force=true to bypass it and trigger the tooltip.
+        /// </summary>
+        public async Task TheSystemShouldShowTheMaxTagsError(string expectedError)
+        {
+            // Target the disabled button specifically to avoid matching an enabled button
+            var disabledTagIcon = await FindLocatorAsync(new[]
+            {
+                "//button[contains(@class,'plus-icon') and @disabled]",
+                "button.plus-icon[disabled]"
+            });
+
+            // Force=true skips actionability checks (visible, stable, receives-events)
+            // which would fail because Angular sets pointer-events:none on disabled buttons
+            await disabledTagIcon.HoverAsync(new LocatorHoverOptions { Force = true });
+
+            // Allow the tooltip to render
+            await Page.WaitForTimeoutAsync(600);
+
+            var tooltipSelectors = new[]
+            {
+                ".tooltip-inner",
+                ".p-tooltip-text",
+                "[role='tooltip']",
+                ".tippy-content",
+                ".tooltip"
+            };
+
+            var tooltip = await TryFindLocatorAsync(tooltipSelectors, timeoutMs: 5000);
+
+            if (tooltip != null)
+            {
+                var tooltipText = await tooltip.InnerTextAsync();
+                Assert.IsTrue(
+                    tooltipText.Contains("5", StringComparison.OrdinalIgnoreCase) ||
+                    tooltipText.Contains("limit", StringComparison.OrdinalIgnoreCase) ||
+                    tooltipText.Contains("maximum", StringComparison.OrdinalIgnoreCase),
+                    $"Tooltip did not mention the 5-tag limit. Expected something like '{expectedError}', Got: '{tooltipText}'");
+                return;
+            }
+
+            // Fallback: check title / ngbTooltip / aria-label attributes on the button
+            var attrText = await GetAttributeAsync(disabledTagIcon, "title")
+                           ?? await GetAttributeAsync(disabledTagIcon, "ngbtooltip")
+                           ?? await GetAttributeAsync(disabledTagIcon, "aria-label")
+                           ?? string.Empty;
+
+            Assert.IsFalse(string.IsNullOrEmpty(attrText),
+                $"Expected a tooltip on the disabled tag icon (5-tag limit reached), but none was found. Expected: '{expectedError}'");
+            Assert.IsTrue(
+                attrText.Contains("5", StringComparison.OrdinalIgnoreCase) ||
+                attrText.Contains("limit", StringComparison.OrdinalIgnoreCase) ||
+                attrText.Contains("maximum", StringComparison.OrdinalIgnoreCase),
+                $"Tag icon attribute tooltip did not mention the limit. Expected: '{expectedError}', Got: '{attrText}'");
+        }
+
+        /// <summary>
+        /// Verifies every tag in _allTagNames is shown as a badge in the Shipment List view.
+        /// </summary>
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentListView()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            foreach (var tag in _allTagNames)
+            {
+                var tagBadge = await TryFindLocatorAsync(new[]
+                {
+                    $"//span[contains(@class,'status-badge') and contains(normalize-space(),'{tag}')]",
+                    $"span.status-badge:has-text('{tag}')"
+                }, timeoutMs: 10000);
+                Assert.IsNotNull(tagBadge,
+                    $"Tag '{tag}' was not visible in Shipment List view.");
+            }
+        }
+
+        /// <summary>
+        /// Verifies every tag in _allTagNames is shown on the current Shipment Details page.
+        /// </summary>
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentDetails()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            foreach (var tag in _allTagNames)
+            {
+                var tagInDetails = await TryFindLocatorAsync(new[]
+                {
+                    $"internal:text=\"{tag}\"i",
+                    $"//*[contains(text(),'{tag}')]",
+                    $"[class*='tag']:has-text('{tag}')"
+                }, timeoutMs: 10000);
+                Assert.IsNotNull(tagInDetails,
+                    $"Tag '{tag}' was not visible in Shipment Details view. URL: {Page.Url}");
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the Shipments List, switches to Table view,
+        /// then verifies every tag in _allTagNames is visible as a badge.
+        /// </summary>
+        public async Task AllCreatedTagsShouldBeVisibleInShipmentTableView()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Select Table View to set the preference
+            var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
+            await ClickAndWaitForNetworkAsync(tableViewBtn);
+
+            // Navigate away then back so the page reloads directly in Table View
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/cargo-detail");
+
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Wait for "Loading default view..." spinner to disappear
+            await Page.Locator("text=Loading default view").WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Hidden,
+                Timeout = 180000
+            });
+
+            foreach (var tag in _allTagNames)
+            {
+                var tagBadge = await TryFindLocatorAsync(new[]
+                {
+                    $"//span[contains(@class,'status-badge') and normalize-space()='{tag}']",
+                    $"span.status-badge:has-text('{tag}')"
+                }, timeoutMs: 10000);
+                Assert.IsNotNull(tagBadge,
+                    $"Tag '{tag}' was not visible in Shipment Table view.");
+            }
         }
     }
 }

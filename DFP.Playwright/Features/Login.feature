@@ -9,9 +9,9 @@ Scenario Outline: Login to Hub
     Then the dashboard should be visible
 
     Examples:
-      | user_type   |
-      | without Int |
-      | with Int |
+      | user_type                    |
+      | without Int                  |
+      | with Int                     |
 
 
 Scenario Outline: Login to Portal
@@ -21,7 +21,8 @@ Scenario Outline: Login to Portal
     Examples:
       | user_type   |
       | without Int |
-      | with Int |
+      | with Int    |
+
 
 
 Scenario: Log out from Portal

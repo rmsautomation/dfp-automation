@@ -191,11 +191,16 @@ Feature: Shipments
     When I click on Send Booking button
     Then I should click on Go To Shipment button to see the shipment
     And the shipment should display the shipment name
+    When I log out
     Given I have a hub API token
     When I hide shipment via API
     Then the hide shipment request should succeed
     When I unhide shipment via API
     Then the unhide shipment request should succeed
+	Given I login to Hub as user "without Int"
+    When I log out
+    Given I login to Portal as user "automation_noint@yopmail.com"
+
 
     Examples:
       | shipment_id |

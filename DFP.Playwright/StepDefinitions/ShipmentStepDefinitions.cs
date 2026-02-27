@@ -402,11 +402,7 @@ namespace DFP.Playwright.StepDefinitions
             if (_tc.Data.TryGetValue("hubToken", out var value) && value is string token && !string.IsNullOrWhiteSpace(token))
                 return token;
 
-            var envToken = Environment.GetEnvironmentVariable(Constants.HUB_TOKEN);
-            if (!string.IsNullOrWhiteSpace(envToken))
-                return envToken;
-
-            throw new InvalidOperationException("Hub token not found. Set HUB_TOKEN or run step 'I have a hub API token' first.");
+            throw new InvalidOperationException("Hub token not found. Run step 'I have a hub API token' first.");
         }
 
         private string GetShipmentIdFromContext()

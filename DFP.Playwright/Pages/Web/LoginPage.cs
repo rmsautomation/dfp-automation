@@ -282,6 +282,8 @@ namespace DFP.Playwright.Pages.Web
                 {
                     await ClickAndWaitForNavigationAsync(signIn);
                 }
+                else
+                    throw new TimeoutException("Login form not visible and Sign in button not found.");
             }
 
             await WaitForLoginFormAsync(timeoutMs);
@@ -396,6 +398,23 @@ namespace DFP.Playwright.Pages.Web
 
             var logoutButton = await FindLocatorAsync(LogoutButtonSelectors, timeoutMs: 5000);
             await logoutButton.ClickAsync();
+        }
+
+        public async Task LogoutIfLoggedInAsync()
+        {
+            var isLoggedIn = await IsLoggedInAsync() || await IsDashboardVisibleAsync();
+            if (!isLoggedIn)
+                return;
+
+            try
+            {
+                await LogoutAsync();
+                await WaitForLoginAsync(10000);
+            }
+            catch
+            {
+                // If logout fails, continue; login flow will handle it.
+            }
         }
 
         // FindLocatorAsync / TryFindLocatorAsync are defined in BasePage

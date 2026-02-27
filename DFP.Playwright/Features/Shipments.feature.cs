@@ -748,19 +748,31 @@ namespace DFP.Playwright.Features
     await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 194
-    await testRunner.GivenAsync("I have a hub API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.WhenAsync("I log out", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 195
-    await testRunner.WhenAsync("I hide shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I have a hub API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 196
-    await testRunner.ThenAsync("the hide shipment request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I hide shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 197
-    await testRunner.WhenAsync("I unhide shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("the hide shipment request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 198
+    await testRunner.WhenAsync("I unhide shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 199
     await testRunner.ThenAsync("the unhide shipment request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 200
+ await testRunner.GivenAsync("I login to Hub as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 201
+    await testRunner.WhenAsync("I log out", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 202
+    await testRunner.GivenAsync("I login to Portal as user \"automation_noint@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -782,7 +794,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment with cargo items - add lines from a PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 206
+#line 211
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -792,37 +804,37 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 207
+#line 212
     await testRunner.GivenAsync("I have a portal API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 208
+#line 213
     await testRunner.WhenAsync("I create shipment via webhook", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 209
+#line 214
     await testRunner.AndAsync("I get cargo items for current shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 210
+#line 215
     await testRunner.AndAsync("I create purchase order via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 211
+#line 216
     await testRunner.AndAsync("I create purchase order line via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 212
+#line 217
     await testRunner.ThenAsync("a cargo item id should be available", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 213
+#line 218
     await testRunner.AndAsync("a purchase order id should be available", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 214
+#line 219
     await testRunner.AndAsync("an order line id should be available", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 215
+#line 220
     await testRunner.WhenAsync("I link shipment to purchase order via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 216
+#line 221
     await testRunner.AndAsync("I link cargo item to order line for shipment via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 217
+#line 222
     await testRunner.ThenAsync("the link requests should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

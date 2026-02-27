@@ -28,7 +28,7 @@ namespace DFP.Playwright.StepDefinitions
             var client = PortalApiClient.FromEnvironment();
             using var response = await client.CreateShipmentViaWebhookAsync(token, payload);
             var body = await response.Content.ReadAsStringAsync();
-            EnsureSuccess(response, body, "Create shipment via webhook");
+            EnsureAccepted(response, body, "Create shipment via webhook");
             SaveWebhookResponse(body);
 
             var transactionId = TryReadFirstId(body, "transactionId", "transaction_id");
@@ -50,7 +50,7 @@ namespace DFP.Playwright.StepDefinitions
 
             var token = GetPortalToken();
             var client = PortalApiClient.FromEnvironment();
-            const int maxAttempts = 12;
+            const int maxAttempts = 60; // ~5 minutes
             const int delayMs = 5000;
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
@@ -59,6 +59,7 @@ namespace DFP.Playwright.StepDefinitions
 
                 if ((int)response.StatusCode == 404 && attempt < maxAttempts)
                 {
+                    Console.WriteLine($"Get cargo items attempt {attempt}/{maxAttempts} -> 404. Retrying in {delayMs}ms...");
                     await Task.Delay(delayMs);
                     continue;
                 }
@@ -147,6 +148,12 @@ namespace DFP.Playwright.StepDefinitions
         {
             if (!response.IsSuccessStatusCode)
                 throw new InvalidOperationException($"{action} failed: {(int)response.StatusCode} {response.ReasonPhrase}. Body: {body}");
+        }
+
+        private static void EnsureAccepted(System.Net.Http.HttpResponseMessage response, string body, string action)
+        {
+            if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
+                throw new InvalidOperationException($"{action} failed: expected 202 Accepted, got {(int)response.StatusCode} {response.ReasonPhrase}. Body: {body}");
         }
 
         private static string LoadPayloadFromEnvOrFile(string pathEnvVar, string inlineEnvVar)

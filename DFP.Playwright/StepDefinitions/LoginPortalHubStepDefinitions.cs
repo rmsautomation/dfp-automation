@@ -157,7 +157,26 @@ namespace DFP.Playwright.StepDefinitions
                 return;
             }
 
-            await GivenILoginToPortal();
+            if (IsWithoutIntegration(userType))
+            {
+                await GivenILoginToPortal();
+                return;
+            }
+
+            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "";
+            if (string.IsNullOrWhiteSpace(baseUrl))
+                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
+
+            var username = userType.Trim();
+            var password = ResolvePasswordForUsername(username);
+
+            var login = new LoginPage(_tc.Page!, baseUrl);
+            await login.NavigateAsync();
+            await login.LogoutIfLoggedInAsync();
+            await login.LoginToDFPAsync(username, password, searchLoginModal: true);
+            await login.WaitForDashboardAsync();
         }
 
         private LoginPage CreateLoginPage(string baseUrl)
@@ -179,6 +198,21 @@ namespace DFP.Playwright.StepDefinitions
                    || t == "with-int";
         }
 
+        private static bool IsWithoutIntegration(string userType)
+        {
+            if (string.IsNullOrWhiteSpace(userType))
+                return false;
+
+            var t = userType.Trim().ToLowerInvariant();
+            return t == "without int"
+                   || t == "without-int"
+                   || t == "no int"
+                   || t == "no-int"
+                   || t == "noint"
+                   || t == "no integration"
+                   || t == "without integration";
+        }
+
         private static string ResolveEnvValue(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -196,6 +230,34 @@ namespace DFP.Playwright.StepDefinitions
                 return indirect;
 
             return value;
+        }
+
+        private static string ResolvePasswordForUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new InvalidOperationException("Username is required.");
+
+            var explicitKey = $"PORTAL_PASSWORD_FOR_{username}";
+            var explicitValue = Environment.GetEnvironmentVariable(explicitKey);
+            if (!string.IsNullOrWhiteSpace(explicitValue))
+                return ResolveEnvValue(explicitValue);
+
+            var direct = Environment.GetEnvironmentVariable(username);
+            if (!string.IsNullOrWhiteSpace(direct))
+                return ResolveEnvValue(direct);
+
+            var key = System.Text.RegularExpressions.Regex.Replace(username.Trim().ToUpperInvariant(), "[^A-Z0-9]+", "_");
+            var byKey = Environment.GetEnvironmentVariable($"{key}_PASSWORD");
+            if (!string.IsNullOrWhiteSpace(byKey))
+                return ResolveEnvValue(byKey);
+
+            var fallback = Environment.GetEnvironmentVariable(Constants.PORTAL_PASSWORD)
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
+                           ?? "";
+            if (string.IsNullOrWhiteSpace(fallback))
+                throw new InvalidOperationException("PORTAL_PASSWORD (or DFP_PASSWORD) is required as fallback.");
+
+            return ResolveEnvValue(fallback);
         }
     }
 }

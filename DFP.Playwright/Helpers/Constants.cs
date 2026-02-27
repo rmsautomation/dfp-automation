@@ -26,7 +26,10 @@ namespace DFP.Playwright.Helpers
         public const string PORTAL_INT_PASSWORD = "PORTAL_INT_PASSWORD";
         public const string HUB_INT_USERNAME = "HUB_INT_USERNAME";
         public const string HUB_INT_PASSWORD = "HUB_INT_PASSWORD";
-        public const string HUB_TOKEN = "HUB_TOKEN";
+        public const string HUB_CLIENT_ID = "HUB_CLIENT_ID";
+        public const string HUB_CLIENT_SECRET = "HUB_CLIENT_SECRET";
+        public const string HUB_AUTH_TOKEN_URL = "HUB_AUTH_TOKEN_URL";
+        public const string HUB_AUTH_AUDIENCE = "HUB_AUTH_AUDIENCE";
         public const string CHAINIO_TOKEN = "CHAINIO_TOKEN";
         public const string SHIPMENT_WEBHOOK_PAYLOAD_PATH = "SHIPMENT_WEBHOOK_PAYLOAD_PATH";
         public const string PURCHASE_ORDER_PAYLOAD_PATH = "PURCHASE_ORDER_PAYLOAD_PATH";

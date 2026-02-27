@@ -1,0 +1,24 @@
+{
+  "id": null,
+  "order_id": "{{purchase_order_id}}",
+  "line_no": "1",
+  "quantity_requested": 100,
+  "units_per_pack": 10,
+  "unit_price": 5,
+  "product_name": "Product",
+  "product_description": "Description",
+  "product_category_code": "CAT",
+  "color_code": "BLACK",
+  "size_code": "M",
+  "customer_product_id": "SKU-001",
+  "customer_sku": "SKU-001",
+  "total_packages": 1,
+  "packaging": {
+    "id": 1,
+    "code": "20",
+    "description": "20' Container",
+    "description_plural": "20' Containers",
+    "transport_mode": "OCEAN",
+    "load_type": "fcl"
+  }
+}

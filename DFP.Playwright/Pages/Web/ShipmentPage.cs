@@ -17,6 +17,16 @@ namespace DFP.Playwright.Pages.Web
         {
         }
 
+        private static string GetPortalBaseUrl()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "";
+            if (string.IsNullOrWhiteSpace(baseUrl))
+                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
+            return baseUrl;
+        }
+
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
         public static readonly string[] Selectors = new string[]
@@ -247,13 +257,14 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheQuotationsListPage()
         {
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            var baseUrl = GetPortalBaseUrl();
             await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/quotations");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task IOpenTheFirstQuotationInStatusBooked()
         {
+            await DismissBlockingDialogIfPresentAsync();
             var quotationLink = await FindLocatorAsync(new[]
             {
                 "qwyk-quotation-card:has-text('Booked') a",
@@ -263,9 +274,56 @@ namespace DFP.Playwright.Pages.Web
                 "//*[contains(@class,'card')][contains(., 'Booked')]//a",
                 "//*[contains(@class,'item')][contains(., 'Booked')]//a",
                 "//*[contains(@class,'row')][contains(., 'Booked')]//a",
-                "//a[contains(@href,'quo')]"
+                "//a[contains(@href,'/quotations/') and not(contains(@class,'nav-link'))]"
             });
             await ClickAndWaitForNetworkAsync(quotationLink);
+        }
+
+        private async Task DismissBlockingDialogIfPresentAsync()
+        {
+            var dialogMask = Page.Locator(".p-dialog-mask, .p-component-overlay, p-dynamicdialog");
+            if (await dialogMask.CountAsync() == 0)
+                return;
+
+            // Try ESC first
+            await Page.Keyboard.PressAsync("Escape");
+            try
+            {
+                await dialogMask.First.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Hidden,
+                    Timeout = 5000
+                });
+                return;
+            }
+            catch (TimeoutException)
+            {
+                // fall through
+            }
+
+            // Try clicking a close button if present
+            var closeBtn = await TryFindLocatorAsync(new[]
+            {
+                "button:has-text('Close')",
+                "button[aria-label='Close']",
+                "button:has(.pi-times)",
+                "button:has(svg[data-icon='xmark'])"
+            }, timeoutMs: 2000);
+            if (closeBtn != null)
+                await ClickAsync(closeBtn);
+
+            try
+            {
+                await dialogMask.First.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Hidden,
+                    Timeout = 5000
+                });
+            }
+            catch (TimeoutException)
+            {
+                // ignore and continue
+            }
         }
 
         public async Task IShouldBeOnTheQuotationDetailsPage()
@@ -409,7 +467,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task UserNavigatedToShipmentsList()
         {
             // Replicates "Open shipments from dashboard": go to dashboard, then click Shipments nav link
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            var baseUrl = GetPortalBaseUrl();
             await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
@@ -785,7 +843,7 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task AllCreatedTagsShouldBeVisibleInShipmentTableView()
         {
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            var baseUrl = GetPortalBaseUrl();
             await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 

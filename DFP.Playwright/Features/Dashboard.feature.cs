@@ -154,17 +154,17 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipts")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipts")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipt")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipt")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
-        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipts()
+        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipt()
         {
             string[] tagsOfScenario = new string[] {
                     "3072"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipts", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 11
@@ -184,17 +184,15 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Link Shipment with PO")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Link Shipment with PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Shipment")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Shipment")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7873")]
-        public async global::System.Threading.Tasks.Task LinkShipmentWithPO()
+        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInShipment()
         {
-            string[] tagsOfScenario = new string[] {
-                    "7873"};
+            string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Link Shipment with PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Shipment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 15

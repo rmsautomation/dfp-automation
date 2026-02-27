@@ -1,17 +1,32 @@
 @Login
 Feature: Login
 
-Login into DFP Web Portal
+Login into DFP Web Portal and Hub
 
 
-Scenario: Validating Login with valid credentials
-    Given the user is on the login page
-    When the user logs in with valid credentials
+Scenario Outline: Login to Hub
+    Given I login to Hub as user "<user_type>"
     Then the dashboard should be visible
 
+    Examples:
+      | user_type   |
+      | without Int |
+      | with Int |
 
-Scenario: Validating user can log out of the system
-    Given user navigated to the dashboard
-    When user logs out
-    Then user should be in login page
+
+Scenario Outline: Login to Portal
+    Given I login to Portal as user "<user_type>"
+    Then the dashboard should be visible
+
+    Examples:
+      | user_type   |
+      | without Int |
+      | with Int |
+
+
+Scenario: Log out from Portal
+    Given I login to Portal with integration
+    When I log out
+    Then I should be in login page
     
+

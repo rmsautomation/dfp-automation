@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web;
@@ -130,6 +131,7 @@ namespace DFP.Playwright.StepDefinitions
         // ── ShipmentSearch steps ─────────────────────────────────────────────────
 
         [Given("user navigated to Shipments List")]
+        [Given("I navigated to Shipments List")]
         public async Task UserNavigatedToShipmentsList()
         {
             await _shipmentPage.UserNavigatedToShipmentsList();
@@ -173,7 +175,7 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.TheTagIconTooltipShouldSay(expectedTooltip);
         }
 
-        [When("user clicks the tag icon on the shipment")]
+        [When("I click the tag icon on the shipment")]
         public async Task UserClicksTheTagIconOnTheShipment()
         {
             await _shipmentPage.UserClicksTheTagIcon();
@@ -185,14 +187,15 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.ATagInputFieldShouldAppear();
         }
 
-        [When("user creates and assigns a new tag to the shipment")]
+        [When("I create and assign a new tag to the shipment")]
+        [When("I create and assigns a new tag to the shipment")]
         public async Task UserCreatesAndAssignsANewTagToTheShipment()
         {
             var tagName = $"{DateTime.UtcNow:MMddHHmmss}auto";
             await _shipmentPage.UserCreatesAndAssignsNewTag(tagName);
         }
 
-        [When("user assigns the existing tag to the shipment")]
+        [When("I assign the existing tag to the shipment")]
         public async Task UserAssignsTheExistingTagToTheShipment()
         {
             await _shipmentPage.UserAssignsExistingTagToShipment();
@@ -204,7 +207,7 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.TheTagShouldBeVisibleOnTheShipment();
         }
 
-        [When("user opens the tagged shipment details view")]
+        [When("I open the tagged shipment details view")]
         public async Task UserOpensTheTaggedShipmentDetailsView()
         {
             await _shipmentPage.UserOpensTaggedShipmentDetailsView();
@@ -248,7 +251,7 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── @9344_MoreThan5tagsSH steps ───────────────────────────────────────────
 
-        [When("user selects the first shipment from the list")]
+        [When("I select the first shipment from the list")]
         public async Task UserSelectsTheFirstShipmentFromTheList()
         {
             await _shipmentPage.UserSelectsFirstShipmentFromList();
@@ -282,9 +285,19 @@ namespace DFP.Playwright.StepDefinitions
         public async Task WhenIHideShipmentWithIdViaApi(string shipmentId)
         {
             if (string.IsNullOrWhiteSpace(shipmentId))
-                throw new InvalidOperationException("Shipment ID is required.");
+                shipmentId = GetShipmentIdFromContext();
 
-            var token = GetPortalToken();
+            var token = GetHubToken();
+            var client = PortalApiClient.FromEnvironment();
+            _hideResponse = await client.HideShipmentAsync(token, shipmentId);
+            _hideResponseBody = _hideResponse == null ? "" : await _hideResponse.Content.ReadAsStringAsync();
+        }
+
+        [When("I hide shipment via API")]
+        public async Task WhenIHideShipmentViaApi()
+        {
+            var shipmentId = GetShipmentIdFromContext();
+            var token = GetHubToken();
             var client = PortalApiClient.FromEnvironment();
             _hideResponse = await client.HideShipmentAsync(token, shipmentId);
             _hideResponseBody = _hideResponse == null ? "" : await _hideResponse.Content.ReadAsStringAsync();
@@ -301,9 +314,19 @@ namespace DFP.Playwright.StepDefinitions
         public async Task WhenIUnhideShipmentWithIdViaApi(string shipmentId)
         {
             if (string.IsNullOrWhiteSpace(shipmentId))
-                throw new InvalidOperationException("Shipment ID is required.");
+                shipmentId = GetShipmentIdFromContext();
 
-            var token = GetPortalToken();
+            var token = GetHubToken();
+            var client = PortalApiClient.FromEnvironment();
+            _unhideResponse = await client.UnhideShipmentAsync(token, shipmentId);
+            _unhideResponseBody = _unhideResponse == null ? "" : await _unhideResponse.Content.ReadAsStringAsync();
+        }
+
+        [When("I unhide shipment via API")]
+        public async Task WhenIUnhideShipmentViaApi()
+        {
+            var shipmentId = GetShipmentIdFromContext();
+            var token = GetHubToken();
             var client = PortalApiClient.FromEnvironment();
             _unhideResponse = await client.UnhideShipmentAsync(token, shipmentId);
             _unhideResponseBody = _unhideResponse == null ? "" : await _unhideResponse.Content.ReadAsStringAsync();
@@ -325,6 +348,14 @@ namespace DFP.Playwright.StepDefinitions
             _linkShipmentBody = _linkShipmentResponse == null ? "" : await _linkShipmentResponse.Content.ReadAsStringAsync();
         }
 
+        [When("I link shipment to purchase order via API")]
+        public async Task WhenILinkShipmentToPurchaseOrderViaApi()
+        {
+            var shipmentId = GetRequiredContextValue("shipmentId", "Shipment ID not found. Create a shipment first.");
+            var purchaseOrderId = GetRequiredContextValue("purchaseOrderId", "Purchase order ID not found. Create a purchase order first.");
+            await WhenILinkShipmentWithIdToPurchaseOrderViaApi(shipmentId, purchaseOrderId);
+        }
+
         [When(@"I link cargo item ""([^""]+)"" to order line ""([^""]+)"" for shipment ""([^""]+)"" via API")]
         public async Task WhenILinkCargoItemToOrderLineForShipmentViaApi(string cargoItemId, string orderLineId, string shipmentId)
         {
@@ -332,6 +363,15 @@ namespace DFP.Playwright.StepDefinitions
             var client = PortalApiClient.FromEnvironment();
             _linkCargoResponse = await client.LinkCargoItemToOrderLineAsync(token, shipmentId, cargoItemId, orderLineId);
             _linkCargoBody = _linkCargoResponse == null ? "" : await _linkCargoResponse.Content.ReadAsStringAsync();
+        }
+
+        [When("I link cargo item to order line for shipment via API")]
+        public async Task WhenILinkCargoItemToOrderLineForShipmentViaApi()
+        {
+            var shipmentId = GetRequiredContextValue("shipmentId", "Shipment ID not found. Create a shipment first.");
+            var cargoItemId = GetRequiredContextValue("cargoItemId", "Cargo item ID not found. Get cargo items first.");
+            var orderLineId = GetRequiredContextValue("orderLineId", "Order line ID not found. Create a purchase order line first.");
+            await WhenILinkCargoItemToOrderLineForShipmentViaApi(cargoItemId, orderLineId, shipmentId);
         }
 
         [Then("the link requests should succeed")]
@@ -355,6 +395,64 @@ namespace DFP.Playwright.StepDefinitions
                 return token;
 
             throw new InvalidOperationException("Portal token not found. Run step 'I have a portal API token' first.");
+        }
+
+        private string GetHubToken()
+        {
+            if (_tc.Data.TryGetValue("hubToken", out var value) && value is string token && !string.IsNullOrWhiteSpace(token))
+                return token;
+
+            var envToken = Environment.GetEnvironmentVariable(Constants.HUB_TOKEN);
+            if (!string.IsNullOrWhiteSpace(envToken))
+                return envToken;
+
+            throw new InvalidOperationException("Hub token not found. Set HUB_TOKEN or run step 'I have a hub API token' first.");
+        }
+
+        private string GetShipmentIdFromContext()
+        {
+            if (_tc.Data.TryGetValue("shipmentId", out var value) && value is string id && !string.IsNullOrWhiteSpace(id))
+                return id;
+
+            throw new InvalidOperationException("Shipment ID not found. Capture it from the UI first.");
+        }
+
+        private string GetRequiredContextValue(string key, string message)
+        {
+            if (_tc.Data.TryGetValue(key, out var value) && value is string id && !string.IsNullOrWhiteSpace(id))
+                return id;
+
+            throw new InvalidOperationException(message);
+        }
+
+        private void StoreShipmentIdFromUrlIfPresent(bool required = false)
+        {
+            var url = _tc.Page?.Url ?? "";
+            var id = TryExtractShipmentIdFromUrl(url);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                _tc.Data["shipmentId"] = id;
+                return;
+            }
+
+            if (required)
+                throw new InvalidOperationException($"Shipment ID not found in URL: {url}");
+        }
+
+        private static string TryExtractShipmentIdFromUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return "";
+
+            var match = Regex.Match(url, @"\/shipments\/([0-9a-fA-F-]{36})");
+            if (match.Success)
+                return match.Groups[1].Value;
+
+            match = Regex.Match(url, @"\/booking\/new\/([0-9a-fA-F-]{36})");
+            if (match.Success)
+                return match.Groups[1].Value;
+
+            return "";
         }
 
         private static void AssertOkResponse(HttpResponseMessage response, string body, string action)
@@ -388,6 +486,11 @@ namespace DFP.Playwright.StepDefinitions
 
             return "";
         }
+
+        [Then("I store the shipment id from the URL")]
+        public void ThenIStoreTheShipmentIdFromTheUrl()
+        {
+            StoreShipmentIdFromUrlIfPresent(required: true);
+        }
     }
 }
-

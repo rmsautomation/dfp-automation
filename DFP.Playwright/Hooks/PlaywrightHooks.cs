@@ -61,7 +61,7 @@ namespace DFP.Playwright.Hooks
                                 || HasTag("API");
             if (!skipAutoLogin)
             {
-                Console.WriteLine("Auto-login: starting (feature != Login)");
+                Console.WriteLine("Auto-login: starting");
                 await EnsureLoggedInAsync();
             }
         }
@@ -78,24 +78,26 @@ namespace DFP.Playwright.Hooks
 
         private async Task EnsureLoggedInAsync()
         {
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            var portalBaseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL) ?? "";
+            var portalIntBaseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL) ?? "";
+            var baseUrl = portalBaseUrl;
             if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("BASE_URL is null/empty. Provide it via config/env.");
+                throw new InvalidOperationException("PORTAL_BASE_URL is null/empty. Auto-login requires Portal (no integration).");
 
-            var username = Environment.GetEnvironmentVariable(Constants.DFP_USERNAME);
-            var password = Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD);
+            var username = ResolveEnvValue(Environment.GetEnvironmentVariable(Constants.PORTAL_USERNAME)
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
+                           ?? "");
+            var password = ResolveEnvValue(Environment.GetEnvironmentVariable(Constants.PORTAL_PASSWORD)
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
+                           ?? "");
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                throw new InvalidOperationException("DFP_USERNAME/DFP_PASSWORD are required for auto-login.");
+                throw new InvalidOperationException("PORTAL_USERNAME/PORTAL_PASSWORD are required for auto-login.");
 
             var login = new LoginPage(_tc.Page!, baseUrl);
 
             await login.NavigateAsync();
 
-            // Always attempt login for non-Login features if the form is visible.
-            if (await login.IsUsernameInputVisibleAsync())
-            {
-                await login.LoginToDFPAsync(username, password);
-            }
+            await login.LoginToDFPAsync(username, password, searchLoginModal: true);
 
             var start = DateTime.UtcNow;
             var loggedIn = false;
@@ -111,6 +113,25 @@ namespace DFP.Playwright.Hooks
 
             if (!loggedIn)
                 throw new TimeoutException("Auto-login did not reach a logged-in state within 15s.");
+        }
+
+        private static string ResolveEnvValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
+
+            var trimmed = value.Trim();
+            if (trimmed.StartsWith("Env.", StringComparison.OrdinalIgnoreCase))
+            {
+                var key = trimmed.Substring(4);
+                return Environment.GetEnvironmentVariable(key) ?? "";
+            }
+
+            var indirect = Environment.GetEnvironmentVariable(trimmed);
+            if (!string.IsNullOrWhiteSpace(indirect))
+                return indirect;
+
+            return value;
         }
 
         private bool HasTag(string tag)

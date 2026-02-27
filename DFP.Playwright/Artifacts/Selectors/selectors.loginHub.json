@@ -1,0 +1,14 @@
+{
+    "page":  "loginHub",
+    "generatedAt":  "2026-02-26T21:48:22.7527189-05:00",
+    "selectors":  [
+                      "div \u003e\u003e internal:has-text=\"User: aylin.rodriguez@magaya.\"i \u003e\u003e nth=5",
+                      "internal:role=button[name=\"Avatar next\"i]",
+                      "internal:role=button[name=\"Avatar\"s]",
+                      "internal:role=button[name=\"Continue\"i]",
+                      "internal:role=menuitem[name=\"Log out\"i] \u003e\u003e a",
+                      "internal:role=textbox[name=\"Email address\"i]",
+                      "internal:text=\"Get started with the Digital\"i",
+                      "internal:text=\"Password *\"i"
+                  ]
+}

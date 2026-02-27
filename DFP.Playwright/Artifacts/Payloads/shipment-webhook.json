@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "doc_type": "shipment_json",
+  "shipments": [
+    {
+      "forwarder_reference": "REF-{{timestamp}}",
+      "booking_reference": "REF-{{timestamp}}",
+      "shipment_reference": "REF-{{timestamp}}",
+      "booking": true,
+      "shipment_type_code": "STD",
+      "containerization_type": "FCL",
+      "sent_date": "{{iso_now}}",
+      "booking_confirmed_actual": "{{iso_now}}",
+      "cargo_ready_estimated": "{{iso_now}}",
+      "departure_estimated": "{{iso_now}}",
+      "arrival_port_estimated": "{{iso_now}}",
+      "origin_port": {
+        "unlocode": "ESZMA",
+        "description": "Origin"
+      },
+      "arrival_port": {
+        "unlocode": "USCGB",
+        "description": "Arrival"
+      }
+    }
+  ]
+}

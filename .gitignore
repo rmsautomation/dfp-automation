@@ -36,3 +36,5 @@ coverage*
 
 # Local XML staging (not part of project)
 XMLFilesDFP/
+# Local logs
+DFP.Playwright/Artifacts/Logs/

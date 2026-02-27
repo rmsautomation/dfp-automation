@@ -43,6 +43,47 @@ function Step-MethodName($stepText) {
     return (To-PascalCase $stepText)
 }
 
+function Normalize-StepText($text) {
+    if ([string]::IsNullOrWhiteSpace($text)) { return $text }
+
+    $trim = $text.Trim()
+    $lower = $trim.ToLower()
+    $rest = $null
+
+    if ($lower.StartsWith("the user ")) {
+        $rest = $trim.Substring(9).TrimStart()
+    } elseif ($lower.StartsWith("user ")) {
+        $rest = $trim.Substring(4).TrimStart()
+    }
+
+    if ($null -eq $rest) {
+        return $trim
+    }
+
+    $restLower = $rest.ToLower()
+    if ($restLower.StartsWith("is ")) { return "I am " + $rest.Substring(3) }
+    if ($restLower.StartsWith("was ")) { return "I was " + $rest.Substring(4) }
+    if ($restLower.StartsWith("has ")) { return "I have " + $rest.Substring(4) }
+    if ($restLower.StartsWith("does ")) { return "I do " + $rest.Substring(5) }
+    if ($restLower.StartsWith("logs ")) { return "I log " + $rest.Substring(5) }
+    if ($restLower.StartsWith("log ")) { return "I log " + $rest.Substring(4) }
+    if ($restLower.StartsWith("navigated ")) { return "I navigated " + $rest.Substring(10) }
+    if ($restLower.StartsWith("should ")) { return "I should " + $rest.Substring(7) }
+    if ($restLower.StartsWith("clicks ")) { return "I click " + $rest.Substring(7) }
+    if ($restLower.StartsWith("creates ")) { return "I create " + $rest.Substring(8) }
+    if ($restLower.StartsWith("assigns ")) { return "I assign " + $rest.Substring(8) }
+    if ($restLower.StartsWith("opens ")) { return "I open " + $rest.Substring(6) }
+    if ($restLower.StartsWith("sees ")) { return "I see " + $rest.Substring(5) }
+    if ($restLower.StartsWith("enters ")) { return "I enter " + $rest.Substring(7) }
+    if ($restLower.StartsWith("waits ")) { return "I wait " + $rest.Substring(6) }
+    if ($restLower.StartsWith("selects ")) { return "I select " + $rest.Substring(8) }
+    if ($restLower.StartsWith("goes ")) { return "I go " + $rest.Substring(5) }
+    if ($restLower.StartsWith("can ")) { return "I can " + $rest.Substring(4) }
+    if ($restLower.StartsWith("must ")) { return "I must " + $rest.Substring(5) }
+
+    return "I " + $rest
+}
+
 function Escape-CSharpString([string]$s) {
     if ($null -eq $s) { return $s }
     $t = $s -replace "\\", "\\\\"
@@ -179,6 +220,7 @@ foreach ($ff in $featureFiles) {
         if ($trim -match "^(Given|When|Then|And|But)\s+") {
             $keyword = $Matches[1]
             $text = $trim.Substring($keyword.Length).Trim()
+            $text = Normalize-StepText $text
             $steps += [pscustomobject]@{ keyword = $keyword; text = $text }
         }
     }

@@ -18,11 +18,11 @@ namespace DFP.Playwright.Helpers
 
         public static PortalApiClient FromEnvironment()
         {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.API_BASE_URL) ?? "";
+            var baseUrl = ResolveEnvValue(Environment.GetEnvironmentVariable(Constants.API_BASE_URL) ?? "");
             if (string.IsNullOrWhiteSpace(baseUrl))
                 throw new InvalidOperationException("API_BASE_URL is required.");
-            var basePath = Environment.GetEnvironmentVariable(Constants.API_BASE_PATH) ?? "";
-            var hubBasePath = Environment.GetEnvironmentVariable(Constants.API_HUB_BASE_PATH) ?? "";
+            var basePath = ResolveEnvValue(Environment.GetEnvironmentVariable(Constants.API_BASE_PATH) ?? "");
+            var hubBasePath = ResolveEnvValue(Environment.GetEnvironmentVariable(Constants.API_HUB_BASE_PATH) ?? "");
 
             var http = new HttpClient
             {
@@ -140,6 +140,71 @@ namespace DFP.Playwright.Helpers
             return await _http.SendAsync(request);
         }
 
+        public async Task<HttpResponseMessage> CreateShipmentViaWebhookAsync(string chainIoToken, string payloadJson)
+        {
+            if (string.IsNullOrWhiteSpace(chainIoToken))
+                throw new InvalidOperationException("CHAINIO_TOKEN is required.");
+            if (string.IsNullOrWhiteSpace(payloadJson))
+                throw new InvalidOperationException("Webhook payload is required.");
+
+            var path = BuildRootPath("webhooks/portals/shipments/shipment-update");
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", chainIoToken);
+            request.Content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Shipment webhook URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> GetCargoItemsAsync(string token, string shipmentId, int page = 1, int pageSize = 10)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Portal token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+
+            var path = BuildPath($"portals/shipments/v2/{shipmentId}/data/packages?page={page}&page_size={pageSize}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Console.WriteLine($"Get cargo items URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> CreatePurchaseOrderAsync(string token, string payloadJson)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Portal token is required.");
+            if (string.IsNullOrWhiteSpace(payloadJson))
+                throw new InvalidOperationException("Purchase order payload is required.");
+
+            var path = BuildPath("portals/orders");
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Create purchase order URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> CreatePurchaseOrderLineAsync(string token, string purchaseOrderId, string payloadJson)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Portal token is required.");
+            if (string.IsNullOrWhiteSpace(purchaseOrderId))
+                throw new InvalidOperationException("Purchase Order ID is required.");
+            if (string.IsNullOrWhiteSpace(payloadJson))
+                throw new InvalidOperationException("Purchase order line payload is required.");
+
+            var path = BuildPath($"portals/orders/{purchaseOrderId}/lines");
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Create purchase order line URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
         private string _basePath = "";
         private string _hubBasePath = "";
 
@@ -155,6 +220,11 @@ namespace DFP.Playwright.Helpers
             if (string.IsNullOrWhiteSpace(_hubBasePath))
                 return BuildPath(relative);
             return _hubBasePath + "/" + relative.TrimStart('/');
+        }
+
+        private string BuildRootPath(string relative)
+        {
+            return relative.TrimStart('/');
         }
 
         private static string NormalizeBasePath(string basePath)
@@ -206,6 +276,25 @@ namespace DFP.Playwright.Helpers
             }
 
             return false;
+        }
+
+        private static string ResolveEnvValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return value;
+
+            var trimmed = value.Trim();
+            if (trimmed.StartsWith("Env.", StringComparison.OrdinalIgnoreCase))
+            {
+                var key = trimmed.Substring(4);
+                return Environment.GetEnvironmentVariable(key) ?? "";
+            }
+
+            var indirect = Environment.GetEnvironmentVariable(trimmed);
+            if (!string.IsNullOrWhiteSpace(indirect))
+                return indirect;
+
+            return value;
         }
     }
 }

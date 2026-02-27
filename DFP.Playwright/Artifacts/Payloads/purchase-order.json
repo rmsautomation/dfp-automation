@@ -1,0 +1,13 @@
+{
+  "id": null,
+  "po_number": "PO-{{timestamp}}",
+  "status": "DRAFT",
+  "order_date": { "year": 2026, "month": 2, "day": 27 },
+  "latest_delivery_date": { "year": 2026, "month": 3, "day": 15 },
+  "earliest_delivery_date": { "year": 2026, "month": 3, "day": 1 },
+  "currency": "USD",
+  "inco_term": "EXW",
+  "mode": "OCEAN",
+  "origin": { "locode": "NLRTM", "name": "Rotterdam", "country_name": "Netherlands", "display_name": "Rotterdam" },
+  "destination": { "locode": "SGSIN", "name": "Singapore", "country_name": "Singapore", "display_name": "Singapore" }
+}

@@ -3,6 +3,84 @@ namespace DFP.Playwright.Support
 {
     public static class Selectors
     {
+        public static class loginPortalNoInt
+        {
+            public static readonly string[] All = new[]
+            {
+                "a >> internal:has-text=/^Dashboard$/",
+                "internal:role=button[name=\"A\"s]",
+                "internal:role=button[name=\"Continue your quote\"i]",
+                "internal:role=button[name=\"Log out\"i]",
+                "internal:role=button[name=\"Sign in\"i]",
+                "internal:role=textbox[name=\"Email address * Password *\"i]",
+                "internal:role=textbox[name=\"Password\"s]",
+                "qwyk-quotation-navigation >> internal:text=\"Sign in\"i",
+            };
+        }
+        public static class loginHub
+        {
+            public static readonly string[] All = new[]
+            {
+                "div >> internal:has-text=\"User: aylin.rodriguez@magaya.\"i >> nth=5",
+                "internal:role=button[name=\"Avatar next\"i]",
+                "internal:role=button[name=\"Avatar\"s]",
+                "internal:role=button[name=\"Continue\"i]",
+                "internal:role=menuitem[name=\"Log out\"i] >> a",
+                "internal:role=textbox[name=\"Email address\"i]",
+                "internal:text=\"Get started with the Digital\"i",
+                "internal:text=\"Password *\"i",
+            };
+        }
+        public static class login
+        {
+            public const string Username = "internal:role=textbox[name=\"Username\"i]";
+            public const string Password = "internal:role=textbox[name=\"Password\"i]";
+            public const string Submit = "internal:role=button[name=\"Sign in\"i]";
+            public static readonly string[] All = new[]
+            {
+                "a >> internal:has-text=/^Dashboard$/",
+                "internal:role=button[name=\"A\"s]",
+                "internal:role=button[name=\"Log out\"i]",
+                "internal:role=button[name=\"Sign in\"i]",
+                "internal:role=heading[name=\"Sign in to your account\"i]",
+                "internal:role=textbox[name=\"Password\"i]",
+                "internal:role=textbox[name=\"Username\"i]",
+                "internal:text=\"Aylin Annia\"s",
+                "internal:text=\"Here is a snapshot of what's\"i",
+                "internal:text=\"Loading ops data...\"i",
+            };
+        }
+        public static class reports
+        {
+            public static readonly string[] All = new[]
+            {
+                "internal:role=button >> internal:has-text=\"×\"i",
+                "internal:role=button >> internal:has-text=/^$/ >> nth=1",
+                "internal:role=button[name=\"Save report\"i]",
+                "internal:role=button[name=\"Search\"i]",
+                "internal:role=button[name=\"Today\"i]",
+                "internal:role=cell[name=\"We couldn't find any matching\"i]",
+                "internal:role=link[name=\"Reports\"i]",
+                "internal:role=link[name=\"Shipments\"i] >> nth=1",
+                "select[name=\"dateRange\"]",
+            };
+        }
+        public static class dashboard
+        {
+            public static readonly string[] All = new[]
+            {
+                "#navSidebar >> internal:role=link[name=\"Shipments\"i]",
+                "a >> internal:has-text=/^Dashboard$/",
+                "internal:role=button[name=\"A\"s]",
+                "internal:role=button[name=\"Shipments\"i]",
+                "internal:role=heading[name=\"Shipments with upcoming events\"i]",
+                "internal:role=link[name=\"Create shipment\"i]",
+                "internal:role=link[name=\"Shipments\"i]",
+                "internal:text=\"Aylin Annia\"s",
+                "internal:text=\"Here is a snapshot of what's\"i",
+                "internal:text=\"Loading ops data...\"i",
+            };
+        }
         public static class shipments
         {
             public static readonly string[] All = new[]
@@ -27,69 +105,6 @@ namespace DFP.Playwright.Support
                 "internal:text=\"Qwyk › My Portal › Shipments\"i",
                 "internal:text=\"Your booking has been sent.\"i",
                 "qwyk-quotation-offer-card >> internal:has-text=\"PIL PIL 31 December 2050 FAK\"i >> internal:role=button",
-            };
-        }
-        public static class dashboard
-        {
-            public static readonly string[] All = new[]
-            {
-                "#navSidebar >> internal:role=link[name=\"Shipments\"i]",
-                "a >> internal:has-text=/^Dashboard$/",
-                "internal:role=button[name=\"A\"s]",
-                "internal:role=button[name=\"Shipments\"i]",
-                "internal:role=heading[name=\"Shipments with upcoming events\"i]",
-                "internal:role=link[name=\"Create shipment\"i]",
-                "internal:role=link[name=\"Shipments\"i]",
-                "internal:text=\"Aylin Annia\"s",
-                "internal:text=\"Here is a snapshot of what's\"i",
-                "internal:text=\"Loading ops data...\"i",
-            };
-        }
-        public static class loginHub
-        {
-            public static readonly string[] All = new[]
-            {
-                "div >> internal:has-text=\"User: aylin.rodriguez@magaya.\"i >> nth=5",
-                "internal:role=button[name=\"Avatar next\"i]",
-                "internal:role=button[name=\"Avatar\"s]",
-                "internal:role=button[name=\"Continue\"i]",
-                "internal:role=menuitem[name=\"Log out\"i] >> a",
-                "internal:role=textbox[name=\"Email address\"i]",
-                "internal:text=\"Get started with the Digital\"i",
-                "internal:text=\"Password *\"i",
-            };
-        }
-        public static class loginPortalNoInt
-        {
-            public static readonly string[] All = new[]
-            {
-                "a >> internal:has-text=/^Dashboard$/",
-                "internal:role=button[name=\"A\"s]",
-                "internal:role=button[name=\"Continue your quote\"i]",
-                "internal:role=button[name=\"Log out\"i]",
-                "internal:role=button[name=\"Sign in\"i]",
-                "internal:role=textbox[name=\"Email address * Password *\"i]",
-                "internal:role=textbox[name=\"Password\"s]",
-                "qwyk-quotation-navigation >> internal:text=\"Sign in\"i",
-            };
-        }
-        public static class login
-        {
-            public const string Username = "internal:role=textbox[name=\"Username\"i]";
-            public const string Password = "internal:role=textbox[name=\"Password\"i]";
-            public const string Submit = "internal:role=button[name=\"Sign in\"i]";
-            public static readonly string[] All = new[]
-            {
-                "a >> internal:has-text=/^Dashboard$/",
-                "internal:role=button[name=\"A\"s]",
-                "internal:role=button[name=\"Log out\"i]",
-                "internal:role=button[name=\"Sign in\"i]",
-                "internal:role=heading[name=\"Sign in to your account\"i]",
-                "internal:role=textbox[name=\"Password\"i]",
-                "internal:role=textbox[name=\"Username\"i]",
-                "internal:text=\"Aylin Annia\"s",
-                "internal:text=\"Here is a snapshot of what's\"i",
-                "internal:text=\"Loading ops data...\"i",
             };
         }
     }

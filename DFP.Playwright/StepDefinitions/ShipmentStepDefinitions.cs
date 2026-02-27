@@ -237,6 +237,24 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IResetSearchFilters();
         }
 
+        [When("I click on List View button")]
+        public async Task IClickOnListViewButton()
+        {
+            await _shipmentPage.IClickOnListViewButton();
+        }
+
+        [When("I click on Table View button")]
+        public async Task IClickOnTableViewButton()
+        {
+            await _shipmentPage.IClickOnTableViewButton();
+        }
+
+        [Then("the shipment should not appear in the search results")]
+        public async Task TheShipmentShouldNotAppearInTheSearchResults()
+        {
+            await _shipmentPage.TheShipmentShouldNotAppearInSearchResults();
+        }
+
         [Then("the tag should be visible on 2 shipments in Shipment list view")]
         public async Task TheTagShouldBeVisibleOn2ShipmentsInShipmentListView()
         {

@@ -38,3 +38,6 @@ coverage*
 XMLFilesDFP/
 # Local logs
 DFP.Playwright/Artifacts/Logs/
+
+# Codegen jsonl artifacts
+DFP.Playwright/Artifacts/codegen*.jsonl

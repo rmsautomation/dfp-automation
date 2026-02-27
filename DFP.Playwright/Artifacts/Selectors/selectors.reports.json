@@ -1,0 +1,15 @@
+{
+  "page": "reports",
+  "generatedAt": "2026-02-27T16:12:23.6089000-03:00",
+  "selectors": [
+    "internal:role=button >> internal:has-text=\"×\"i",
+    "internal:role=button >> internal:has-text=/^$/ >> nth=1",
+    "internal:role=button[name=\"Save report\"i]",
+    "internal:role=button[name=\"Search\"i]",
+    "internal:role=button[name=\"Today\"i]",
+    "internal:role=cell[name=\"We couldn't find any matching\"i]",
+    "internal:role=link[name=\"Reports\"i]",
+    "internal:role=link[name=\"Shipments\"i] >> nth=1",
+    "select[name=\"dateRange\"]"
+  ]
+}

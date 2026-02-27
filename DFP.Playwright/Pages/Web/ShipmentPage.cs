@@ -173,6 +173,21 @@ namespace DFP.Playwright.Pages.Web
             "//div[contains(@class,'btn-outline-primary') and .//svg[@data-icon='table']]"
         };
 
+        // List view toggle button (active state has btn-primary class)
+        private static readonly string[] ListViewButtonSelectors =
+        {
+            "//div[contains(@class,'btn-primary') and .//svg[@data-icon='list']]",
+            "div.btn-primary:has(svg[data-icon='list'])",
+            "//div[contains(@class,'btn-primary')]"
+        };
+
+        // Empty results message shown when no shipments match the search criteria
+        private static readonly string[] NoResultsMessageSelectors =
+        {
+            "//p[normalize-space()='You may also want to adjust your search criteria and try again.']",
+            "p:has-text('You may also want to adjust your search criteria and try again.')"
+        };
+
         private static readonly string[] ShowMoreFiltersSelectors =
         {
             "internal:role=button[name='Show more'i]",
@@ -252,6 +267,8 @@ namespace DFP.Playwright.Pages.Web
             else
                 await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
+
+        public string GetShipmentName() => _shipmentName;
 
         // ── Quotation / Shipment creation methods ─────────────────────────────────
 
@@ -497,9 +514,15 @@ namespace DFP.Playwright.Pages.Web
             var searchButton = await FindLocatorAsync(SearchSubmitButtonSelectors);
             await ClickAndWaitForNetworkAsync(searchButton);
 
-            // After applying the filter, click the "Shipments" nav link to load the filtered list
-            var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
-            await ClickAndWaitForNetworkAsync(shipmentsNavLink);
+            // After filtering on the Shipments list, click the nav link to reload the filtered list.
+            // Skip when called from /my-portal/reports/shipments — that URL also contains "shipments"
+            // but belongs to the Reports section and must not navigate away.
+            if (Page.Url.Contains("/my-portal/shipments") && !Page.Url.Contains("/reports"))
+            {
+                var shipmentsNavLink = await TryFindLocatorAsync(ShipmentsNavLinkSelectors, timeoutMs: 5000);
+                if (shipmentsNavLink != null)
+                    await ClickAndWaitForNetworkAsync(shipmentsNavLink);
+            }
         }
 
         public async Task TheShipmentShouldAppearInSearchResults()
@@ -691,6 +714,25 @@ namespace DFP.Playwright.Pages.Web
         {
             var resetButton = await FindLocatorAsync(ResetFiltersButtonSelectors);
             await ClickAndWaitForNetworkAsync(resetButton);
+        }
+
+        public async Task IClickOnListViewButton()
+        {
+            var listViewBtn = await FindLocatorAsync(ListViewButtonSelectors);
+            await ClickAndWaitForNetworkAsync(listViewBtn);
+        }
+
+        public async Task IClickOnTableViewButton()
+        {
+            var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
+            await ClickAndWaitForNetworkAsync(tableViewBtn);
+        }
+
+        public async Task TheShipmentShouldNotAppearInSearchResults()
+        {
+            var noResults = await TryFindLocatorAsync(NoResultsMessageSelectors, timeoutMs: 15000);
+            Assert.IsNotNull(noResults,
+                $"Expected no results message but it was not displayed after searching for '{_shipmentName}'.");
         }
 
         public async Task TheTagShouldBeVisibleOn2ShipmentsInListView()

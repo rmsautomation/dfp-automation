@@ -97,6 +97,63 @@ namespace DFP.Playwright.StepDefinitions
             await _dashboard.IShouldSeeTheCreateShipmentsOption();
         }
 
+        [When("I click on the \"Reports\" option")]
+        public async Task IClickOnTheReportsOption()
+        {
+            await _dashboard.IClickOnTheReportsOption();
+        }
+
+        [Then("I should see {string} text")]
+        public async Task IShouldSeeText(string expectedText)
+        {
+            await _dashboard.IShouldSeeText(expectedText);
+        }
+
+        [When("I click on Dashboard icon")]
+        public async Task IClickOnDashboardIcon()
+        {
+            await _dashboard.IClickOnDashboardIcon();
+        }
+
+        [Then("the dashboard should be visible")]
+        public async Task TheDashboardShouldBeVisible()
+        {
+            await _dashboard.TheDashboardShouldBeVisible();
+        }
+
+        [When("I store the total Shipments in the Dashboard")]
+        [Then("I store the total Shipments in the Dashboard")]
+        public async Task IStoreTheTotalShipmentsInTheDashboard()
+        {
+            var total = await _dashboard.GetTotalShipmentsCountAsync();
+            _tc.Data["totalShipments"] = total;
+        }
+
+        [Then("I store the total Shipments in the Dashboard after operation")]
+        public async Task IStoreTotalShipmentsAfterOperation()
+        {
+            var total = await _dashboard.GetTotalShipmentsCountAsync();
+            _tc.Data["totalShipmentsAfterOperation"] = total;
+        }
+
+        [Then("I see initial total shipment -1")]
+        public void ISeeInitialTotalShipmentMinusOne()
+        {
+            var initial         = (int)_tc.Data["totalShipments"];
+            var afterOperation  = (int)_tc.Data["totalShipmentsAfterOperation"];
+            Assert.AreEqual(initial - 1, afterOperation,
+                $"Expected Active Shipments to be {initial - 1} after hiding one shipment, but found {afterOperation}.");
+        }
+
+        [Then("I see initial total shipment")]
+        public async Task ISeeInitialTotalShipment()
+        {
+            await _dashboard.IAmOnTheDashboardPage();
+            var current = await _dashboard.GetTotalShipmentsCountAsync();
+            var initial = (int)_tc.Data["totalShipments"];
+            Assert.AreEqual(initial, current,
+                $"Expected Active Shipments to be back to {initial} after unhiding, but found {current}.");
+        }
     }
 }
 

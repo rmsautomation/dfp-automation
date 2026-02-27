@@ -37,6 +37,16 @@ Feature: Shipments
     Given I navigated to Shipments List
     When I select the first shipment from the list
 
+  Scenario: Shipment should not appear in the List View  and Table View
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I click on List View button
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should not appear in the search results
+    When I click on Table View 
+    And I click on Search button
+    Then the shipment should not appear in the search results
 
   @9340
   Scenario: Add and validate tags across shipment list, table and details views
@@ -173,38 +183,86 @@ Feature: Shipments
 
  @API @9634 @9652
   Scenario Outline: Hide_Unhide a shipment created from a quotation
-    Given I login to Portal as user "without Int"
-    Given I am on the Quotations List page
-    When I open the first quotation in Status Booked
-    Then I should be on the Quotation Details page
-    When I click the "Offers" button
-    Then the list of the offers should appear
-    When I click on Book Now button
-    Then a confirmation dialog should appear
-    When I confirm the shipment creation
-    Then I should be on the Shipment Details page
-    Then I store the shipment id from the URL
-    When I click on Edit button to Edit the Shipment Name
-    Then I should edit the Shipment Name
-    When I click on save button
-    Then I should see the new Shipment Name
-    When I click on Send Booking button
-    Then I should click on Go To Shipment button to see the shipment
-    And the shipment should display the shipment name
-    When I log out
-    Given I have a hub API token
-    When I hide shipment via API
-    Then the hide shipment request should succeed
-    When I unhide shipment via API
-    Then the unhide shipment request should succeed
-	Given I login to Hub as user "without Int"
-    When I log out
-    Given I login to Portal as user "automation_noint@yopmail.com"
-
-
-    Examples:
-      | shipment_id |
-      |             |
+    Given I login to Portal as user "without Int"
+    Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    Given I am on the dashboard page
+    Then I store the total Shipments in the Dashboard
+    Given I have a hub API token
+    When I hide shipment via API
+    Then the hide shipment request should succeed
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I click on List View button
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should not appear in the search results
+    When I click on Table View 
+    And I click on Search button
+    Then the shipment should not appear in the search results
+    Given I am on the Reports page
+    When I click on "Shipments" option
+    Then I should see "Generate Shipments" Report text
+    When I select Predefined Range with text Last 7 days
+    Then I should select Custom option
+    When I select the Calendar
+    And I should click on Today option
+    And I click on Search button
+    When I see the Save report button
+    Then I see the text We couldn't find any matching report, try changing your search filters.
+    Given I am on the dashboard page
+    Then I store the total Shipments in the Dashboard after operation
+    Then I see initial total shipment -1
+    When I unhide shipment via API
+    Then the unhide shipment request should succeed
+   Given I login to Hub as user "without Int"
+    When I log out
+    Given I login to Portal as user "automation_noint@yopmail.com"
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I click on List View button
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    Given I am on the Reports page
+    When I click on "Shipments" option
+    Then I should see "Generate Shipments" Report text
+    When I select Predefined Range with text Last 7 days
+    Then I should select Custom option
+    When I select the Calendar
+    And I should click on Today option
+    And I click on Search button
+    When I see the Save report button
+    Then I could not see the text We couldn't find any matching report, try changing your search filters.
+    And I should see the shipment Name
+    Given I am on the dashboard page
+    Then I store the total Shipments in the Dashboard after operation
+    Then I see initial total shipment
+    And I click on Search button
+    When I see the Save report button
+    Then I could not see the text We couldn't find any matching report, try changing your search filters.
+    And I should see the shipment Name
+    Given I am on the dashboard page
+    Then I store the total Shipments in the Dashboard after operation
+    Then I see initial total shipment
+    Examples:
+      | shipment_id |
+      |             |
  
 
 @API @7873

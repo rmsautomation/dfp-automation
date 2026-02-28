@@ -31,6 +31,7 @@ namespace DFP.Playwright.Helpers
         public const string HUB_AUTH_TOKEN_URL = "HUB_AUTH_TOKEN_URL";
         public const string HUB_AUTH_AUDIENCE = "HUB_AUTH_AUDIENCE";
         public const string CHAINIO_TOKEN = "CHAINIO_TOKEN";
+        public const string CHAINIO_WEBHOOK_USERNAME = "CHAINIO_WEBHOOK_USERNAME";
         public const string SHIPMENT_WEBHOOK_PAYLOAD_PATH = "SHIPMENT_WEBHOOK_PAYLOAD_PATH";
         public const string PURCHASE_ORDER_PAYLOAD_PATH = "PURCHASE_ORDER_PAYLOAD_PATH";
         public const string PURCHASE_ORDER_LINE_PAYLOAD_PATH = "PURCHASE_ORDER_LINE_PAYLOAD_PATH";

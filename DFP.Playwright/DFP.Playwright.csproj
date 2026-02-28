@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Artifacts\Logs\" />
     <Folder Include="Artifacts\Selectors\" />
     <Folder Include="Pages\Generated\" />
     <Folder Include="StepDefinitions\Generated\" />

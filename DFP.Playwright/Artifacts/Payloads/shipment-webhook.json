@@ -3,25 +3,601 @@
   "doc_type": "shipment_json",
   "shipments": [
     {
-      "forwarder_reference": "REF-{{timestamp}}",
-      "booking_reference": "REF-{{timestamp}}",
-      "shipment_reference": "REF-{{timestamp}}",
-      "booking": true,
+      "inco_term": "DDP",
+      "forwarder_reference": "{{shipment_reference}}",
+      "booking_reference": "{{shipment_reference}}",
+      "carrier_booking_number": "{{shipment_reference}}",
+      "master_bill": "{{shipment_reference}}",
+      "house_bill": "{{shipment_reference}}",
+      "containerization_type": "{{containerization_type}}",
+      "sent_date": "{{sent_date}}",
+      "booking_confirmed_actual": "{{booking_confirmed_actual}}",
+      "cargo_ready_estimated": "{{cargo_ready_estimated}}",
+      "departure_estimated": "{{departure_estimated}}",
+      "arrival_port_estimated": "{{arrival_port_estimated}}",
+      "freight_payment_terms": "PPD",
+      "freight_payment_terms_description": "Prepaid",
+      "shipper_reference": "{{shipment_reference}}",
+      "carrier_scac": "{{carrier_scac}}",
+      "vessel_name": "{{vessel_name}}",
+      "voyage_number": "{{voyage_number}}",
+      "chargeable_weight": 37.48,
+      "service_level": "STD",
+      "service_level_description": "Standard",
+      "number_of_packages": 100,
+      "package_type_code": "CTN",
+      "package_type_description": "Carton",
+      "delivery_mode": "CY/CY",
+      "contract_number": "7110206147",
+      "description_of_goods": "Pulpa de fruta",
       "shipment_type_code": "STD",
-      "containerization_type": "FCL",
-      "sent_date": "{{iso_now}}",
-      "booking_confirmed_actual": "{{iso_now}}",
-      "cargo_ready_estimated": "{{iso_now}}",
-      "departure_estimated": "{{iso_now}}",
-      "arrival_port_estimated": "{{iso_now}}",
-      "origin_port": {
-        "unlocode": "ESZMA",
-        "description": "Origin"
+      "forwarder_controlling_branch_code": "DRY",
+      "forwarder_controlling_branch_description": "Oficina de Andes  DRY",
+      "forwarder_controlling_company_code": "SCL",
+      "forwarder_controlling_company_description": "Andes Logistics de Chile, SA",
+      "forwarder_controlling_department_description": "EXPORTACION MARITIMA",
+      "value_of_goods": 0,
+      "value_of_goods_currency": "CLP",
+      "insured_value": 0,
+      "insured_value_currency": "CLP",
+      "release_type": "EBL",
+      "marks_and_numbers": "{{marks_and_numbers}}",
+      "forwarder_controlling_department_code": "EXM",
+      "imo_number": "9625920",
+      "release_type_description": "Express Bill of Lading",
+      "inco_terms_description": "Delivered Duty Paid",
+      "containerization_type_description": "Full Container Load",
+      "number_of_outer_packages": 104,
+      "outer_pack_package_type_code": "DRM",
+      "outer_pack_package_type_description": "Drum",
+      "booking": true,
+      "cancelled": false,
+      "shipment_converted_from_booking": true,
+      "gross_weight_uom": "KG",
+      "volume_uom": "M3",
+      "consolidation_forwarder_reference": "C00220643",
+      "lading_port": {
+        "unlocode": "ESBCN",
+        "description": "Barcelona"
+      },
+      "loading_port": {
+        "unlocode": "ESALC",
+        "description": "Alicante"
       },
       "arrival_port": {
         "unlocode": "USCGB",
-        "description": "Arrival"
-      }
+        "description": "Coral Gables"
+      },
+      "final_destination_port": {
+        "unlocode": "USNYC",
+        "description": "New York"
+      },
+      "origin_port": {
+        "unlocode": "ESZMA",
+        "description": "San Juan de Alicante"
+      },
+      "consignor": {
+        "name": "{{consignor.name}}",
+        "target_party_id": "KUMTIR_KR",
+        "government_assigned_id": "101-08-95610",
+        "government_assigned_id_type": "VAT",
+        "address_1": "15F,68,SAEMUNAN-RO,JONGNO-GU",
+        "address_2": "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+        "city": "SEOUL",
+        "state": "11",
+        "country": "KR",
+        "country_name": "Korea, Republic of",
+        "postal_code": "03184",
+        "unlocode": "KRSEL",
+        "source_location_id": "KRSEL",
+        "source_system_id": "{{consignor.source_system_id}}"
+      },
+      "consignee": {
+        "name": "{{consignee.name}}",
+        "target_party_id": "KUMTIR_KR",
+        "government_assigned_id": "101-08-95610",
+        "government_assigned_id_type": "VAT",
+        "address_1": "15F,68,SAEMUNAN-RO,JONGNO-GU",
+        "address_2": "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+        "city": "SEOUL",
+        "state": "11",
+        "country": "KR",
+        "country_name": "Korea, Republic of",
+        "postal_code": "03184",
+        "unlocode": "KRSEL",
+        "source_location_id": "KRSEL",
+        "source_system_id": "{{consignee.source_system_id}}"
+      },
+      "notify_party": {
+        "name": "{{notify.name}}",
+        "target_party_id": "KUMTIR_KR",
+        "government_assigned_id": "101-08-95610",
+        "government_assigned_id_type": "VAT",
+        "address_1": "15F,68,SAEMUNAN-RO,JONGNO-GU",
+        "address_2": "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+        "city": "SEOUL",
+        "state": "11",
+        "country": "KR",
+        "country_name": "Korea, Republic of",
+        "postal_code": "03184",
+        "unlocode": "KRSEL",
+        "source_location_id": "KRSEL",
+        "source_system_id": "{{notify.source_system_id}}"
+      },
+      "ship_from": {
+        "name": "{{ship_from.name}}",
+        "target_party_id": "KUMTIR_KR",
+        "government_assigned_id": "101-08-95610",
+        "government_assigned_id_type": "VAT",
+        "address_1": "15F,68,SAEMUNAN-RO,JONGNO-GU",
+        "address_2": "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+        "city": "SEOUL",
+        "state": "11",
+        "country": "KR",
+        "country_name": "Korea, Republic of",
+        "postal_code": "03184",
+        "unlocode": "KRSEL",
+        "source_location_id": "KRSEL",
+        "source_system_id": "{{ship_from.source_system_id}}"
+      },
+      "ship_to": {
+        "name": "{{ship_to.name}}",
+        "target_party_id": "KUMTIR_KR",
+        "government_assigned_id": "101-08-95610",
+        "government_assigned_id_type": "VAT",
+        "address_1": "15F,68,SAEMUNAN-RO,JONGNO-GU",
+        "address_2": "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+        "city": "SEOUL",
+        "state": "11",
+        "country": "KR",
+        "country_name": "Korea, Republic of",
+        "postal_code": "03184",
+        "unlocode": "KRSEL",
+        "source_location_id": "KRSEL",
+        "source_system_id": "{{ship_to.source_system_id}}"
+      },
+      "carrier": {
+        "name": "{{carrier.name}}",
+        "government_assigned_id": "",
+        "government_assigned_id_type": "",
+        "address_1": "LEVEL 14 151 QUEEN STREET",
+        "city": "AUCKLAND",
+        "state": "AUK",
+        "country": "NZ",
+        "postal_code": "1010",
+        "source_system_id": "{{carrier.source_system_id}}"
+      },
+      "freight_selling_party": {
+        "name": "{{freight_selling_party.name}}",
+        "government_assigned_id": "",
+        "government_assigned_id_type": "",
+        "address_1": "LEVEL 14 151 QUEEN STREET",
+        "city": "AUCKLAND",
+        "state": "AUK",
+        "country": "NZ",
+        "postal_code": "1010",
+        "source_system_id": "{{freight_selling_party.source_system_id}}"
+      },
+      "forwarder_branches": [
+        {
+          "name": "Oficina de Andes  DRY",
+          "target_party_id": "DRY"
+        }
+      ],
+      "forwarder_customers": [
+        {
+          "name": "AMA TIME SPA",
+          "target_party_id": "AMATIM_CL",
+          "government_assigned_id": "76.328.579-0",
+          "government_assigned_id_type": "RUT",
+          "address_1": "KM 16, RUTA 90 PLACILLA",
+          "city": "SAN FERNANDO",
+          "state": "LI",
+          "country": "CL",
+          "country_name": "Chile",
+          "postal_code": ".",
+          "unlocode": "CLSFD",
+          "source_location_id": "CLSFD"
+        }
+      ],
+      "forwarder_departments": [
+        {
+          "name": "EXPORTACION MARITIMA",
+          "target_party_id": "EXM"
+        }
+      ],
+      "created_by": {
+        "first_name": "Yisel",
+        "last_name": "Obiol",
+        "username": "yobiol"
+      },
+      "containers": [
+        {
+          "source_container_id": "{{source_container_id_1}}",
+          "size_code": "20G0",
+          "type_code": "20GP",
+          "container_number": "{{container_number_1}}",
+          "containerization_type": "20GP",
+          "delivery_mode": "CY/CY",
+          "seal_1": "HLC1028965",
+          "seal_1_affixed_by": "CRD",
+          "carrier_supplied": true,
+          "gross_weight_kgs": 11287.292,
+          "gross_weight_uom": "KG",
+          "vgm_verification_method": "NON",
+          "volume_cbms": 60.495,
+          "net_weight_uom": "KG",
+          "number_of_containers": 1,
+          "origin_gate_in_actual": "2025-06-18T13:44:00Z",
+          "loading_actual": "2025-06-18T14:36:00Z",
+          "origin_empty_pickup_gate_out": "2025-06-18T18:12:00Z",
+          "net_weight_kgs": 11287.292,
+          "net_weight_lbs": 24884.2193,
+          "tare_weight_kgs": 0,
+          "tare_weight_lbs": 0,
+          "gross_weight_lbs": 24884.2193
+        },
+        {
+          "source_container_id": "{{source_container_id_2}}",
+          "size_code": "20G0",
+          "type_code": "20GP",
+          "container_number": "{{container_number_2}}",
+          "containerization_type": "20GP",
+          "delivery_mode": "CY/CY",
+          "seal_1": "HLC1028965",
+          "seal_1_affixed_by": "CRD",
+          "carrier_supplied": true,
+          "gross_weight_kgs": 11287.292,
+          "gross_weight_uom": "KG",
+          "vgm_verification_method": "NON",
+          "volume_cbms": 60.495,
+          "net_weight_uom": "KG",
+          "number_of_containers": 1,
+          "origin_gate_in_actual": "2025-06-18T13:44:00Z",
+          "loading_actual": "2025-06-18T14:36:00Z",
+          "origin_empty_pickup_gate_out": "2025-06-18T18:12:00Z",
+          "net_weight_kgs": 11287.292,
+          "net_weight_lbs": 24884.2193,
+          "tare_weight_kgs": 0,
+          "tare_weight_lbs": 0,
+          "gross_weight_lbs": 24884.2193
+        },
+        {
+          "source_container_id": "{{source_container_id_3}}",
+          "size_code": "20G0",
+          "type_code": "20GP",
+          "container_number": "{{container_number_3}}",
+          "containerization_type": "20GP",
+          "delivery_mode": "CY/CY",
+          "seal_1": "HLC1028965",
+          "seal_1_affixed_by": "CRD",
+          "carrier_supplied": true,
+          "gross_weight_kgs": 11287.292,
+          "gross_weight_uom": "KG",
+          "vgm_verification_method": "NON",
+          "volume_cbms": 60.495,
+          "net_weight_uom": "KG",
+          "number_of_containers": 1,
+          "origin_gate_in_actual": "2025-06-18T13:44:00Z",
+          "loading_actual": "2025-06-18T14:36:00Z",
+          "origin_empty_pickup_gate_out": "2025-06-18T18:12:00Z",
+          "net_weight_kgs": 11287.292,
+          "net_weight_lbs": 24884.2193,
+          "tare_weight_kgs": 0,
+          "tare_weight_lbs": 0,
+          "gross_weight_lbs": 24884.2193
+        }
+      ],
+      "package_group": [
+        {
+          "package_quantity": 100,
+          "package_type_code": "DRM",
+          "package_type_description": "Drum",
+          "description_of_goods": "Freight All Kinds (FAK)",
+          "volume_cbms": 37.48,
+          "volume_uom": "M3",
+          "gross_weight_kgs": 24739.62,
+          "gross_weight_uom": "KG",
+          "commodity_type": "",
+          "product_import_hts": "",
+          "package_length_cms": 0,
+          "package_width_cms": 0,
+          "package_height_cms": 0,
+          "marks_and_numbers": "",
+          "reference_number": "",
+          "gross_weight_lbs": 54541.5259,
+          "volume_cf": 1323.595,
+          "package_width_inches": 0,
+          "package_height_inches": 0,
+          "package_length_inches": 0,
+          "source_container_id": "D00240749"
+        }
+      ],
+      "purchase_orders": [
+        {
+          "customer_order_number": "PED"
+        },
+        {
+          "customer_order_number": "1758;PO"
+        },
+        {
+          "customer_order_number": "270781;"
+        }
+      ],
+      "revenue_invoices": [
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "1",
+              "charge_code": "EM201",
+              "description": "FLETE MARITIMO EXPORTACION FCL/EXPORT OCEAN FREIGHT FCL",
+              "total_cost": 3492,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "2",
+              "charge_code": "EM252",
+              "description": "PROFIT AGENTE EN DESTINO",
+              "total_cost": 0,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "3",
+              "charge_code": "EM340",
+              "description": "DUTIES EN DESTINO (EXENTO)",
+              "total_cost": 3412,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "4",
+              "charge_code": "EM222",
+              "description": "FLETE TERRESTRE/ PICK UP / INLAND FREIGHT/ DRAYAGE/ HAULAGE/ CARTAGE",
+              "total_cost": 368,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "5",
+              "charge_code": "EM232",
+              "description": "MANEJO/ HANDLING (DST)",
+              "total_cost": 215,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "6",
+              "charge_code": "EM305",
+              "description": "MANEJO/ HANDLING (ORG/AFECTO)",
+              "total_cost": 65,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        },
+        {
+          "bill_to_id": "AMATIM_CL",
+          "invoice_lines": [
+            {
+              "line_number": "7",
+              "charge_code": "EM218",
+              "description": "EMISION DE BL/ BL RELEASE",
+              "total_cost": 55,
+              "currency": "USD",
+              "branch_code": "DRY",
+              "department_code": "EXM"
+            }
+          ]
+        }
+      ],
+      "shipment_legs": [
+        {
+          "departure_estimated": "{{leg1.departure_estimated}}",
+          "departure_actual": "{{leg1.departure_actual}}",
+          "arrival_estimated": "{{leg1.arrival_estimated}}",
+          "arrival_actual": "{{leg1.arrival_actual}}",
+          "carrier_scac": "GSLU",
+          "vessel_name": "SEAMASTER",
+          "voyage_number": "17S",
+          "leg_sequence_number": 1,
+          "leg_type": "Main",
+          "imo_number": "9625921",
+          "source_system_id": null,
+          "origin_waypoint_unlocode": "NLRTM",
+          "origin_waypoint_unlocode_description": "NLAMS",
+          "destination_waypoint_unlocode": null,
+          "destination_waypoint_unlocode_description": null,
+          "vessel_type_code": null,
+          "transport_mode": "Sea",
+          "lading_port": {
+            "unlocode": "ESVLC",
+            "description": "Valencia"
+          },
+          "arrival_port": {
+            "unlocode": "USMIA",
+            "description": "Miami"
+          }
+        },
+        {
+          "departure_estimated": "{{leg2.departure_estimated}}",
+          "departure_actual": "{{leg2.departure_actual}}",
+          "arrival_estimated": "{{leg2.arrival_estimated}}",
+          "arrival_actual": "{{leg2.arrival_actual}}",
+          "carrier_scac": "ZIMU",
+          "vessel_name": null,
+          "voyage_number": "17S",
+          "leg_sequence_number": 2,
+          "leg_type": "Other",
+          "imo_number": "9625922",
+          "source_system_id": null,
+          "origin_waypoint_unlocode": null,
+          "origin_waypoint_unlocode_description": null,
+          "destination_waypoint_unlocode": null,
+          "destination_waypoint_unlocode_description": null,
+          "vessel_type_code": null,
+          "transport_mode": "Sea",
+          "lading_port": {
+            "unlocode": "USMIA",
+            "description": "Miami"
+          },
+          "arrival_port": {
+            "unlocode": "USCGB",
+            "description": "Coral Gables"
+          }
+        },
+        {
+          "departure_estimated": "{{leg3.departure_estimated}}",
+          "departure_actual": "{{leg3.departure_actual}}",
+          "arrival_estimated": "{{leg3.arrival_estimated}}",
+          "arrival_actual": "{{leg3.arrival_actual}}",
+          "carrier_scac": "HLCU",
+          "vessel_name": null,
+          "voyage_number": "17S",
+          "leg_sequence_number": 3,
+          "leg_type": "Other",
+          "imo_number": "9625923",
+          "source_system_id": null,
+          "origin_waypoint_unlocode": null,
+          "origin_waypoint_unlocode_description": null,
+          "destination_waypoint_unlocode": null,
+          "destination_waypoint_unlocode_description": null,
+          "vessel_type_code": null,
+          "transport_mode": "Truck",
+          "lading_port": {
+            "unlocode": "USCGB",
+            "description": "Coral Gables"
+          },
+          "arrival_port": {
+            "unlocode": "USNYC",
+            "description": "New York"
+          }
+        },
+        {
+          "departure_estimated": "{{leg4.departure_estimated}}",
+          "departure_actual": "{{leg4.departure_actual}}",
+          "arrival_estimated": "{{leg4.arrival_estimated}}",
+          "arrival_actual": "{{leg4.arrival_actual}}",
+          "carrier_scac": "HLCU",
+          "vessel_name": null,
+          "voyage_number": "17S",
+          "leg_sequence_number": 4,
+          "leg_type": "Other",
+          "imo_number": "9625924",
+          "source_system_id": null,
+          "origin_waypoint_unlocode": null,
+          "origin_waypoint_unlocode_description": null,
+          "destination_waypoint_unlocode": null,
+          "destination_waypoint_unlocode_description": null,
+          "vessel_type_code": null,
+          "transport_mode": "Truck",
+          "lading_port": {
+            "unlocode": "USNYC",
+            "description": "New York"
+          },
+          "arrival_port": {
+            "unlocode": "USCHI",
+            "description": "Chicago"
+          }
+        }
+      ],
+      "notes": [
+        {
+          "note_type": "Detailed Goods Description",
+          "body": "22880   NET WEIGHT ORGANIC  APPLE PUREE  DRUM  1X220 KG PO 270781\n\n\n \nFREIGHT  PREPAID\nPED 1758A\nE783047"
+        },
+        {
+          "note_type": "Marks & Numbers",
+          "body": "M/N"
+        }
+      ],
+      "gross_weight_kgs": 24739.62,
+      "gross_weight_lbs": 54541.5259,
+      "volume_cbms": 37.48,
+      "volume_cf": 1323.595,
+      "native_reference_numbers": [
+        {
+          "code": "CON",
+          "description": "Carrier Contract Number",
+          "value": "7110206147",
+          "value_context": "7110206147",
+          "data_source": "AdditionalReference"
+        },
+        {
+          "code": "QUO",
+          "description": "Quote/Cotización",
+          "value": "62080",
+          "data_source": "AdditionalReference"
+        },
+        {
+          "code": "Cargo Ready Date",
+          "value": "2023-11-15T00:00:00",
+          "value_context": "DateTime",
+          "data_source": "CustomizedField"
+        },
+        {
+          "code": "Validez Venta",
+          "value": "2023-12-31T00:00:00",
+          "value_context": "DateTime",
+          "data_source": "CustomizedField"
+        },
+        {
+          "code": "Observaciones",
+          "value_context": "String",
+          "data_source": "CustomizedField"
+        },
+        {
+          "code": "Intermodal Asginado",
+          "value_context": "String",
+          "data_source": "CustomizedField"
+        },
+        {
+          "code": "Autorización liberar BL",
+          "value_context": "String",
+          "data_source": "CustomizedField"
+        },
+        {
+          "code": "Motivo de Rechazo",
+          "value_context": "String",
+          "data_source": "CustomizedField"
+        }
+      ],
+      "source_account_uid": "{{source_account_uid}}",
+      "transport_mode": "SEA",
+      "transmission_uid": "{{transmission_uid}}"
     }
   ]
 }

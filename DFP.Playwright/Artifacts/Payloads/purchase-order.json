@@ -1,13 +1,82 @@
 {
   "id": null,
-  "po_number": "PO-{{timestamp}}",
+  "po_number": "{{po_number}}",
   "status": "DRAFT",
-  "order_date": { "year": 2026, "month": 2, "day": 27 },
-  "latest_delivery_date": { "year": 2026, "month": 3, "day": 15 },
-  "earliest_delivery_date": { "year": 2026, "month": 3, "day": 1 },
+  "order_date": {
+    "year": {{order_date.year}},
+    "month": {{order_date.month}},
+    "day": {{order_date.day}}
+  },
+  "latest_delivery_date": {
+    "year": {{latest_delivery_date.year}},
+    "month": {{latest_delivery_date.month}},
+    "day": {{latest_delivery_date.day}}
+  },
+  "earliest_delivery_date": {
+    "year": {{earliest_delivery_date.year}},
+    "month": {{earliest_delivery_date.month}},
+    "day": {{earliest_delivery_date.day}}
+  },
   "currency": "USD",
   "inco_term": "EXW",
-  "mode": "OCEAN",
-  "origin": { "locode": "NLRTM", "name": "Rotterdam", "country_name": "Netherlands", "display_name": "Rotterdam" },
-  "destination": { "locode": "SGSIN", "name": "Singapore", "country_name": "Singapore", "display_name": "Singapore" }
+  "inco_term_named_place": "PLACE",
+  "inspection_required": true,
+  "inspection_passed_date": {
+    "year": {{inspection_passed_date.year}},
+    "month": {{inspection_passed_date.month}},
+    "day": {{inspection_passed_date.day}}
+  },
+  "payment_term": "COD",
+  "payment_term_description": "Cash on Delivery",
+  "mode": "{{purchase_order.mode}}",
+  "origin": {
+    "locode": "NLRTM",
+    "name": "Rotterdam",
+    "country_name": "Netherlands",
+    "display_name": "Rotterdam"
+  },
+  "destination": {
+    "locode": "SGSIN",
+    "name": "Singapore",
+    "country_name": "Singapore",
+    "display_name": "Singapore"
+  },
+  "load_type": "{{load_type}}",
+  "planned_equipment_type": null,
+  "supplier_order_number": "Supplier Order number",
+  "instructions": "Instructions",
+  "terms_and_conditions": "Terms",
+  "supplier": {
+    "address_type": "supplier",
+    "name": "Supplier Name",
+    "address_1": "Supplier Address",
+    "address_2": "Supplier Address 2",
+    "postal_code": "ZIP",
+    "city": "City",
+    "state": "State",
+    "phone_number": "PO",
+    "country_code": "HK"
+  },
+  "buyer": {
+    "address_type": "buyer",
+    "name": "Buyer Name",
+    "address_1": "Buyer Address",
+    "address_2": "Buyer Address 2",
+    "postal_code": "ZIP",
+    "city": "CITY",
+    "state": "STATE",
+    "phone_number": "PHONE",
+    "country_code": "GB"
+  },
+  "ship_to": {
+    "address_type": "{{shipt_to.address_type}}",
+    "name": "Ship To Name",
+    "address_1": "Ship To Address",
+    "address_2": "Ship To Address 2",
+    "postal_code": "ZIP",
+    "city": "CITY",
+    "state": "STATE",
+    "phone_number": "PHONE",
+    "country_code": "GB"
+  }
 }

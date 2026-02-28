@@ -156,6 +156,22 @@ namespace DFP.Playwright.Helpers
             return await _http.SendAsync(request);
         }
 
+        public async Task<HttpResponseMessage> GetWebhookLogAsync(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new InvalidOperationException("Webhook log username is required.");
+            if (string.IsNullOrWhiteSpace(password))
+                throw new InvalidOperationException("Webhook log password is required.");
+
+            var path = BuildRootPath($"webhooks/logs/{password}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var creds = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", creds);
+            Console.WriteLine($"Webhook logs URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
         public async Task<HttpResponseMessage> GetCargoItemsAsync(string token, string shipmentId, int page = 1, int pageSize = 10)
         {
             if (string.IsNullOrWhiteSpace(token))

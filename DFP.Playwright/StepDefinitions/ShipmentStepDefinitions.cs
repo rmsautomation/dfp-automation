@@ -149,7 +149,9 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IEnterShipmentNameInShipmentReferenceField();
         }
 
+        [Given("I click on Search button")]
         [When("I click on Search button")]
+        [Then("I click on Search button")]
         public async Task IClickOnSearchButton()
         {
             await _shipmentPage.IClickOnSearchButton();
@@ -243,7 +245,12 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IClickOnListViewButton();
         }
 
+        [Given("I click on Table View")]
+        [When("I click on Table View")]
+        [Then("I click on Table View")]
+        [Given("I click on Table View button")]
         [When("I click on Table View button")]
+        [Then("I click on Table View button")]
         public async Task IClickOnTableViewButton()
         {
             await _shipmentPage.IClickOnTableViewButton();

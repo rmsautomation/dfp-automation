@@ -115,11 +115,12 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IShouldSeeText(string expectedText)
         {
+            var literal = ToXPathLiteral(expectedText);
             var textEl = await TryFindLocatorAsync(new[]
             {
-                $"//*[normalize-space()='{expectedText}']",
+                $"//*[normalize-space()={literal}]",
                 $"internal:text=\"{expectedText}\"i",
-                $"//*[contains(normalize-space(),'{expectedText}')]"
+                $"//*[contains(normalize-space(),{literal})]"
             }, timeoutMs: 15000);
             Assert.IsNotNull(textEl,
                 $"Expected to see text '{expectedText}' on the page but it was not found. URL: {Page.Url}");

@@ -135,15 +135,40 @@ namespace DFP.Playwright.Pages.Web.BasePages
             await locator.ClickAsync();
         }
 
+        protected static string ToXPathLiteral(string value)
+        {
+            if (value == null)
+                return "''";
+
+            if (!value.Contains("'"))
+                return $"'{value}'";
+
+            if (!value.Contains("\""))
+                return $"\"{value}\"";
+
+            var parts = value.Split('\'');
+            var sb = new StringBuilder("concat(");
+            for (int i = 0; i < parts.Length; i++)
+            {
+                if (i > 0)
+                    sb.Append(", \"'\", ");
+                sb.Append('\'').Append(parts[i]).Append('\'');
+            }
+            sb.Append(')');
+            return sb.ToString();
+        }
+
         protected ILocator GetElementByTextAsync(string textToSearch)
         {
-            var locator = Page.Locator($"//*[contains(text(),'{textToSearch}')]");
+            var literal = ToXPathLiteral(textToSearch);
+            var locator = Page.Locator($"//*[contains(text(),{literal})]");
             return locator;
         }
 
         protected async Task ClickElementByTextAsync(string textToSearch, string elementTag = "*")
         {
-            var locator = Page.Locator($"//{elementTag}[contains(text(),'{textToSearch}')]");
+            var literal = ToXPathLiteral(textToSearch);
+            var locator = Page.Locator($"//{elementTag}[contains(text(),{literal})]");
             await locator.Last.ClickAsync();
         }
 

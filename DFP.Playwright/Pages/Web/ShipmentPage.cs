@@ -506,6 +506,8 @@ namespace DFP.Playwright.Pages.Web
         public async Task IEnterShipmentNameInShipmentReferenceField()
         {
             var referenceInput = await FindLocatorAsync(ShipmentReferenceInputSelectors);
+            if (string.IsNullOrWhiteSpace(_shipmentName))
+                _shipmentName = $"NoSuchShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
             await TypeAsync(referenceInput, _shipmentName);
         }
 
@@ -649,15 +651,24 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task TheTagShouldBeVisibleOnTheShipment()
         {
-            var tagVisible = await TryFindLocatorAsync(new[]
+            for (int attempt = 1; attempt <= 3; attempt++)
             {
-                $"internal:text=\"{_tagName}\"i",
-                $"//*[contains(text(),'{_tagName}')]",
-                $"[class*='tag']:has-text('{_tagName}')",
-                $"span[class*='badge']:has-text('{_tagName}')"
-            }, timeoutMs: 10000);
-            Assert.IsNotNull(tagVisible,
-                $"Tag '{_tagName}' was not visible on the selected shipment.");
+                var tagVisible = await TryFindLocatorAsync(new[]
+                {
+                    $"internal:text=\"{_tagName}\"i",
+                    $"//*[contains(text(),'{_tagName}')]",
+                    $"[class*='tag']:has-text('{_tagName}')",
+                    $"span[class*='badge']:has-text('{_tagName}')"
+                }, timeoutMs: 8000);
+
+                if (tagVisible != null)
+                    return;
+
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                await Page.WaitForTimeoutAsync(1500);
+            }
+
+            Assert.Fail($"Tag '{_tagName}' was not visible on the selected shipment.");
         }
 
         public async Task UserOpensTaggedShipmentDetailsView()

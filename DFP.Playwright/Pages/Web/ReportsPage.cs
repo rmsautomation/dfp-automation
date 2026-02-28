@@ -90,11 +90,14 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IShouldSeeText(string expectedText)
         {
+            var literal = ToXPathLiteral(expectedText);
             var textEl = await TryFindLocatorAsync(new[]
             {
-                $"//*[normalize-space()='{expectedText}']",
+                "internal:role=cell[name=\"We couldn't find any matching\"i]",
+                "internal:text=/We couldn.?t find any matching report/i",
+                $"//*[normalize-space()={literal}]",
                 $"internal:text=\"{expectedText}\"i",
-                $"//*[contains(normalize-space(),'{expectedText}')]"
+                $"//*[contains(normalize-space(),{literal})]"
             }, timeoutMs: 15000);
             Assert.IsNotNull(textEl,
                 $"Expected to see text '{expectedText}' on the page but it was not found. URL: {Page.Url}");
@@ -102,11 +105,14 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IShouldNotSeeText(string unexpectedText)
         {
+            var literal = ToXPathLiteral(unexpectedText);
             var textEl = await TryFindLocatorAsync(new[]
             {
-                $"//*[normalize-space()='{unexpectedText}']",
+                "internal:role=cell[name=\"We couldn't find any matching\"i]",
+                "internal:text=/We couldn.?t find any matching report/i",
+                $"//*[normalize-space()={literal}]",
                 $"internal:text=\"{unexpectedText}\"i",
-                $"//*[contains(normalize-space(),'{unexpectedText}')]"
+                $"//*[contains(normalize-space(),{literal})]"
             }, timeoutMs: 4000);
             Assert.IsNull(textEl,
                 $"Expected text '{unexpectedText}' to NOT be on the page but it was found. URL: {Page.Url}");

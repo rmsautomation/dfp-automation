@@ -28,9 +28,9 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "Shipments"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipments", "  As a user\n  I want to create a shipment from an existing quotation in the DFP P" +
-                "ortal\n  So I can convert created quotes into active shipments without re-enterin" +
-                "g data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipments", "  As a user\r\n  I want to create a shipment from an existing quotation in the DFP " +
+                "Portal\r\n  So I can convert created quotes into active shipments without re-enter" +
+                "ing data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Shipments.feature"
 #line hidden

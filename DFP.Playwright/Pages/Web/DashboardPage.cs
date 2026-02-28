@@ -15,7 +15,9 @@ namespace DFP.Playwright.Pages.Web
 
         public DashboardPage(IPage page) : base(page)
         {
-            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "";
             var explicitDashboardUrl = Environment.GetEnvironmentVariable("DASHBOARD_URL") ?? "";
             if (!string.IsNullOrWhiteSpace(explicitDashboardUrl))
             {

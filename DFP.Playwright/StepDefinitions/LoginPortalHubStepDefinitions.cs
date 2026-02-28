@@ -102,8 +102,8 @@ namespace DFP.Playwright.StepDefinitions
             await login.WaitForDashboardAsync();
         }
 
-        [Then("the dashboard should be visible")]
-        public async Task ThenTheDashboardShouldBeVisible()
+        [Then("the login dashboard should be visible")]
+        public async Task ThenTheLoginDashboardShouldBeVisible()
         {
             var login = CreateLoginPage(Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL)
                           ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)

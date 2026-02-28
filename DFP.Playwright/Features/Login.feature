@@ -6,7 +6,7 @@ Login into DFP Web Portal and Hub
 
 Scenario Outline: Login to Hub
     Given I login to Hub as user "<user_type>"
-    Then the dashboard should be visible
+    Then the login dashboard should be visible
 
     Examples:
       | user_type                    |
@@ -16,7 +16,7 @@ Scenario Outline: Login to Hub
 
 Scenario Outline: Login to Portal
     Given I login to Portal as user "<user_type>"
-    Then the dashboard should be visible
+    Then the login dashboard should be visible
 
     Examples:
       | user_type   |

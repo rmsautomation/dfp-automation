@@ -25,29 +25,6 @@ Feature: Shipments
     And the shipment should display the shipment name
 
 
-  Scenario: Search shipment by reference
-    Given I navigated to Shipments List
-    When I click on Show More filters
-    And I enter the shipment name in Shipment Reference field
-    And I click on Search button
-    Then the shipment should appear in the search results
-
-
-  Scenario: Select first Shipment in the List
-    Given I navigated to Shipments List
-    When I select the first shipment from the list
-
-  Scenario: Shipment should not appear in the List View  and Table View
-    Given I navigated to Shipments List
-    When I click on Show More filters
-    And I click on List View button
-    And I enter the shipment name in Shipment Reference field
-    And I click on Search button
-    Then the shipment should not appear in the search results
-    When I click on Table View 
-    And I click on Search button
-    Then the shipment should not appear in the search results
-
   @9340
   Scenario: Add and validate tags across shipment list, table and details views
     # ── Shipment 1: Create ────────────────────────────────────────────────────
@@ -176,9 +153,10 @@ Feature: Shipments
     Then the system should show the error "A maximum of 5 Tags are allowed per shipment"
     # ── Verify all 5 tags across all views ────────────────────────────────────
     Then all created tags should be visible in Shipment list view
+    Then all created tags should be visible in Shipment Table view
     When I open the tagged shipment details view
     Then all created tags should be visible in Shipment details
-    Then all created tags should be visible in Shipment Table view
+    
 
 
  @API @9634 @9652
@@ -224,17 +202,24 @@ Feature: Shipments
     And I should click on Today option
     And I click on Search button
     When I see the Save report button
-    Then I see the text We couldn't find any matching report, try changing your search filters.
+    Then the shipment name should not appear in the report results
     Given I am on the dashboard page
     Then I store the total Shipments in the Dashboard after operation
     Then I see initial total shipment -1
+ Given I login to Hub as user "without Int"
+    Then the login dashboard should be visible
+    Given I navigated to shipment List in the Hub
+    When I click on Shipment Reference input field in the Hub
+    And I enter the shipment name in Shipment Reference field in the Hub
+    And I click on Search button in the hub
+    Then the shipment should NOT appear in the search results in the hub
     When I unhide shipment via API
     Then the unhide shipment request should succeed
-   Given I login to Hub as user "without Int"
-    When I log out
+    When I click on Search button in the hub
+    Then the shipment should appear in the search results in the hub
     Given I login to Portal as user "automation_noint@yopmail.com"
     Given I navigated to Shipments List
-    When I click on Show More filters
+    And I click on Show More filters
     And I click on List View button
     And I enter the shipment name in Shipment Reference field
     And I click on Search button

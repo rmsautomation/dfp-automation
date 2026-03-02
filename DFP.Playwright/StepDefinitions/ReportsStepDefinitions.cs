@@ -96,5 +96,12 @@ namespace DFP.Playwright.StepDefinitions
             var name = _shipmentPage.GetShipmentName();
             await _reportsPage.IShouldSeeText(name);
         }
+
+        [Then("the shipment name should not appear in the report results")]
+        public async Task TheShipmentNameShouldNotAppearInReportResults()
+        {
+            var name = _shipmentPage.GetShipmentName();
+            await _reportsPage.TheShipmentNameShouldNotAppearInResults(name);
+        }
     }
 }

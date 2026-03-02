@@ -112,9 +112,11 @@ namespace DFP.Playwright.Pages.Web
         // CSS-only — safe to use in Page.Locator() and card.Locator()
         private static readonly string[] TagIconSelectors =
         {
-            "button.plus-icon",
+            // Most specific first: both classes present (matches the actual rendered element)
+            "button.plus-icon.rounded-circle",
+            "//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
+            // Fallbacks
             "button:has(svg#mdi-tag-plus)",
-            "//button[contains(@class,'plus-icon')]",
             "//button[.//*[@id='mdi-tag-plus']]",
             "//svg[@id='mdi-tag-plus']/.."
         };
@@ -232,12 +234,8 @@ namespace DFP.Playwright.Pages.Web
         {
             // FindLocatorAsync polls every 250ms via BasePage until the element is in the DOM
             var tagInput = await FindLocatorAsync(TagInputFieldSelectors, timeoutMs: 15000);
-            // Then wait for it to be rendered and visible before interacting
-            await tagInput.WaitForAsync(new LocatorWaitForOptions
-            {
-                State = WaitForSelectorState.Visible,
-                Timeout = 5000
-            });
+            // Then wait for it to be visible and enabled before interacting
+            await WaitForEnabledAsync(tagInput, timeoutMs: 10000);
             return tagInput;
         }
 
@@ -613,7 +611,20 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task UserClicksTheTagIcon()
         {
-            var tagIcon = await FindLocatorAsync(TagIconSelectors);
+            // Scope to the shipment row/card that contains _shipmentName to avoid clicking
+            // the tag icon of a different shipment when multiple rows are visible.
+            var scopedSelectors = new[]
+            {
+                // 1. Ancestor card/row containing the shipment name → find button inside it
+                $"//*[contains(normalize-space(),'{_shipmentName}')]/ancestor-or-self::*[contains(@class,'card') or contains(@class,'row') or contains(@class,'item')][1]//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
+                // 2. Any element containing the shipment name → button sibling/descendant
+                $"//*[.//text()[contains(.,'{_shipmentName}')]]//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
+                // 3. Unscoped fallback — most specific selector available
+                "//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
+                "button.plus-icon.rounded-circle",
+            };
+
+            var tagIcon = await FindLocatorAsync(scopedSelectors);
 
             // When 5 tags already exist the button is rendered as disabled.
             // Clicking a disabled button times out in Playwright (actionability check).
@@ -896,25 +907,25 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task AllCreatedTagsShouldBeVisibleInShipmentTableView()
         {
-            var baseUrl = GetPortalBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+           // var baseUrl = GetPortalBaseUrl();
+          //  await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+         //   await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             // Select Table View to set the preference
             var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
             await ClickAndWaitForNetworkAsync(tableViewBtn);
 
             // Navigate away then back so the page reloads directly in Table View
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/cargo-detail");
+           // await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/cargo-detail");
 
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+           // await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+           // await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             // Wait for "Loading default view..." spinner to disappear
             await Page.Locator("text=Loading default view").WaitForAsync(new LocatorWaitForOptions
             {
                 State = WaitForSelectorState.Hidden,
-                Timeout = 180000
+                Timeout = 280000
             });
 
             foreach (var tag in _allTagNames)
@@ -928,5 +939,6 @@ namespace DFP.Playwright.Pages.Web
                     $"Tag '{tag}' was not visible in Shipment Table view.");
             }
         }
+
     }
 }

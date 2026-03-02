@@ -1,0 +1,13 @@
+{
+  "page": "shipmentsHub",
+  "generatedAt": "2026-03-02T12:57:26.2114950-03:00",
+  "selectors": [
+    "internal:role=button[name=\"Search\"i]",
+    "internal:role=heading[name=\"Shipment activity\"i]",
+    "internal:role=heading[name=\"Shipment REF-\"i]",
+    "internal:role=heading[name=\"Transportation\"i]",
+    "internal:role=link >> internal:has-text=/^Shipments$/",
+    "internal:role=link[name=\"REF-20260228051328485\"i]",
+    "internal:role=textbox[name=\"Shipment Reference\"i]"
+  ]
+}

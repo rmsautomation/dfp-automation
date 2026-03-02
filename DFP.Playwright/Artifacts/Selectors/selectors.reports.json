@@ -1,6 +1,6 @@
 {
   "page": "reports",
-  "generatedAt": "2026-02-27T16:12:23.6089000-03:00",
+  "generatedAt": "2026-03-02T12:57:26.2057160-03:00",
   "selectors": [
     "internal:role=button >> internal:has-text=\"×\"i",
     "internal:role=button >> internal:has-text=/^$/ >> nth=1",

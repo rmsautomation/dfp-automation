@@ -259,7 +259,28 @@ Feature: Shipments
     When I link shipment to purchase order via API
     And I link cargo item to order line for shipment via API
     Then the link requests should succeed
-
+Given I login to Portal as user "without Int"
+    Given I navigated to Shipments List
+    And I click on Show More filters
+    And I click on List View button
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I click on the shipment
+    Then I should be on the Shipment Details page
+    When I click on Booking Details Tab
+    Then I should see the Purchase Order section in the Shipment Portal
+    When I click on Purchase Order link
+    Then I should be on the Purchase Order Details 
+    And I should see the Status of the PO In Progress
+    And I should see Booked Shipments section in the Purchase order
+    When I click on the Shipment Name link
+    Then I should be on the Shipment Details page
+    When I click on Booking Details Tab
+    Then I should see the Purchase Order section in the Shipment Portal
+    When I click on Cargo section with PO
+    Then I should be on the Purchase Order Details 
+    And Order Line has a Shipment Name link related
 
 
 

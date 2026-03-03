@@ -1,6 +1,6 @@
 {
   "page": "shipments",
-  "generatedAt": "2026-03-02T12:57:26.2090510-03:00",
+  "generatedAt": "2026-03-03T11:48:36.8003300-03:00",
   "selectors": [
     "h3 >> internal:text=\"Ocean FCL Los Angeles to\"i",
     "internal:role=button >> internal:has-text=/^$/ >> nth=1",
@@ -11,6 +11,7 @@
     "internal:role=heading[name=\"Filters\"i]",
     "internal:role=heading[name=\"Instant Ocean Quotation\"i]",
     "internal:role=heading[name=\"Ocean FCL Los Angeles to\"i]",
+    "internal:role=heading[name=\"Purchase Orders\"i]",
     "internal:role=heading[name=\"Quotation QUO-\"i]",
     "internal:role=heading[name=\"Shipment activity\"i]",
     "internal:role=heading[name=\"Shipment REF-\"i]",
@@ -18,6 +19,8 @@
     "internal:role=heading[name=\"Transportation\"i]",
     "internal:role=heading[name=\"Your quotations\"s]",
     "internal:role=link >> internal:has-text=/^Shipments$/",
+    "internal:role=link[name=\"03032690\"s]",
+    "internal:role=link[name=\"Booking Details\"i]",
     "internal:role=link[name=\"Offers\"i]",
     "internal:role=link[name=\"Quotations\"i]",
     "internal:role=link[name=\"REF-\"i]",

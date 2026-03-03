@@ -148,6 +148,14 @@ namespace DFP.Playwright.StepDefinitions
         [When("I enter the shipment name in Shipment Reference field")]
         public async Task IEnterTheShipmentNameInShipmentReferenceField()
         {
+            // Webhook scenario: _shipmentName is empty; use shipment_reference (REF-...) from API context
+            if (string.IsNullOrWhiteSpace(_shipmentPage.GetShipmentName())
+                && _tc.Data.TryGetValue("shipment_reference", out var refVal)
+                && refVal is string shipRef
+                && !string.IsNullOrWhiteSpace(shipRef))
+            {
+                _shipmentPage.SetShipmentName(shipRef);
+            }
             await _shipmentPage.IEnterShipmentNameInShipmentReferenceField();
         }
 
@@ -516,6 +524,84 @@ namespace DFP.Playwright.StepDefinitions
         {
             StoreShipmentIdFromUrlIfPresent(required: true);
         }
+
+
+        /////////////////////////////////////////////////////////ADDITIONALS STEPS FOR VERIFY LINK PO WITH SH/////////////////////
+        /// 
+        [When("I click on Booking Details Tab")]
+        public async Task IClickOnBookingDetailsTab()
+        {
+            await _shipmentPage.IClickOnBookingDetailsTab();
+        }
+
+        
+        [Then("I should see the Purchase Order section in the Shipment Portal")]
+        public async Task IShouldSeeThePurchaseOrderSectionInTheShipmentPortal()
+        {
+            await _shipmentPage.IShouldSeeThePurchaseOrderSectionInTheShipmentPortal();
+        }
+
+        [When("I click on Purchase Order link")]
+        public async Task IClickOnPurchaseOrderLink()
+        {
+            _tc.Data.TryGetValue("purchaseOrderId", out var value);
+            var purchaseOrderId = value as string ?? "";
+            await _shipmentPage.IClickOnPurchaseOrderLink(purchaseOrderId);
+        }
+        [Then("I should be on the Purchase Order Details")]
+        public async Task IShouldBeOnThePurchaseOrderDetails()
+        {
+            _tc.Data.TryGetValue("purchaseOrderId", out var value);
+            var purchaseOrderId = value as string ?? "";
+            await _shipmentPage.IShouldBeOnThePurchaseOrderDetails(purchaseOrderId);
+        }
+        [Then("I should see the Status of the PO In Progress")]
+        public async Task IShouldSeeTheStatusOfThePOInProgress()
+        {
+            await _shipmentPage.IShouldSeeTheStatusOfThePOInProgress();
+        }
+
+        [Then("I should see Booked Shipments section in the Purchase order")]
+        public async Task IShouldSeeBookedShipmentsSectionInThePurchaseOrder()
+        {
+            await _shipmentPage.IShouldSeeBookedShipmentsSectionInThePurchaseOrder();
+        }
+
+        [When("I click on the Shipment Name link")]
+        public async Task IClickOnTheShipmentNameLink()
+        {
+            _tc.Data.TryGetValue("shipmentId", out var value);
+            var shipmentId = value as string ?? "";
+            await _shipmentPage.IClickOnTheShipmentNameLink(shipmentId);
+        }
+
+        [When("I click on the shipment")]
+        public async Task IClickOnTheShipment()
+        {
+            await _shipmentPage.IClickOnTheShipmentAsync();
+        }
+
+        [When("I click on Cargo section with PO")]
+        public async Task IClickOnCargoSectionWithPO()
+        {
+            _tc.Data.TryGetValue("purchaseOrderId", out var value);
+            var purchaseOrderId = value as string ?? "";
+            await _shipmentPage.IClickOnCargoSectionWithPO(purchaseOrderId);
+        }
+
+        [Then("Order Line has a Shipment Name link related")]
+        public async Task OrderLineHasAShipmentNameLinkRelated()
+        {
+            var shipmentId = GetRequiredContextValue("shipmentId", "Shipment ID not found. Create a shipment first.");
+
+            // shipmentName is the Shipment Reference (REF-...) generated during webhook creation
+            var shipmentName = _tc.Data.TryGetValue("shipment_reference", out var refVal) && refVal is string sRef && !string.IsNullOrWhiteSpace(sRef)
+                ? sRef
+                : _shipmentPage.GetShipmentName();
+
+            await _shipmentPage.VerifyShipmentLinkInOrderLineAsync(shipmentId, shipmentName);
+        }
+
 
     }
 }

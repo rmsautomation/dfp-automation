@@ -25,7 +25,7 @@ Feature: Shipments
     And the shipment should display the shipment name
 
 
-  @9340
+  @9340 @NOINT
   Scenario: Add and validate tags across shipment list, table and details views
     # ── Shipment 1: Create ────────────────────────────────────────────────────
     Given I am on the Quotations List page
@@ -98,7 +98,7 @@ Feature: Shipments
     And the tag should be visible on 2 shipments in Shipment Table view
 
 
-  @9344_MoreThan5tagsSH
+  @9344_MoreThan5tagsSH @NOINT
   Scenario: Validate maximum 5 tags per shipment and visibility across all views
     # ── Shipment: Create ──────────────────────────────────────────────────────
     Given I am on the Quotations List page
@@ -159,7 +159,7 @@ Feature: Shipments
     
 
 
- @API @9634 @9652
+ @API @9634 @9652 @NOINT
   Scenario Outline: Hide_Unhide a shipment created from a quotation
     Given I login to Portal as user "without Int"
     Given I am on the Quotations List page
@@ -246,7 +246,7 @@ Feature: Shipments
       |             |
  
 
-@API @7873
+@API @7873 @NOINT
   Scenario: Shipment with cargo items - add lines from a PO
     Given I have a portal API token
     When I create shipment via webhook
@@ -259,8 +259,56 @@ Feature: Shipments
     When I link shipment to purchase order via API
     And I link cargo item to order line for shipment via API
     Then the link requests should succeed
+Given I login to Portal as user "without Int"
+    Given I navigated to Shipments List
+    And I click on Show More filters
+    And I click on List View button
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I click on the shipment
+    Then I should be on the Shipment Details page
+    When I click on Booking Details Tab
+    Then I should see the Purchase Order section in the Shipment Portal
+    When I click on Purchase Order link
+    Then I should be on the Purchase Order Details 
+    And I should see the Status of the PO In Progress
+    And I should see Booked Shipments section in the Purchase order
+    When I click on the Shipment Name link
+    Then I should be on the Shipment Details page
+    When I click on Booking Details Tab
+    Then I should see the Purchase Order section in the Shipment Portal
+    When I click on Cargo section with PO
+    Then I should be on the Purchase Order Details 
+    And Order Line has a Shipment Name link related
 
-
-
-
-
+@10351 @NOINT
+Scenario: Shipments - Validate global search bar - Behavior when filtering by Quick search - Table/List View
+# ── Shipment: Create ──────────────────────────────────────────────────────
+    Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    # ── Search the shipment ────────────────────────────────────────────────────
+    Given I navigated to Shipments List
+When I enter the shipment Reference in Quick filter
+And I click on Search button
+Then the shipment should appear in the search results
+When I click on Table View 
+ And I click on Search button
+ Then the shipment should appear in the search results
+When I click on Show More filters
+Then I should not see the quick filter field
+When I click on Show Less

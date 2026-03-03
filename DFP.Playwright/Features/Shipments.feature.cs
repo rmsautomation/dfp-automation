@@ -921,6 +921,72 @@ namespace DFP.Playwright.Features
 #line 261
     await testRunner.ThenAsync("the link requests should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+#line 262
+await testRunner.GivenAsync("I login to Portal as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 263
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 264
+    await testRunner.AndAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 265
+    await testRunner.AndAsync("I click on List View button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 266
+    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 267
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 268
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 269
+    await testRunner.WhenAsync("I click on the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 270
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 271
+    await testRunner.WhenAsync("I click on Booking Details Tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 272
+    await testRunner.ThenAsync("I should see the Purchase Order section in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 273
+    await testRunner.WhenAsync("I click on Purchase Order link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 274
+    await testRunner.ThenAsync("I should be on the Purchase Order Details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 275
+    await testRunner.AndAsync("I should see the Status of the PO In Progress", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 276
+    await testRunner.AndAsync("I should see Booked Shipments section in the Purchase order", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 277
+    await testRunner.WhenAsync("I click on the Shipment Name link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 278
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 279
+    await testRunner.WhenAsync("I click on Booking Details Tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 280
+    await testRunner.ThenAsync("I should see the Purchase Order section in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 281
+    await testRunner.WhenAsync("I click on Cargo section with PO", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 282
+    await testRunner.ThenAsync("I should be on the Purchase Order Details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 283
+    await testRunner.AndAsync("Order Line has a Shipment Name link related", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
             }
             await this.ScenarioCleanupAsync();
         }

@@ -65,7 +65,12 @@ namespace DFP.Playwright.Pages.Web
         [
             "internal:role=button[name=\"Send booking\"i]",
             "internal:role=button[name=\"Edit\"i]",
-            "//button[normalize-space(text())='Send booking']"
+            "//button[normalize-space(text())='Send booking']",
+            "fa-icon:has(svg[data-icon='rss'])",
+            "//fa-icon[.//svg[@data-icon='rss']]",
+            "svg[data-icon='rss']",
+            "svg.fa-rss",
+            "//svg[@data-icon='rss']"
         ];
 
         private static readonly string[] ShipmentNameInputSelectors =
@@ -270,6 +275,17 @@ namespace DFP.Playwright.Pages.Web
             ".tippy-content",
             ".tooltip"
         ];
+        //////////Purchase Order selectors/////////////
+        private static readonly string[] POSectionInSHSelectors =
+        [
+            "//div[contains(@class,'card-header')]//h5[normalize-space()='Purchase Orders']",
+            "//h5[normalize-space()='Purchase Orders']"
+        ];
+
+         private static readonly string[] POInProgress =
+        [
+            "//span[contains(@class,'badge') and normalize-space()='In Progress']"
+        ];
 
         // ── Private helpers ───────────────────────────────────────────────────────
 
@@ -314,6 +330,8 @@ namespace DFP.Playwright.Pages.Web
         }
 
         public string GetShipmentName() => _shipmentName;
+
+        public void SetShipmentName(string name) => _shipmentName = name;
 
         // ── Quotation / Shipment creation methods ─────────────────────────────────
 
@@ -962,6 +980,153 @@ namespace DFP.Playwright.Pages.Web
                     $"Tag '{tag}' was not visible in Shipment Table view.");
             }
         }
+
+        /////////////ADDITIONALS STEPS FOR 7873 LINK PO WITH SHIPMENT DETAILS PAGE
+        /// 
+        public async Task IClickOnBookingDetailsTab()
+        {
+            var locator = await FindLocatorAsync(new[] { "internal:role=link[name=\"Booking Details\"i]" });
+            await ClickAndWaitForNetworkAsync(locator);
+        }
+
+        public async Task IShouldSeeThePurchaseOrderSectionInTheShipmentPortal()
+        {
+            var poSection = await TryFindLocatorAsync(POSectionInSHSelectors, timeoutMs: 10000);
+            Assert.IsNotNull(poSection,
+                $"Purchase Orders section was not visible in Shipment Portal view. URL: {Page.Url}");
+        }
+
+        public async Task IClickOnPurchaseOrderLink(string purchaseOrderId)
+        {
+            string[] selectors = string.IsNullOrWhiteSpace(purchaseOrderId)
+                ? [
+                    "//a[contains(@href,'/orders/')]",
+                    "//a[contains(@href,'/purchase-orders/')]"
+                  ]
+                : [
+                    $"a[href='/my-portal/orders/{purchaseOrderId}']",
+                    $"//a[contains(@href,'{purchaseOrderId}')]"
+                  ];
+
+            var locator = await FindLocatorAsync(selectors);
+            await ClickAndWaitForNavigationAsync(locator);
+        }
+
+        public async Task IShouldBeOnThePurchaseOrderDetails(string purchaseOrderId)
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // 1) Verify the "Buyer" label is visible on the PO Details page
+            var buyerLabel = await TryFindLocatorAsync(
+            [
+                "label.font-weight-bold:has-text('Buyer')",
+                "//label[contains(@class,'font-weight-bold') and normalize-space()='Buyer']"
+            ], timeoutMs: 10000);
+            Assert.IsNotNull(buyerLabel,
+                $"'Buyer' label was not visible on the Purchase Order Details page. URL: {Page.Url}");
+
+            // 2) Verify the PO link with the dynamic order id is visible
+            if (!string.IsNullOrWhiteSpace(purchaseOrderId))
+            {
+                var orderLink = await TryFindLocatorAsync(
+                [
+                    $"a[href='/my-portal/orders/{purchaseOrderId}']",
+                    $"//a[contains(@href,'{purchaseOrderId}')]"
+                ], timeoutMs: 10000);
+                Assert.IsNotNull(orderLink,
+                    $"Purchase Order link for id '{purchaseOrderId}' was not visible on the PO Details page. URL: {Page.Url}");
+            }
+        }
+
+        public async Task IShouldSeeTheStatusOfThePOInProgress()
+        {
+            var statusPO = await TryFindLocatorAsync(POInProgress, timeoutMs: 10000);
+            Assert.IsNotNull(statusPO,
+                $"Status 'In Progress' was not visible on the Purchase Order Details page. URL: {Page.Url}");
+        }
+
+        public async Task IShouldSeeBookedShipmentsSectionInThePurchaseOrder()
+        {
+            await FindLocatorAsync(new[] { "internal:role=heading[name=\"Booked Shipments\"i]" });
+        }
+
+        public async Task IClickOnTheShipmentNameLink(string shipmentId)
+        {
+            // HTML: <a href="/my-portal/shipments/{shipmentId}"> {_shipmentName} - {_shipmentName} </a>
+            string[] selectors = !string.IsNullOrWhiteSpace(shipmentId)
+                ? [
+                    $"a[href='/my-portal/shipments/{shipmentId}']",
+                    $"//a[@href='/my-portal/shipments/{shipmentId}']",
+                    $"//a[contains(@href,'{shipmentId}')]"
+                  ]
+                : [
+                    $"//a[contains(@href,'/shipments/') and contains(normalize-space(),'{_shipmentName}')]",
+                    "//a[contains(@href,'/my-portal/shipments/')]"
+                  ];
+
+            var locator = await FindLocatorAsync(selectors);
+            await ClickAndWaitForNavigationAsync(locator);
+        }
+
+        public async Task IClickOnTheShipmentAsync()
+        {
+            var shipmentLink = await FindLocatorAsync(
+            [
+                $"//div[contains(@class,'h4')][.//span[contains(normalize-space(),'{_shipmentName}')]]",
+                $"//qwyk-shipment-list-item[contains(normalize-space(),'{_shipmentName}')]//div[contains(@class,'h4')]",
+                $"//span[contains(normalize-space(),'{_shipmentName}')]"
+            ]);
+            var currentUrl = Page.Url;
+            await ClickAsync(shipmentLink);
+            await Page.WaitForURLAsync(
+                url => url != currentUrl && url.Contains("/shipments/"),
+                new PageWaitForURLOptions { Timeout = 15000 });
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task IClickOnCargoSectionWithPO(string purchaseOrderId)
+        {
+    Assert.IsFalse(string.IsNullOrWhiteSpace(purchaseOrderId),
+        "purchaseOrderId cannot be null or empty.");
+
+    var orderLink = await TryFindLocatorAsync(
+    [
+        $"a[href='/my-portal/orders/{purchaseOrderId}']:has-text('P/O')"
+    ], timeoutMs: 10000);
+
+    Assert.IsNotNull(orderLink,
+        $"Purchase Order link for id '{purchaseOrderId}' was not visible on the PO Details page. URL: {Page.Url}");
+
+    await orderLink.ClickAsync();
+        }
+
+        /// <summary>
+        /// Verifies that the last column (Shipment / Status) of the order lines table
+        /// contains an anchor whose href includes the shipmentId and whose text contains the shipmentName.
+        /// HTML: <a href="/my-portal/shipments/{shipmentId}"> {shipmentName} - {shipmentName} - Booked </a>
+        /// </summary>
+        public async Task VerifyShipmentLinkInOrderLineAsync(string shipmentId, string shipmentName)
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            var shipmentLink = await TryFindLocatorAsync(
+            [
+                $"tbody tr td:last-child a[href*='/my-portal/shipments/{shipmentId}']",
+                $"//tbody//tr//td[last()]//a[contains(@href,'/my-portal/shipments/{shipmentId}')]"
+            ], timeoutMs: 10000);
+
+            Assert.IsNotNull(shipmentLink,
+                $"Shipment link for id '{shipmentId}' was not found in the last column of the order lines table. URL: {Page.Url}");
+
+            var href = await GetAttributeAsync(shipmentLink, "href") ?? "";
+            Assert.IsTrue(href.Contains($"/my-portal/shipments/{shipmentId}", StringComparison.OrdinalIgnoreCase),
+                $"Shipment link href does not contain expected shipment id. Expected: '/my-portal/shipments/{shipmentId}', Got: '{href}'");
+
+            var linkText = (await shipmentLink.InnerTextAsync()).Trim();
+            Assert.IsTrue(linkText.Contains(shipmentName, StringComparison.OrdinalIgnoreCase),
+                $"Shipment link text does not contain expected shipment name '{shipmentName}'. Got: '{linkText}'");
+        }
+
 
     }
 }

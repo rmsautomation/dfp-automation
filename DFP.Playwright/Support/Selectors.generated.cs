@@ -31,6 +31,45 @@ namespace DFP.Playwright.Support
                 "internal:text=\"Password *\"i",
             };
         }
+        public static class shipments
+        {
+            public static readonly string[] All = new[]
+            {
+                "h3 >> internal:text=\"Ocean FCL Los Angeles to\"i",
+                "internal:role=button >> internal:has-text=/^$/ >> nth=1",
+                "internal:role=button[name=\"Confirm\"i]",
+                "internal:role=button[name=\"Go to shipment\"i]",
+                "internal:role=button[name=\"Search\"i]",
+                "internal:role=button[name=\"Send booking\"i]",
+                "internal:role=heading[name=\"Filters\"i]",
+                "internal:role=heading[name=\"Instant Ocean Quotation\"i]",
+                "internal:role=heading[name=\"Ocean FCL Los Angeles to\"i]",
+                "internal:role=heading[name=\"Purchase Orders\"i]",
+                "internal:role=heading[name=\"Quotation QUO-\"i]",
+                "internal:role=heading[name=\"Shipment activity\"i]",
+                "internal:role=heading[name=\"Shipment REF-\"i]",
+                "internal:role=heading[name=\"Shipments\"i]",
+                "internal:role=heading[name=\"Transportation\"i]",
+                "internal:role=heading[name=\"Your quotations\"s]",
+                "internal:role=link >> internal:has-text=/^Shipments$/",
+                "internal:role=link[name=\"03032690\"s]",
+                "internal:role=link[name=\"Booking Details\"i]",
+                "internal:role=link[name=\"Offers\"i]",
+                "internal:role=link[name=\"Quotations\"i]",
+                "internal:role=link[name=\"REF-\"i]",
+                "internal:role=link[name=\"Transport Instructions\"i]",
+                "internal:role=textbox[name=\"Give your booking a name or\"i]",
+                "internal:role=textbox[name=\"Shipment Reference\"i]",
+                "internal:text=\"Booked\"i >> nth=0",
+                "internal:text=\"Confirmation\"i",
+                "internal:text=\"My Portal › Quotations › QUO-\"i",
+                "internal:text=\"My Portal › Quotations\"i",
+                "internal:text=\"My Portal › Shipments › Draft\"i",
+                "internal:text=\"Qwyk › My Portal › Shipments\"i",
+                "internal:text=\"Your booking has been sent.\"i",
+                "qwyk-quotation-offer-card >> internal:has-text=\"PIL PIL 31 December 2050 FAK\"i >> internal:role=button",
+            };
+        }
         public static class login
         {
             public const string Username = "internal:role=textbox[name=\"Username\"i]";
@@ -65,6 +104,19 @@ namespace DFP.Playwright.Support
                 "select[name=\"dateRange\"]",
             };
         }
+        public static class shipmentsHub
+        {
+            public static readonly string[] All = new[]
+            {
+                "internal:role=button[name=\"Search\"i]",
+                "internal:role=heading[name=\"Shipment activity\"i]",
+                "internal:role=heading[name=\"Shipment REF-\"i]",
+                "internal:role=heading[name=\"Transportation\"i]",
+                "internal:role=link >> internal:has-text=/^Shipments$/",
+                "internal:role=link[name=\"REF-20260228051328485\"i]",
+                "internal:role=textbox[name=\"Shipment Reference\"i]",
+            };
+        }
         public static class dashboard
         {
             public static readonly string[] All = new[]
@@ -79,32 +131,6 @@ namespace DFP.Playwright.Support
                 "internal:text=\"Aylin Annia\"s",
                 "internal:text=\"Here is a snapshot of what's\"i",
                 "internal:text=\"Loading ops data...\"i",
-            };
-        }
-        public static class shipments
-        {
-            public static readonly string[] All = new[]
-            {
-                "h3 >> internal:text=\"Ocean FCL Los Angeles to\"i",
-                "internal:role=button >> internal:has-text=/^$/ >> nth=1",
-                "internal:role=button[name=\"Confirm\"i]",
-                "internal:role=button[name=\"Go to shipment\"i]",
-                "internal:role=button[name=\"Send booking\"i]",
-                "internal:role=heading[name=\"Instant Ocean Quotation\"i]",
-                "internal:role=heading[name=\"Ocean FCL Los Angeles to\"i]",
-                "internal:role=heading[name=\"Quotation QUO-\"i]",
-                "internal:role=heading[name=\"Your quotations\"s]",
-                "internal:role=link[name=\"Offers\"i]",
-                "internal:role=link[name=\"Quotations\"i]",
-                "internal:role=link[name=\"Transport Instructions\"i]",
-                "internal:role=textbox[name=\"Give your booking a name or\"i]",
-                "internal:text=\"Booked\"i >> nth=0",
-                "internal:text=\"My Portal › Quotations › QUO-\"i",
-                "internal:text=\"My Portal › Quotations\"i",
-                "internal:text=\"My Portal › Shipments › Draft\"i",
-                "internal:text=\"Qwyk › My Portal › Shipments\"i",
-                "internal:text=\"Your booking has been sent.\"i",
-                "qwyk-quotation-offer-card >> internal:has-text=\"PIL PIL 31 December 2050 FAK\"i >> internal:role=button",
             };
         }
     }

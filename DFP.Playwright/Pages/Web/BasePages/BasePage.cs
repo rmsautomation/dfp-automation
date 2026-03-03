@@ -21,9 +21,31 @@ namespace DFP.Playwright.Pages.Web.BasePages
         /*   REGULAR METHODS   */
         //
 
-        protected async Task ClickAsync(ILocator locator)
+        // Waits until the element is visible, natively enabled, and has no CSS 'disabled' class.
+        // Covers Angular/PrimeNG components that use [disabled] bindings or class="disabled"
+        // instead of the native HTML disabled attribute that Playwright's actionability checks.
+        protected static async Task WaitForEnabledAsync(ILocator locator, int timeoutMs = 10000)
         {
-            // Playwright already auto-waits for element to be actionable
+            var start = DateTime.UtcNow;
+            while ((DateTime.UtcNow - start).TotalMilliseconds < timeoutMs)
+            {
+                try
+                {
+                    var isVisible = await locator.IsVisibleAsync();
+                    var isEnabled = await locator.IsEnabledAsync();
+                    var cssClass = await locator.GetAttributeAsync("class") ?? "";
+                    if (isVisible && isEnabled && !cssClass.Contains("disabled"))
+                        return;
+                }
+                catch (Exception) { /* element may not be in DOM yet */ }
+                await Task.Delay(200);
+            }
+            throw new TimeoutException($"Element was not enabled or clickable within {timeoutMs}ms.");
+        }
+
+        protected static async Task ClickAsync(ILocator locator)
+        {
+            await WaitForEnabledAsync(locator);
             await locator.ClickAsync();
         }
 
@@ -33,6 +55,7 @@ namespace DFP.Playwright.Pages.Web.BasePages
 
         protected async Task ClickAndWaitForNavigationAsync(ILocator locator)
         {
+            await WaitForEnabledAsync(locator);
             await locator.ClickAsync();
             await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
         }
@@ -42,13 +65,23 @@ namespace DFP.Playwright.Pages.Web.BasePages
         //  When call API and update data   ClickAndWaitForNetworkAsyncUse this method when you expect API calls to be made and want to wait for them to complete before proceeding.      ClickAndWaitForNetworkAsync
         protected async Task ClickAndWaitForNetworkAsync(ILocator locator)
         {
+            await WaitForEnabledAsync(locator);
             await locator.ClickAsync();
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
+
+        // Bypasses actionability checks entirely — use only when the element is intentionally not actionable.
         protected async Task ClickForceAsync(ILocator locator)
         {
-            // Playwright already auto-waits for element to be actionable
             await locator.ClickAsync(new() { Force = true });
+        }
+
+        // Waits for the <select> element to be enabled then selects an option by its value attribute.
+        // Use this instead of calling locator.SelectOptionAsync() directly.
+        protected static async Task SelectOptionAsync(ILocator locator, string value)
+        {
+            await WaitForEnabledAsync(locator);
+            await locator.SelectOptionAsync(value);
         }
 
         protected async Task ClearAsync(ILocator locator)

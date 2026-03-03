@@ -118,25 +118,49 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected text '{unexpectedText}' to NOT be on the page but it was found. URL: {Page.Url}");
         }
 
+        /// <summary>
+        /// Verifies the shipment name does NOT appear anywhere in the report results table.
+        /// More robust than checking for the "no results" message, which can vary or be flaky.
+        /// </summary>
+        public async Task TheShipmentNameShouldNotAppearInResults(string shipmentName)
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            var literal = ToXPathLiteral(shipmentName);
+            var shipmentInResults = await TryFindLocatorAsync(new[]
+            {
+                $"//table//td[contains(normalize-space(),{literal})]",
+                $"//*[contains(@class,'p-datatable')]//td[contains(normalize-space(),{literal})]",
+                $"//*[contains(@class,'p-datatable-row')]//td[contains(normalize-space(),{literal})]",
+                $"td:has-text('{shipmentName}')",
+            }, timeoutMs: 4000);
+            Assert.IsNull(shipmentInResults,
+                $"Shipment '{shipmentName}' was found in the report results but it should not appear (shipment is hidden). URL: {Page.Url}");
+        }
+
         public async Task ISelectPredefinedRangeWithText(string rangeText)
         {
             var select = await FindLocatorAsync(DateRangeSelectSelectors);
+            // Values match the <option value="..."> attributes in the dateRange <select>
             var value = rangeText.Trim().ToLowerInvariant() switch
             {
-                "last 7 days" => "lastweek",
-                "last 30 days" => "lastmonth",
-                "last 90 days" or "last quarter" => "lastquarter",
-                "custom" => "custom",
-                _ => rangeText.Trim()
+                "last 7 days"  => "lastweek",
+                "last 30 days" => "last30",
+                "last 90 days" => "last90",
+                "this month"   => "thismonth",
+                "this year"    => "thisyear",
+                "last month"   => "lastmonth",
+                "last year"    => "lastyear",
+                "custom"       => "custom",
+                _              => rangeText.Trim()
             };
-            await select.SelectOptionAsync(value);
+            await SelectOptionAsync(select, value);
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task IShouldSelectCustomOption()
         {
             var select = await FindLocatorAsync(DateRangeSelectSelectors);
-            await select.SelectOptionAsync("custom");
+            await SelectOptionAsync(select, "custom");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 

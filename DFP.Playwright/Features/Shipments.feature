@@ -209,21 +209,23 @@ Feature: Shipments
  Given I login to Hub as user "without Int"
     Then the login dashboard should be visible
     Given I navigated to shipment List in the Hub
-    When I click on Shipment Reference input field in the Hub
-    And I enter the shipment name in Shipment Reference field in the Hub
+    When I click on Customer Reference input field in the Hub
+    And I enter the shipment name in Customer Reference field in the Hub
     And I click on Search button in the hub
     Then the shipment should NOT appear in the search results in the hub
     When I unhide shipment via API
     Then the unhide shipment request should succeed
     When I click on Search button in the hub
     Then the shipment should appear in the search results in the hub
-    Given I login to Portal as user "automation_noint@yopmail.com"
     Given I navigated to Shipments List
     And I click on Show More filters
     And I click on List View button
     And I enter the shipment name in Shipment Reference field
     And I click on Search button
     Then the shipment should appear in the search results
+    When I click on Table View 
+    And I click on Search button
+    Then the shipment should appear in the search results
     Given I am on the Reports page
     When I click on "Shipments" option
     Then I should see "Generate Shipments" Report text
@@ -238,13 +240,7 @@ Feature: Shipments
     Given I am on the dashboard page
     Then I store the total Shipments in the Dashboard after operation
     Then I see initial total shipment
-    And I click on Search button
-    When I see the Save report button
-    Then I could not see the text We couldn't find any matching report, try changing your search filters.
-    And I should see the shipment Name
-    Given I am on the dashboard page
-    Then I store the total Shipments in the Dashboard after operation
-    Then I see initial total shipment
+    
     Examples:
       | shipment_id |
       |             |

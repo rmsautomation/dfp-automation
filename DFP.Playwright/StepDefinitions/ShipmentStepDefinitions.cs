@@ -137,12 +137,14 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.UserNavigatedToShipmentsList();
         }
 
+        [Given("I click on Show More filters")]
         [When("I click on Show More filters")]
         public async Task IClickOnShowMoreFilters()
         {
             await _shipmentPage.IClickOnShowMoreFilters();
         }
 
+        [Given("I enter the shipment name in Shipment Reference field")]
         [When("I enter the shipment name in Shipment Reference field")]
         public async Task IEnterTheShipmentNameInShipmentReferenceField()
         {
@@ -239,6 +241,7 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IResetSearchFilters();
         }
 
+        [Given("I click on List View button")]
         [When("I click on List View button")]
         public async Task IClickOnListViewButton()
         {

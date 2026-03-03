@@ -1,21 +1,14 @@
 using Microsoft.Playwright;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
 using DFP.Playwright.Helpers;
 
 namespace DFP.Playwright.Pages.Web
 {
-    public sealed class ShipmentPage : BasePage
+    public sealed class ShipmentPage(IPage page) : BasePage(page)
     {
         private string _shipmentName = string.Empty;
         private string _tagName = string.Empty;
-        private readonly List<string> _allTagNames = new();
-
-        public ShipmentPage(IPage page) : base(page)
-        {
-        }
+        private readonly List<string> _allTagNames = [];
 
         private static string GetPortalBaseUrl()
         {
@@ -29,79 +22,77 @@ namespace DFP.Playwright.Pages.Web
 
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
-        public static readonly string[] Selectors = new string[]
-        {
-        };
+        public static readonly string[] Selectors = [];
         // codegen:selectors-end
 
         // ── Quotation / Shipment creation Selectors ──────────────────────────────
 
         private static readonly string[] QuotationDetailsSelectors =
-        {
+        [
             "internal:role=link[name=\"Offers\"i]",
             "internal:role=link[name=\"Details\"i]"
-        };
+        ];
 
         private static readonly string[] OffersTabSelectors =
-        {
+        [
             "internal:role=link[name=\"Offers\"i]"
-        };
+        ];
 
         private static readonly string[] OffersListSelectors =
-        {
+        [
             "internal:role=heading[name=\"Instant Ocean Quotation\"i]",
             "qwyk-quotation-offer-card"
-        };
+        ];
 
         private static readonly string[] BookNowButtonSelectors =
-        {
+        [
             "internal:role=button[name=\"Book now\"i]",
             "qwyk-quotation-offer-card >> internal:role=button"
-        };
+        ];
 
         private static readonly string[] ConfirmDialogSelectors =
-        {
+        [
             "internal:role=textbox[name=\"Give your booking a name or\"i]",
             "internal:role=button[name=\"Confirm\"i]"
-        };
+        ];
 
         private static readonly string[] ConfirmButtonSelectors =
-        {
+        [
             "internal:role=button[name=\"Confirm\"i]"
-        };
+        ];
 
         private static readonly string[] ShipmentDetailsSelectors =
-        {
+        [
             "internal:role=button[name=\"Send booking\"i]",
             "internal:role=button[name=\"Edit\"i]",
             "//button[normalize-space(text())='Send booking']"
-        };
+        ];
 
         private static readonly string[] ShipmentNameInputSelectors =
-        {
+        [
             "internal:role=textbox[name=\"Give your booking a name or\"i]"
-        };
+        ];
 
         private static readonly string[] SaveButtonSelectors =
-        {
+        [
             "internal:role=button[name=\"Save\"i]",
             "//button[normalize-space(text())='Save']"
-        };
+        ];
 
         private static readonly string[] SendBookingButtonSelectors =
-        {
+        [
             "internal:role=button[name=\"Send booking\"i]"
-        };
+        ];
 
         private static readonly string[] BookingConfirmationSelectors =
-        {
+        [
             "internal:text=\"Your booking has been sent.\"i"
-        };
+        ];
 
         private static readonly string[] GoToShipmentButtonSelectors =
-        {
+        [
             "internal:role=button[name=\"Go to shipment\"i]"
-        };
+        ];
 
         // ── Tag Selectors ─────────────────────────────────────────────────────────
         // Actual element:
@@ -111,7 +102,7 @@ namespace DFP.Playwright.Pages.Web
 
         // CSS-only — safe to use in Page.Locator() and card.Locator()
         private static readonly string[] TagIconSelectors =
-        {
+        [
             // Most specific first: both classes present (matches the actual rendered element)
             "button.plus-icon.rounded-circle",
             "//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
@@ -119,110 +110,166 @@ namespace DFP.Playwright.Pages.Web
             "button:has(svg#mdi-tag-plus)",
             "//button[.//*[@id='mdi-tag-plus']]",
             "//svg[@id='mdi-tag-plus']/.."
-        };
+        ];
 
         // Actual element:
         // <p-autocomplete ...>
         //   <input class="p-autocomplete-input" placeholder="Type to search" role="combobox" .../>
         // </p-autocomplete>
         private static readonly string[] TagInputFieldSelectors =
-        {
+        [
             "input[placeholder='Type to search']",
             "p-autocomplete input",
             "input.p-autocomplete-input",
             "//p-autocomplete//input"
-        };
+        ];
 
         // PrimeNG autocomplete dropdown items
         private static readonly string[] TagDropdownOptionSelectors =
-        {
+        [
             "//li[@role='option'][1]",
             "ul.p-autocomplete-items li",
             "li.p-autocomplete-item",
             "//ul[contains(@class,'p-autocomplete-items')]//li",
             ".p-autocomplete-panel li"
-        };
+        ];
 
         // Save button shown after selecting a tag
         // May render as <button type="submit">Save</button> or <button type="submit"><span>Save</span></button>
         private static readonly string[] TagSaveButtonSelectors =
-        {
+        [
             "button:has-text('Save')",
             "[type='submit']:has-text('Save')",
             "internal:role=button[name='Save'i]",
             "//button[normalize-space()='Save' or .//text()[normalize-space()='Save']]",
             "//button[@type='submit' and normalize-space()='Save']"
-        };
+        ];
 
         // ── ShipmentSearch Selectors ──────────────────────────────────────────────
 
         // Actual element: <span class="nav-link-text">Shipments</span>
+        // Used both for initial navigation (dashboard → shipments) and post-search reload.
         private static readonly string[] ShipmentsNavLinkSelectors =
-        {
-            "//span[contains(@class,'nav-link-text') and normalize-space()='Shipments']"
-        };
+        [
+            "#navSidebar >> internal:role=link[name=\"Shipments\"i]",
+            "internal:role=link[name=\"Shipments\"i]",
+            "//span[contains(@class,'nav-link-text') and normalize-space()='Shipments']",
+            "a:has-text(\"Shipments\")"
+        ];
 
         // Used to force a full page reload between retries: navigate away then back to Shipments
         private static readonly string[] WarehouseNavLinkSelectors =
-        {
+        [
             "//a[.//span[normalize-space()='Warehouse']]"
-        };
+        ];
 
         // Table view toggle button: <div class="p-element btn btn-outline-primary"><fa-icon data-icon="table">
         private static readonly string[] TableViewButtonSelectors =
-        {
+        [
+            "//div[contains(@class,'btn-outline-primary') and contains(@class,'p-element')]",
             "div.btn-outline-primary:has(svg[data-icon='table'])",
             "//div[contains(@class,'btn-outline-primary') and .//svg[@data-icon='table']]"
-        };
+        ];
 
         // List view toggle button (active state has btn-primary class)
         private static readonly string[] ListViewButtonSelectors =
-        {
+        [
             "//div[contains(@class,'btn-primary') and .//svg[@data-icon='list']]",
             "div.btn-primary:has(svg[data-icon='list'])",
             "//div[contains(@class,'btn-primary')]"
-        };
+        ];
 
         // Empty results message shown when no shipments match the search criteria
         private static readonly string[] NoResultsMessageSelectors =
-        {
+        [
             "//p[normalize-space()='You may also want to adjust your search criteria and try again.']",
             "p:has-text('You may also want to adjust your search criteria and try again.')"
-        };
+        ];
+
+        private static readonly string[] BookedQuotationLinkSelectors =
+        [
+            "qwyk-quotation-card:has-text('Booked') a",
+            "qwyk-quotation-list-item:has-text('Booked') a",
+            "//article[contains(., 'Booked')]//a",
+            "//li[contains(., 'Booked')]//a",
+            "//*[contains(@class,'card')][contains(., 'Booked')]//a",
+            "//*[contains(@class,'item')][contains(., 'Booked')]//a",
+            "//*[contains(@class,'row')][contains(., 'Booked')]//a",
+            "//a[contains(@href,'/quotations/') and not(contains(@class,'nav-link'))]"
+        ];
+
+        private static readonly string[] DialogCloseButtonSelectors =
+        [
+            "button:has-text('Close')",
+            "button[aria-label='Close']",
+            "button:has(.pi-times)",
+            "button:has(svg[data-icon='xmark'])"
+        ];
+
+        private static readonly string[] EditShipmentButtonSelectors =
+        [
+            "internal:role=button[name=\"Edit\"i]",
+            "button:has(svg[data-icon='pen-to-square'])",
+            "button:has(fa-icon svg[data-icon='pen-to-square'])",
+            "//button[.//*[name()='svg' and @data-icon='pen-to-square']]",
+            "//button[contains(@aria-label,'edit') or contains(@title,'Edit') or normalize-space(text())='Edit']"
+        ];
 
         private static readonly string[] ShowMoreFiltersSelectors =
-        {
+        [
             "internal:role=button[name='Show more'i]",
             "//button[contains(normalize-space(text()),'Show more') or contains(normalize-space(text()),'More filters')]",
             "a:has-text('Show more')",
             "//a[contains(normalize-space(text()),'Show more')]",
             "[data-testid='show-more-filters']"
-        };
+        ];
 
         private static readonly string[] ShipmentReferenceInputSelectors =
-        {
+        [
             "input[placeholder*='reference' i]",
             "//input[contains(@placeholder,'reference') or contains(@placeholder,'Reference')]",
             "//label[contains(text(),'Shipment Reference')]/..//input",
             "//label[contains(text(),'Reference')]/..//input",
             "[data-testid='shipment-reference-input']"
-        };
+        ];
 
         private static readonly string[] SearchSubmitButtonSelectors =
-        {
+        [
             "internal:role=button[name='Search'i]",
             "//button[normalize-space(text())='Search']",
             "button[type='submit']:has-text('Search')",
             "//button[@type='submit'][contains(normalize-space(text()),'Search')]"
-        };
+        ];
 
         private static readonly string[] ResetFiltersButtonSelectors =
-        {
+        [
             "internal:role=button[name='Reset'i]",
             "//button[normalize-space(text())='Reset']",
             "button:has-text('Reset')",
             "//button[contains(normalize-space(text()),'Reset')]"
-        };
+        ];
+
+        private static readonly string[] FirstShipmentLinkSelectors =
+        [
+            "(//qwyk-shipment-list-item)[1]//a",
+            "(//article[contains(@class,'shipment') or contains(@class,'card')])[1]//a",
+            "(//a[contains(@href,'/shipments/')])[1]"
+        ];
+
+        private static readonly string[] DisabledTagIconSelectors =
+        [
+            "//button[contains(@class,'plus-icon') and @disabled]",
+            "button.plus-icon[disabled]"
+        ];
+
+        private static readonly string[] TooltipSelectors =
+        [
+            ".tooltip-inner",
+            ".p-tooltip-text",
+            "[role='tooltip']",
+            ".tippy-content",
+            ".tooltip"
+        ];
 
         // ── Private helpers ───────────────────────────────────────────────────────
 
@@ -280,17 +327,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task IOpenTheFirstQuotationInStatusBooked()
         {
             await DismissBlockingDialogIfPresentAsync();
-            var quotationLink = await FindLocatorAsync(new[]
-            {
-                "qwyk-quotation-card:has-text('Booked') a",
-                "qwyk-quotation-list-item:has-text('Booked') a",
-                "//article[contains(., 'Booked')]//a",
-                "//li[contains(., 'Booked')]//a",
-                "//*[contains(@class,'card')][contains(., 'Booked')]//a",
-                "//*[contains(@class,'item')][contains(., 'Booked')]//a",
-                "//*[contains(@class,'row')][contains(., 'Booked')]//a",
-                "//a[contains(@href,'/quotations/') and not(contains(@class,'nav-link'))]"
-            });
+            var quotationLink = await FindLocatorAsync(BookedQuotationLinkSelectors);
             await ClickAndWaitForNetworkAsync(quotationLink);
         }
 
@@ -317,13 +354,7 @@ namespace DFP.Playwright.Pages.Web
             }
 
             // Try clicking a close button if present
-            var closeBtn = await TryFindLocatorAsync(new[]
-            {
-                "button:has-text('Close')",
-                "button[aria-label='Close']",
-                "button:has(.pi-times)",
-                "button:has(svg[data-icon='xmark'])"
-            }, timeoutMs: 2000);
+            var closeBtn = await TryFindLocatorAsync(DialogCloseButtonSelectors, timeoutMs: 2000);
             if (closeBtn != null)
                 await ClickAsync(closeBtn);
 
@@ -346,8 +377,7 @@ namespace DFP.Playwright.Pages.Web
             await Page.WaitForURLAsync(url => url.Contains("/quotations/"),
                 new PageWaitForURLOptions { Timeout = 15000 });
 
-            Assert.IsTrue(
-                Page.Url.Contains("/quotations/"),
+            Assert.Contains("/quotations/", Page.Url,
                 $"Expected to be on a Quotation Details page but current URL was: {Page.Url}");
 
             var offersTab = await TryFindLocatorAsync(QuotationDetailsSelectors, timeoutMs: 10000);
@@ -405,14 +435,7 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IClickOnEditButtonToEditTheShipmentName()
         {
-            var editButton = await FindLocatorAsync(new[]
-            {
-                "internal:role=button[name=\"Edit\"i]",
-                "button:has(svg[data-icon='pen-to-square'])",
-                "button:has(fa-icon svg[data-icon='pen-to-square'])",
-                "//button[.//*[name()='svg' and @data-icon='pen-to-square']]",
-                "//button[contains(@aria-label,'edit') or contains(@title,'Edit') or normalize-space(text())='Edit']"
-            });
+            var editButton = await FindLocatorAsync(EditShipmentButtonSelectors);
             await ClickAsync(editButton);
         }
 
@@ -438,11 +461,11 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IShouldSeeTheNewShipmentName()
         {
-            var nameVisible = await TryFindLocatorAsync(new[]
-            {
+            var nameVisible = await TryFindLocatorAsync(
+            [
                 $"internal:text=\"{_shipmentName}\"i",
                 $"//*[contains(text(),'{_shipmentName}')]"
-            }, timeoutMs: 10000);
+            ], timeoutMs: 10000);
             Assert.IsNotNull(nameVisible,
                 $"New shipment name '{_shipmentName}' was not visible on the page after saving.");
         }
@@ -468,11 +491,11 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task TheShipmentShouldDisplayTheShipmentName()
         {
-            var nameDisplayed = await TryFindLocatorAsync(new[]
-            {
+            var nameDisplayed = await TryFindLocatorAsync(
+            [
                 $"internal:text=\"{_shipmentName}\"i",
                 $"//*[contains(text(),'{_shipmentName}')]"
-            }, timeoutMs: 15000);
+            ], timeoutMs: 15000);
             Assert.IsNotNull(nameDisplayed,
                 $"Shipment name '{_shipmentName}' was not displayed on the Shipment Details page. URL: {Page.Url}");
         }
@@ -486,27 +509,38 @@ namespace DFP.Playwright.Pages.Web
             await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            var shipmentsNavLink = await FindLocatorAsync(new[]
-            {
-                "#navSidebar >> internal:role=link[name=\"Shipments\"i]",
-                "internal:role=link[name=\"Shipments\"i]",
-                "a:has-text(\"Shipments\")"
-            });
+            var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
             await ClickAndWaitForNetworkAsync(shipmentsNavLink);
         }
 
         public async Task IClickOnShowMoreFilters()
         {
+            // Ensure the Shipments list page has fully loaded before trying to interact with filters.
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
             var showMore = await FindLocatorAsync(ShowMoreFiltersSelectors);
-            await ClickAndWaitForNetworkAsync(showMore);
+            // ClickAsync: "Show more filters" is a UI toggle — no API call, no navigation.
+            // ClickAndWaitForNetworkAsync would resolve NetworkIdle before the filter panel renders.
+            await ClickAsync(showMore);
+
+            // Assert the filter panel actually expanded: the Shipment Reference input must appear.
+            var referenceInput = await TryFindLocatorAsync(ShipmentReferenceInputSelectors, timeoutMs: 10000);
+            Assert.IsNotNull(referenceInput,
+                $"'Show More Filters' was clicked but the Shipment Reference input did not appear — the filter panel may not have expanded. URL: {Page.Url}");
         }
 
         public async Task IEnterShipmentNameInShipmentReferenceField()
         {
             var referenceInput = await FindLocatorAsync(ShipmentReferenceInputSelectors);
+            await WaitForEnabledAsync(referenceInput);
             if (string.IsNullOrWhiteSpace(_shipmentName))
                 _shipmentName = $"NoSuchShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
             await TypeAsync(referenceInput, _shipmentName);
+
+            // Assert the value was actually typed — detects cases where the field was read-only or wrong.
+            var typed = await referenceInput.InputValueAsync();
+            Assert.IsTrue(typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase),
+                $"Shipment name was not typed correctly into the Shipment Reference field. Expected: '{_shipmentName}', Actual: '{typed}'. URL: {Page.Url}");
         }
 
         public async Task IClickOnSearchButton()
@@ -530,11 +564,11 @@ namespace DFP.Playwright.Pages.Web
             const int maxRetries = 5;
             const int retryDelayMs = 4000;
 
-            var resultSelectors = new[]
-            {
+            string[] resultSelectors =
+            [
                 $"internal:text=\"{_shipmentName}\"i",
                 $"//*[contains(text(),'{_shipmentName}')]"
-            };
+            ];
 
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -581,16 +615,7 @@ namespace DFP.Playwright.Pages.Web
             // Wait for the tooltip DOM element to render
             await Page.WaitForTimeoutAsync(600);
 
-            var tooltipSelectors = new[]
-            {
-                ".tooltip-inner",
-                ".p-tooltip-text",
-                "[role='tooltip']",
-                ".tippy-content",
-                ".tooltip"
-            };
-
-            var tooltipEl = await TryFindLocatorAsync(tooltipSelectors, timeoutMs: 5000);
+            var tooltipEl = await TryFindLocatorAsync(TooltipSelectors, timeoutMs: 5000);
             if (tooltipEl != null)
             {
                 var tooltipText = await tooltipEl.InnerTextAsync();
@@ -611,18 +636,25 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task UserClicksTheTagIcon()
         {
-            // Scope to the shipment row/card that contains _shipmentName to avoid clicking
-            // the tag icon of a different shipment when multiple rows are visible.
-            var scopedSelectors = new[]
-            {
-                // 1. Ancestor card/row containing the shipment name → find button inside it
-                $"//*[contains(normalize-space(),'{_shipmentName}')]/ancestor-or-self::*[contains(@class,'card') or contains(@class,'row') or contains(@class,'item')][1]//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
-                // 2. Any element containing the shipment name → button sibling/descendant
-                $"//*[.//text()[contains(.,'{_shipmentName}')]]//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
-                // 3. Unscoped fallback — most specific selector available
-                "//button[contains(@class,'plus-icon') and contains(@class,'rounded-circle')]",
-                "button.plus-icon.rounded-circle",
-            };
+            // The tag button HTML: <button class="p-element rounded-circle btn btn-primary btn-sm plus-icon">
+            //                        <svg id="mdi-tag-plus" .../>
+            //                      </button>
+            // svg[@id='mdi-tag-plus'] is the unique identifier. Class-only selectors are unreliable
+            // because @class='row' matches Bootstrap grid rows including the filter form area,
+            // causing the selector to scope to the filter panel when the shipment name is also
+            // present in the search input field at the top of the page.
+            // Scope to qwyk-shipment-list-item (the Angular component) or article — never to 'row'.
+            string[] scopedSelectors =
+            [
+                // 1. Angular list-item component scoped + SVG id (most specific — avoids filter area)
+                $"//qwyk-shipment-list-item[contains(normalize-space(),'{_shipmentName}')]//button[./svg[@id='mdi-tag-plus']]",
+                // 2. Article element scoped + SVG id
+                $"//article[contains(normalize-space(),'{_shipmentName}')]//button[./svg[@id='mdi-tag-plus']]",
+                // 3. Unscoped but identified by unique SVG id (btn-primary = enabled state)
+                "//button[contains(@class,'plus-icon') and ./svg[@id='mdi-tag-plus']]",
+                // 4. CSS fallback using :has() with SVG id
+                "button:has(svg#mdi-tag-plus)",
+            ];
 
             var tagIcon = await FindLocatorAsync(scopedSelectors);
 
@@ -631,7 +663,10 @@ namespace DFP.Playwright.Pages.Web
             // The tooltip verification is handled by TheSystemShouldShowTheMaxTagsError.
             var disabledAttr = await tagIcon.GetAttributeAsync("disabled");
             if (disabledAttr == null)
+            {
+                await WaitForEnabledAsync(tagIcon);
                 await ClickAsync(tagIcon);
+            }
         }
 
         public async Task ATagInputFieldShouldAppear()
@@ -664,13 +699,13 @@ namespace DFP.Playwright.Pages.Web
         {
             for (int attempt = 1; attempt <= 3; attempt++)
             {
-                var tagVisible = await TryFindLocatorAsync(new[]
-                {
+                var tagVisible = await TryFindLocatorAsync(
+                [
                     $"internal:text=\"{_tagName}\"i",
                     $"//*[contains(text(),'{_tagName}')]",
                     $"[class*='tag']:has-text('{_tagName}')",
                     $"span[class*='badge']:has-text('{_tagName}')"
-                }, timeoutMs: 8000);
+                ], timeoutMs: 8000);
 
                 if (tagVisible != null)
                     return;
@@ -684,35 +719,35 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task UserOpensTaggedShipmentDetailsView()
         {
-            var shipmentLink = await FindLocatorAsync(new[]
-            {
+            var shipmentLink = await FindLocatorAsync(
+            [
                 $"//*[contains(text(),'{_shipmentName}')]/ancestor::*[contains(@class,'card') or contains(@class,'item')]//a",
                 $"//*[contains(text(),'{_shipmentName}')]/ancestor::article//a",
                 "//a[contains(@href,'/shipments/')]"
-            });
+            ]);
             await ClickAndWaitForNavigationAsync(shipmentLink);
         }
 
         public async Task TheTagShouldBeVisibleInShipmentDetails()
         {
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-            var tagInDetails = await TryFindLocatorAsync(new[]
-            {
+            var tagInDetails = await TryFindLocatorAsync(
+            [
                 $"internal:text=\"{_tagName}\"i",
                 $"//*[contains(text(),'{_tagName}')]",
                 $"[class*='tag']:has-text('{_tagName}')"
-            }, timeoutMs: 15000);
+            ], timeoutMs: 15000);
             Assert.IsNotNull(tagInDetails,
                 $"Tag '{_tagName}' was not visible in the Shipment Details view. URL: {Page.Url}");
         }
 
         public async Task TheTagShouldBeVisibleInShipmentListView()
         {
-            var tagInList = await TryFindLocatorAsync(new[]
-            {
+            var tagInList = await TryFindLocatorAsync(
+            [
                 $"//span[contains(@class,'status-badge') and contains(normalize-space(),'{_tagName}')]",
                 $"span.status-badge:has-text('{_tagName}')"
-            }, timeoutMs: 15000);
+            ], timeoutMs: 15000);
             Assert.IsNotNull(tagInList,
                 $"Tag '{_tagName}' was not visible in Shipment List view.");
         }
@@ -723,11 +758,11 @@ namespace DFP.Playwright.Pages.Web
             await ClickAndWaitForNetworkAsync(tableViewBtn);
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            var tagInTable = await TryFindLocatorAsync(new[]
-            {
+            var tagInTable = await TryFindLocatorAsync(
+            [
                 $"//span[contains(@class,'status-badge') and contains(normalize-space(),'{_tagName}')]",
                 $"span.status-badge:has-text('{_tagName}')"
-            }, timeoutMs: 15000);
+            ], timeoutMs: 15000);
             Assert.IsNotNull(tagInTable,
                 $"Tag '{_tagName}' was not visible in Shipment Table view.");
         }
@@ -742,12 +777,18 @@ namespace DFP.Playwright.Pages.Web
         {
             var listViewBtn = await FindLocatorAsync(ListViewButtonSelectors);
             await ClickAndWaitForNetworkAsync(listViewBtn);
+
+            Assert.Contains("/my-portal/shipments", Page.Url,
+                $"After clicking List View, the page navigated away from the shipments list. URL: {Page.Url}");
         }
 
         public async Task IClickOnTableViewButton()
         {
             var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
             await ClickAndWaitForNetworkAsync(tableViewBtn);
+
+            Assert.Contains("/my-portal/shipments", Page.Url,
+                $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
         }
 
         public async Task TheShipmentShouldNotAppearInSearchResults()
@@ -789,12 +830,7 @@ namespace DFP.Playwright.Pages.Web
         {
             _allTagNames.Clear();
 
-            var firstShipmentLink = await TryFindLocatorAsync(new[]
-            {
-                "(//qwyk-shipment-list-item)[1]//a",
-                "(//article[contains(@class,'shipment') or contains(@class,'card')])[1]//a",
-                "(//a[contains(@href,'/shipments/')])[1]"
-            }, timeoutMs: 10000);
+            var firstShipmentLink = await TryFindLocatorAsync(FirstShipmentLinkSelectors, timeoutMs: 10000);
 
             Assert.IsNotNull(firstShipmentLink,
                 "No shipments were found in the Shipments List.");
@@ -812,11 +848,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task TheSystemShouldShowTheMaxTagsError(string expectedError)
         {
             // Target the disabled button specifically to avoid matching an enabled button
-            var disabledTagIcon = await FindLocatorAsync(new[]
-            {
-                "//button[contains(@class,'plus-icon') and @disabled]",
-                "button.plus-icon[disabled]"
-            });
+            var disabledTagIcon = await FindLocatorAsync(DisabledTagIconSelectors);
 
             // Force=true skips actionability checks (visible, stable, receives-events)
             // which would fail because Angular sets pointer-events:none on disabled buttons
@@ -825,22 +857,13 @@ namespace DFP.Playwright.Pages.Web
             // Allow the tooltip to render
             await Page.WaitForTimeoutAsync(600);
 
-            var tooltipSelectors = new[]
-            {
-                ".tooltip-inner",
-                ".p-tooltip-text",
-                "[role='tooltip']",
-                ".tippy-content",
-                ".tooltip"
-            };
-
-            var tooltip = await TryFindLocatorAsync(tooltipSelectors, timeoutMs: 5000);
+            var tooltip = await TryFindLocatorAsync(TooltipSelectors, timeoutMs: 5000);
 
             if (tooltip != null)
             {
                 var tooltipText = await tooltip.InnerTextAsync();
                 Assert.IsTrue(
-                    tooltipText.Contains("5", StringComparison.OrdinalIgnoreCase) ||
+                    tooltipText.Contains('5') ||
                     tooltipText.Contains("limit", StringComparison.OrdinalIgnoreCase) ||
                     tooltipText.Contains("maximum", StringComparison.OrdinalIgnoreCase),
                     $"Tooltip did not mention the 5-tag limit. Expected something like '{expectedError}', Got: '{tooltipText}'");
@@ -856,7 +879,7 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsFalse(string.IsNullOrEmpty(attrText),
                 $"Expected a tooltip on the disabled tag icon (5-tag limit reached), but none was found. Expected: '{expectedError}'");
             Assert.IsTrue(
-                attrText.Contains("5", StringComparison.OrdinalIgnoreCase) ||
+                attrText.Contains('5') ||
                 attrText.Contains("limit", StringComparison.OrdinalIgnoreCase) ||
                 attrText.Contains("maximum", StringComparison.OrdinalIgnoreCase),
                 $"Tag icon attribute tooltip did not mention the limit. Expected: '{expectedError}', Got: '{attrText}'");
@@ -871,11 +894,11 @@ namespace DFP.Playwright.Pages.Web
 
             foreach (var tag in _allTagNames)
             {
-                var tagBadge = await TryFindLocatorAsync(new[]
-                {
+                var tagBadge = await TryFindLocatorAsync(
+                [
                     $"//span[contains(@class,'status-badge') and contains(normalize-space(),'{tag}')]",
                     $"span.status-badge:has-text('{tag}')"
-                }, timeoutMs: 10000);
+                ], timeoutMs: 10000);
                 Assert.IsNotNull(tagBadge,
                     $"Tag '{tag}' was not visible in Shipment List view.");
             }
@@ -890,12 +913,12 @@ namespace DFP.Playwright.Pages.Web
 
             foreach (var tag in _allTagNames)
             {
-                var tagInDetails = await TryFindLocatorAsync(new[]
-                {
+                var tagInDetails = await TryFindLocatorAsync(
+                [
                     $"internal:text=\"{tag}\"i",
                     $"//*[contains(text(),'{tag}')]",
                     $"[class*='tag']:has-text('{tag}')"
-                }, timeoutMs: 10000);
+                ], timeoutMs: 10000);
                 Assert.IsNotNull(tagInDetails,
                     $"Tag '{tag}' was not visible in Shipment Details view. URL: {Page.Url}");
             }
@@ -930,11 +953,11 @@ namespace DFP.Playwright.Pages.Web
 
             foreach (var tag in _allTagNames)
             {
-                var tagBadge = await TryFindLocatorAsync(new[]
-                {
+                var tagBadge = await TryFindLocatorAsync(
+                [
                     $"//span[contains(@class,'status-badge') and normalize-space()='{tag}']",
                     $"span.status-badge:has-text('{tag}')"
-                }, timeoutMs: 10000);
+                ], timeoutMs: 10000);
                 Assert.IsNotNull(tagBadge,
                     $"Tag '{tag}' was not visible in Shipment Table view.");
             }

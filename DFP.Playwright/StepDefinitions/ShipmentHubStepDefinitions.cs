@@ -10,14 +10,16 @@ namespace DFP.Playwright.StepDefinitions
         public async Task INavigatedToShipmentListInTheHub()
             => await shipmentHubPage.INavigatedToShipmentListInTheHub();
 
-        [When("I click on Shipment Reference input field in the Hub")]
-        public async Task IClickOnShipmentReferenceInputFieldInTheHub()
-            => await shipmentHubPage.IClickOnShipmentReferenceInputFieldInTheHub();
+        [When("I click on Customer Reference input field in the Hub")]
+        public async Task IClickOnCustomerReferenceInputFieldInTheHub()
+            => await shipmentHubPage.IClickOnCustomerReferenceInputFieldInTheHub();
 
-        [When("I enter the shipment name in Shipment Reference field in the Hub")]
-        public async Task IEnterTheShipmentNameInShipmentReferenceFieldInTheHub()
-            => await shipmentHubPage.IEnterTheShipmentNameInShipmentReferenceFieldInTheHub(shipmentPage.GetShipmentName());
-
+        [When("I enter the shipment name in Customer Reference field in the Hub")]
+        public async Task IEnterTheShipmentNameInCustomerReferenceFieldInTheHub()
+        {
+            await shipmentHubPage.IEnterTheShipmentNameInCustomReferenceFieldInTheHub(shipmentPage.GetShipmentName());
+            await Task.Delay(5000); // Temporary delay to allow for API complete unhide Shipment.
+        }
         [When("I click on Search button in the hub")]
         public async Task IClickOnSearchButtonInTheHub()
             => await shipmentHubPage.IClickOnSearchButtonInTheHub();

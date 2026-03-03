@@ -23,11 +23,11 @@ namespace DFP.Playwright.Pages.Web
             return baseUrl;
         }
 
-        private static readonly string[] HubShipmentReferenceInputSelectors =
+        private static readonly string[] HubCustomerReferenceInputSelectors =
         [
-            "internal:role=textbox[name=\"Shipment Reference\"i]",
-            "input[placeholder*='reference' i]",
-            "//input[contains(@placeholder,'reference') or contains(@placeholder,'Reference')]"
+            "internal:role=textbox[name=\"Customer Reference\"i]",
+            "input[placeholder*='customer reference' i]",
+            "//input[contains(@placeholder,'customer reference') or contains(@placeholder,'Customer Reference')]"
         ];
 
         private static readonly string[] HubSearchButtonSelectors =
@@ -52,18 +52,18 @@ namespace DFP.Playwright.Pages.Web
         /// Clicks the Shipment Reference input to focus it.
         /// ClickAsync is correct — this is a simple focus, no navigation or API call.
         /// </summary>
-        public async Task IClickOnShipmentReferenceInputFieldInTheHub()
+        public async Task IClickOnCustomerReferenceInputFieldInTheHub()
         {
-            var shipmentRef = await FindLocatorAsync(HubShipmentReferenceInputSelectors);
-            await ClickAsync(shipmentRef);
+            var customerRef = await FindLocatorAsync(HubCustomerReferenceInputSelectors);
+            await ClickAsync(customerRef);
         }
 
         /// <summary>
         /// Types the shipment name (retrieved from the portal step via the step definition) into the Hub reference field.
         /// </summary>
-        public async Task IEnterTheShipmentNameInShipmentReferenceFieldInTheHub(string shipmentName)
+        public async Task IEnterTheShipmentNameInCustomReferenceFieldInTheHub(string shipmentName)
         {
-            var shipmentRefInput = await FindLocatorAsync(HubShipmentReferenceInputSelectors);
+            var shipmentRefInput = await FindLocatorAsync(HubCustomerReferenceInputSelectors);
             await TypeAsync(shipmentRefInput, shipmentName);
         }
 

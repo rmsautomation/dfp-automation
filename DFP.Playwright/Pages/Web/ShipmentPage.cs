@@ -1,6 +1,5 @@
 using Microsoft.Playwright;
 using DFP.Playwright.Pages.Web.BasePages;
-using DFP.Playwright.Helpers;
 
 namespace DFP.Playwright.Pages.Web
 {
@@ -9,16 +8,6 @@ namespace DFP.Playwright.Pages.Web
         private string _shipmentName = string.Empty;
         private string _tagName = string.Empty;
         private readonly List<string> _allTagNames = [];
-
-        private static string GetPortalBaseUrl()
-        {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                          ?? Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-            return baseUrl;
-        }
 
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
@@ -357,8 +346,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheQuotationsListPage()
         {
-            var baseUrl = GetPortalBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/quotations");
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/quotations");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -542,13 +531,11 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task UserNavigatedToShipmentsList()
         {
-            // Replicates "Open shipments from dashboard": go to dashboard, then click Shipments nav link
-            var baseUrl = GetPortalBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
+            // Use the current page's origin so that integration-portal sessions
+            // (e.g. TC3986 "with Int") are not redirected to the non-int portal URL.
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-
-            var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
-            await ClickAndWaitForNetworkAsync(shipmentsNavLink);
         }
 
         public async Task IClickOnShowMoreFilters()
@@ -1197,6 +1184,22 @@ namespace DFP.Playwright.Pages.Web
             var linkText = (await shipmentLink.InnerTextAsync()).Trim();
             Assert.IsTrue(linkText.Contains(shipmentName, StringComparison.OrdinalIgnoreCase),
                 $"Shipment link text does not contain expected shipment name '{shipmentName}'. Got: '{linkText}'");
+        }
+
+        // House Bs/L tab: <div><fa-icon><svg data-icon="folder-tree"></svg></fa-icon> House Bs/L </div>
+        private static readonly string[] HouseTabSelectors =
+        [
+            "svg[data-icon='folder-tree']",
+            "//svg[@data-icon='folder-tree']",
+            "//*[contains(normalize-space(),'House Bs/L')]"
+        ];
+
+        public async Task IShouldNotSeeHouseTab()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            var houseTab = await TryFindLocatorAsync(HouseTabSelectors, timeoutMs: 5000);
+            Assert.IsNull(houseTab,
+                $"'House Bs/L' tab should not be displayed but was found. URL: {Page.Url}");
         }
     }
 }

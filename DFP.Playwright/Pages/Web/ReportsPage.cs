@@ -77,8 +77,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheReportsPage()
         {
-            var baseUrl = GetPortalBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/reports");
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/reports");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -196,13 +196,8 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task IAlreadyClickOnSearchButtonInReportsSection()
         {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                          ?? Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/reports/shipments");
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/reports/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             var searchButton = await FindLocatorAsync(SearchButtonSelectors);

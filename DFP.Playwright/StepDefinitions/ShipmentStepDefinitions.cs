@@ -132,6 +132,12 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── ShipmentSearch steps ─────────────────────────────────────────────────
 
+        [Given("I set the shipment name to {string}")]
+        public void ISetTheShipmentNameTo(string name)
+        {
+            _shipmentPage.SetShipmentName(name);
+        }
+
         [Given("user navigated to Shipments List")]
         [Given("I navigated to Shipments List")]
         public async Task UserNavigatedToShipmentsList()
@@ -225,6 +231,12 @@ namespace DFP.Playwright.StepDefinitions
         public async Task UserOpensTheTaggedShipmentDetailsView()
         {
             await _shipmentPage.UserOpensTaggedShipmentDetailsView();
+        }
+
+        [Then("I should not see House tab")]
+        public async Task IShouldNotSeeHouseTab()
+        {
+            await _shipmentPage.IShouldNotSeeHouseTab();
         }
 
         [Then("the tag should be visible in Shipment details")]

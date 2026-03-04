@@ -49,6 +49,12 @@ namespace DFP.Playwright.Support
                 return new ShipmentHubPage(tc.Page!);
             });
 
+            services.AddScoped<UsersHubPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new UsersHubPage(tc.Page!);
+            });
+
             return services;
         }
     }

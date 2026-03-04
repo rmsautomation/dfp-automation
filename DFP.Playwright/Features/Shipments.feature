@@ -184,15 +184,18 @@ Feature: Shipments
     Given I have a hub API token
     When I hide shipment via API
     Then the hide shipment request should succeed
+   # ── Verify HIDE shipment in List View─────────
     Given I navigated to Shipments List
     When I click on Show More filters
     And I click on List View button
     And I enter the shipment name in Shipment Reference field
     And I click on Search button
     Then the shipment should not appear in the search results
+   # ── Verify HIDE shipment in Table View─────────
     When I click on Table View 
     And I click on Search button
     Then the shipment should not appear in the search results
+   # ── Verify HIDE shipment in Reports─────────
     Given I am on the Reports page
     When I click on "Shipments" option
     Then I should see "Generate Shipments" Report text
@@ -203,11 +206,13 @@ Feature: Shipments
     And I click on Search button
     When I see the Save report button
     Then the shipment name should not appear in the report results
+   # ── Verify HIDE shipment in Dashboard─────────
     Given I am on the dashboard page
     Then I store the total Shipments in the Dashboard after operation
     Then I see initial total shipment -1
  Given I login to Hub as user "without Int"
     Then the login dashboard should be visible
+    # ── Verify HIDE shipment in the HUB─────────
     Given I navigated to shipment List in the Hub
     When I click on Customer Reference input field in the Hub
     And I enter the shipment name in Customer Reference field in the Hub
@@ -218,14 +223,17 @@ Feature: Shipments
     When I click on Search button in the hub
     Then the shipment should appear in the search results in the hub
     Given I navigated to Shipments List
+   # ── Verify UNHIDE shipment in List View─────────
     And I click on Show More filters
     And I click on List View button
     And I enter the shipment name in Shipment Reference field
     And I click on Search button
     Then the shipment should appear in the search results
+   # ── Verify UNHIDE shipment in Table View─────────
     When I click on Table View 
     And I click on Search button
     Then the shipment should appear in the search results
+    # ── Verify UNHIDE shipment in Reports─────────
     Given I am on the Reports page
     When I click on "Shipments" option
     Then I should see "Generate Shipments" Report text
@@ -237,6 +245,7 @@ Feature: Shipments
     When I see the Save report button
     Then I could not see the text We couldn't find any matching report, try changing your search filters.
     And I should see the shipment Name
+   # ── Verify UNHIDE shipment in Dashboard─────────
     Given I am on the dashboard page
     Then I store the total Shipments in the Dashboard after operation
     Then I see initial total shipment
@@ -259,7 +268,8 @@ Feature: Shipments
     When I link shipment to purchase order via API
     And I link cargo item to order line for shipment via API
     Then the link requests should succeed
-Given I login to Portal as user "without Int"
+    # ── Verify PO Link in the shipment─────────
+   Given I login to Portal as user "without Int"
     Given I navigated to Shipments List
     And I click on Show More filters
     And I click on List View button
@@ -270,16 +280,20 @@ Given I login to Portal as user "without Int"
     Then I should be on the Shipment Details page
     When I click on Booking Details Tab
     Then I should see the Purchase Order section in the Shipment Portal
+    # ── Verify PO Link in the shipment redirects to the PO Details─────────
     When I click on Purchase Order link
     Then I should be on the Purchase Order Details 
+    # ── Verify PO in In Progress and PI is linked to the SH─────────
     And I should see the Status of the PO In Progress
     And I should see Booked Shipments section in the Purchase order
     When I click on the Shipment Name link
     Then I should be on the Shipment Details page
     When I click on Booking Details Tab
     Then I should see the Purchase Order section in the Shipment Portal
+    # ── Verify Cargo Link in the shipment─────────
     When I click on Cargo section with PO
     Then I should be on the Purchase Order Details 
+    # ── Verify Oder Line has  the shipment relation────────
     And Order Line has a Shipment Name link related
 
 @10351 @NOINT
@@ -301,19 +315,46 @@ Scenario: Shipments - Validate global search bar - Behavior when filtering by Qu
     When I click on Send Booking button
     Then I should click on Go To Shipment button to see the shipment
     And the shipment should display the shipment name
-    # ── Search the shipment ────────────────────────────────────────────────────
+    # ── Search the shipment Using Quick Filter ────────────────────────────────────────────────────
     Given I navigated to Shipments List
-When I enter the shipment Reference in Quick filter
-And I click on Search button
-Then the shipment should appear in the search results
-When I click on Show More filters
-Then I should not see the quick filter field
-When I click on Show Less
-Then I should see the quick filter field
-When I click on Table View 
- And I click on Search button
- Then the shipment should appear in the search results
-When I click on Show More filters
-Then I should not see the quick filter field
-When I click on Show Less
-Then I should see the quick filter field
+   When I enter the shipment Reference in Quick filter
+   And I click on Search button
+   Then the shipment should appear in the search results
+   # ── Show More filters Verify Quick Filter does NOT exist in List View────────────────────────────────────────────────────
+   When I click on Show More filters
+   Then I should not see the quick filter field
+   # ── Verify Quick Filter exists in List View────────────────────────────────────────────────────
+   When I click on Show Less
+   Then I should see the quick filter field
+   # ── Verify Quick Filter  exists in Table View───────────────────
+   When I click on Table View 
+   And I click on Search button
+   Then the shipment should appear in the search results
+   # ── Verify Quick Filter  DOES NOT exist in Table View───────────────────
+   When I click on Show More filters
+   Then I should not see the quick filter field
+   When I click on Show Less
+   Then I should see the quick filter field
+
+@4508 @NOINT @login
+Scenario: Remove View Shipments permission in Hub and validate shipment data is hidden in Portal
+    Given I login to Hub as user "without Int"
+    Then the login dashboard should be visible
+    When I go to Portal Users
+    Then the Portal Users page should be displayed
+    When I search the User by email automation_noint_permissions@yopmail.com
+    And I click on search button
+    Then I should see the user in the results
+    When I click on the Customer Name in the User Page 
+    Then I should see the User Details page 
+    # ── Disable View Shipment Permissions─────────
+    When I click on the Permissions dropdwon 
+    And I enter the permission in the  search section
+    And I unchecked the "View Shipments" permission
+    And I click on Save User button
+    Then the Portal Users page should be displayed
+    Given I login to Portal as user "automation_noint_permissions@yopmail.com"
+    Then the login dashboard should be visible
+    # ── Verify in the Portal Disable View Shipment Permissions─────────
+    Then the "Shipments List" option should not be displayed
+    And the dashboard should not show shipment related information

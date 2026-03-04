@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 8);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 9);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -1080,46 +1080,135 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
     await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 306
-await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+   await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 307
-await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+   await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 308
-await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 309
-await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+   await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 310
-await testRunner.ThenAsync("I should not see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+   await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 311
-await testRunner.WhenAsync("I click on Show Less", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 312
-await testRunner.ThenAsync("I should see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+   await testRunner.ThenAsync("I should not see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 313
-await testRunner.WhenAsync("I click on Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+   await testRunner.WhenAsync("I click on Show Less", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 314
- await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 315
- await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+   await testRunner.ThenAsync("I should see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 316
-await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+   await testRunner.WhenAsync("I click on Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 317
-await testRunner.ThenAsync("I should not see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+   await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 318
-await testRunner.WhenAsync("I click on Show Less", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+   await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 319
-await testRunner.ThenAsync("I should see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 320
+   await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 321
+   await testRunner.ThenAsync("I should not see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 322
+   await testRunner.WhenAsync("I click on Show Less", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 323
+   await testRunner.ThenAsync("I should see the quick filter field", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
+            "ortal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
+            "ortal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("4508")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task RemoveViewShipmentsPermissionInHubAndValidateShipmentDataIsHiddenInPortal()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "4508",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
+                    "ortal", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 326
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 327
+    await testRunner.GivenAsync("I login to Hub as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 328
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 329
+    await testRunner.WhenAsync("I go to Portal Users", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 330
+    await testRunner.ThenAsync("the Portal Users page should be displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 331
+    await testRunner.WhenAsync("I search the User by email automation_noint_permissions@yopmail.com", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 332
+    await testRunner.AndAsync("I click on search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 333
+    await testRunner.ThenAsync("I should see the user in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 334
+    await testRunner.WhenAsync("I click on the Customer Name in the User Page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 335
+    await testRunner.ThenAsync("I should see the User Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 336
+    await testRunner.WhenAsync("I click on the Permissions dropdwon", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 337
+    await testRunner.AndAsync("I enter the permission in the  search section", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 338
+    await testRunner.AndAsync("I unchecked the \"View Shipments\" permission", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 339
+    await testRunner.AndAsync("I click on Save User button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 340
+    await testRunner.ThenAsync("the Portal Users page should be displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 341
+    await testRunner.GivenAsync("I login to Portal as user \"automation_noint_permissions@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 342
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 343
+    await testRunner.ThenAsync("the \"Shipments List\" option should not be displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 344
+    await testRunner.AndAsync("the dashboard should not show shipment related information", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

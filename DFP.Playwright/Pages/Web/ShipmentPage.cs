@@ -1198,7 +1198,5 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsTrue(linkText.Contains(shipmentName, StringComparison.OrdinalIgnoreCase),
                 $"Shipment link text does not contain expected shipment name '{shipmentName}'. Got: '{linkText}'");
         }
-
-
     }
 }

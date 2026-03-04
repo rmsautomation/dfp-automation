@@ -154,6 +154,18 @@ namespace DFP.Playwright.StepDefinitions
             Assert.AreEqual(initial, current,
                 $"Expected Active Shipments to be back to {initial} after unhiding, but found {current}.");
         }
+
+        [Then("the \"Shipments List\" option should not be displayed")]
+        public async Task TheShipmentsListOptionShouldNotBeDisplayed()
+        {
+            await _dashboard.TheShipmentsListOptionShouldNotBeDisplayed();
+        }
+
+        [Then("the dashboard should not show shipment related information")]
+        public async Task TheDashboardShouldNotShowShipmentRelatedInformation()
+        {
+            await _dashboard.TheDashboardShouldNotShowShipmentRelatedInformation();
+        }
     }
 }
 

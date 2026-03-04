@@ -139,6 +139,33 @@ namespace DFP.Playwright.Pages.Web
                 $"Dashboard content was not visible after navigating. URL: {Page.Url}");
         }
 
+        public async Task TheShipmentsListOptionShouldNotBeDisplayed()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Nav item: <a class="nav-link" href="/my-portal/shipments"><span class="nav-link-text">Shipments</span></a>
+            var shipmentsNav = await TryFindLocatorAsync(
+            [
+                "a.nav-link[href='/my-portal/shipments']",
+                "//a[contains(@href,'/my-portal/shipments') and .//span[contains(@class,'nav-link-text')]]",
+                "//span[contains(@class,'nav-link-text') and normalize-space()='Shipments']/ancestor::a"
+            ], timeoutMs: 5000);
+            Assert.IsNull(shipmentsNav, $"'Shipments' nav option should not be displayed but was found. URL: {Page.Url}");
+        }
+
+        public async Task TheDashboardShouldNotShowShipmentRelatedInformation()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Dashboard widgets: <h6>Active shipments</h6>, <h5>Shipments with upcoming events</h5>, etc.
+            var shipmentWidget = await TryFindLocatorAsync(
+            [
+                "//h6[contains(translate(normalize-space(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'shipment')]",
+                "//h5[contains(translate(normalize-space(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'shipment')]",
+                "//a[contains(@href,'/my-portal/shipments/list')]",
+                "qw-ops-dashboard"
+            ], timeoutMs: 5000);
+            Assert.IsNull(shipmentWidget, $"Dashboard should not show shipment-related information but found a shipment element. URL: {Page.Url}");
+        }
+
         /// <summary>
         /// Finds the Active Shipments count card (paper-plane icon + number),
         /// extracts the numeric value and returns it.

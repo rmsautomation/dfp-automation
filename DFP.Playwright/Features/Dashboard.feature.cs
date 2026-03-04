@@ -125,11 +125,13 @@ namespace DFP.Playwright.Features
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipt()
         {
             string[] tagsOfScenario = new string[] {
                     "3072",
-                    "API"};
+                    "API",
+                    "INT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
@@ -156,10 +158,12 @@ namespace DFP.Playwright.Features
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Shipment")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInShipment()
         {
             string[] tagsOfScenario = new string[] {
-                    "API"};
+                    "API",
+                    "INT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Shipment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);

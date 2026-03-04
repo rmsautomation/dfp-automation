@@ -306,9 +306,14 @@ Scenario: Shipments - Validate global search bar - Behavior when filtering by Qu
 When I enter the shipment Reference in Quick filter
 And I click on Search button
 Then the shipment should appear in the search results
+When I click on Show More filters
+Then I should not see the quick filter field
+When I click on Show Less
+Then I should see the quick filter field
 When I click on Table View 
  And I click on Search button
  Then the shipment should appear in the search results
 When I click on Show More filters
 Then I should not see the quick filter field
 When I click on Show Less
+Then I should see the quick filter field

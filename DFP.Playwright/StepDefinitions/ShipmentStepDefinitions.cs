@@ -84,6 +84,8 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IShouldBeOnTheShipmentDetailsPage()
         {
             await _shipmentPage.IShouldBeOnTheShipmentDetailsPage();
+            // Update shipmentId from the URL so subsequent steps always use the correct GUID
+            StoreShipmentIdFromUrlIfPresent();
         }
 
         [When("I click on Edit button to Edit the Shipment Name")]
@@ -241,6 +243,30 @@ namespace DFP.Playwright.StepDefinitions
         public async Task TheTagShouldBeVisibleInShipmentListView()
         {
             await _shipmentPage.TheTagShouldBeVisibleInShipmentListView();
+        }
+
+        [When("I enter the shipment Reference in Quick filter")]
+        public async Task IEnterTheShipmentReferenceInQuickFilter()
+        {
+            await _shipmentPage.IEnterShipmentReferenceInQuickFilter();
+        }
+
+        [Then("I should not see the quick filter field")]
+        public async Task IShouldNotSeeTheQuickFilterField()
+        {
+            await _shipmentPage.IShouldNotSeeTheQuickFilterField();
+        }
+
+        [When("I click on Show Less")]
+        public async Task IClickOnShowLess()
+        {
+            await _shipmentPage.IClickOnShowLess();
+        }
+
+        [Then("I should see the quick filter field")]
+        public async Task IShouldSeeTheQuickFilterField()
+        {
+            await _shipmentPage.IShouldSeeTheQuickFilterField();
         }
 
         [When("I reset the search filters")]

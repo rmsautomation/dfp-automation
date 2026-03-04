@@ -229,6 +229,26 @@ namespace DFP.Playwright.Pages.Web
             "[data-testid='show-more-filters']"
         ];
 
+        // Quick filter input: visible in compact/collapsed filter state, hidden when "Show More" is expanded
+        // HTML: <input formcontrolname="full" id="full" placeholder="Quick search..." class="p-inputtext p-component ...">
+        private static readonly string[] QuickFilterInputSelectors =
+        [
+            "input[placeholder='Quick search...']",
+            "input#full",
+            "input[formcontrolname='full']",
+            "//input[@placeholder='Quick search...']",
+            "//input[@id='full']"
+        ];
+
+        // "Show less" button — appears when the advanced filter panel is expanded
+        private static readonly string[] ShowLessFiltersSelectors =
+        [
+            "internal:role=button[name='Show less'i]",
+            "//button[contains(normalize-space(text()),'Show less') or contains(normalize-space(text()),'Less filters')]",
+            "a:has-text('Show less')",
+            "//a[contains(normalize-space(text()),'Show less')]"
+        ];
+
         private static readonly string[] ShipmentReferenceInputSelectors =
         [
             "input[placeholder*='reference' i]",
@@ -559,6 +579,46 @@ namespace DFP.Playwright.Pages.Web
             var typed = await referenceInput.InputValueAsync();
             Assert.IsTrue(typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase),
                 $"Shipment name was not typed correctly into the Shipment Reference field. Expected: '{_shipmentName}', Actual: '{typed}'. URL: {Page.Url}");
+        }
+
+        public async Task IEnterShipmentReferenceInQuickFilter()
+        {
+            var quickFilter = await FindLocatorAsync(QuickFilterInputSelectors);
+            await WaitForEnabledAsync(quickFilter);
+            if (string.IsNullOrWhiteSpace(_shipmentName))
+                _shipmentName = $"NoSuchShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
+            await TypeAsync(quickFilter, _shipmentName);
+
+            var typed = await quickFilter.InputValueAsync();
+            Assert.IsTrue(typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase),
+                $"Shipment name was not typed correctly into the Quick filter field. Expected: '{_shipmentName}', Actual: '{typed}'. URL: {Page.Url}");
+        }
+
+        public async Task IShouldNotSeeTheQuickFilterField()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Quick filter is hidden when the advanced filter panel is expanded
+            var quickFilter = Page.Locator(QuickFilterInputSelectors[0]);
+            var isVisible = await IsVisibleAsync(quickFilter, timeoutMs: 2000);
+            Assert.IsFalse(isVisible,
+                $"Quick filter field should NOT be visible after expanding advanced filters. URL: {Page.Url}");
+        }
+
+        public async Task IClickOnShowLess()
+        {
+            var showLess = await FindLocatorAsync(ShowLessFiltersSelectors);
+            await ClickAsync(showLess);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task IShouldSeeTheQuickFilterField()
+        {
+            var quickFilter = await TryFindLocatorAsync(QuickFilterInputSelectors, timeoutMs: 5000);
+            Assert.IsNotNull(quickFilter,
+                $"Quick filter field was not found after clicking 'Show Less'. URL: {Page.Url}");
+            var isVisible = await IsVisibleAsync(quickFilter, timeoutMs: 5000);
+            Assert.IsTrue(isVisible,
+                $"Quick filter field was found but is not visible after clicking 'Show Less'. URL: {Page.Url}");
         }
 
         public async Task IClickOnSearchButton()
@@ -1047,7 +1107,15 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IShouldSeeBookedShipmentsSectionInThePurchaseOrder()
         {
-            await FindLocatorAsync(new[] { "internal:role=heading[name=\"Booked Shipments\"i]" });
+            var heading = await TryFindLocatorAsync(
+            [
+                "internal:role=heading[name=\"Booked Shipments\"i]",
+                "//h5[normalize-space()='Booked Shipments']",
+                "//h4[normalize-space()='Booked Shipments']",
+                "//*[contains(@class,'card-header')]//*[normalize-space()='Booked Shipments']"
+            ], timeoutMs: 10000);
+            Assert.IsNotNull(heading,
+                $"'Booked Shipments' section was not visible on the Purchase Order Details page. URL: {Page.Url}");
         }
 
         public async Task IClickOnTheShipmentNameLink(string shipmentId)
@@ -1086,18 +1154,22 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IClickOnCargoSectionWithPO(string purchaseOrderId)
         {
-    Assert.IsFalse(string.IsNullOrWhiteSpace(purchaseOrderId),
-        "purchaseOrderId cannot be null or empty.");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(purchaseOrderId),
+                "purchaseOrderId cannot be null or empty.");
 
-    var orderLink = await TryFindLocatorAsync(
-    [
-        $"a[href='/my-portal/orders/{purchaseOrderId}']:has-text('P/O')"
-    ], timeoutMs: 10000);
+            var orderLink = await TryFindLocatorAsync(
+            [
+                $"a[href='/my-portal/orders/{purchaseOrderId}']:has-text('P/O')",
+                $"a[href='/my-portal/orders/{purchaseOrderId}']",
+                $"//a[contains(@href,'/my-portal/orders/{purchaseOrderId}') and contains(normalize-space(),'P/O')]",
+                $"//a[contains(@href,'{purchaseOrderId}') and contains(normalize-space(),'P/O')]",
+                $"//a[contains(@href,'{purchaseOrderId}')]"
+            ], timeoutMs: 10000);
 
-    Assert.IsNotNull(orderLink,
-        $"Purchase Order link for id '{purchaseOrderId}' was not visible on the PO Details page. URL: {Page.Url}");
+            Assert.IsNotNull(orderLink,
+                $"Purchase Order link for id '{purchaseOrderId}' was not visible in Cargo section. URL: {Page.Url}");
 
-    await orderLink.ClickAsync();
+            await ClickAndWaitForNavigationAsync(orderLink);
         }
 
         /// <summary>
@@ -1126,7 +1198,5 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsTrue(linkText.Contains(shipmentName, StringComparison.OrdinalIgnoreCase),
                 $"Shipment link text does not contain expected shipment name '{shipmentName}'. Got: '{linkText}'");
         }
-
-
     }
 }

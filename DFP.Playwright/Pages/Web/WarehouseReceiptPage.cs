@@ -9,6 +9,7 @@ namespace DFP.Playwright.Pages.Web
     public sealed class WarehouseReceiptPage : BasePage
     {
         private string _warehouseReceiptName = string.Empty;
+        private string _tableViewColumnName = string.Empty;
 
         public WarehouseReceiptPage(IPage page) : base(page)
         {
@@ -49,6 +50,58 @@ namespace DFP.Playwright.Pages.Web
             "input[name='warehouse_receipt_number']",
             "input[placeholder='Warehouse receipt']"
         };
+
+        // ── Table View – Customize selectors ─────────────────────────────────────
+
+        // View selector dropdown — verified from HTML: span[role="combobox"][aria-label="Default View"]
+        private static readonly string[] DropdwonCustomizeWHSelectors =
+        {
+            "//span[@role='combobox' and @aria-label='Default View']"
+        };
+
+        // "AutomationCustomize" option in the view dropdown — verified from HTML: span text="AutomationCustomize"
+        private static readonly string[] AutomationCustomizeViewSelectors =
+        {
+            "//span[text()='AutomationCustomize']",
+            "//span[text()='AutomationCustomize']/following::button[1]"
+        };
+
+        // Gear/Customize button next to Default View dropdown — verified live: button.btn-primary:has(svg[data-icon='gear'])
+        // Only enabled when a custom view is selected (disabled for Default View)
+        private static readonly string[] GearCustomizeButtonSelectors =
+        {
+            "button.btn-primary:has(svg[data-icon='gear'])",
+            "//button[contains(@class,'btn-primary') and .//svg[@data-icon='gear']]"
+        };
+
+        // "Columns" tab inside the Customize panel
+        private static readonly string[] ColumnsTabSelectors =
+        {
+            "internal:role=tab[name=\"Columns\"i]",
+            "//li[@role='tab'][.//text()[normalize-space()='Columns']]",
+            "//*[@role='tab'][normalize-space()='Columns']"
+        };
+        // Table view toggle button: <div class="p-element btn btn-outline-primary"><fa-icon data-icon="table">
+        private static readonly string[] TableViewButtonSelectorsWH =
+        [
+            "//div[contains(@class,'btn-outline-primary') and contains(@class,'p-element')]",
+            "div.btn-outline-primary:has(svg[data-icon='table'])",
+            "//div[contains(@class,'btn-outline-primary') and .//svg[@data-icon='table']]"
+        ];
+
+        // Search input inside the Customize columns panel — placeholder="Search"
+        private static readonly string[] ColumnSearchInputSelectors =
+        [
+            "input[placeholder='Search']",
+            "//input[@placeholder='Search']"
+        ];
+
+        // Close (X) button of the Customize View sidebar — contains svg.p-sidebar-close-icon
+        private static readonly string[] CustomizeViewCloseButtonSelectors =
+        [
+            "button:has(svg.p-sidebar-close-icon)",
+            "//button[.//svg[contains(@class,'p-sidebar-close-icon')]]"
+        ];
 
         // ── Navigation methods ────────────────────────────────────────────────────
 
@@ -121,7 +174,6 @@ namespace DFP.Playwright.Pages.Web
         /// Verifies no WR is returned after searching by this WR number.
         /// When a WR has Exclude from Tracking = True, the list shows a "No warehouse receipts found" heading.
         /// NOTE: WR names are truncated in the UI (e.g. "TC39…") so we cannot check for the name as text.
-        /// Verified live via MCP on the STG portal.
         /// </summary>
         public async Task TheWarehouseReceiptShouldNotAppearInResultsAsync()
         {
@@ -141,7 +193,6 @@ namespace DFP.Playwright.Pages.Web
         /// Verifies no cargo items are returned in Cargo Detail after searching by this WR number.
         /// When a WR has Exclude from Tracking = True, the search should return zero results,
         /// which renders a "Nothing found" row in the table.
-        /// Verified live via MCP on the STG portal.
         /// </summary>
         public async Task TheWarehouseReceiptShouldNotBeDisplayedInCargoDetailAsync()
         {
@@ -159,6 +210,105 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsNotNull(nothingFound,
                 $"Expected 'Nothing found' in Cargo Detail table after searching for WR '{_warehouseReceiptName}' " +
                 $"(Exclude from Tracking = True), but results were returned. URL: {Page.Url}");
+        }
+
+        // ── Table View – Customize methods ────────────────────────────────────────
+
+        public async Task IClickOnTableViewButton()
+        {
+            var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectorsWH, timeoutMs: 10000);
+            await ClickAndWaitForNetworkAsync(tableViewBtn);
+        }
+       
+        public async Task ISelectAViewToEdit()
+        {
+            var dropdown = await FindLocatorAsync(DropdwonCustomizeWHSelectors, timeoutMs: 10000);
+            await ClickAsync(dropdown);
+            await Page.WaitForTimeoutAsync(500);
+
+            var viewName = await FindLocatorAsync(AutomationCustomizeViewSelectors, timeoutMs: 5000);
+            await ClickAsync(viewName);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        // Step: "I click on Configuration button"
+        // Verified from HTML: button.btn-primary with fa-icon data-icon="gear"
+        public async Task ClickConfigurationButtonAsync()
+        {
+            var gearBtn = await FindLocatorAsync(GearCustomizeButtonSelectors, timeoutMs: 10000);
+            await ClickAsync(gearBtn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        // Step: "I click on Columns tab"
+        // Verified from HTML: <span class="p-tabview-title">Columns</span>
+        public async Task ClickColumnsTabAsync()
+        {
+            var columnsTab = await FindLocatorAsync(ColumnsTabSelectors, timeoutMs: 8000);
+            await ClickAsync(columnsTab);
+            await Page.WaitForTimeoutAsync(500);
+        }
+
+        // Step: "I enter the column Name in the field"
+        // Types "commodities" in the search input and asserts "Commodities Description" row appears.
+        // Verified from HTML: input[placeholder="Search"] and <td> Commodities Description </td>
+        public async Task EnterColumnNameInFieldAsync()
+        {
+            _tableViewColumnName = "Commodities Description";
+
+            var searchInput = await FindLocatorAsync(ColumnSearchInputSelectors, timeoutMs: 8000);
+            await TypeAsync(searchInput, "commodities");
+
+            var columnRow = Page.Locator("//td[normalize-space()='Commodities Description']");
+            await columnRow.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 8000
+            });
+            Assert.IsTrue(await columnRow.IsVisibleAsync(),
+                "Expected 'Commodities Description' row to appear in the Columns search results.");
+        }
+
+        // Step: "I select the column Name"
+        // Clicks the PrimeNG checkbox for "Commodities Description" only if not already checked.
+        // Checked state is indicated by class "p-highlight" on div.p-checkbox-box.
+        public async Task SelectColumnNameAsync()
+        {
+            var row = Page.Locator("//tr[.//td[normalize-space()='Commodities Description']]").First;
+            var checkboxBox = row.Locator("div.p-checkbox-box").First;
+            var classes = await checkboxBox.GetAttributeAsync("class") ?? "";
+
+            if (!classes.Contains("p-highlight"))
+            {
+                await checkboxBox.ClickAsync();
+                await Page.WaitForTimeoutAsync(300);
+            }
+        }
+
+        // Step: "I close the Customize View"
+        // Verified from HTML: button containing svg.p-sidebar-close-icon
+        public async Task CloseCustomizeViewAsync()
+        {
+            var closeBtn = await FindLocatorAsync(CustomizeViewCloseButtonSelectors, timeoutMs: 8000);
+            await ClickAsync(closeBtn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        // Step: "I should see the selected columns in the Table View"
+        // Verified from HTML: th[role="columnheader"] containing "Commodities Description"
+        public async Task ShouldSeeSelectedColumnsInTableViewAsync()
+        {
+            var col = string.IsNullOrEmpty(_tableViewColumnName) ? "Commodities Description" : _tableViewColumnName;
+
+            var colHeader = await TryFindLocatorAsync(new[]
+            {
+                $"//th[@role='columnheader' and .//*[contains(normalize-space(),'{col}')]]",
+                $"//th[contains(normalize-space(),'{col}')]",
+                $"th:has-text('{col}')"
+            }, timeoutMs: 8000);
+
+            Assert.IsNotNull(colHeader,
+                $"Expected column header '{col}' to be visible in the Table View. URL: {Page.Url}");
         }
     }
 }

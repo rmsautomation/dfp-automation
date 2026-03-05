@@ -63,5 +63,66 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _warehouseReceiptPage.TheWarehouseReceiptShouldNotBeDisplayedInCargoDetailAsync();
         }
+
+        // ── Table View – Customize steps ──────────────────────────────────────────
+
+        [Given("I click on Table View in WH Receipt List")]
+        [When("I click on Table View in WH Receipt List")]
+        [Then("I click on Table View in WH Receipt List")]
+        public async Task IClickOnTableViewButton()
+        {
+            await _warehouseReceiptPage.IClickOnTableViewButton();
+        }
+        [When("I select a view to edit")]
+        public async Task ISelectAViewToEdit()
+        {
+            await _warehouseReceiptPage.ISelectAViewToEdit();
+        }
+
+        [Given("I click on Configuration button")]
+        [When("I click on Configuration button")]
+        [Then("I click on Configuration button")]
+        public async Task IClickOnConfigurationButton()
+        {
+            await _warehouseReceiptPage.ClickConfigurationButtonAsync();
+        }
+
+        [Given("I click on Columns tab")]
+        [When("I click on Columns tab")]
+        [Then("I click on Columns tab")]
+        public async Task IClickOnColumnsTab()
+        {
+            await _warehouseReceiptPage.ClickColumnsTabAsync();
+        }
+
+        [Given("I enter the column Name in the field")]
+        [When("I enter the column Name in the field")]
+        [Then("I enter the column Name in the field")]
+        public async Task IEnterTheColumnNameInTheField()
+        {
+            await _warehouseReceiptPage.EnterColumnNameInFieldAsync();
+        }
+
+        [Given("I select the column Name")]
+        [When("I select the column Name")]
+        [Then("I select the column Name")]
+        public async Task ISelectTheColumnName()
+        {
+            await _warehouseReceiptPage.SelectColumnNameAsync();
+        }
+
+        [Given("I close the Customize View")]
+        [When("I close the Customize View")]
+        [Then("I close the Customize View")]
+        public async Task ICloseTheCustomizeView()
+        {
+            await _warehouseReceiptPage.CloseCustomizeViewAsync();
+        }
+
+        [Then("I should see the selected columns in the Table View")]
+        public async Task IShouldSeeTheSelectedColumnsInTheTableView()
+        {
+            await _warehouseReceiptPage.ShouldSeeSelectedColumnsInTableViewAsync();
+        }
     }
 }

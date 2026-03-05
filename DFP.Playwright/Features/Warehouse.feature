@@ -26,3 +26,16 @@ Scenario: Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True
   And I click on Search button
   When I see the Save report button
   Then the warehouse receipt name should not appear in the report results
+
+@5439 @login @INT
+Scenario: User edits a Table View and verifies selected columns
+    Given I login to Portal as user "with Int"
+    Given I navigated to Warehouse Receipts List
+    When I click on Table View in WH Receipt List
+    And I select a view to edit
+    And I click on Configuration button
+    And I click on Columns tab
+    And I enter the column Name in the field
+    And I select the column Name
+    And I close the Customize View
+    Then I should see the selected columns in the Table View  

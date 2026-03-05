@@ -118,44 +118,47 @@ namespace DFP.Playwright.Pages.Web
         // ── Assertion methods ─────────────────────────────────────────────────────
 
         /// <summary>
-        /// Verifies the WR number does NOT appear in the Warehouse Receipt list.
-        /// Verified live: WR items render as list > listitem > link (not table rows).
+        /// Verifies no WR is returned after searching by this WR number.
+        /// When a WR has Exclude from Tracking = True, the list shows a "No warehouse receipts found" heading.
+        /// NOTE: WR names are truncated in the UI (e.g. "TC39…") so we cannot check for the name as text.
+        /// Verified live via MCP on the STG portal.
         /// </summary>
         public async Task TheWarehouseReceiptShouldNotAppearInResultsAsync()
         {
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-            var literal = ToXPathLiteral(_warehouseReceiptName);
-            var wrInResults = await TryFindLocatorAsync(new[]
+            var noResults = await TryFindLocatorAsync(new[]
             {
-                // WR numbers appear as links inside list items
-                $"//a[normalize-space()={literal}]",
-                $"//a[contains(normalize-space(),{literal})]",
-                $"internal:role=link[name=\"{_warehouseReceiptName}\"i]"
-            }, timeoutMs: 4000);
-            Assert.IsNull(wrInResults,
-                $"Warehouse Receipt '{_warehouseReceiptName}' was found in the list but it should not appear (Exclude from Tracking = True). URL: {Page.Url}");
+                "//h5[contains(normalize-space(),'No warehouse receipts found')]",
+                "internal:role=heading[name=\"No warehouse receipts found\"i]",
+                "text=No warehouse receipts found"
+            }, timeoutMs: 8000);
+            Assert.IsNotNull(noResults,
+                $"Expected 'No warehouse receipts found' heading in WR list after searching for '{_warehouseReceiptName}' " +
+                $"(Exclude from Tracking = True), but results were returned. URL: {Page.Url}");
         }
 
         /// <summary>
-        /// Verifies the WR number does NOT appear in the Cargo Detail results after search.
-        /// Waits for NetworkIdle first since the Cargo Detail results can take time to load.
+        /// Verifies no cargo items are returned in Cargo Detail after searching by this WR number.
+        /// When a WR has Exclude from Tracking = True, the search should return zero results,
+        /// which renders a "Nothing found" row in the table.
+        /// Verified live via MCP on the STG portal.
         /// </summary>
         public async Task TheWarehouseReceiptShouldNotBeDisplayedInCargoDetailAsync()
         {
-            // Cargo Detail can take a moment to render results after search
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-            await Page.WaitForTimeoutAsync(1000);
+            await Page.WaitForTimeoutAsync(1500);
 
-            var literal = ToXPathLiteral(_warehouseReceiptName);
-            var wrInCargo = await TryFindLocatorAsync(new[]
+            // When no cargo items match the search, the table shows a "Nothing found" cell.
+            // Verified live: rowgroup > row "Nothing found Clear filters" > cell > generic "Nothing found"
+            var nothingFound = await TryFindLocatorAsync(new[]
             {
-                $"//a[normalize-space()={literal}]",
-                $"//a[contains(normalize-space(),{literal})]",
-                $"internal:role=link[name=\"{_warehouseReceiptName}\"i]",
-                $"//*[contains(normalize-space(),{literal})]"
-            }, timeoutMs: 5000);
-            Assert.IsNull(wrInCargo,
-                $"Warehouse Receipt '{_warehouseReceiptName}' was found on the Cargo Detail page but it should not appear (Exclude from Tracking = True). URL: {Page.Url}");
+                "//table//td[contains(normalize-space(),'Nothing found')]",
+                "//*[normalize-space()='Nothing found']",
+                "text=Nothing found"
+            }, timeoutMs: 18000);
+            Assert.IsNotNull(nothingFound,
+                $"Expected 'Nothing found' in Cargo Detail table after searching for WR '{_warehouseReceiptName}' " +
+                $"(Exclude from Tracking = True), but results were returned. URL: {Page.Url}");
         }
     }
 }

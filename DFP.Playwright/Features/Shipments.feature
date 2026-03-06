@@ -220,6 +220,7 @@ Feature: Shipments
     Then the shipment should NOT appear in the search results in the hub
     When I unhide shipment via API
     Then the unhide shipment request should succeed
+  # ── Verify UNHIDE shipment in the HUB─────────
     When I click on Search button in the hub
     Then the shipment should appear in the search results in the hub
     Given I navigated to Shipments List
@@ -395,3 +396,58 @@ Given I login to Portal as user "with Int"
     And I click on Search button
     When I see the Save report button
     Then the shipment name should not appear in the report results
+
+@10255 @NOINT
+ Scenario: Milestone - Update expected_timestamp for a milestone - Check Date history in the Portal
+ # ── Create Shipment in the Portal────────
+ Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+ Given I login to Hub as user "without Int"
+    Then the login dashboard should be visible
+# ── Go To shipment in the HUB─────────
+    Given I navigated to shipment List in the Hub
+    When I click on Customer Reference input field in the Hub
+    And I enter the shipment name in Customer Reference field in the Hub
+    And I click on Search button in the hub
+    Then the shipment should appear in the search results in the hub
+    And I select the created Shipment
+    # ── Update the Expected date for a milestone─────────
+    When I go to Milestones tab
+    Then I click on Edit button related to "Container empty to shipper"
+    When I click on the calendar button
+    Then I should select the "date" in the calendar
+    When I click on save changes button 
+    Then I should see the "date" in the Milestone tab
+    # ── Adding second date to see the history─────────
+    Then I click on Edit button related to "Container empty to shipper"
+    When I click on the calendar button
+    Then I should select the next week "date" in the calendar
+    When I click on save changes button 
+    # ── Verify in the PORTAL that a new label is displayed next to the milestone date.─────────
+    When I open the portal URL "without int"
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I select the first shipment from the list
+    Then I should see a new label next week to the milestone date in "Container empty to shipper"
+    When I click on the new label next week to the milestone date in "Container empty to shipper"
+    # ── Clicking the tab should display a new pop-up window showing the current date and the historical changes in the dates.───────
+    Then I should see a popup  with the current date 
+    And I should see the historical changes

@@ -16,6 +16,7 @@ namespace DFP.Playwright.StepDefinitions
     {
         private readonly DFP.Playwright.Support.TestContext _tc;
         private readonly ShipmentPage _shipmentPage;
+        private readonly ShipmentHubPage _shipmentHubPage;
 
         private HttpResponseMessage? _hideResponse;
         private string _hideResponseBody = "";
@@ -26,10 +27,11 @@ namespace DFP.Playwright.StepDefinitions
         private string _linkShipmentBody = "";
         private string _linkCargoBody = "";
 
-        public ShipmentStepDefinitions(DFP.Playwright.Support.TestContext tc, ShipmentPage shipmentPage)
+        public ShipmentStepDefinitions(DFP.Playwright.Support.TestContext tc, ShipmentPage shipmentPage, ShipmentHubPage shipmentHubPage)
         {
             _tc = tc;
             _shipmentPage = shipmentPage;
+            _shipmentHubPage = shipmentHubPage;
         }
 // ── Shipment Creation steps ───────────────────────────────────────────────
         [When("I open the first quotation in Status Booked")]
@@ -134,6 +136,8 @@ namespace DFP.Playwright.StepDefinitions
 
         [Given("user navigated to Shipments List")]
         [Given("I navigated to Shipments List")]
+        [When("I navigated to Shipments List")]
+        [Then("I navigated to Shipments List")]
         public async Task UserNavigatedToShipmentsList()
         {
             await _shipmentPage.UserNavigatedToShipmentsList();
@@ -633,6 +637,26 @@ namespace DFP.Playwright.StepDefinitions
 
             await _shipmentPage.VerifyShipmentLinkInOrderLineAsync(shipmentId, shipmentName);
         }
+
+        // ── TC10255: Milestone date history steps (Portal side) ───────────────────
+
+        [Then("I should see a new label next week to the milestone date in {string}")]
+        public async Task IShouldSeeANewLabelNextToTheMilestoneDateIn(string milestoneName)
+            => await _shipmentPage.ShouldSeeHistoryBadgeNextToMilestoneAsync(milestoneName);
+
+        [When("I click on the new label next week to the milestone date in {string}")]
+        public async Task IClickOnTheNewLabelNextToTheMilestoneDateIn(string milestoneName)
+            => await _shipmentPage.ClickHistoryBadgeForMilestoneAsync(milestoneName);
+
+        [Then("I should see a popup  with the current date")]
+        public async Task IShouldSeeAPopupWithTheCurrentDate()
+            => await _shipmentPage.ShouldSeePopupWithCurrentDateAsync();
+
+        // Uses the date stored in ShipmentHubPage during the Hub calendar steps.
+        // _shipmentHubPage is the same scoped instance used in ShipmentHubStepDefinitions.
+        [Then("I should see the historical changes")]
+        public async Task IShouldSeeTheHistoricalChanges()
+            => await _shipmentPage.ShouldSeeHistoricalChangesAsync(_shipmentHubPage.GetSelectedDate());
 
     }
 }

@@ -358,3 +358,40 @@ Scenario: Remove View Shipments permission in Hub and validate shipment data is 
     # ── Verify in the Portal Disable View Shipment Permissions─────────
     Then the "Shipments List" option should not be displayed
     And the dashboard should not show shipment related information
+
+@3986 @INT @login
+Scenario: Magaya to DFP - Update House shipment - Exclude from Tracking = True
+# ──I have a House Shipment created in Magaya with enable the Exclude from Tracking option
+Given I login to Portal as user "with Int"
+   # ── Verify the House Shipment is not displayed in the in List View─────────
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I click on List View button
+    Given I set the shipment name to "HOUSE3986"
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should not appear in the search results
+   # ── Verify the Shipment is not displayed  in Table View─────────
+    When I click on Table View 
+    And I click on Search button
+    Then the shipment should not appear in the search results
+   # ── Verify the MASTER Shipment is  displayed─────────
+   Given I set the shipment name to "TC3986"
+   When I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+ # ── Verify the House tab is not displayed in MASTER Shipment ────────
+   When I open the tagged shipment details view
+   Then I should not see House tab
+   # ── Verify HOUSE shipment should NOT APPEAR in Reports─────────
+    Given I set the shipment name to "HOUSE3986"
+    Given I am on the Reports page
+    When I click on "Shipments" option
+    Then I should see "Generate Shipments" Report text
+    When I select Predefined Range with text Last 7 days
+    Then I should select Custom option
+    When I select the Calendar
+    And I should click on Today option
+    And I click on Search button
+    When I see the Save report button
+    Then the shipment name should not appear in the report results

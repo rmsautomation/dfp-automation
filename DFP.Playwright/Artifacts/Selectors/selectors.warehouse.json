@@ -1,0 +1,23 @@
+{
+  "page": "warehouse",
+  "generatedAt": "2026-03-05T15:58:01.9108550-03:00",
+  "selectors": [
+    ".p-checkbox-box.p-component",
+    ".p-checkbox-icon",
+    ".svg-inline--fa.fa-table",
+    "#pn_id_1673 >> internal:role=button[name=\"dropdown trigger\"i]",
+    "#pn_id_381 >> internal:role=button[name=\"dropdown trigger\"i]",
+    "internal:role=button >> internal:has-text=/^$/ >> nth=4",
+    "internal:role=columnheader >> internal:has-text=/^$/",
+    "internal:role=complementary >> internal:role=button >> internal:has-text=/^$/",
+    "internal:role=link[name=\"Warehouse Receipts\"i]",
+    "internal:role=link[name=\"Warehouse\"s]",
+    "internal:role=tab[name=\"Columns\"i]",
+    "internal:role=textbox[name=\"Search\"i]",
+    "internal:text=\"AutomationCustomize\"i",
+    "internal:text=\"Commodities Description\"i",
+    "internal:text=\"Shipper\"i",
+    "internal:text=\"Status\"s",
+    "internal:text=\"WR Number\"i"
+  ]
+}

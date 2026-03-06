@@ -10,12 +10,14 @@ namespace DFP.Playwright.StepDefinitions
         private readonly DFP.Playwright.Support.TestContext _tc;
         private readonly ReportsPage _reportsPage;
         private readonly ShipmentPage _shipmentPage;
+        private readonly WarehouseReceiptPage _warehouseReceiptPage;
 
-        public ReportsStepDefinitions(DFP.Playwright.Support.TestContext tc, ReportsPage reportsPage, ShipmentPage shipmentPage)
+        public ReportsStepDefinitions(DFP.Playwright.Support.TestContext tc, ReportsPage reportsPage, ShipmentPage shipmentPage, WarehouseReceiptPage warehouseReceiptPage)
         {
             _tc = tc;
             _reportsPage = reportsPage;
             _shipmentPage = shipmentPage;
+            _warehouseReceiptPage = warehouseReceiptPage;
         }
 
         [Given("I am on the Reports page")]
@@ -28,6 +30,19 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IClickOnShipmentsOption()
         {
             await _reportsPage.IClickOnShipmentsOption();
+        }
+
+        [When("I click on \"Warehouse Receipts\" option")]
+        public async Task IClickOnWarehouseReceiptsOption()
+        {
+            await _reportsPage.IClickOnWarehouseReceiptsOption();
+        }
+
+        [Given("I go to Reports Warehouse")]
+        [When("I go to Reports Warehouse")]
+        public async Task IGoToReportsWarehouse()
+        {
+            await _reportsPage.NavigateToWarehouseReceiptsReportAsync();
         }
 
         [Then("I should see {string} Report text")]
@@ -102,6 +117,13 @@ namespace DFP.Playwright.StepDefinitions
         {
             var name = _shipmentPage.GetShipmentName();
             await _reportsPage.TheShipmentNameShouldNotAppearInResults(name);
+        }
+
+        [Then("the warehouse receipt name should not appear in the report results")]
+        public async Task TheWarehouseReceiptNameShouldNotAppearInReportResults()
+        {
+            var name = _warehouseReceiptPage.GetWarehouseReceiptName();
+            await _reportsPage.TheNameShouldNotAppearInResults(name, "Warehouse Receipt");
         }
     }
 }

@@ -33,6 +33,16 @@ namespace DFP.Playwright.Pages.Web
             "//a[contains(@href,'/reports/shipments')]"
         };
 
+        // <a href="/my-portal/reports/warehouse-receipts">Warehouse Receipts</a>
+        // Verified live via MCP: sidebar link href="/my-portal/reports/warehouse-receipts"
+        private static readonly string[] WarehouseReceiptsReportNavSelectors =
+        {
+            "a[href='/my-portal/reports/warehouse-receipts']",
+            "//a[@href='/my-portal/reports/warehouse-receipts']",
+            "//a[contains(@href,'/reports/warehouse-receipts')]",
+            "internal:role=link[name=\"Warehouse Receipts\"i]"
+        };
+
         // <select name="dateRange" class="custom-select">
         private static readonly string[] DateRangeSelectSelectors =
         {
@@ -77,8 +87,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheReportsPage()
         {
-            var baseUrl = GetPortalBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/reports");
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/reports");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -86,6 +96,20 @@ namespace DFP.Playwright.Pages.Web
         {
             var shipmentsLink = await FindLocatorAsync(ShipmentsReportNavSelectors);
             await ClickAndWaitForNetworkAsync(shipmentsLink);
+        }
+
+        public async Task IClickOnWarehouseReceiptsOption()
+        {
+            var warehouseLink = await FindLocatorAsync(WarehouseReceiptsReportNavSelectors);
+            await ClickAndWaitForNetworkAsync(warehouseLink);
+        }
+
+        // Navigates directly to the Warehouse Receipts report URL — verified live via MCP
+        public async Task NavigateToWarehouseReceiptsReportAsync()
+        {
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/reports/warehouse-receipts");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task IShouldSeeText(string expectedText)
@@ -116,6 +140,25 @@ namespace DFP.Playwright.Pages.Web
             }, timeoutMs: 4000);
             Assert.IsNull(textEl,
                 $"Expected text '{unexpectedText}' to NOT be on the page but it was found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies a given name does NOT appear anywhere in the report results table.
+        /// Reused for both Shipments and Warehouse Receipts reports.
+        /// </summary>
+        public async Task TheNameShouldNotAppearInResults(string name, string entityLabel = "Record")
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            var literal = ToXPathLiteral(name);
+            var inResults = await TryFindLocatorAsync(new[]
+            {
+                $"//table//td[contains(normalize-space(),{literal})]",
+                $"//*[contains(@class,'p-datatable')]//td[contains(normalize-space(),{literal})]",
+                $"//*[contains(@class,'p-datatable-row')]//td[contains(normalize-space(),{literal})]",
+                $"td:has-text('{name}')",
+            }, timeoutMs: 4000);
+            Assert.IsNull(inResults,
+                $"{entityLabel} '{name}' was found in the report results but it should not appear (Exclude from Tracking = True). URL: {Page.Url}");
         }
 
         /// <summary>
@@ -196,13 +239,8 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task IAlreadyClickOnSearchButtonInReportsSection()
         {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                          ?? Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/reports/shipments");
+            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+            await Page.GotoAsync(origin + "/my-portal/reports/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             var searchButton = await FindLocatorAsync(SearchButtonSelectors);

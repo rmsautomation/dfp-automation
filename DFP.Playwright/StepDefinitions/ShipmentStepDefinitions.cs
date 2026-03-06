@@ -32,12 +32,6 @@ namespace DFP.Playwright.StepDefinitions
             _shipmentPage = shipmentPage;
         }
 // ── Shipment Creation steps ───────────────────────────────────────────────
-        [Given("I am on the Quotations List page")]
-        public async Task IAmOnTheQuotationsListPage()
-        {
-            await _shipmentPage.IAmOnTheQuotationsListPage();
-        }
-
         [When("I open the first quotation in Status Booked")]
         public async Task IOpenTheFirstQuotationInStatusBooked()
         {

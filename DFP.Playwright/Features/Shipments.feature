@@ -451,3 +451,32 @@ Given I login to Portal as user "with Int"
     # ── Clicking the tab should display a new pop-up window showing the current date and the historical changes in the dates.───────
     Then I should see a popup  with the current date 
     And I should see the historical changes
+
+@API @9893 @NOINT
+Scenario: Enable tracking for a shipment subscribe containers and send coordinates
+    Given I have a portal API token
+    And I have a hub API token
+    When I create shipment via webhook
+    Then a shipment id should be available for tracking
+    When I subscribe current shipment to live tracking via API
+    Then the shipment subscribe request should succeed
+    Given I login to Hub as user "without Int"
+    Then the login dashboard should be visible
+    And I Check the tracking is enabled for the shipment in the hub
+    When I subscribe first container of current shipment to live tracking via API
+    Then the container subscribe request should succeed
+    Given I login to Portal as user "without Int"
+    Given I navigated to Shipments List
+    When I click on Show More filters
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I open the shipment from search results
+    Then subscribed containers should be available in Shipment Summary dropdown
+    When I send tracking coordinates for the subscribed container via API
+    Then the tracking event request should succeed
+    And I refresh the page
+    When I select the subscribed container in Shipment Summary
+    Then I Check that Container LiveTrack and map coordinates are displayed
+    When I click on Shipment Tracking tab
+    Then the Tracking Events section should display the latest container event

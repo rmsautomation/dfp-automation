@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 11);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 12);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -1498,6 +1498,116 @@ await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(
 #line hidden
 #line 453
     await testRunner.AndAsync("I should see the historical changes", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Enable tracking for a shipment subscribe containers and send coordinates")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Enable tracking for a shipment subscribe containers and send coordinates")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9893")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        public async global::System.Threading.Tasks.Task EnableTrackingForAShipmentSubscribeContainersAndSendCoordinates()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "API",
+                    "9893",
+                    "NOINT"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "9";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enable tracking for a shipment subscribe containers and send coordinates", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 456
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 457
+    await testRunner.GivenAsync("I have a portal API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 458
+    await testRunner.AndAsync("I have a hub API token", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 459
+    await testRunner.WhenAsync("I create shipment via webhook", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 460
+    await testRunner.ThenAsync("a shipment id should be available for tracking", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 461
+    await testRunner.WhenAsync("I subscribe current shipment to live tracking via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 462
+    await testRunner.ThenAsync("the shipment subscribe request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 463
+    await testRunner.GivenAsync("I login to Hub as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 464
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 465
+    await testRunner.AndAsync("I Check the tracking is enabled for the shipment in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 466
+    await testRunner.WhenAsync("I subscribe first container of current shipment to live tracking via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 467
+    await testRunner.ThenAsync("the container subscribe request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 468
+    await testRunner.GivenAsync("I login to Portal as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 469
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 470
+    await testRunner.WhenAsync("I click on Show More filters", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 471
+    await testRunner.AndAsync("I enter the shipment name in Shipment Reference field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 472
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 473
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 474
+    await testRunner.WhenAsync("I open the shipment from search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 475
+    await testRunner.ThenAsync("subscribed containers should be available in Shipment Summary dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 476
+    await testRunner.WhenAsync("I send tracking coordinates for the subscribed container via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 477
+    await testRunner.ThenAsync("the tracking event request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 478
+    await testRunner.AndAsync("I refresh the page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 479
+    await testRunner.WhenAsync("I select the subscribed container in Shipment Summary", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 480
+    await testRunner.ThenAsync("I Check that Container LiveTrack and map coordinates are displayed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 481
+    await testRunner.WhenAsync("I click on Shipment Tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 482
+    await testRunner.ThenAsync("the Tracking Events section should display the latest container event", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

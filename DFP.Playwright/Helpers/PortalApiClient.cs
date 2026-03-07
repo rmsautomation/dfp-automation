@@ -187,6 +187,100 @@ namespace DFP.Playwright.Helpers
             return await _http.SendAsync(request);
         }
 
+        public async Task<HttpResponseMessage> SubscribeShipmentAsync(string token, string shipmentId, string internalTrackingNumber)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Hub token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+            if (string.IsNullOrWhiteSpace(internalTrackingNumber))
+                throw new InvalidOperationException("Internal tracking number is required.");
+
+            var path = BuildHubPath($"shipments/v2/{shipmentId}/subscribe");
+            var payload = JsonSerializer.Serialize(new
+            {
+                internal_tracking_number = internalTrackingNumber
+            });
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Subscribe shipment URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> SubscribeContainerAsync(string token, string shipmentId, string containerId)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Hub token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+            if (string.IsNullOrWhiteSpace(containerId))
+                throw new InvalidOperationException("Container ID is required.");
+
+            var path = BuildHubPath($"shipments/v2/{shipmentId}/data/containers/{containerId}/subscribe");
+            var payload = JsonSerializer.Serialize(new
+            {
+                unique_container_id = containerId
+            });
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Subscribe container URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> GetContainersAsync(string token, string shipmentId, int page = 1, int pageSize = 10)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Portal token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+
+            var path = BuildPath($"portals/shipments/v2/{shipmentId}/data/containers?page={page}&page_size={pageSize}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Console.WriteLine($"Get containers URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> PushTrackingEventAsync(string project44Token, string organizationConnectionId, string payloadJson)
+        {
+            if (string.IsNullOrWhiteSpace(project44Token))
+                throw new InvalidOperationException("Project44 token is required.");
+            if (string.IsNullOrWhiteSpace(organizationConnectionId))
+                throw new InvalidOperationException("Organization connection ID is required.");
+            if (string.IsNullOrWhiteSpace(payloadJson))
+                throw new InvalidOperationException("Tracking event payload is required.");
+
+            var path = BuildRootPath($"webhooks/portals/project44/tracking-event/{organizationConnectionId}/push-event");
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", project44Token);
+            request.Content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Push tracking event URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> GetHubContainersAsync(string token, string shipmentId)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Hub token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+
+            var path = BuildHubPath($"shipments/v2/{shipmentId}/data/containers");
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Console.WriteLine($"Get hub containers URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
         public async Task<HttpResponseMessage> CreatePurchaseOrderAsync(string token, string payloadJson)
         {
             if (string.IsNullOrWhiteSpace(token))

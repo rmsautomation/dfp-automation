@@ -1,0 +1,393 @@
+{
+    "version":  "1.0",
+    "doc_type":  "shipment_json",
+    "shipments":  [
+                      {
+                          "source_system_uid":  "{{shipment_id}}",
+                          "id":  "{{shipment_id}}",
+                          "inco_term":  "EXW",
+                          "forwarder_reference":  "{{shipment_reference}}",
+                          "booking_reference":  "{{shipment_reference}}",
+                          "carrier_booking_number":  "{{shipment_reference}}",
+                          "master_bill":  "{{shipment_reference}}",
+                          "house_bill":  "{{shipment_reference}}",
+                          "cargo_ready_estimated":  "{{cargo_ready_estimated}}",
+                          "containerization_type":  "{{containerization_type}}",
+                          "sent_date":  "{{sent_date}}",
+                          "booking_confirmed_actual":  "{{booking_confirmed_actual}}",
+                          "departure_estimated":  "{{departure_estimated}}",
+                          "departure_actual":  "{{departure_actual}}",
+                          "arrival_port_estimated":  "{{arrival_port_estimated}}",
+                          "freight_payment_terms":  "CCX",
+                          "freight_payment_terms_description":  "Collect",
+                          "shipper_reference":  "{{shipment_reference}}",
+                          "carrier_scac":  "{{carrier_scac}}",
+                          "vessel_name":  "{{vessel_name}}",
+                          "voyage_number":  "{{voyage_number}}",
+                          "chargeable_weight":  60.495,
+                          "service_level":  "STD",
+                          "service_level_description":  "Standard",
+                          "number_of_packages":  585,
+                          "package_type_code":  "CTN",
+                          "package_type_description":  "Carton",
+                          "delivery_mode":  "CY/CY",
+                          "contract_number":  "Q2401BUE00189",
+                          "shipment_type_code":  "STD",
+                          "forwarder_controlling_branch_code":  "BUE",
+                          "forwarder_controlling_branch_description":  "Andes Logistics Buenos Aires",
+                          "forwarder_controlling_company_code":  "ARG",
+                          "forwarder_controlling_company_description":  "Andes Logistics Argentina S.A.",
+                          "forwarder_controlling_department_description":  "IMPORTACION MARITIMA",
+                          "value_of_goods":  0,
+                          "value_of_goods_currency":  "ARS",
+                          "insured_value":  0,
+                          "insured_value_currency":  "ARS",
+                          "release_type":  "OBR",
+                          "forwarder_controlling_department_code":  "IMM",
+                          "imo_number":  "9793935",
+                          "release_type_description":  "Original Bill Required at Destination",
+                          "inco_terms_description":  "Free On Board",
+                          "containerization_type_description":  "Full Container Load",
+                          "number_of_outer_packages":  585,
+                          "outer_pack_package_type_code":  "PCE",
+                          "outer_pack_package_type_description":  "Piece",
+                          "origin_pickup_actual":  "2024-01-22T03:18:00Z",
+                          "booking":  false,
+                          "cancelled":  false,
+                          "shipment_converted_from_booking":  true,
+                          "gross_weight_uom":  "KG",
+                          "volume_uom":  "M3",
+                          "consolidation_forwarder_reference":  "TEST_CUSTOMERS_YISEL",
+                          "lading_port":  {
+                                              "unlocode":  "KRPUS",
+                                              "description":  "Busan"
+                                          },
+                          "origin_port":  {
+                                              "unlocode":  "KRPUS",
+                                              "description":  "Busan"
+                                          },
+                          "loading_port":  {
+                                               "unlocode":  "AUFEL",
+                                               "description":  "Felixstow"
+                                           },
+                          "arrival_port":  {
+                                               "unlocode":  "ARBUE",
+                                               "description":  "Buenos Aires"
+                                           },
+                          "final_destination_port":  {
+                                                         "unlocode":  "ARBUE",
+                                                         "description":  "Buenos Aires"
+                                                     },
+                          "consignor":  {
+                                            "name":  "{{consignor.name}}",
+                                            "target_party_id":  "KUMTIR_KR",
+                                            "government_assigned_id":  "101-08-95610",
+                                            "government_assigned_id_type":  "VAT",
+                                            "address_1":  "15F,68,SAEMUNAN-RO,JONGNO-GU",
+                                            "address_2":  "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+                                            "city":  "SEOUL",
+                                            "state":  "11",
+                                            "country":  "KR",
+                                            "country_name":  "Korea, Republic of",
+                                            "postal_code":  "03184",
+                                            "unlocode":  "KRSEL",
+                                            "source_location_id":  "KRSEL",
+                                            "source_system_id":  "{{consignor.source_system_id}}"
+                                        },
+                          "consignee":  {
+                                            "name":  "{{consignee.name}}",
+                                            "target_party_id":  "KUMTIR_KR",
+                                            "government_assigned_id":  "101-08-95610",
+                                            "government_assigned_id_type":  "VAT",
+                                            "address_1":  "15F,68,SAEMUNAN-RO,JONGNO-GU",
+                                            "address_2":  "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+                                            "city":  "SEOUL",
+                                            "state":  "11",
+                                            "country":  "KR",
+                                            "country_name":  "Korea, Republic of",
+                                            "postal_code":  "03184",
+                                            "unlocode":  "KRSEL",
+                                            "source_location_id":  "KRSEL",
+                                            "source_system_id":  "{{consignee.source_system_id}}"
+                                        },
+                          "notify_party":  {
+                                               "name":  "{{notify.name}}",
+                                               "target_party_id":  "KUMTIR_KR",
+                                               "government_assigned_id":  "101-08-95610",
+                                               "government_assigned_id_type":  "VAT",
+                                               "address_1":  "15F,68,SAEMUNAN-RO,JONGNO-GU",
+                                               "address_2":  "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+                                               "city":  "SEOUL",
+                                               "state":  "11",
+                                               "country":  "KR",
+                                               "country_name":  "Korea, Republic of",
+                                               "postal_code":  "03184",
+                                               "unlocode":  "KRSEL",
+                                               "source_location_id":  "KRSEL",
+                                               "source_system_id":  "{{notify.source_system_id}}"
+                                           },
+                          "ship_from":  {
+                                            "name":  "{{ship_from.name}}",
+                                            "target_party_id":  "KUMTIR_KR",
+                                            "government_assigned_id":  "101-08-95610",
+                                            "government_assigned_id_type":  "VAT",
+                                            "address_1":  "15F,68,SAEMUNAN-RO,JONGNO-GU",
+                                            "address_2":  "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+                                            "city":  "SEOUL",
+                                            "state":  "11",
+                                            "country":  "KR",
+                                            "country_name":  "Korea, Republic of",
+                                            "postal_code":  "03184",
+                                            "unlocode":  "KRSEL",
+                                            "source_location_id":  "KRSEL",
+                                            "source_system_id":  "{{ship_from.source_system_id}}"
+                                        },
+                          "ship_to":  {
+                                          "name":  "{{ship_to.name}}",
+                                          "target_party_id":  "KUMTIR_KR",
+                                          "government_assigned_id":  "101-08-95610",
+                                          "government_assigned_id_type":  "VAT",
+                                          "address_1":  "15F,68,SAEMUNAN-RO,JONGNO-GU",
+                                          "address_2":  "68 SAEMUNAN-RO, SINMUNNO 1(IL)-GA",
+                                          "city":  "SEOUL",
+                                          "state":  "11",
+                                          "country":  "KR",
+                                          "country_name":  "Korea, Republic of",
+                                          "postal_code":  "03184",
+                                          "unlocode":  "KRSEL",
+                                          "source_location_id":  "KRSEL",
+                                          "source_system_id":  "{{ship_to.source_system_id}}"
+                                      },
+                          "carrier":  {
+                                          "name":  "{{carrier.name}}",
+                                          "government_assigned_id":  "",
+                                          "government_assigned_id_type":  "",
+                                          "address_1":  "LEVEL 14 151 QUEEN STREET",
+                                          "city":  "AUCKLAND",
+                                          "state":  "AUK",
+                                          "country":  "NZ",
+                                          "postal_code":  "1010",
+                                          "source_system_id":  "{{carrier.source_system_id}}"
+                                      },
+                          "freight_selling_party":  {
+                                                        "name":  "{{freight_selling_party.name}}",
+                                                        "government_assigned_id":  "",
+                                                        "government_assigned_id_type":  "",
+                                                        "address_1":  "LEVEL 14 151 QUEEN STREET",
+                                                        "city":  "AUCKLAND",
+                                                        "state":  "AUK",
+                                                        "country":  "NZ",
+                                                        "postal_code":  "1010",
+                                                        "source_system_id":  "{{freight_selling_party.source_system_id}}"
+                                                    },
+                          "forwarder_branches":  [
+                                                     {
+                                                         "name":  "Andes Logistics Buenos Aires",
+                                                         "target_party_id":  "BUE"
+                                                     }
+                                                 ],
+                          "forwarder_departments":  [
+                                                        {
+                                                            "name":  "IMPORTACION MARITIMA",
+                                                            "target_party_id":  "IMM"
+                                                        }
+                                                    ],
+                          "created_by":  {
+                                             "first_name":  "CargoWise",
+                                             "last_name":  "One",
+                                             "username":  "~BP"
+                                         },
+                          "containers":  [
+                                             {
+                                                 "source_container_id":  "{{source_container_id_1}}",
+                                                 "size_code":  "40G0",
+                                                 "type_code":  "40GP",
+                                                 "container_number":  "{{container_number_1}}",
+                                                 "containerization_type":  "20GP",
+                                                 "delivery_mode":  "CY/CY",
+                                                 "seal_1":  "HLC1028965",
+                                                 "seal_1_affixed_by":  "CRD",
+                                                 "carrier_supplied":  true,
+                                                 "gross_weight_kgs":  11287.292,
+                                                 "gross_weight_uom":  "KG",
+                                                 "vgm_verification_method":  "NON",
+                                                 "volume_cbms":  60.495,
+                                                 "net_weight_uom":  "KG",
+                                                 "number_of_containers":  1,
+                                                 "origin_gate_in_actual":  "2025-06-18T13:44:00Z",
+                                                 "loading_actual":  "2025-06-18T14:36:00Z",
+                                                 "origin_empty_pickup_gate_out":  "2025-06-18T18:12:00Z",
+                                                 "net_weight_kgs":  11287.292,
+                                                 "net_weight_lbs":  24884.2193,
+                                                 "tare_weight_kgs":  0,
+                                                 "tare_weight_lbs":  0,
+                                                 "gross_weight_lbs":  24884.2193
+                                             },
+                                             {
+                                                 "source_container_id":  "{{source_container_id_3}}",
+                                                 "size_code":  "20G0",
+                                                 "type_code":  "20GP",
+                                                 "container_number":  "{{container_number_3}}",
+                                                 "containerization_type":  "20GP",
+                                                 "delivery_mode":  "CY/CY",
+                                                 "seal_1":  "HLC1028965",
+                                                 "seal_1_affixed_by":  "CRD",
+                                                 "carrier_supplied":  true,
+                                                 "gross_weight_kgs":  11287.292,
+                                                 "gross_weight_uom":  "KG",
+                                                 "vgm_verification_method":  "NON",
+                                                 "volume_cbms":  60.495,
+                                                 "net_weight_uom":  "KG",
+                                                 "number_of_containers":  1,
+                                                 "origin_gate_in_actual":  "2025-06-18T13:44:00Z",
+                                                 "loading_actual":  "2025-06-18T14:36:00Z",
+                                                 "origin_empty_pickup_gate_out":  "2025-06-18T18:12:00Z",
+                                                 "net_weight_kgs":  11287.292,
+                                                 "net_weight_lbs":  24884.2193,
+                                                 "tare_weight_kgs":  0,
+                                                 "tare_weight_lbs":  0,
+                                                 "gross_weight_lbs":  24884.2193
+                                             }
+                                         ],
+                          "package_group":  [
+                                                {
+                                                    "package_quantity":  10,
+                                                    "package_type_code":  "PCE",
+                                                    "package_type_description":  "Piece",
+                                                    "description_of_goods":  "Freight All Kinds (FAK)",
+                                                    "volume_cbms":  60.495,
+                                                    "volume_uom":  "M3",
+                                                    "gross_weight_kgs":  11287.292,
+                                                    "gross_weight_uom":  "KG",
+                                                    "commodity_type":  "GEN",
+                                                    "product_import_hts":  "",
+                                                    "package_length_cms":  0,
+                                                    "package_width_cms":  0,
+                                                    "package_height_cms":  0,
+                                                    "package_dimensions_uom":  "M",
+                                                    "marks_and_numbers":  "",
+                                                    "reference_number":  "",
+                                                    "gross_weight_lbs":  24884.2193,
+                                                    "volume_cf":  2136.3628,
+                                                    "package_width_inches":  0,
+                                                    "package_height_inches":  0,
+                                                    "package_length_inches":  0,
+                                                    "source_container_id":  "D00235686"
+                                                }
+                                            ],
+                          "revenue_invoices":  [
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "1",
+                                                                                 "charge_code":  "FRT",
+                                                                                 "description":  "International Freight",
+                                                                                 "total_cost":  4063,
+                                                                                 "currency":  "USD",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "2",
+                                                                                 "charge_code":  "PS",
+                                                                                 "description":  "Profit Share / Rebate KR",
+                                                                                 "total_cost":  0,
+                                                                                 "currency":  "USD",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "3",
+                                                                                 "charge_code":  "PS",
+                                                                                 "description":  "Profit Share / Rebate ANDES CL",
+                                                                                 "total_cost":  0,
+                                                                                 "currency":  "USD",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "4",
+                                                                                 "charge_code":  "DTHCE",
+                                                                                 "description":  "GASTOS NO GRAVADOS",
+                                                                                 "total_cost":  577,
+                                                                                 "currency":  "USD",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "5",
+                                                                                 "charge_code":  "DDOC",
+                                                                                 "description":  "Destination Documentation Fee",
+                                                                                 "total_cost":  50,
+                                                                                 "currency":  "USD",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "6",
+                                                                                 "charge_code":  "DNOTE",
+                                                                                 "description":  "ata",
+                                                                                 "total_cost":  0,
+                                                                                 "currency":  "ARS",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   },
+                                                   {
+                                                       "bill_to_id":  "ERP_Shipper",
+                                                       "invoice_lines":  [
+                                                                             {
+                                                                                 "line_number":  "7",
+                                                                                 "charge_code":  "DNOTE",
+                                                                                 "description":  "exolgan mani",
+                                                                                 "total_cost":  0,
+                                                                                 "currency":  "ARS",
+                                                                                 "branch_code":  "BUE",
+                                                                                 "department_code":  "IMM"
+                                                                             }
+                                                                         ]
+                                                   }
+                                               ],
+                          "notes":  [
+                                        {
+                                            "note_type":  "Detailed Goods Description",
+                                            "body":  "KUMHO BRAND TIRE\n\nSHIPPED ON BOARD \nNCM 4011.10.00\n\n* CARGO IN TRANSIT TO ZONA FRANCA LA PLATA\n* NCM :4011.10.00\n* CONTRACT NO :ARGR2307-TBR-SR(JULY). ARGR2307-KR-SR(JULY)\nCARGA EN TRANSITO A ZONA FRANCA LA PLATA\n\n\"FREIGHT COLLECT\"\n"
+                                        }
+                                    ],
+                          "gross_weight_kgs":  11287.292,
+                          "gross_weight_lbs":  24884.2193,
+                          "volume_cbms":  60.495,
+                          "volume_cf":  2136.3628,
+                          "source_account_uid":  "{{source_account_uid}}",
+                          "transport_mode":  "SEA",
+                          "transmission_uid":  "{{transmission_uid}}"
+                      }
+                  ]
+}

@@ -71,6 +71,41 @@ namespace DFP.Playwright.Pages.Web
             await TypeAsync(shipmentRefInput, shipmentName);
         }
 
+        public async Task OpenShipmentByReferenceAsync(string shipmentReference)
+        {
+            var refLiteral = ToXPathLiteral(shipmentReference);
+            var refLink = await TryFindLocatorAsync(
+            [
+                $"internal:role=link[name=\"{shipmentReference}\"i]",
+                $"//a[contains(@href,'/shipments/') and contains(normalize-space(),{refLiteral})]",
+                $"//*[contains(text(),{refLiteral})]/ancestor::a[contains(@href,'/shipments/')]"
+            ], timeoutMs: 10000);
+
+            Assert.IsNotNull(refLink, $"Shipment link for reference '{shipmentReference}' was not found in Hub results.");
+            await ClickAndWaitForNavigationAsync(refLink!);
+        }
+
+        public async Task CheckTheTrackingIsEnabledForTheShipmentAsync()
+        {
+            var trackingTab = await FindLocatorAsync(
+            [
+                "internal:role=link[name=\"Tracking\"i]",
+                "internal:role=tab[name=\"Tracking\"i]",
+                "a[href*='view=tracking']",
+                "//*[self::a or self::button][contains(normalize-space(),'Tracking')]"
+            ], timeoutMs: 15000);
+            await ClickAndWaitForNetworkAsync(trackingTab);
+
+            var inProgress = await TryFindLocatorAsync(
+            [
+                "internal:text=\"In progress\"i",
+                "//*[contains(normalize-space(),'Automated tracking')]/following::*[contains(normalize-space(),'In progress')][1]",
+                "//*[contains(normalize-space(),'In progress')]"
+            ], timeoutMs: 30000);
+
+            Assert.IsNotNull(inProgress, $"Automated Tracking Status was not 'In progress'. URL: {Page.Url}");
+        }
+
         /// <summary>
         /// Clicks the Search button in the Hub.
         /// ClickAndWaitForNetworkAsync is correct — search triggers an API call.

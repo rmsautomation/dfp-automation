@@ -1,10 +1,13 @@
+using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web;
 
 namespace DFP.Playwright.StepDefinitions
 {
     [Binding]
-    public sealed class ShipmentHubStepDefinitions(ShipmentHubPage shipmentHubPage, ShipmentPage shipmentPage)
+    public sealed class ShipmentHubStepDefinitions(ShipmentHubPage shipmentHubPage, ShipmentPage shipmentPage, DFP.Playwright.Support.TestContext tc)
     {
+        private readonly DFP.Playwright.Support.TestContext _tc = tc;
+
         [Given("I navigated to shipment List in the Hub")]
         public async Task INavigatedToShipmentListInTheHub()
             => await shipmentHubPage.INavigatedToShipmentListInTheHub();
@@ -16,7 +19,17 @@ namespace DFP.Playwright.StepDefinitions
         [When("I enter the shipment name in Customer Reference field in the Hub")]
         public async Task IEnterTheShipmentNameInCustomerReferenceFieldInTheHub()
         {
-            await shipmentHubPage.IEnterTheShipmentNameInCustomReferenceFieldInTheHub(shipmentPage.GetShipmentName());
+            var shipmentRef = shipmentPage.GetShipmentName();
+            if (string.IsNullOrWhiteSpace(shipmentRef))
+            {
+                // API-created shipments store their searchable reference in context.
+                // Use it when no UI-created shipment name was captured.
+                shipmentRef = _tc.Data.TryGetValue("shipment_reference", out var refVal)
+                    ? refVal as string ?? ""
+                    : "";
+            }
+
+            await shipmentHubPage.IEnterTheShipmentNameInCustomReferenceFieldInTheHub(shipmentRef);
             await Task.Delay(5000); // Temporary delay to allow for API complete unhide Shipment.
         }
         [When("I click on Search button in the hub")]

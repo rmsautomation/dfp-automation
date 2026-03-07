@@ -28,8 +28,8 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "WarehouseReceipts"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \n  I want to verify that Warehouse Receipts with Exclude from Trackin" +
-                "g enabled in Magaya\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \r\n  I want to verify that Warehouse Receipts with Exclude from Tracki" +
+                "ng enabled in Magaya\r\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Warehouse.feature"
 #line hidden

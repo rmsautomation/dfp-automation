@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using DFP.Playwright.Helpers;
@@ -12,17 +15,30 @@ namespace DFP.Playwright.StepDefinitions
     public sealed class ShipmentApiWorkflowStepDefinitions
     {
         private readonly DFP.Playwright.Support.TestContext _tc;
+        private readonly ScenarioContext _scenarioContext;
 
-        public ShipmentApiWorkflowStepDefinitions(DFP.Playwright.Support.TestContext tc)
+        public ShipmentApiWorkflowStepDefinitions(DFP.Playwright.Support.TestContext tc, ScenarioContext scenarioContext)
         {
             _tc = tc;
+            _scenarioContext = scenarioContext;
         }
 
         [When("I create shipment via webhook")]
         public async Task WhenICreateShipmentViaWebhook()
         {
-            var payload = LoadPayloadFromEnvOrFile(Constants.SHIPMENT_WEBHOOK_PAYLOAD_PATH, "SHIPMENT_WEBHOOK_PAYLOAD");
+            var payload = ResolveShipmentWebhookPayload();
             payload = ReplaceTemplateVariables(payload);
+            if (_tc.Data.TryGetValue("shipment_reference", out var shipmentRefObj) && shipmentRefObj is string shipmentRef)
+                Console.WriteLine($"CreateShipment context => shipment_reference:{shipmentRef}");
+            if (_tc.Data.TryGetValue("transmission_uid", out var transmissionObj) && transmissionObj is string transmissionUid)
+                Console.WriteLine($"CreateShipment context => transmission_uid:{transmissionUid}");
+            if (_tc.Data.TryGetValue("departure_actual", out var departureActualObj) && departureActualObj is string departureActual)
+                Console.WriteLine($"CreateShipment context => departure_actual:{departureActual}");
+            if (_tc.Data.TryGetValue("source_container_id_1", out var srcContainerObj) && srcContainerObj is string srcContainer)
+                Console.WriteLine($"CreateShipment context => source_container_id_1:{srcContainer}");
+            if (_tc.Data.TryGetValue("container_number_1", out var containerNumObj) && containerNumObj is string containerNum)
+                Console.WriteLine($"CreateShipment context => container_number_1:{containerNum}");
+            LogReusableContext("CreateShipment pre-call");
             var token = Environment.GetEnvironmentVariable(Constants.CHAINIO_TOKEN) ?? "";
 
             var client = PortalApiClient.FromEnvironment();
@@ -35,9 +51,14 @@ namespace DFP.Playwright.StepDefinitions
             if (!string.IsNullOrWhiteSpace(transactionId))
             {
                 _tc.Data["transactionId"] = transactionId;
+                Console.WriteLine($"CreateShipment response => transactionId:{transactionId}");
                 var shipmentId = await PollShipmentIdFromWebhookLogAsync(transactionId);
                 if (!string.IsNullOrWhiteSpace(shipmentId))
+                {
                     _tc.Data["shipmentId"] = shipmentId;
+                    Console.WriteLine($"CreateShipment resolved => shipmentId:{shipmentId}");
+                }
+                LogReusableContext("CreateShipment post-call");
             }
         }
 
@@ -178,8 +199,8 @@ namespace DFP.Playwright.StepDefinitions
             var webhookUser = Environment.GetEnvironmentVariable(Constants.CHAINIO_WEBHOOK_USERNAME) ?? "";
             var client = PortalApiClient.FromEnvironment();
 
-            const int maxAttempts = 15;
-            const int delayMs = 2000;
+            const int maxAttempts = 45; // up to ~3.75 minutes
+            const int delayMs = 5000;
             string lastBody = "";
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
@@ -199,6 +220,14 @@ namespace DFP.Playwright.StepDefinitions
                 var shipmentId = TryReadFirstId(body, "transactionable_id", "transactionableId", "shipment_id", "shipmentId");
                 if (!string.IsNullOrWhiteSpace(shipmentId))
                     return shipmentId;
+
+                var status = TryReadFirstId(body, "status", "state");
+                if (string.Equals(status, "pending", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(status, "processing", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(status, "queued", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Webhook log transaction '{transactionId}' still {status} ({attempt}/{maxAttempts}).");
+                }
 
                 if (attempt < maxAttempts)
                     await Task.Delay(delayMs);
@@ -223,6 +252,74 @@ namespace DFP.Playwright.StepDefinitions
                 return inline;
 
             throw new InvalidOperationException($"Provide payload via {pathEnvVar} (file path) or {inlineEnvVar} (inline JSON).");
+        }
+
+        private string ResolveShipmentWebhookPayload()
+        {
+            var explicitPath = Environment.GetEnvironmentVariable(Constants.SHIPMENT_WEBHOOK_PAYLOAD_PATH) ?? "";
+            var inline = Environment.GetEnvironmentVariable("SHIPMENT_WEBHOOK_PAYLOAD") ?? "";
+            if (!string.IsNullOrWhiteSpace(explicitPath) || !string.IsNullOrWhiteSpace(inline))
+                return LoadPayloadFromEnvOrFile(Constants.SHIPMENT_WEBHOOK_PAYLOAD_PATH, "SHIPMENT_WEBHOOK_PAYLOAD");
+
+            var requestedProfile = Environment.GetEnvironmentVariable("SHIPMENT_WEBHOOK_PAYLOAD_PROFILE") ?? "";
+            var profile = string.IsNullOrWhiteSpace(requestedProfile)
+                ? InferPayloadProfileFromScenario()
+                : requestedProfile;
+
+            var payloadRelativePath = GetPayloadPathForProfile(profile);
+            var resolvedPath = ResolvePath(payloadRelativePath);
+            if (!File.Exists(resolvedPath))
+                throw new FileNotFoundException($"Auto-selected payload not found for profile '{profile}': {resolvedPath}");
+
+            Console.WriteLine($"Using shipment webhook payload profile '{profile}' -> {payloadRelativePath}");
+            return File.ReadAllText(resolvedPath);
+        }
+
+        private string InferPayloadProfileFromScenario()
+        {
+            var tags = _scenarioContext.ScenarioInfo.Tags ?? Array.Empty<string>();
+            if (tags.Any(t => IsTag(t, "9893")))
+                return "shipment-with-legs";
+            if (tags.Any(t => IsTag(t, "7873")))
+                return "create-shipment-with-containers";
+
+            return "default";
+        }
+
+        private static bool IsTag(string tag, string expected)
+        {
+            if (string.IsNullOrWhiteSpace(tag))
+                return false;
+
+            var normalized = NormalizeProfile(tag);
+            var normalizedExpected = NormalizeProfile(expected);
+            return normalized == normalizedExpected;
+        }
+
+        private static string GetPayloadPathForProfile(string profile)
+        {
+            return NormalizeProfile(profile) switch
+            {
+                "default" => "Artifacts/Payloads/shipment-webhook.json",
+                "createshipmentwithcontainers" => "Artifacts/Payloads/shipment-webhook-create-shipment-with-containers.json",
+                "editshipmentremovecontainer" => "Artifacts/Payloads/shipment-webhook-edit-shipment-remove-container.json",
+                "editshipmenteditcontainer" => "Artifacts/Payloads/shipment-webhook-edit-shipment-edit-container.json",
+                "editshipmentadd2containers" => "Artifacts/Payloads/shipment-webhook-edit-shipment-add-2-containers.json",
+                "removeentityfromashipmentshipto" => "Artifacts/Payloads/shipment-webhook-remove-entity-from-a-shipment-ship-to.json",
+                "shipmentwithlegs" => "Artifacts/Payloads/shipment-webhook-shipment-with-legs.json",
+                "7873" => "Artifacts/Payloads/shipment-webhook-create-shipment-with-containers.json",
+                "9893" => "Artifacts/Payloads/shipment-webhook-shipment-with-legs.json",
+                _ => "Artifacts/Payloads/shipment-webhook.json"
+            };
+        }
+
+        private static string NormalizeProfile(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return "";
+
+            var chars = value.Where(char.IsLetterOrDigit).ToArray();
+            return new string(chars).ToLowerInvariant();
         }
 
         private static string ResolvePath(string path)
@@ -327,7 +424,19 @@ namespace DFP.Playwright.StepDefinitions
             if (!_tc.Data.ContainsKey("iso_now"))
                 _tc.Data["iso_now"] = DateTime.UtcNow.ToString("o");
             if (!_tc.Data.ContainsKey("shipment_reference"))
-                _tc.Data["shipment_reference"] = $"REF-{_tc.Data["timestamp"]}";
+            {
+                var nowForId = DateTime.UtcNow;
+                var day = nowForId.Day.ToString("00", CultureInfo.InvariantCulture);
+                var month = nowForId.Month.ToString("00", CultureInfo.InvariantCulture);
+                var year = (nowForId.Year % 100).ToString("00", CultureInfo.InvariantCulture);
+                var millis = nowForId.Millisecond.ToString("000", CultureInfo.InvariantCulture);
+                var random = Random.Shared.Next(0, 100).ToString("00", CultureInfo.InvariantCulture);
+                _tc.Data["shipment_reference"] = $"{day}{month}{year}{millis}{random}";
+            }
+            if (!_tc.Data.ContainsKey("shipment.internal_tracking_number"))
+                _tc.Data["shipment.internal_tracking_number"] = _tc.Data["shipment_reference"];
+            if (!_tc.Data.ContainsKey("transmission_uid"))
+                _tc.Data["transmission_uid"] = Guid.NewGuid().ToString();
             if (!_tc.Data.ContainsKey("containerization_type"))
                 _tc.Data["containerization_type"] = "FCL";
             if (!_tc.Data.ContainsKey("carrier_scac"))
@@ -349,45 +458,61 @@ namespace DFP.Playwright.StepDefinitions
                 _tc.Data["cargo_ready_estimated"] = Iso(now);
             if (!_tc.Data.ContainsKey("departure_estimated"))
                 _tc.Data["departure_estimated"] = Iso(now);
-            if (!_tc.Data.ContainsKey("arrival_port_estimated"))
-                _tc.Data["arrival_port_estimated"] = Iso(now.AddDays(30));
+            if (!_tc.Data.ContainsKey("departure_actual"))
+                _tc.Data["departure_actual"] = Iso(now);
+            var bookingRaw = (_tc.Data["booking_confirmed_actual"] as string) ?? Iso(now);
+            var bookingBase = DateTime.TryParse(bookingRaw, null, DateTimeStyles.RoundtripKind, out var parsedBooking)
+                ? parsedBooking
+                : now;
+            var arrivalPortEstimated = bookingBase.AddDays(30);
+            var leg1DepartureActual = bookingBase.AddDays(1);
+            var leg1ArrivalEstimated = leg1DepartureActual.AddDays(5);
+            var leg1ArrivalActual = leg1DepartureActual.AddDays(7);
+            var leg2ArrivalEstimated = leg1ArrivalActual.AddDays(10);
+            var leg3ArrivalEstimated = leg2ArrivalEstimated.AddDays(5);
+            var leg3ArrivalActual = leg2ArrivalEstimated.AddDays(5);
+            var leg4DepartureActual = leg3ArrivalActual.AddDays(2);
+            var leg4ArrivalEstimated = leg4DepartureActual.AddDays(1);
+            var leg4ArrivalActual = leg4DepartureActual.AddDays(3);
 
-            // Legs defaults (simple progression)
+            if (!_tc.Data.ContainsKey("arrival_port_estimated"))
+                _tc.Data["arrival_port_estimated"] = Iso(arrivalPortEstimated);
+
             if (!_tc.Data.ContainsKey("leg1.departure_estimated"))
-                _tc.Data["leg1.departure_estimated"] = Iso(now);
+                _tc.Data["leg1.departure_estimated"] = Iso(bookingBase);
             if (!_tc.Data.ContainsKey("leg1.departure_actual"))
-                _tc.Data["leg1.departure_actual"] = Iso(now.AddDays(1));
+                _tc.Data["leg1.departure_actual"] = Iso(leg1DepartureActual);
             if (!_tc.Data.ContainsKey("leg1.arrival_estimated"))
-                _tc.Data["leg1.arrival_estimated"] = Iso(now.AddDays(5));
+                _tc.Data["leg1.arrival_estimated"] = Iso(leg1ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg1.arrival_actual"))
-                _tc.Data["leg1.arrival_actual"] = Iso(now.AddDays(7));
+                _tc.Data["leg1.arrival_actual"] = Iso(leg1ArrivalActual);
 
             if (!_tc.Data.ContainsKey("leg2.departure_estimated"))
-                _tc.Data["leg2.departure_estimated"] = Iso(now.AddDays(7));
+                _tc.Data["leg2.departure_estimated"] = Iso(leg1ArrivalActual);
             if (!_tc.Data.ContainsKey("leg2.departure_actual"))
-                _tc.Data["leg2.departure_actual"] = Iso(now.AddDays(8));
+                _tc.Data["leg2.departure_actual"] = Iso(leg1ArrivalActual);
             if (!_tc.Data.ContainsKey("leg2.arrival_estimated"))
-                _tc.Data["leg2.arrival_estimated"] = Iso(now.AddDays(17));
+                _tc.Data["leg2.arrival_estimated"] = Iso(leg2ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg2.arrival_actual"))
-                _tc.Data["leg2.arrival_actual"] = Iso(now.AddDays(18));
+                _tc.Data["leg2.arrival_actual"] = Iso(leg2ArrivalEstimated);
 
             if (!_tc.Data.ContainsKey("leg3.departure_estimated"))
-                _tc.Data["leg3.departure_estimated"] = Iso(now.AddDays(18));
+                _tc.Data["leg3.departure_estimated"] = Iso(leg2ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg3.departure_actual"))
-                _tc.Data["leg3.departure_actual"] = Iso(now.AddDays(18));
+                _tc.Data["leg3.departure_actual"] = Iso(leg2ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg3.arrival_estimated"))
-                _tc.Data["leg3.arrival_estimated"] = Iso(now.AddDays(23));
+                _tc.Data["leg3.arrival_estimated"] = Iso(leg3ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg3.arrival_actual"))
-                _tc.Data["leg3.arrival_actual"] = Iso(now.AddDays(23));
+                _tc.Data["leg3.arrival_actual"] = Iso(leg3ArrivalActual);
 
             if (!_tc.Data.ContainsKey("leg4.departure_estimated"))
-                _tc.Data["leg4.departure_estimated"] = Iso(now.AddDays(23));
+                _tc.Data["leg4.departure_estimated"] = Iso(leg3ArrivalActual);
             if (!_tc.Data.ContainsKey("leg4.departure_actual"))
-                _tc.Data["leg4.departure_actual"] = Iso(now.AddDays(25));
+                _tc.Data["leg4.departure_actual"] = Iso(leg4DepartureActual);
             if (!_tc.Data.ContainsKey("leg4.arrival_estimated"))
-                _tc.Data["leg4.arrival_estimated"] = Iso(now.AddDays(26));
+                _tc.Data["leg4.arrival_estimated"] = Iso(leg4ArrivalEstimated);
             if (!_tc.Data.ContainsKey("leg4.arrival_actual"))
-                _tc.Data["leg4.arrival_actual"] = Iso(now.AddDays(28));
+                _tc.Data["leg4.arrival_actual"] = Iso(leg4ArrivalActual);
 
             if (!_tc.Data.ContainsKey("source_container_id_1"))
                 _tc.Data["source_container_id_1"] = $"C1-{_tc.Data["timestamp"]}";
@@ -490,6 +615,28 @@ namespace DFP.Playwright.StepDefinitions
                 return indirect;
 
             return value;
+        }
+
+        private void LogReusableContext(string title)
+        {
+            string[] keys =
+            [
+                "shipment_reference",
+                "shipment.internal_tracking_number",
+                "transactionId",
+                "shipmentId",
+                "container_id_1",
+                "container_number_1",
+                "transmission_uid"
+            ];
+
+            Console.WriteLine($"=== Reusable Context ({title}) ===");
+            foreach (var key in keys)
+            {
+                if (_tc.Data.TryGetValue(key, out var value) && value is string text && !string.IsNullOrWhiteSpace(text))
+                    Console.WriteLine($"{key}={text}");
+            }
+            Console.WriteLine("=== End Reusable Context ===");
         }
 
         private string GetRequiredValue(string key, string errorMessage)

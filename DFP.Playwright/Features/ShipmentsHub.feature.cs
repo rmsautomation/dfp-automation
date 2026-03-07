@@ -28,8 +28,8 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "ShipmentsHub"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "ShipmentsHub", "  As a hub user\n  I want to search for a shipment by reference in the Hub\n  So I " +
-                "can quickly find and verify shipment details", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "ShipmentsHub", "  As a hub user\r\n  I want to search for a shipment by reference in the Hub\r\n  So " +
+                "I can quickly find and verify shipment details", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "ShipmentsHub.feature"
 #line hidden

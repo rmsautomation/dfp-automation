@@ -28,7 +28,7 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "Quotations"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Quotations", "  As a user\n  I want to create a quotation in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Quotations", "  As a user\r\n  I want to create a quotation in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Quotations.feature"
 #line hidden

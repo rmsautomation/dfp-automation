@@ -1,5 +1,8 @@
 using Microsoft.Playwright;
 using DFP.Playwright.Pages.Web.BasePages;
+using DFP.Playwright.Helpers;
+using System.Globalization;
+using System.IO;
 
 namespace DFP.Playwright.Pages.Web
 {
@@ -8,6 +11,35 @@ namespace DFP.Playwright.Pages.Web
         private string _shipmentName = string.Empty;
         private string _tagName = string.Empty;
         private readonly List<string> _allTagNames = [];
+        private static bool IsShipmentDetailsUrl(string url)
+        {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+                return url.Contains("/my-portal/shipments/", StringComparison.OrdinalIgnoreCase)
+                    && !url.Contains("/shipments/list", StringComparison.OrdinalIgnoreCase);
+
+            var path = uri.AbsolutePath;
+            if (!path.StartsWith("/my-portal/shipments/", StringComparison.OrdinalIgnoreCase)
+                || path.Contains("/shipments/list", StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            var parts = path.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
+            // Expected detail route: /my-portal/shipments/{shipmentId}
+            return parts.Length >= 3
+                && parts[0].Equals("my-portal", StringComparison.OrdinalIgnoreCase)
+                && parts[1].Equals("shipments", StringComparison.OrdinalIgnoreCase)
+                && !string.IsNullOrWhiteSpace(parts[2])
+                && !parts[2].Equals("list", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string GetPortalBaseUrl()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "";
+            if (string.IsNullOrWhiteSpace(baseUrl))
+                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
+            return baseUrl;
+        }
 
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
@@ -262,9 +294,13 @@ namespace DFP.Playwright.Pages.Web
             "button:has-text('Reset')",
             "//button[contains(normalize-space(text()),'Reset')]"
         ];
+            private static readonly string[] FirstShipmentLinkSelectors =
+        [
+            "(//qwyk-shipment-list-item)[1]//a",
+            "(//article[contains(@class,'shipment') or contains(@class,'card')])[1]//a",
+            "(//a[contains(@href,'/shipments/')])[1]"
+        ];
 
-        // Clickable card in the shipments list — rendered as div.card[tabindex='0'] (no <a> wrapper).
-        // Verified from HTML: qwyk-shipments-list-item > div.card.shadow-sm.rounded[tabindex='0']
         private static readonly string[] FirstShipmentCardSelectors =
         [
             "(//qwyk-shipments-list-item)[1]//div[contains(@class,'card')]",
@@ -292,6 +328,98 @@ namespace DFP.Playwright.Pages.Web
             "[role='tooltip']",
             ".tippy-content",
             ".tooltip"
+        ];
+         private static readonly string[] ShipmentSummaryTabSelectors =
+        [
+            "internal:role=link[name=\"Shipment Summary\"i]",
+            "internal:role=tab[name=\"Shipment Summary\"i]",
+            "internal:role=link[name=\"Summary\"i]",
+            "internal:role=tab[name=\"Summary\"i]",
+            "//*[self::a or self::button][contains(normalize-space(),'Shipment Summary')]"
+        ];
+
+        private static readonly string[] ShipmentTrackingTabSelectors =
+        [
+            "internal:role=link[name=\"Shipment Tracking\"i]",
+            "internal:role=tab[name=\"Shipment Tracking\"i]",
+            "internal:role=link[name=\"Tracking\"i]",
+            "internal:role=tab[name=\"Tracking\"i]",
+            "//*[self::a or self::button][contains(normalize-space(),'Shipment Tracking')]"
+        ];
+
+        private static readonly string[] ShipmentDetailsHeaderSelectors =
+        [
+            "internal:role=heading[name=\"Shipment REF-\"i]",
+            "//*[self::h1 or self::h2 or self::h3][contains(normalize-space(),'Shipment') and contains(normalize-space(),'REF-')]",
+            "internal:role=heading[name=/Shipment/i]",
+            "//*[self::h1 or self::h2 or self::h3][contains(normalize-space(),'Shipment')]"
+        ];
+
+        private static readonly string[] ContainerDropdownSelectors =
+        [
+            "select[formcontrolname*='container' i]",
+            "select[aria-label*='container' i]",
+            "label:has-text('Container') + select",
+            "//*[contains(normalize-space(),'Container')]/following::select[1]",
+            "p-dropdown:has-text('Container')",
+            "div.p-dropdown",
+            "[role='combobox'][aria-label*='container' i]",
+            "//*[contains(normalize-space(),'Container')]/following::*[@role='combobox'][1]"
+        ];
+
+        private static readonly string[] ContainerDropdownOptionSelectors =
+        [
+            "li[role='option']",
+            ".p-dropdown-items .p-dropdown-item",
+            ".p-select-option"
+        ];
+
+        private static readonly string[] MapContainerSelectors =
+        [
+            ".gm-style",
+            ".leaflet-container",
+            ".mapboxgl-map",
+            "google-map",
+            "agm-map",
+            "qwyk-map",
+            "[id*='map' i]"
+        ];
+
+        private static readonly string[] MapMarkerSelectors =
+        [
+            ".leaflet-marker-icon",
+            ".mapboxgl-marker",
+            "img[src*='marker']",
+            ".leaflet-pane .leaflet-interactive",
+            ".leaflet-overlay-pane path",
+            ".leaflet-marker-pane *",
+            "svg path",
+            "svg circle"
+        ];
+
+        private static readonly string[] TrackingEventsSectionSelectors =
+        [
+            "//h5[contains(normalize-space(),'Tracking Events')]/ancestor::div[contains(@class,'card')][1]",
+            "//*[contains(normalize-space(),'Tracking Events')]/following::table[1]/ancestor::div[contains(@class,'card')][1]",
+            "internal:role=heading[name=\"Tracking Events\"i]",
+            "internal:text=\"Tracking Events\"i",
+            "//*[contains(normalize-space(),'Tracking Events')]"
+        ];
+
+        private static readonly string[] ContainerLiveTrackSectionSelectors =
+        [
+            "//h5[contains(normalize-space(),'Container LiveTrack')]/ancestor::div[contains(@class,'card')][1]",
+            "//*[contains(normalize-space(),'Container LiveTrack')]/ancestor::div[contains(@class,'card')][1]",
+            "//*[contains(normalize-space(),'Container LiveTrack')]/following::table[1]/ancestor::div[contains(@class,'card')][1]",
+            "internal:text=\"Container LiveTrack\"i",
+            "//*[contains(normalize-space(),'Container LiveTrack')]"
+        ];
+
+        private static readonly string[] ShipmentActivitySectionSelectors =
+        [
+            "internal:role=heading[name=\"Shipment activity\"i]",
+            "internal:text=\"Shipment activity\"i",
+            "//*[contains(normalize-space(),'Shipment activity')]"
         ];
         //////////Purchase Order selectors/////////////
         private static readonly string[] POSectionInSHSelectors =
@@ -355,8 +483,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheQuotationsListPage()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/quotations");
+          var baseUrl = GetPortalBaseUrl();
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/quotations");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -538,14 +666,16 @@ namespace DFP.Playwright.Pages.Web
 
         // ── ShipmentSearch methods ────────────────────────────────────────────────
 
-        public async Task UserNavigatedToShipmentsList()
-        {
-            // Use the current page's origin so that integration-portal sessions
-            // (e.g. TC3986 "with Int") are not redirected to the non-int portal URL.
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/shipments");
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        }
+      public async Task UserNavigatedToShipmentsList()
+  {
+      // Replicates "Open shipments from dashboard": go to dashboard, then click Shipments nav link
+      var baseUrl = GetPortalBaseUrl();
+      await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
+      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+      var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
+      await ClickAndWaitForNetworkAsync(shipmentsNavLink);
+  }
 
         public async Task IClickOnShowMoreFilters()
         {
@@ -861,8 +991,8 @@ namespace DFP.Playwright.Pages.Web
             var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
             await ClickAndWaitForNetworkAsync(tableViewBtn);
 
-           // Assert.Contains("/my-portal/shipments", Page.Url,
-           //     $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
+           Assert.Contains("/my-portal/shipments", Page.Url,
+                $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
         }
 
         public async Task TheShipmentShouldNotAppearInSearchResults()
@@ -902,22 +1032,19 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task UserSelectsFirstShipmentFromList()
         {
-            _allTagNames.Clear();
+           _allTagNames.Clear();
 
-            // Try to read the shipment name from the name span before clicking.
-            var nameSpan = await TryFindLocatorAsync(FirstShipmentNameSelectors, timeoutMs: 5000);
-            if (nameSpan != null)
-            {
-                var name = (await nameSpan.InnerTextAsync()).Trim();
-                if (!string.IsNullOrEmpty(name))
-                    _shipmentName = name;
-            }
+      var firstShipmentLink = await TryFindLocatorAsync(FirstShipmentLinkSelectors, timeoutMs: 10000);
+      Assert.IsNotNull(firstShipmentLink, "No shipments were found in the Shipments List.");
 
-            // Click the card to navigate into the shipment detail page.
-            var card = await FindLocatorAsync(FirstShipmentCardSelectors, timeoutMs: 10000);
-            await WaitForEnabledAsync(card, timeoutMs: 10000);
-            await ClickAndWaitForNetworkAsync(card);
-        }
+      var name = (await firstShipmentLink.InnerTextAsync()).Trim();
+      if (!string.IsNullOrEmpty(name))
+          _shipmentName = name;
+          // Click the card to navigate into the shipment detail page.
+      var card = await FindLocatorAsync(FirstShipmentCardSelectors, timeoutMs: 10000);
+      await WaitForEnabledAsync(card, timeoutMs: 10000);
+      await ClickAndWaitForNetworkAsync(card);
+  }
 
         /// <summary>
         /// When 5 tags exist the tag button is disabled (pointer-events:none).
@@ -1146,12 +1273,599 @@ namespace DFP.Playwright.Pages.Web
                 $"//span[contains(normalize-space(),'{_shipmentName}')]"
             ]);
             var currentUrl = Page.Url;
-            await ClickAsync(shipmentLink);
+            await shipmentLink.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 10000
+            });
+            await shipmentLink.ScrollIntoViewIfNeededAsync();
+            try
+            {
+                await shipmentLink.ClickAsync();
+            }
+            catch (PlaywrightException)
+            {
+                await shipmentLink.ClickAsync(new() { Force = true });
+            }
             await Page.WaitForURLAsync(
                 url => url != currentUrl && url.Contains("/shipments/"),
                 new PageWaitForURLOptions { Timeout = 15000 });
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
+
+        public async Task OpenShipmentFromSearchResultsAsync(string shipmentReference)
+        {
+            var refLiteral = ToXPathLiteral(shipmentReference);
+            var currentUrl = Page.Url;
+            var shipmentLink = await FindLocatorAsync(
+            [
+                // List cards: the clickable target is frequently the title text block.
+                $"//div[contains(@class,'h4')][contains(normalize-space(),{refLiteral})]",
+                $"//qwyk-shipment-list-item//*[contains(@class,'h4') and contains(normalize-space(),{refLiteral})]",
+                $"//*[contains(@class,'shipment') and contains(@class,'name') and contains(normalize-space(),{refLiteral})]",
+                $"internal:role=link[name=\"{shipmentReference}\"i]",
+                $"//a[contains(@href,'/shipments/') and contains(.,{refLiteral})]",
+                $"//*[contains(.,{refLiteral})]/ancestor::a[contains(@href,'/shipments/')]",
+                "//a[contains(@href,'/my-portal/shipments/')]"
+            ]);
+
+            await shipmentLink.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 10000
+            });
+            await shipmentLink.ScrollIntoViewIfNeededAsync();
+            try
+            {
+                await ClickAndWaitForNavigationAsync(shipmentLink);
+            }
+            catch (PlaywrightException)
+            {
+                await shipmentLink.ClickAsync(new() { Force = true });
+            }
+            await Page.WaitForURLAsync(
+                url => url != currentUrl && IsShipmentDetailsUrl(url),
+                new PageWaitForURLOptions { Timeout = 15000 });
+            await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task SubscribedContainersShouldBeVisibleInSummaryDropdownAsync(string expectedContainerId)
+        {
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page before checking Summary container dropdown. Current URL: {Page.Url}");
+
+            var detailsHeader = await FindLocatorAsync(ShipmentDetailsHeaderSelectors, timeoutMs: 12000);
+            Assert.IsNotNull(detailsHeader,
+                $"Shipment details heading was not visible after opening search result. URL: {Page.Url}");
+
+            var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
+            if (summaryTab != null)
+                await ClickAsync(summaryTab);
+
+            var dropdown = await FindLocatorAsync(ContainerDropdownSelectors, timeoutMs: 12000);
+            Assert.IsNotNull(dropdown, "Container dropdown was not visible in Shipment Summary.");
+
+            var optionCount = await dropdown.Locator("option").CountAsync();
+            if (optionCount > 1)
+            {
+                var selectedValue = (await dropdown.InputValueAsync()).Trim();
+                var selectedText = (await dropdown.Locator("option:checked").InnerTextAsync()).Trim();
+                var candidateText = string.IsNullOrWhiteSpace(selectedText) ? selectedValue : selectedText;
+                Assert.IsTrue(candidateText.Contains(expectedContainerId, StringComparison.OrdinalIgnoreCase),
+                    $"Summary dropdown selected container '{candidateText}' does not contain expected '{expectedContainerId}'.");
+                return;
+            }
+
+            // PrimeNG dropdown path: open list and ensure expected container is present.
+            await ClickAsync(dropdown);
+            await Page.WaitForTimeoutAsync(800);
+            var options = Page.Locator("li[role='option'], .p-dropdown-items .p-dropdown-item, .p-select-option, [role='listbox'] [role='option']");
+            await options.First.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 10000
+            });
+            var allText = (await options.AllInnerTextsAsync()).Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+            Assert.IsTrue(allText.Any(t => t.Contains(expectedContainerId, StringComparison.OrdinalIgnoreCase)),
+                $"Expected container '{expectedContainerId}' was not present in Summary dropdown options. Options: {string.Join(" | ", allText)}");
+        }
+
+        public async Task SelectContainerInShipmentSummaryAsync(string containerValue)
+        {
+            static string NormalizeContainerText(string value)
+            {
+                var chars = value
+                    .Where(char.IsLetterOrDigit)
+                    .Select(char.ToUpperInvariant)
+                    .ToArray();
+                return new string(chars);
+            }
+
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page before selecting a Summary container. Current URL: {Page.Url}");
+
+            var detailsHeader = await FindLocatorAsync(ShipmentDetailsHeaderSelectors, timeoutMs: 12000);
+            Assert.IsNotNull(detailsHeader,
+                $"Shipment details heading was not visible before selecting container. URL: {Page.Url}");
+
+            var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
+            if (summaryTab != null)
+                await ClickAsync(summaryTab);
+
+            var dropdown = await FindLocatorAsync(ContainerDropdownSelectors, timeoutMs: 12000);
+            var tagName = (await dropdown.EvaluateAsync<string>("el => el.tagName")).ToUpperInvariant();
+            if (tagName == "SELECT")
+            {
+                await SelectOptionAsync(dropdown, containerValue);
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                return;
+            }
+
+            await ClickAsync(dropdown);
+            // UI renders full container text shortly after opening the dropdown.
+            await Page.WaitForTimeoutAsync(1000);
+
+            var options = Page.Locator("li[role='option'], .p-dropdown-items .p-dropdown-item, .p-select-option, [role='listbox'] [role='option']");
+            await options.First.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 12000
+            });
+
+            var targetNorm = NormalizeContainerText(containerValue);
+            ILocator? selectedOption = null;
+            var available = new List<string>();
+            var optionCount = await options.CountAsync();
+            for (var i = 0; i < optionCount; i++)
+            {
+                var option = options.Nth(i);
+                var text = (await option.InnerTextAsync()).Trim();
+                if (string.IsNullOrWhiteSpace(text))
+                    continue;
+
+                available.Add(text);
+                var optionNorm = NormalizeContainerText(text);
+                if (optionNorm.Equals(targetNorm, StringComparison.OrdinalIgnoreCase)
+                    || optionNorm.Contains(targetNorm, StringComparison.OrdinalIgnoreCase)
+                    || targetNorm.Contains(optionNorm, StringComparison.OrdinalIgnoreCase))
+                {
+                    selectedOption = option;
+                    break;
+                }
+            }
+
+            Assert.IsNotNull(selectedOption,
+                $"Container option '{containerValue}' was not found in dropdown. Options: {string.Join(" | ", available)}");
+            await ClickAsync(selectedOption);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task RefreshCurrentPageAsync()
+        {
+            await Page.ReloadAsync(new PageReloadOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle,
+                Timeout = 60000
+            });
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await Page.WaitForTimeoutAsync(1500);
+        }
+
+        public async Task MapShouldDisplayTrackingPointsAsync(
+            string expectedContainerId,
+            IEnumerable<string> expectedPortCodes,
+            string expectedArrivalActualIso,
+            string expectedDepartureActualIso)
+        {
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page for Summary map validation. Current URL: {Page.Url}");
+
+            const int maxAttempts = 20; // ~1 minute
+            const int delayMs = 3000;
+            const int expectedMarkers = 3;
+            var lastLiveTrackText = "";
+            var lastVisibleMarkerCount = 0;
+            var lastPointDataStatus = "not-evaluated";
+
+            await Page.EvaluateAsync("() => window.scrollTo(0, 0)");
+            await Page.WaitForTimeoutAsync(200);
+
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                if (attempt > 1 && attempt % 5 == 0)
+                {
+                    var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
+                    if (summaryTab != null)
+                        await ClickAsync(summaryTab);
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                }
+
+                var liveTrackSection = await TryFindLocatorAsync(ContainerLiveTrackSectionSelectors, timeoutMs: 2000);
+                if (liveTrackSection != null)
+                {
+                    var liveTrackContainer = liveTrackSection;
+                    try
+                    {
+                        var card = liveTrackSection.Locator("xpath=ancestor::div[contains(@class,'card')][1]");
+                        if (await card.CountAsync() > 0)
+                            liveTrackContainer = card.First;
+                    }
+                    catch
+                    {
+                        // Keep the original locator when ancestor probing is not available.
+                    }
+
+                    try
+                    {
+                        if (await liveTrackContainer.IsVisibleAsync())
+                        {
+                            await liveTrackContainer.ScrollIntoViewIfNeededAsync(new LocatorScrollIntoViewIfNeededOptions { Timeout = 3000 });
+                            await Page.WaitForTimeoutAsync(250);
+                        }
+                    }
+                    catch
+                    {
+                        // Keep polling while the section is rendering; do not fail early on transient scroll issues.
+                    }
+                    lastLiveTrackText = (await liveTrackContainer.InnerTextAsync()).Replace("\r", " ").Replace("\n", " ");
+                }
+
+                var hasTrackedContainerLabel = lastLiveTrackText.Contains("Tracked container", StringComparison.OrdinalIgnoreCase)
+                                               || lastLiveTrackText.Contains("Container", StringComparison.OrdinalIgnoreCase);
+                var hasLastPositionLabel = lastLiveTrackText.Contains("Last position update", StringComparison.OrdinalIgnoreCase);
+                var lastPositionSeconds = TryExtractLastPositionSeconds(lastLiveTrackText);
+                var hasLastPositionValue = lastPositionSeconds.HasValue && lastPositionSeconds.Value <= 180;
+                var hasExpectedContainer = !string.IsNullOrWhiteSpace(expectedContainerId)
+                    && lastLiveTrackText.Contains(expectedContainerId, StringComparison.OrdinalIgnoreCase);
+                var hasLiveTrackEvidence = hasTrackedContainerLabel
+                                           && hasLastPositionLabel
+                                           && hasLastPositionValue
+                                           && hasExpectedContainer;
+
+                var map = await TryFindLocatorAsync(MapContainerSelectors, timeoutMs: 2000);
+                if (map != null)
+                {
+                    lastVisibleMarkerCount = await CountGreenCoordinatePointsAsync(map);
+                    var hasPointData = await PortPointDataMatchesShipmentAsync(
+                        map,
+                        expectedPortCodes,
+                        expectedArrivalActualIso,
+                        expectedDepartureActualIso);
+                    lastPointDataStatus = hasPointData ? "ok" : "missing-or-mismatch";
+
+                    if (lastVisibleMarkerCount == expectedMarkers && hasLiveTrackEvidence && hasPointData)
+                    {
+                        Console.WriteLine($"Summary ok => markers:{lastVisibleMarkerCount}, container:{expectedContainerId}, last_position:true");
+                        var okScreenshot = await CaptureSummaryTrackingScreenshotAsync("ok");
+                        Console.WriteLine($"Summary tracking screenshot => {okScreenshot}");
+                        return;
+                    }
+                }
+
+                if (attempt < maxAttempts)
+                    await Page.WaitForTimeoutAsync(delayMs);
+            }
+
+            var failScreenshot = await CaptureSummaryTrackingScreenshotAsync("fail");
+            var hasLastPositionText = lastLiveTrackText.Contains("Last position update", StringComparison.OrdinalIgnoreCase);
+            Console.WriteLine(
+                $"Summary fail => markers:{lastVisibleMarkerCount}/{expectedMarkers}, container:{expectedContainerId}, last_position_text_present:{hasLastPositionText}, point_data:{lastPointDataStatus}");
+            Assert.Fail(
+                $"Summary map/live track did not show tracking data for container '{expectedContainerId}'. " +
+                $"Visible markers: {lastVisibleMarkerCount} (expected = {expectedMarkers}). " +
+                $"LiveTrack snapshot: {lastLiveTrackText}. URL: {Page.Url}. Screenshot: {failScreenshot}");
+        }
+
+        private static int? TryExtractLastPositionSeconds(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(
+                text,
+                @"\b(a|an)\s+minute\s+ago\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+            {
+                return 60;
+            }
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(
+                text,
+                @"\ba\s+few\s+seconds?\s+ago\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+            {
+                return 5;
+            }
+
+            var secondsMatch = System.Text.RegularExpressions.Regex.Match(
+                text,
+                @"\b(\d+)\s+seconds?\s+ago\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (secondsMatch.Success && int.TryParse(secondsMatch.Groups[1].Value, out var seconds))
+                return seconds;
+
+            var minutesMatch = System.Text.RegularExpressions.Regex.Match(
+                text,
+                @"\b(\d+)\s+minutes?\s+ago\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            if (minutesMatch.Success && int.TryParse(minutesMatch.Groups[1].Value, out var minutes))
+                return minutes * 60;
+
+            return null;
+        }
+
+        private async Task<int> CountGreenCoordinatePointsAsync(ILocator map)
+        {
+            var labels = await GetVisiblePortPointLabelsAsync(map);
+            return labels.Count;
+        }
+
+        private async Task<bool> PortPointDataMatchesShipmentAsync(
+            ILocator map,
+            IEnumerable<string> expectedPortCodes,
+            string expectedArrivalActualIso,
+            string expectedDepartureActualIso)
+        {
+            var labels = await GetVisiblePortPointLabelsAsync(map);
+            if (labels.Count != 3)
+                return false;
+
+            var actualPortCodes = labels
+                .Select(TryExtractPortCode)
+                .Where(p => !string.IsNullOrWhiteSpace(p))
+                .Select(p => p!)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            var expected = expectedPortCodes
+                .Where(p => !string.IsNullOrWhiteSpace(p))
+                .Select(p => p.Trim().ToUpperInvariant())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            var samePorts = actualPortCodes.Length == expected.Length
+                && actualPortCodes.All(p => expected.Contains(p, StringComparer.OrdinalIgnoreCase));
+            if (!samePorts)
+                return false;
+
+            var allHaveFields = labels.All(l =>
+                l.Contains("Arrival Actual:", StringComparison.OrdinalIgnoreCase)
+                && l.Contains("Departure Actual:", StringComparison.OrdinalIgnoreCase));
+            if (!allHaveFields)
+                return false;
+
+            var hasArrivalDate = labels.All(HasArrivalActualDate);
+            var hasDepartureDate = labels.All(HasDepartureActualDate);
+            return hasArrivalDate && hasDepartureDate;
+        }
+
+        private static string? TryExtractPortCode(string label)
+        {
+            if (string.IsNullOrWhiteSpace(label))
+                return null;
+
+            var m = System.Text.RegularExpressions.Regex.Match(
+                label,
+                @"Port:\s*([A-Z]{5})\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            return m.Success ? m.Groups[1].Value.ToUpperInvariant() : null;
+        }
+
+        private async Task<List<string>> GetVisiblePortPointLabelsAsync(ILocator map)
+        {
+            var raw = await map.EvaluateAsync<string>(
+                @"(root) => {
+                    const gm = root.matches('.gm-style') ? root : root.querySelector('.gm-style');
+                    if (!gm) return '';
+                    const nodes = Array.from(gm.querySelectorAll('[aria-label]'));
+                    const isVisible = (el) => {
+                      const r = el.getBoundingClientRect();
+                      return r.width > 0 && r.height > 0;
+                    };
+                    return nodes.filter(el => {
+                      if (!isVisible(el)) return false;
+                      const label = (el.getAttribute('aria-label') || '').trim();
+                      return /^Port:\s+/i.test(label);
+                    }).map(el => (el.getAttribute('aria-label') || '').trim()).join('||');
+                }");
+
+            if (string.IsNullOrWhiteSpace(raw))
+                return [];
+
+            return [.. raw.Split("||", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)];
+        }
+
+        private static bool HasArrivalActualDate(string label)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                label,
+                @"Arrival\s+Actual:\s*\d{1,2}\/\d{1,2}\/\d{4}",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        }
+
+        private static bool HasDepartureActualDate(string label)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                label,
+                @"Departure\s+Actual:\s*\d{1,2}\/\d{1,2}\/\d{4}",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        }
+
+        private async Task<string> CaptureSummaryTrackingScreenshotAsync(string suffix)
+        {
+            var root = FindRepoRoot();
+            var dir = Path.Combine(root, "DFP.Playwright", "Artifacts", "Logs");
+            Directory.CreateDirectory(dir);
+
+            var stamp = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
+            var fileName = $"summary-tracking-{suffix}-{stamp}.png";
+            var fullPath = Path.Combine(dir, fileName);
+
+            await Page.ScreenshotAsync(new PageScreenshotOptions
+            {
+                Path = fullPath,
+                FullPage = true
+            });
+
+            return fullPath;
+        }
+
+        private static string FindRepoRoot()
+        {
+            var dir = AppContext.BaseDirectory;
+            for (var i = 0; i < 8; i++)
+            {
+                if (string.IsNullOrWhiteSpace(dir))
+                    break;
+
+                if (Directory.Exists(Path.Combine(dir, "DFP.Playwright")))
+                    return dir;
+
+                dir = Path.GetDirectoryName(dir);
+            }
+
+            throw new InvalidOperationException("Could not locate repository root from AppContext.BaseDirectory.");
+        }
+
+        public async Task SummaryShouldShowLiveTrackAndMapAsync()
+        {
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page for Summary validation. Current URL: {Page.Url}");
+
+            var liveTrackSection = await TryFindLocatorAsync(ContainerLiveTrackSectionSelectors, timeoutMs: 8000);
+            Assert.IsNotNull(liveTrackSection, "Container LiveTrack section was not visible in Summary.");
+
+            var map = await TryFindLocatorAsync(MapContainerSelectors, timeoutMs: 8000);
+            Assert.IsNotNull(map, "Summary map container was not visible.");
+        }
+
+        public async Task IClickOnShipmentTrackingTab()
+        {
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page before clicking Tracking tab. Current URL: {Page.Url}");
+
+            await Page.EvaluateAsync("() => window.scrollTo(0, 0)");
+            await Page.WaitForTimeoutAsync(250);
+            var trackingTab = await FindLocatorAsync(ShipmentTrackingTabSelectors, timeoutMs: 12000);
+            await ClickAsync(trackingTab);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task TrackingEventsShouldDisplayLatestContainerEventAsync(
+            string expectedEventName,
+            double expectedLatitude,
+            double expectedLongitude,
+            params string[] expectedContainerCandidates)
+        {
+            Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
+                $"Expected Shipment Details page before validating Tracking Events. Current URL: {Page.Url}");
+
+            const int maxAttempts = 60; // ~3 minutes
+            const int delayMs = 3000;
+            var expectedLat = expectedLatitude.ToString("0.##", CultureInfo.InvariantCulture);
+            var expectedLon = expectedLongitude.ToString("0.##", CultureInfo.InvariantCulture);
+            var todayCandidates = GetTodayDateCandidates();
+            var lastSectionText = "";
+            var containerCandidates = (expectedContainerCandidates ?? Array.Empty<string>())
+                .Where(c => !string.IsNullOrWhiteSpace(c))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            Assert.IsTrue(containerCandidates.Length > 0, "At least one expected container candidate is required.");
+
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                if (attempt > 1 && attempt % 5 == 0)
+                {
+                    var trackingTab = await TryFindLocatorAsync(ShipmentTrackingTabSelectors, timeoutMs: 3000);
+                    if (trackingTab != null)
+                        await ClickAsync(trackingTab);
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                }
+                if (attempt % 2 == 0)
+                {
+                    await Page.Mouse.WheelAsync(0, 700);
+                    await Page.WaitForTimeoutAsync(200);
+                }
+
+                var section = await TryFindLocatorAsync(
+                [
+                    "//h5[contains(normalize-space(),'Tracking Events')]/ancestor::div[contains(@class,'card')][1]",
+                    "//*[contains(normalize-space(),'Tracking Events')]/following::table[1]/ancestor::div[contains(@class,'card')][1]",
+                    .. TrackingEventsSectionSelectors
+                ], timeoutMs: 5000);
+                if (section != null)
+                {
+                    var sectionContainer = section;
+                    try
+                    {
+                        var card = section.Locator("xpath=ancestor::div[contains(@class,'card')][1]");
+                        if (await card.CountAsync() > 0)
+                            sectionContainer = card.First;
+                    }
+                    catch
+                    {
+                        // Keep the original locator when ancestor probing is not available.
+                    }
+
+                    try
+                    {
+                        if (await sectionContainer.IsVisibleAsync())
+                            await sectionContainer.ScrollIntoViewIfNeededAsync(new LocatorScrollIntoViewIfNeededOptions { Timeout = 3000 });
+                    }
+                    catch
+                    {
+                        // Keep polling while layout stabilizes.
+                    }
+                    lastSectionText = (await sectionContainer.InnerTextAsync()).Replace("\r", " ").Replace("\n", " ");
+                    var rows = sectionContainer.Locator("tbody tr");
+                    var rowCount = await rows.CountAsync();
+                    for (var i = 0; i < rowCount; i++)
+                    {
+                        var rowText = (await rows.Nth(i).InnerTextAsync()).Replace("\r", " ").Replace("\n", " ");
+                        var hasContainer = containerCandidates.Any(c => rowText.Contains(c, StringComparison.OrdinalIgnoreCase));
+                        var hasLat = rowText.Contains($"Latitude: {expectedLat}", StringComparison.OrdinalIgnoreCase)
+                                     || rowText.Contains($"Latitude:{expectedLat}", StringComparison.OrdinalIgnoreCase)
+                                     || rowText.Contains(expectedLat, StringComparison.OrdinalIgnoreCase);
+                        var hasLon = rowText.Contains($"Longitude: {expectedLon}", StringComparison.OrdinalIgnoreCase)
+                                     || rowText.Contains($"Longitude:{expectedLon}", StringComparison.OrdinalIgnoreCase)
+                                     || rowText.Contains(expectedLon, StringComparison.OrdinalIgnoreCase);
+                        var hasTodayDate = todayCandidates.Any(d => rowText.Contains(d, StringComparison.OrdinalIgnoreCase));
+                        if (hasContainer && hasLat && hasLon && hasTodayDate)
+                            return;
+                    }
+
+                    // Fallback when table markup differs: validate directly over the visible section text.
+                    var sectionHasContainer = containerCandidates.Any(c => lastSectionText.Contains(c, StringComparison.OrdinalIgnoreCase));
+                    var sectionHasLat = lastSectionText.Contains($"Latitude: {expectedLat}", StringComparison.OrdinalIgnoreCase)
+                        || lastSectionText.Contains($"Latitude:{expectedLat}", StringComparison.OrdinalIgnoreCase);
+                    var sectionHasLon = lastSectionText.Contains($"Longitude: {expectedLon}", StringComparison.OrdinalIgnoreCase)
+                        || lastSectionText.Contains($"Longitude:{expectedLon}", StringComparison.OrdinalIgnoreCase);
+                    var sectionHasTodayDate = todayCandidates.Any(d => lastSectionText.Contains(d, StringComparison.OrdinalIgnoreCase));
+                    if (sectionHasContainer && sectionHasLat && sectionHasLon && sectionHasTodayDate)
+                        return;
+                }
+
+                if (attempt < maxAttempts)
+                    await Page.WaitForTimeoutAsync(delayMs);
+            }
+
+            Assert.Fail(
+                $"Tracking Events did not show expected coordinates/container. Expected containers='{string.Join(", ", containerCandidates)}', " +
+                $"lat='{expectedLat}', lon='{expectedLon}', event='{expectedEventName}', today='{string.Join(" | ", todayCandidates)}'. " +
+                $"Section text snapshot: {lastSectionText}");
+        }
+
+        private static string[] GetTodayDateCandidates()
+        {
+            var today = DateTime.Now;
+            return
+            [
+                today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                today.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+                today.ToString("M/d/yyyy", CultureInfo.InvariantCulture),
+                today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+            ];
+        }
+
 
         public async Task IClickOnCargoSectionWithPO(string purchaseOrderId)
         {

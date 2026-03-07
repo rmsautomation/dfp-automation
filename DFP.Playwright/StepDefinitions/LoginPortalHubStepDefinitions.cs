@@ -179,6 +179,40 @@ namespace DFP.Playwright.StepDefinitions
             await login.WaitForDashboardAsync();
         }
 
+        // ── URL navigation steps (no login — assumes session is already active) ───
+
+        [When(@"I open the portal URL ""?([^""]+)""?")]
+        public async Task WhenIOpenThePortalURL(string portalType)
+        {
+            string baseUrl;
+            if (IsIntegration(portalType))
+            {
+                baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "https://38442-dfpstag-magayaprod-auto.next.qwykportals.com/";
+            }
+            else
+            {
+                baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                          ?? Environment.GetEnvironmentVariable("BASE_URL")
+                          ?? "https://magaya-qa.next.qwykportals.com/";
+            }
+
+            await _tc.Page!.GotoAsync(baseUrl);
+            await _tc.Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
+        }
+
+        [When("I open the hub URL")]
+        public async Task WhenIOpenTheHubURL()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL)
+                          ?? "https://hub.next.qwykportals.com/";
+
+            await _tc.Page!.GotoAsync(baseUrl);
+            await _tc.Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
+        }
+
         private LoginPage CreateLoginPage(string baseUrl)
         {
             if (string.IsNullOrWhiteSpace(baseUrl))

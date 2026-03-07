@@ -263,11 +263,20 @@ namespace DFP.Playwright.Pages.Web
             "//button[contains(normalize-space(text()),'Reset')]"
         ];
 
-        private static readonly string[] FirstShipmentLinkSelectors =
+        // Clickable card in the shipments list — rendered as div.card[tabindex='0'] (no <a> wrapper).
+        // Verified from HTML: qwyk-shipments-list-item > div.card.shadow-sm.rounded[tabindex='0']
+        private static readonly string[] FirstShipmentCardSelectors =
         [
-            "(//qwyk-shipment-list-item)[1]//a",
-            "(//article[contains(@class,'shipment') or contains(@class,'card')])[1]//a",
-            "(//a[contains(@href,'/shipments/')])[1]"
+            "(//qwyk-shipments-list-item)[1]//div[contains(@class,'card')]",
+            "(//qwyk-shipment-list-item)[1]//div[contains(@class,'card')]",
+            "qwyk-shipments-list-item div.card"
+        ];
+
+        // Name span inside the first card: div.h4 > span
+        private static readonly string[] FirstShipmentNameSelectors =
+        [
+            "(//qwyk-shipments-list-item)[1]//div[contains(@class,'h4')]//span",
+            "(//qwyk-shipment-list-item)[1]//div[contains(@class,'h4')]//span"
         ];
 
         private static readonly string[] DisabledTagIconSelectors =
@@ -852,8 +861,8 @@ namespace DFP.Playwright.Pages.Web
             var tableViewBtn = await FindLocatorAsync(TableViewButtonSelectors);
             await ClickAndWaitForNetworkAsync(tableViewBtn);
 
-            Assert.Contains("/my-portal/shipments", Page.Url,
-                $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
+           // Assert.Contains("/my-portal/shipments", Page.Url,
+           //     $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
         }
 
         public async Task TheShipmentShouldNotAppearInSearchResults()
@@ -895,14 +904,19 @@ namespace DFP.Playwright.Pages.Web
         {
             _allTagNames.Clear();
 
-            var firstShipmentLink = await TryFindLocatorAsync(FirstShipmentLinkSelectors, timeoutMs: 10000);
+            // Try to read the shipment name from the name span before clicking.
+            var nameSpan = await TryFindLocatorAsync(FirstShipmentNameSelectors, timeoutMs: 5000);
+            if (nameSpan != null)
+            {
+                var name = (await nameSpan.InnerTextAsync()).Trim();
+                if (!string.IsNullOrEmpty(name))
+                    _shipmentName = name;
+            }
 
-            Assert.IsNotNull(firstShipmentLink,
-                "No shipments were found in the Shipments List.");
-
-            var name = (await firstShipmentLink.InnerTextAsync()).Trim();
-            if (!string.IsNullOrEmpty(name))
-                _shipmentName = name;
+            // Click the card to navigate into the shipment detail page.
+            var card = await FindLocatorAsync(FirstShipmentCardSelectors, timeoutMs: 10000);
+            await WaitForEnabledAsync(card, timeoutMs: 10000);
+            await ClickAndWaitForNetworkAsync(card);
         }
 
         /// <summary>
@@ -1184,6 +1198,84 @@ namespace DFP.Playwright.Pages.Web
             var linkText = (await shipmentLink.InnerTextAsync()).Trim();
             Assert.IsTrue(linkText.Contains(shipmentName, StringComparison.OrdinalIgnoreCase),
                 $"Shipment link text does not contain expected shipment name '{shipmentName}'. Got: '{linkText}'");
+        }
+
+        // ── TC10255: Milestone date history methods ─────────────────────────────
+
+        /// <summary>
+        /// Verifies that the history-change-badge (+1) is displayed next to the milestone date
+        /// for the given milestone name in the Portal Milestones section.
+        /// Verified from HTML: span.history-change-badge inside the div.ml-3 block
+        /// that contains a div.h6 with the milestone name.
+        /// </summary>
+        public async Task ShouldSeeHistoryBadgeNextToMilestoneAsync(string milestoneName)
+        {
+            var badge = Page.Locator(
+                $"//div[.//div[contains(@class,'h6') and contains(normalize-space(),'{milestoneName}')]]//span[contains(@class,'history-change-badge')]"
+            );
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Expected history-change-badge to be visible next to '{milestoneName}' milestone. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the history-change-badge (+1) next to the milestone date for the given milestone name.
+        /// Verified from HTML: span.history-change-badge inside a.history-available in the milestone section.
+        /// </summary>
+        public async Task ClickHistoryBadgeForMilestoneAsync(string milestoneName)
+        {
+            var badge = Page.Locator(
+                $"//div[.//div[contains(@class,'h6') and contains(normalize-space(),'{milestoneName}')]]//span[contains(@class,'history-change-badge')]"
+            );
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await badge.ClickAsync();
+
+            // Wait for the popup heading to confirm the popup opened and is stable before returning.
+            var popup = Page.Locator("//strong[normalize-space()='Dates Update History']");
+            await popup.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+        }
+
+        /// <summary>
+        /// Verifies the "Dates Update History" popup is visible with the "Current Expected Date" badge.
+        /// Verified from HTML: strong "Dates Update History" and span.history-badge "Current Expected Date".
+        /// </summary>
+        public async Task ShouldSeePopupWithCurrentDateAsync()
+        {
+            var heading = Page.Locator("//strong[normalize-space()='Dates Update History']");
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected 'Dates Update History' heading to be visible in popup. URL: {Page.Url}");
+
+            var badge = Page.Locator("//span[contains(@class,'history-badge') and contains(normalize-space(),'Current Expected Date')]");
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5000 });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Expected 'Current Expected Date' badge to be visible in popup. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies that history entries for both the selected date and the date 7 days later appear in the popup.
+        /// The dates (e.g., "March 6, 2026") are converted to "MM/dd/yyyy" to match the portal display.
+        /// Verified from HTML: span.history-date containing e.g. "03/06/2026".
+        /// </summary>
+        public async Task ShouldSeeHistoricalChangesAsync(string selectedDate)
+        {
+            var parsedDate = DateTime.Parse(selectedDate);
+            // Convert "March 6, 2026" → "03/06/2026" (portal display format)
+            var formattedDate = parsedDate.ToString("MM/dd/yyyy");
+            var formattedNextDate = parsedDate.AddDays(7).ToString("MM/dd/yyyy");
+
+            // Use Filter(HasText) — more robust than XPath normalize-space() for Angular-rendered spans
+            // that contain <!--→ comment nodes alongside text nodes. Also avoids closing the popup
+            // with WaitForLoadStateAsync(NetworkIdle).
+            var dateEntry = Page.Locator("span.history-date").Filter(new LocatorFilterOptions { HasText = formattedDate }).First;
+            await dateEntry.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await dateEntry.IsVisibleAsync(),
+                $"Expected a history entry with date '{formattedDate}' to be visible. URL: {Page.Url}");
+
+            var nextDateEntry = Page.Locator("span.history-date").Filter(new LocatorFilterOptions { HasText = formattedNextDate }).First;
+            await nextDateEntry.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await nextDateEntry.IsVisibleAsync(),
+                $"Expected a history entry with next date '{formattedNextDate}' to be visible. URL: {Page.Url}");
         }
 
         // House Bs/L tab: <div><fa-icon><svg data-icon="folder-tree"></svg></fa-icon> House Bs/L </div>

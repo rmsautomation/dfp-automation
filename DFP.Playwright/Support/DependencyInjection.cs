@@ -61,6 +61,12 @@ namespace DFP.Playwright.Support
                 return new UsersHubPage(tc.Page!);
             });
 
+            services.AddScoped<QuotationPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new QuotationPage(tc.Page!);
+            });
+
             return services;
         }
     }

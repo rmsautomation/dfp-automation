@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
 
@@ -12,6 +13,7 @@ namespace DFP.Playwright.Pages.Web
         private string _destinationPort = string.Empty;
         private string _firstVessel = string.Empty;
         private string _bookingVessel = string.Empty;
+        private string _quoteId = string.Empty;
 
         public QuotationPage(IPage page) : base(page)
         {
@@ -458,6 +460,60 @@ namespace DFP.Playwright.Pages.Web
                 _firstVessel.Contains(_bookingVessel, StringComparison.OrdinalIgnoreCase),
                 $"Expected schedule vessel '{_firstVessel}' to contain booking vessel '{_bookingVessel}'."
             );
+        }
+
+        // ── TC4520: Quote ID ──────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Reads the quote ID from the bold span in the quotation header (e.g. "QUO-02463 | ...")
+        /// and stores it in _quoteId. Extracts only the "QUO-XXXXX" part before the pipe separator.
+        /// Verified from HTML: span.font-weight-bold containing "QUO-NNNNN |"
+        /// </summary>
+        public async Task StoreQuoteIdAsync()
+        {
+            var quoteSpan = Page.Locator("span.font-weight-bold")
+                .Filter(new LocatorFilterOptions { HasText = "QUO-" })
+                .First;
+            await quoteSpan.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var rawText = (await quoteSpan.InnerTextAsync()).Trim();
+            var match = Regex.Match(rawText, @"QUO-\d+");
+            Assert.IsTrue(match.Success, $"Could not extract quote ID from text '{rawText}'. URL: {Page.Url}");
+            _quoteId = match.Value;
+        }
+
+        /// <summary>Returns the quote ID stored by StoreQuoteIdAsync (e.g. "QUO-02463").</summary>
+        public string GetQuoteId() => _quoteId;
+
+        /// <summary>
+        /// Enters the stored quote ID in the "Quotation #" search input and waits for results.
+        /// Verified from HTML: input[formcontrolname='friendly_id'][placeholder='Quotation #']
+        /// </summary>
+        public async Task EnterQuotationIdInSearchAsync()
+        {
+            var input = Page.Locator("input[formcontrolname='friendly_id']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClearAsync();
+            await input.FillAsync(_quoteId);
+            await input.PressAsync("Enter");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Verifies the stored quote ID appears as a link in the results list with status "Created".
+        /// Verified from HTML: li[qwyk-quotations-list-item] > a with quote ID text + span.badge "Created"
+        /// </summary>
+        public async Task ShouldSeeQuoteIdInResultsAsync()
+        {
+            var listItem = Page.Locator("li[qwyk-quotations-list-item]")
+                .Filter(new LocatorFilterOptions { HasText = _quoteId });
+            await listItem.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await listItem.First.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to appear in the results list. URL: {Page.Url}");
+
+            var statusBadge = listItem.First.Locator("span.badge")
+                .Filter(new LocatorFilterOptions { HasText = "Booked" });
+            Assert.IsTrue(await statusBadge.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to have status 'Created' but it was not visible. URL: {Page.Url}");
         }
     }
 }

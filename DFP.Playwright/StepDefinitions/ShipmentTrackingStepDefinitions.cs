@@ -463,6 +463,45 @@ namespace DFP.Playwright.StepDefinitions
                 $"The most recent email from today for shipment '{shipmentGuid}' did not contain status '{expectedStatus}' after waiting 30 seconds.");
         }
 
+        [Then(@"I should receive an email with text ""([^""]*)"" in the body for shipment ""([^""]*)""")]
+        public async Task ThenIShouldReceiveAnEmailWithTextInTheBodyForShipment(string textArg = "", string shipmentNameArg = "")
+        {
+            var expectedTexts = (NormalizeStepArgument(textArg) ?? string.Empty)
+                .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .ToArray();
+            var shipmentName = string.IsNullOrWhiteSpace(shipmentNameArg)
+                ? GetRequiredContextValue("shipmentName", "Shipment name (shipmentName) not found in context.")
+                : NormalizeStepArgument(shipmentNameArg);
+
+            string? latestShipmentEmail = null;
+            for (var attempt = 0; attempt < 6; attempt++)
+            {
+                await RefreshNotificationEmailsAsync();
+                Console.WriteLine($"Email body assert poll {attempt + 1}/6 => emailsLoaded:{_latestNotificationEmailBodies.Count}, shipmentName:{shipmentName}");
+                latestShipmentEmail = _latestNotificationEmailBodies.FirstOrDefault(body =>
+                    expectedTexts.All(text => body.Contains(text, StringComparison.OrdinalIgnoreCase))
+                    && body.Contains(shipmentName, StringComparison.OrdinalIgnoreCase));
+
+                if (!string.IsNullOrWhiteSpace(latestShipmentEmail))
+                {
+                    Console.WriteLine($"Email body assert matched => shipmentName:{shipmentName}, texts:{string.Join(" | ", expectedTexts)}");
+                    return;
+                }
+
+                if (attempt < 5)
+                    await Task.Delay(5000);
+            }
+
+            Assert.IsTrue(_latestNotificationEmailBodies.Count > 0,
+                $"No emails from today found in the last checked messages for '{_notificationEmail}'.");
+
+            Assert.IsNotNull(latestShipmentEmail,
+                expectedTexts.Length == 0
+                    ? $"No email from today in the last 3 checked messages contained shipment '{shipmentName}' after waiting 30 seconds."
+                    : $"No email from today in the last 3 checked messages contained texts '{string.Join(" | ", expectedTexts)}' and shipment '{shipmentName}' after waiting 30 seconds.");
+        }
+
         private async Task RefreshNotificationEmailsAsync()
         {
             _latestNotificationEmailBodies.Clear();

@@ -492,8 +492,9 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
 
 @8086 @NOINT
 Scenario: Status update - List View - Subscribe to notifications
-When I Check the email for "suscriptordfpautomation@yopmail.com" with username ""
-Then I should receive the notification "Your shipment's status was updated to Confirmed" status "Confirmed" for shipment "a142e79c-c094-4101-9ab7-09606e909ce9"
+When I Check the email for " aylinquotationop@yopmail.com" with username ""
+Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment "Ocean FCL Los Angeles to Shanghai Pt"
+
 
 @4520 @NOINT @login
 Scenario:Parent-child tree structure - All permissions

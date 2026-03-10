@@ -320,10 +320,11 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ClickCreateMailingRuleButtonAsync()
         {
-            var btn = Page.Locator("button[type='submit'].btn-primary.ml-2")
+            var btn = Page.Locator("button.btn-primary")
                 .Filter(new LocatorFilterOptions { HasText = "Create mailing rule" })
                 .First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
             await ClickAndWaitForNetworkAsync(btn);
         }
 

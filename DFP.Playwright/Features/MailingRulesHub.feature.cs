@@ -190,7 +190,7 @@ await testRunner.WhenAsync("I select the created mailing list \"AutomationMailin
 await testRunner.ThenAsync("I should see the available members list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 19
-await testRunner.AndAsync("I enter the email \"aylinquotationop@yopmail.com\" to add the member", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I enter the email \"automationhub@yopmail.com\" to add the member", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 20
 await testRunner.AndAsync("I add the member", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -313,25 +313,25 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
     await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 66
-await testRunner.WhenAsync("I Check the email for \"aylinquotationop@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+await testRunner.WhenAsync("I Check the email for \"automationhub@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 67
-await testRunner.ThenAsync("I should receive the notification \"A new shipment was booked.\" status \"Booked\" fo" +
-                        "r shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
+                        " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 69
 await testRunner.WhenAsync("I Check the email for \"aylinquotationop@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 70
-await testRunner.ThenAsync("I should receive the notification \"A new shipment was booked.\" status \"Booked\" fo" +
-                        "r shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
+                        " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 72
 await testRunner.WhenAsync("I Check the email for \"child_noint@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 73
-await testRunner.ThenAsync("I should receive the notification \"A new shipment was booked.\" status \"Booked\" fo" +
-                        "r shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
+                        " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 75
 await testRunner.GivenAsync("I login to Hub as user \"aylinquotationop@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");

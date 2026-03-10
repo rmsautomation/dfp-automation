@@ -16,7 +16,7 @@ And I should see the Create Mailing List button
 When I select the created mailing list "AutomationMailingList"
 Then I should see the available members list
 #--------Adding Mail "automationhub@yopmail.com" to Mailing List-------------------
-And I enter the email "aautomationhub@yopmail.com" to add the member
+And I enter the email "automationhub@yopmail.com" to add the member
 And I add the member
 When I save the list
 Then I should see the Create Mailing List button
@@ -62,15 +62,15 @@ Given I am on the Quotations List page
     When I click on Send Booking button
     Then I should click on Go To Shipment button to see the shipment
     And the shipment should display the shipment name
-#--------EMAIL VERIFICATIONS Verify Email in the Mailing List aylinquotationop@yopmail.com------------------------
-When I Check the email for "aylinquotationop@yopmail.com" with username ""
-Then I should receive the notification "A new shipment was booked." status "Booked" for shipment ""
+#--------EMAIL VERIFICATIONS Verify Email in the Mailing List automationhub@yopmail.com------------------------
+When I Check the email for "automationhub@yopmail.com" with username ""
+Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
 #--------EMAIL VERIFICATIONS Verify Email for Rule Hub User aylinquotationop@yopmail.com ------
 When I Check the email for "aylinquotationop@yopmail.com" with username ""
-Then I should receive the notification "A new shipment was booked." status "Booked" for shipment ""
+Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
 #--------EMAIL VERIFICATIONS Verify Email for Customer 1  child_noint@yopmail.com ------
 When I Check the email for "child_noint@yopmail.com" with username ""
-Then I should receive the notification "A new shipment was booked." status "Booked" for shipment ""
+Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
 #-------- Verify Hub Notifications for Rule Hub User aylinquotationop@yopmail.com ---
 Given I login to Hub as user "aylinquotationop@yopmail.com"
     Then the login dashboard should be visible

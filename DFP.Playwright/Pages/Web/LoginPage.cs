@@ -91,6 +91,11 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] ProfileButtonSelectors =
         {
+            // Portal: avatar button shows user initial — try by single-char text, class, or role
+            "button[class*='avatar']",
+            "[class*='user-avatar']",
+            "[class*='avatar-btn']",
+            "//nav//ul//li//button[string-length(normalize-space())=1]",
             "role=button[name='A']",
             "internal:role=button[name=\"Avatar\"s]",
             "internal:role=button[name=\"Avatar next\"i]"
@@ -393,10 +398,15 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task LogoutAsync()
         {
-            var profileButton = await FindLocatorAsync(ProfileButtonSelectors, timeoutMs: 5000);
+            // Stabilize the page before looking for the avatar button.
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await Page.EvaluateAsync("window.scrollTo(0, 0)");
+            await Page.WaitForTimeoutAsync(500);
+
+            var profileButton = await FindLocatorAsync(ProfileButtonSelectors, timeoutMs: 15000);
             await profileButton.ClickAsync();
 
-            var logoutButton = await FindLocatorAsync(LogoutButtonSelectors, timeoutMs: 5000);
+            var logoutButton = await FindLocatorAsync(LogoutButtonSelectors, timeoutMs: 10000);
             await logoutButton.ClickAsync();
         }
 

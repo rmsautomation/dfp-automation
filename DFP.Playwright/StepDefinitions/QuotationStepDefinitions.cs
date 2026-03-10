@@ -219,5 +219,25 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _quotationPage.CompareVesselWithScheduleAsync();
         }
+
+        [Given("I store the quote ID")]
+        [When("I store the quote ID")]
+        [Then("I store the quote ID")]
+        public async Task IStoreTheQuoteID()
+        {
+            await _quotationPage.StoreQuoteIdAsync();
+        }
+
+        [When("I enter the quotation ID in the search section")]
+        public async Task IEnterTheQuotationIdInTheSearchSection()
+        {
+            await _quotationPage.EnterQuotationIdInSearchAsync();
+        }
+
+        [Then("I should see the quote ID in the results")]
+        public async Task IShouldSeeTheQuoteIdInTheResults()
+        {
+            await _quotationPage.ShouldSeeQuoteIdInResultsAsync();
+        }
     }
 }

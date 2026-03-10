@@ -2447,5 +2447,103 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsNull(houseTab,
                 $"'House Bs/L' tab should not be displayed but was found. URL: {Page.Url}");
         }
+
+        // ── TC4520: Attachments ───────────────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the "Attachments" nav tab in the shipment detail page.
+        /// Verified from HTML: a.nav-link with text "Attachments"
+        /// </summary>
+        public async Task ClickAttachmentsTabAsync()
+        {
+            var tab = Page.Locator("a.nav-link")
+                .Filter(new LocatorFilterOptions { HasText = "Attachments" })
+                .First;
+            await tab.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await ClickAndWaitForNetworkAsync(tab);
+        }
+
+        /// <summary>
+        /// Clicks the "Attach document" button (paperclip icon) in the Attachments tab.
+        /// Verified from HTML: button.btn-secondary:has(svg[data-icon='paperclip'])
+        /// </summary>
+        public async Task ClickAttachDocumentButtonAsync()
+        {
+            var btn = Page.Locator("button.btn-secondary")
+                .Filter(new LocatorFilterOptions { HasText = "Attach document" })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 10000);
+            await btn.ClickAsync();
+        }
+
+        /// <summary>
+        /// Verifies the upload modal is shown by waiting for the instruction text.
+        /// Verified from HTML: p.m-0 "Select a file from your system and attach it to your booking."
+        /// </summary>
+        public async Task ShouldSeeUploadScreenAsync()
+        {
+            var instruction = Page.Locator("p.m-0")
+                .Filter(new LocatorFilterOptions { HasText = "Select a file from your system" })
+                .First;
+            await instruction.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await instruction.IsVisibleAsync(),
+                $"Expected upload instruction text to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Sets the file to upload using the hidden file input.
+        /// The file must exist in the project's Attachments/ folder.
+        /// Verified from HTML: input#file[type='file'][formcontrolname='file']
+        /// </summary>
+        public async Task SelectFileToUploadAsync(string fileName)
+        {
+            // Resolve path: go 3 levels up from bin/Debug/net8.0 to reach the project root
+            var assemblyDir = Path.GetDirectoryName(typeof(ShipmentPage).Assembly.Location)!;
+            var projectRoot = Path.GetFullPath(Path.Combine(assemblyDir, "..", "..", ".."));
+            var filePath = Path.Combine(projectRoot, "Attachments", fileName);
+            Assert.IsTrue(File.Exists(filePath),
+                $"Attachment file not found at '{filePath}'. Place the file in the project's Attachments/ folder.");
+            var fileInput = Page.Locator("input#file[type='file']");
+            await fileInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 10000 });
+            await fileInput.SetInputFilesAsync(filePath);
+        }
+
+        /// <summary>
+        /// Clicks the "Upload" submit button in the upload modal.
+        /// Verified from HTML: button[type='submit'].btn-primary "Upload"
+        /// </summary>
+        public async Task ClickUploadButtonAsync()
+        {
+            var uploadBtn = Page.Locator("button[type='submit'].btn-primary")
+                .Filter(new LocatorFilterOptions { HasText = "Upload" })
+                .First;
+            await uploadBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(uploadBtn, timeoutMs: 5000);
+            await ClickAndWaitForNetworkAsync(uploadBtn);
+        }
+
+        /// <summary>
+        /// Waits for the "Attach document" button to be clickable again (upload complete),
+        /// then verifies the uploaded file name appears in the attachments list.
+        /// Verified from HTML: h6.m-0 with the file name inside the attachments list.
+        /// </summary>
+        public async Task ShouldSeeUploadedFileAsync(string fileName)
+        {
+            // Wait for the "Attach document" button to become enabled again — signals upload is complete.
+            var attachBtn = Page.Locator("button.btn-secondary")
+                .Filter(new LocatorFilterOptions { HasText = "Attach document" })
+                .First;
+            await attachBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 30000 });
+            await WaitForEnabledAsync(attachBtn, timeoutMs: 30000);
+
+            // Verify the file name appears in the attachments list.
+            var fileEntry = Page.Locator("h6.m-0")
+                .Filter(new LocatorFilterOptions { HasText = fileName })
+                .First;
+            await fileEntry.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await fileEntry.IsVisibleAsync(),
+                $"Expected uploaded file '{fileName}' to appear in the attachments list. URL: {Page.Url}");
+        }
     }
 }

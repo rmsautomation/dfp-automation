@@ -658,5 +658,32 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IShouldSeeTheHistoricalChanges()
             => await _shipmentPage.ShouldSeeHistoricalChangesAsync(_shipmentHubPage.GetSelectedDate());
 
+        // ── TC4520: Attachments ───────────────────────────────────────────────────
+
+        [Then("I click on Attahments tab")]
+        [When("I click on Attahments tab")]
+        public async Task IClickOnAttachmentsTab()
+            => await _shipmentPage.ClickAttachmentsTabAsync();
+
+        [When("I click on Attach document button")]
+        public async Task IClickOnAttachDocumentButton()
+            => await _shipmentPage.ClickAttachDocumentButtonAsync();
+
+        [Then("I should see the screen to upload the attachment")]
+        public async Task IShouldSeeTheScreenToUploadTheAttachment()
+            => await _shipmentPage.ShouldSeeUploadScreenAsync();
+
+        [When("I select the file to upload {string}")]
+        public async Task ISelectTheFileToUpload(string fileName)
+            => await _shipmentPage.SelectFileToUploadAsync(fileName);
+
+        [Then("I click on Upload button")]
+        [When("I click on Upload button")]
+        public async Task IClickOnUploadButton()
+            => await _shipmentPage.ClickUploadButtonAsync();
+
+        [Then("I should see the uploaded file {string}")]
+        public async Task IShouldSeeTheUploadedFile(string fileName)
+            => await _shipmentPage.ShouldSeeUploadedFileAsync(fileName);
     }
 }

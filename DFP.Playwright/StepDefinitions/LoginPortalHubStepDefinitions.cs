@@ -115,6 +115,8 @@ namespace DFP.Playwright.StepDefinitions
         }
 
         [When("I log out")]
+        [When("I log out from Portal")]
+        [Then("I log out from Portal")]
         public async Task WhenILogOut()
         {
             var login = CreateLoginPage(Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL)

@@ -494,3 +494,107 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
 Scenario: Status update - List View - Subscribe to notifications
 When I Check the email for "suscriptordfpautomation@yopmail.com" with username ""
 Then I should receive the notification "Your shipment's status was updated to Confirmed" status "Confirmed" for shipment "a142e79c-c094-4101-9ab7-09606e909ce9"
+
+@4520 @NOINT @login
+Scenario:Parent-child tree structure - All permissions
+# ── Create quotation FCL in the Portal WITHOUT INT with a user whose Customer is defined as a Child ───────
+Given I login to Portal as user "child_noint@yopmail.com"
+Given I am on the Quotations List page
+  When I click on Create Quotation button
+  Then I should see the create Quotation Page
+  Then I click on "Ocean" transport mode
+  And I click on "Full (FCL)" load type
+  And I enter "Shanghai" as the Origin Port
+  And I enter "Rotterdam" as the Destination Port
+  When I click on Continue your quote
+  Then I should see the Origin and Destination ports
+  When I click on the calendar
+  Then I select the date
+  When I click on currency
+  Then I select "USD" as the currency
+  And I select the container size "40' Container"
+  And I select the container type "All Types"
+  When I click on Commodity dropdown
+  Then I select the Commodity "Freight All Kinds (FAK)"
+  When I click on Create quotation from details
+  Then I should see the offers
+#------Get the Quotation ID----------------------------------------------
+  And I store the quote ID
+#------Create Booking and SH WITHOUT ATTACHMENTS--------------------------
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+#----------Verify Quote and Booking using PARENT Login-----------------
+    And I log out from Portal
+    Given I login to Portal as user "aylin.rodriguez@magaya.com"
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+#------SHIPMENT APPEARS IN THE PORTAL USING PARENT--------------
+    Then the shipment should appear in the search results
+    Given I am on the Quotations List page
+    When I enter the quotation ID in the search section
+    And I click on Search button
+#------QUOTE ID APPEARS IN THE PORTAL USING PARENT--------------
+    Then I should see the quote ID in the results
+#------Create Shipment WITH ATTACHMENTS USING CHILD--------------------------
+    And I log out from Portal
+    Given I login to Portal as user "child_noint@yopmail.com"
+    Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    And I click on Attahments tab
+    When I click on Attach document button
+    Then I should see the screen to upload the attachment
+    When I select the file to upload "2026-03-09_13-33-33.png"
+    Then I click on Upload button
+    And I should see the uploaded file "2026-03-09_13-33-33.png"
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+#------Create Purchase Order USING CHILD------------------------
+    Given I am on the purchase order list page
+    When I click on the "Create New Purchase Order" button
+    Then I should be on the purchase order creation page
+    And I enter the Purchase Order number
+    And I enter the buyer details
+    And I select the currency
+    And I enter the supplier details
+    And I select the Transport Mode "Ocean"
+    And I enter the Cargo Origin "Los Angeles"
+    And I enter the Cargo destination "Shanghai"
+    When I click on Save button in the Purchase Order
+    Then I should see the purchase order details
+#----------Verify SH ATTACHMENTS AND PO USING PARENT-----------------
+    And I log out from Portal
+    Given I login to Portal as user "aylin.rodriguez@magaya.com"
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+#------SHIPMENT APPEARS IN THE PORTAL USING PARENT------------------
+    Then the shipment should appear in the search results
+#----------Verify Search PO USING PARENT----------------------------
+    Given I am on the purchase order list page
+    When I enter the purchase order number in the search
+    And I click on PO search button
+    Then I should see the purchase order number in the list

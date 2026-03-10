@@ -18,6 +18,7 @@ Feature: Shipments
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -39,6 +40,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -72,6 +74,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -112,6 +115,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -311,6 +315,7 @@ Scenario: Shipments - Validate global search bar - Behavior when filtering by Qu
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -412,6 +417,7 @@ Given I login to Portal as user "with Int"
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -529,6 +535,7 @@ Given I am on the Quotations List page
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -562,6 +569,7 @@ Given I am on the Quotations List page
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     And I click on Attahments tab

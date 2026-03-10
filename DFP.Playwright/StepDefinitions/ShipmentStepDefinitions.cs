@@ -96,6 +96,13 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IShouldEditTheShipmentName();
         }
 
+        [Then("I store shipment Name")]
+        [When("I store shipment Name")]
+        public void IStoreShipmentName()
+        {
+            _tc.Data["shipmentName"] = _shipmentPage.GetShipmentName();
+        }
+
         [When("I click on save button")]
         public async Task IClickOnSaveButton()
         {

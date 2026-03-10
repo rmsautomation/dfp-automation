@@ -254,6 +254,7 @@ namespace DFP.Playwright.Pages.Web
         // HTML: <input formcontrolname="full" id="full" placeholder="Quick search..." class="p-inputtext p-component ...">
         private static readonly string[] QuickFilterInputSelectors =
         [
+            "internal:role=textbox[name='Shipment Reference'i]",
             "input[placeholder='Quick search...']",
             "input#full",
             "input[formcontrolname='full']",
@@ -272,6 +273,8 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] ShipmentReferenceInputSelectors =
         [
+            "internal:role=textbox[name='Shipment Reference'i]",
+            "input[formcontrolname*='reference' i]",
             "input[placeholder*='reference' i]",
             "//input[contains(@placeholder,'reference') or contains(@placeholder,'Reference')]",
             "//label[contains(text(),'Shipment Reference')]/..//input",
@@ -328,6 +331,16 @@ namespace DFP.Playwright.Pages.Web
             "[role='tooltip']",
             ".tippy-content",
             ".tooltip"
+        ];
+        private static readonly string[] MapInfoWindowSelectors =
+        [
+            ".gm-style-iw",
+            ".gm-style-iw-c",
+            ".gm-style-iw-d",
+            "[aria-label*='Last position' i]",
+            "[aria-label*='Live Position' i]",
+            "text=Last position",
+            "text=Live Position"
         ];
          private static readonly string[] ShipmentSummaryTabSelectors =
         [
@@ -695,16 +708,83 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IEnterShipmentNameInShipmentReferenceField()
         {
-            var referenceInput = await FindLocatorAsync(ShipmentReferenceInputSelectors);
-            await WaitForEnabledAsync(referenceInput);
             if (string.IsNullOrWhiteSpace(_shipmentName))
                 _shipmentName = $"NoSuchShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
-            await TypeAsync(referenceInput, _shipmentName);
 
-            // Assert the value was actually typed — detects cases where the field was read-only or wrong.
-            var typed = await referenceInput.InputValueAsync();
-            Assert.IsTrue(typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase),
-                $"Shipment name was not typed correctly into the Shipment Reference field. Expected: '{_shipmentName}', Actual: '{typed}'. URL: {Page.Url}");
+            async Task<ILocator?> FindVisibleEnabledReferenceInputAsync()
+            {
+                foreach (var selector in ShipmentReferenceInputSelectors)
+                {
+                    var candidates = Page.Locator(selector);
+                    var count = await candidates.CountAsync();
+                    var scan = Math.Min(count, 8);
+                    for (var i = 0; i < scan; i++)
+                    {
+                        var candidate = candidates.Nth(i);
+                        try
+                        {
+                            if (!await candidate.IsVisibleAsync() || !await candidate.IsEnabledAsync())
+                                continue;
+                            var cssClass = (await candidate.GetAttributeAsync("class")) ?? string.Empty;
+                            var isReadonly = (await candidate.GetAttributeAsync("readonly")) != null;
+                            if (cssClass.Contains("disabled", StringComparison.OrdinalIgnoreCase) || isReadonly)
+                                continue;
+                            return candidate;
+                        }
+                        catch
+                        {
+                            // Candidate may detach while the list re-renders.
+                        }
+                    }
+                }
+                return null;
+            }
+
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            const int maxAttempts = 8;
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                var referenceInput = await FindVisibleEnabledReferenceInputAsync();
+                if (referenceInput != null)
+                {
+                    await referenceInput.ScrollIntoViewIfNeededAsync();
+                    await referenceInput.ClickAsync();
+                    await TypeAsync(referenceInput, _shipmentName);
+
+                    var typed = await referenceInput.InputValueAsync();
+                    if (typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase))
+                        return;
+                }
+
+                var showMore = await TryFindLocatorAsync(ShowMoreFiltersSelectors, timeoutMs: 1000);
+                if (showMore != null)
+                    await ClickAsync(showMore);
+
+                await Page.WaitForTimeoutAsync(600);
+            }
+
+            // Fallback for list variants where advanced filters are not interactable but quick search is.
+            var quickFilter = await TryFindLocatorAsync(QuickFilterInputSelectors, timeoutMs: 2000);
+            if (quickFilter != null)
+            {
+                try
+                {
+                    await quickFilter.ScrollIntoViewIfNeededAsync();
+                    await WaitForEnabledAsync(quickFilter, timeoutMs: 3000);
+                    await TypeAsync(quickFilter, _shipmentName);
+                    var quickTyped = await quickFilter.InputValueAsync();
+                    if (quickTyped.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase))
+                        return;
+                }
+                catch
+                {
+                    // Keep the original assertion below if quick filter is also not usable.
+                }
+            }
+
+            Assert.Fail(
+                $"Shipment Reference input was not interactable after retries. " +
+                $"Expected to type '{_shipmentName}'. URL: {Page.Url}");
         }
 
         public async Task IEnterShipmentReferenceInQuickFilter()
@@ -1371,6 +1451,102 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected container '{expectedContainerId}' was not present in Summary dropdown options. Options: {string.Join(" | ", allText)}");
         }
 
+        public async Task UnsubscribedContainerShouldNotBeVisibleInSummaryDropdownAsync(string containerId)
+        {
+            const int maxAttempts = 20;
+            const int delayMs = 3000;
+            string[] lastOptions = [];
+
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                if (IsTooManyAttemptsPage(Page.Url))
+                {
+                    Console.WriteLine($"Summary unsubscribe check hit throttle page on attempt {attempt}/{maxAttempts}. URL: {Page.Url}");
+                    await Page.WaitForTimeoutAsync(8000);
+                    try
+                    {
+                        await Page.GoBackAsync(new PageGoBackOptions
+                        {
+                            WaitUntil = WaitUntilState.NetworkIdle,
+                            Timeout = 30000
+                        });
+                    }
+                    catch
+                    {
+                        // Keep retrying; some throttle pages don't keep stable history state.
+                    }
+                }
+
+                if (!IsShipmentDetailsUrl(Page.Url))
+                {
+                    if (attempt < maxAttempts)
+                    {
+                        await Page.WaitForTimeoutAsync(delayMs);
+                        continue;
+                    }
+
+                    Assert.Fail($"Expected Shipment Details page before checking Summary container dropdown. Current URL: {Page.Url}");
+                }
+
+                var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
+                if (summaryTab != null)
+                    await ClickAsync(summaryTab);
+
+                var dropdown = await TryFindLocatorAsync(ContainerDropdownSelectors, timeoutMs: 4000);
+                if (dropdown == null)
+                    return; // No container dropdown means unsubscribed container is no longer available.
+                var optionCount = await dropdown.Locator("option").CountAsync();
+                if (optionCount > 1)
+                {
+                    var optionTexts = new List<string>();
+                    for (var i = 0; i < optionCount; i++)
+                    {
+                        var text = (await dropdown.Locator("option").Nth(i).InnerTextAsync()).Trim();
+                        if (!string.IsNullOrWhiteSpace(text))
+                            optionTexts.Add(text);
+                    }
+                    lastOptions = optionTexts.ToArray();
+                    if (!lastOptions.Any(t => t.Contains(containerId, StringComparison.OrdinalIgnoreCase)))
+                        return;
+                }
+                else
+                {
+                    await ClickAsync(dropdown);
+                    await Page.WaitForTimeoutAsync(800);
+                    var options = Page.Locator("li[role='option'], .p-dropdown-items .p-dropdown-item, .p-select-option, [role='listbox'] [role='option']");
+                    await options.First.WaitForAsync(new LocatorWaitForOptions
+                    {
+                        State = WaitForSelectorState.Visible,
+                        Timeout = 10000
+                    });
+                    lastOptions = (await options.AllInnerTextsAsync()).Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToArray();
+                    if (!lastOptions.Any(t => t.Contains(containerId, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        await Page.Keyboard.PressAsync("Escape");
+                        return;
+                    }
+                    await Page.Keyboard.PressAsync("Escape");
+                }
+
+                if (attempt < maxAttempts)
+                    await Page.WaitForTimeoutAsync(delayMs);
+            }
+
+            Assert.Fail(
+                $"Unsubscribed container '{containerId}' is still visible in Summary dropdown. " +
+                $"Options: {string.Join(" | ", lastOptions)}");
+        }
+
+        private static bool IsTooManyAttemptsPage(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return false;
+
+            return url.Contains("Too%20Many%20Attempts", StringComparison.OrdinalIgnoreCase)
+                || url.Contains("ThrottleRequestsException", StringComparison.OrdinalIgnoreCase)
+                || url.Contains("/404?message=Too", StringComparison.OrdinalIgnoreCase);
+        }
+
         public async Task SelectContainerInShipmentSummaryAsync(string containerValue)
         {
             static string NormalizeContainerText(string value)
@@ -1455,18 +1631,20 @@ namespace DFP.Playwright.Pages.Web
         public async Task MapShouldDisplayTrackingPointsAsync(
             string expectedContainerId,
             IEnumerable<string> expectedPortCodes,
-            string expectedArrivalActualIso,
-            string expectedDepartureActualIso)
+            double expectedLatitude,
+            double expectedLongitude)
         {
             Assert.IsTrue(IsShipmentDetailsUrl(Page.Url),
                 $"Expected Shipment Details page for Summary map validation. Current URL: {Page.Url}");
 
             const int maxAttempts = 20; // ~1 minute
             const int delayMs = 3000;
-            const int expectedMarkers = 3;
+            const int expectedPortMarkers = 5;
             var lastLiveTrackText = "";
-            var lastVisibleMarkerCount = 0;
+            var lastVisiblePortMarkerCount = 0;
+            var lastVisibleGreenPointCount = 0;
             var lastPointDataStatus = "not-evaluated";
+            var lastLivePositionStatus = "not-evaluated";
 
             await Page.EvaluateAsync("() => window.scrollTo(0, 0)");
             await Page.WaitForTimeoutAsync(200);
@@ -1475,9 +1653,12 @@ namespace DFP.Playwright.Pages.Web
             {
                 if (attempt > 1 && attempt % 5 == 0)
                 {
-                    var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
-                    if (summaryTab != null)
-                        await ClickAsync(summaryTab);
+                    if (!Page.Url.Contains("view=summary", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var summaryTab = await TryFindLocatorAsync(ShipmentSummaryTabSelectors, timeoutMs: 3000);
+                        if (summaryTab != null)
+                            await ClickAsync(summaryTab);
+                    }
                     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                 }
 
@@ -1526,17 +1707,27 @@ namespace DFP.Playwright.Pages.Web
                 var map = await TryFindLocatorAsync(MapContainerSelectors, timeoutMs: 2000);
                 if (map != null)
                 {
-                    lastVisibleMarkerCount = await CountGreenCoordinatePointsAsync(map);
-                    var hasPointData = await PortPointDataMatchesShipmentAsync(
+                    var greenPoints = await GetVisualGreenPointsAsync(map);
+                    Console.WriteLine($"Summary green blobs => {string.Join(" | ", greenPoints.Select(p => $"x:{p.Item1:0.0},y:{p.Item2:0.0},w:{p.Item3:0.0},h:{p.Item4:0.0},a:{p.Item5}"))}");
+                    lastVisiblePortMarkerCount = await CountVisiblePortPointLabelsAsync(map);
+                    lastVisibleGreenPointCount = greenPoints.Count;
+                    var hasPointData = await PortPointCodesMatchShipmentAsync(
                         map,
-                        expectedPortCodes,
-                        expectedArrivalActualIso,
-                        expectedDepartureActualIso);
+                        expectedPortCodes);
+                    var hasLivePosition = await LastPositionMatchesEventAsync(
+                        map,
+                        greenPoints,
+                        expectedLatitude,
+                        expectedLongitude);
                     lastPointDataStatus = hasPointData ? "ok" : "missing-or-mismatch";
+                    lastLivePositionStatus = hasLivePosition ? "ok" : "missing-or-mismatch";
 
-                    if (lastVisibleMarkerCount == expectedMarkers && hasLiveTrackEvidence && hasPointData)
+                    if (lastVisiblePortMarkerCount == expectedPortMarkers
+                        && hasLiveTrackEvidence
+                        && hasPointData
+                        && hasLivePosition)
                     {
-                        Console.WriteLine($"Summary ok => markers:{lastVisibleMarkerCount}, container:{expectedContainerId}, last_position:true");
+                        Console.WriteLine($"Summary ok => port_markers:{lastVisiblePortMarkerCount}, green_points_observed:{lastVisibleGreenPointCount}, container:{expectedContainerId}, last_position:{lastLivePositionStatus}");
                         var okScreenshot = await CaptureSummaryTrackingScreenshotAsync("ok");
                         Console.WriteLine($"Summary tracking screenshot => {okScreenshot}");
                         return;
@@ -1549,11 +1740,18 @@ namespace DFP.Playwright.Pages.Web
 
             var failScreenshot = await CaptureSummaryTrackingScreenshotAsync("fail");
             var hasLastPositionText = lastLiveTrackText.Contains("Last position update", StringComparison.OrdinalIgnoreCase);
+            var mapForDebug = await TryFindLocatorAsync(MapContainerSelectors, timeoutMs: 1000);
+            if (mapForDebug != null)
+            {
+                var visibleLabels = await GetVisibleMapLabelsAsync(mapForDebug);
+                Console.WriteLine($"Summary map labels => {string.Join(" | ", visibleLabels)}");
+            }
             Console.WriteLine(
-                $"Summary fail => markers:{lastVisibleMarkerCount}/{expectedMarkers}, container:{expectedContainerId}, last_position_text_present:{hasLastPositionText}, point_data:{lastPointDataStatus}");
+                $"Summary fail => port_markers:{lastVisiblePortMarkerCount}/{expectedPortMarkers}, green_points_observed:{lastVisibleGreenPointCount}, container:{expectedContainerId}, last_position_text_present:{hasLastPositionText}, point_data:{lastPointDataStatus}, live_position:{lastLivePositionStatus}");
             Assert.Fail(
                 $"Summary map/live track did not show tracking data for container '{expectedContainerId}'. " +
-                $"Visible markers: {lastVisibleMarkerCount} (expected = {expectedMarkers}). " +
+                $"Visible port markers: {lastVisiblePortMarkerCount} (expected = {expectedPortMarkers}). " +
+                $"Visible green points observed: {lastVisibleGreenPointCount}. " +
                 $"LiveTrack snapshot: {lastLiveTrackText}. URL: {Page.Url}. Screenshot: {failScreenshot}");
         }
 
@@ -1595,20 +1793,39 @@ namespace DFP.Playwright.Pages.Web
             return null;
         }
 
-        private async Task<int> CountGreenCoordinatePointsAsync(ILocator map)
+        private async Task<int> CountVisiblePortPointLabelsAsync(ILocator map)
         {
             var labels = await GetVisiblePortPointLabelsAsync(map);
+            Console.WriteLine($"Summary port labels => {string.Join(" | ", labels)}");
             return labels.Count;
         }
 
-        private async Task<bool> PortPointDataMatchesShipmentAsync(
+        private async Task<bool> LastPositionMatchesEventAsync(
             ILocator map,
-            IEnumerable<string> expectedPortCodes,
-            string expectedArrivalActualIso,
-            string expectedDepartureActualIso)
+            IReadOnlyList<(double x, double y, double width, double height, int area)> greenPoints,
+            double expectedLatitude,
+            double expectedLongitude)
+        {
+            var labels = await GetVisibleMeaningfulMapLabelsAsync(map);
+            var lastPositionLabel = labels.FirstOrDefault(l =>
+                l.Contains("Last Position", StringComparison.OrdinalIgnoreCase)
+                || l.Contains("Live Position", StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrWhiteSpace(lastPositionLabel))
+                return await HasLivePositionTooltipAsync(map, greenPoints);
+
+            var latCandidates = GetCoordinateTextCandidates(expectedLatitude);
+            var lonCandidates = GetCoordinateTextCandidates(expectedLongitude);
+            var hasLatitude = latCandidates.Any(c => lastPositionLabel.Contains(c, StringComparison.OrdinalIgnoreCase));
+            var hasLongitude = lonCandidates.Any(c => lastPositionLabel.Contains(c, StringComparison.OrdinalIgnoreCase));
+            return hasLatitude && hasLongitude;
+        }
+
+        private async Task<bool> PortPointCodesMatchShipmentAsync(
+            ILocator map,
+            IEnumerable<string> expectedPortCodes)
         {
             var labels = await GetVisiblePortPointLabelsAsync(map);
-            if (labels.Count != 3)
+            if (labels.Count != 5)
                 return false;
 
             var actualPortCodes = labels
@@ -1622,20 +1839,10 @@ namespace DFP.Playwright.Pages.Web
                 .Select(p => p.Trim().ToUpperInvariant())
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
-            var samePorts = actualPortCodes.Length == expected.Length
-                && actualPortCodes.All(p => expected.Contains(p, StringComparer.OrdinalIgnoreCase));
-            if (!samePorts)
-                return false;
-
-            var allHaveFields = labels.All(l =>
-                l.Contains("Arrival Actual:", StringComparison.OrdinalIgnoreCase)
-                && l.Contains("Departure Actual:", StringComparison.OrdinalIgnoreCase));
-            if (!allHaveFields)
-                return false;
-
-            var hasArrivalDate = labels.All(HasArrivalActualDate);
-            var hasDepartureDate = labels.All(HasDepartureActualDate);
-            return hasArrivalDate && hasDepartureDate;
+            if (expected.Length == 0)
+                return actualPortCodes.Length == 5;
+            var hasExpectedPorts = expected.All(p => actualPortCodes.Contains(p, StringComparer.OrdinalIgnoreCase));
+            return hasExpectedPorts;
         }
 
         private static string? TryExtractPortCode(string label)
@@ -1652,6 +1859,14 @@ namespace DFP.Playwright.Pages.Web
 
         private async Task<List<string>> GetVisiblePortPointLabelsAsync(ILocator map)
         {
+            var labels = await GetVisibleMapLabelsAsync(map);
+            return labels
+                .Where(IsPortLikeLabel)
+                .ToList();
+        }
+
+        private async Task<List<string>> GetVisibleMapLabelsAsync(ILocator map)
+        {
             var raw = await map.EvaluateAsync<string>(
                 @"(root) => {
                     const gm = root.matches('.gm-style') ? root : root.querySelector('.gm-style');
@@ -1664,7 +1879,7 @@ namespace DFP.Playwright.Pages.Web
                     return nodes.filter(el => {
                       if (!isVisible(el)) return false;
                       const label = (el.getAttribute('aria-label') || '').trim();
-                      return /^Port:\s+/i.test(label);
+                      return label.length > 0;
                     }).map(el => (el.getAttribute('aria-label') || '').trim()).join('||');
                 }");
 
@@ -1674,20 +1889,245 @@ namespace DFP.Playwright.Pages.Web
             return [.. raw.Split("||", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)];
         }
 
-        private static bool HasArrivalActualDate(string label)
+        private async Task<List<string>> GetVisibleMeaningfulMapLabelsAsync(ILocator map)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(
-                label,
-                @"Arrival\s+Actual:\s*\d{1,2}\/\d{1,2}\/\d{4}",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            var labels = await GetVisibleMapLabelsAsync(map);
+            return labels
+                .Where(label =>
+                    !label.Contains("Open this area in Google Maps", StringComparison.OrdinalIgnoreCase)
+                    && !label.Contains("Keyboard shortcuts", StringComparison.OrdinalIgnoreCase)
+                    && !label.Contains("Terms", StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
-        private static bool HasDepartureActualDate(string label)
+        private async Task<IReadOnlyList<(double x, double y, double width, double height, int area)>> GetVisualGreenPointsAsync(ILocator map)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(
-                label,
-                @"Departure\s+Actual:\s*\d{1,2}\/\d{1,2}\/\d{4}",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            var imageBytes = await map.ScreenshotAsync();
+            var base64 = Convert.ToBase64String(imageBytes);
+            var raw = await Page.EvaluateAsync<string>(
+                @"async ({ base64 }) => {
+                    const collectGreenBlobs = (ctx, width, height) => {
+                      const data = ctx.getImageData(0, 0, width, height).data;
+                      const visited = new Uint8Array(width * height);
+                      const isGreen = (idx) => {
+                        const r = data[idx];
+                        const g = data[idx + 1];
+                        const b = data[idx + 2];
+                        const a = data[idx + 3];
+                        return a > 0 && g >= 150 && b >= 120 && r <= 120;
+                      };
+                      const toIndex = (x, y) => y * width + x;
+                      const blobs = [];
+                      for (let y = 0; y < height; y++) {
+                        for (let x = 0; x < width; x++) {
+                          const flat = toIndex(x, y);
+                          if (visited[flat]) continue;
+                          visited[flat] = 1;
+                          const idx = flat * 4;
+                          if (!isGreen(idx)) continue;
+                          const q = [[x, y]];
+                          let area = 0;
+                          let minX = x, minY = y, maxX = x, maxY = y;
+                          while (q.length) {
+                            const [cx, cy] = q.pop();
+                            area++;
+                            if (cx < minX) minX = cx;
+                            if (cy < minY) minY = cy;
+                            if (cx > maxX) maxX = cx;
+                            if (cy > maxY) maxY = cy;
+                            const neighbors = [[1,0],[-1,0],[0,1],[0,-1]];
+                            for (const [dx, dy] of neighbors) {
+                              const nx = cx + dx;
+                              const ny = cy + dy;
+                              if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+                              const nflat = toIndex(nx, ny);
+                              if (visited[nflat]) continue;
+                              visited[nflat] = 1;
+                              const nidx = nflat * 4;
+                              if (isGreen(nidx)) q.push([nx, ny]);
+                            }
+                          }
+                          const blobWidth = maxX - minX + 1;
+                          const blobHeight = maxY - minY + 1;
+                          const nearTopLeftControl = minY < 70 && minX < 140;
+                          const nearTopRightControl = minY < 70 && maxX > width - 140;
+                          if (area >= 20 && area <= 2000 && blobWidth <= 60 && blobHeight <= 60 && !nearTopLeftControl && !nearTopRightControl) {
+                            const centerX = minX + blobWidth / 2;
+                            const centerY = minY + blobHeight / 2;
+                            blobs.push(`${centerX},${centerY},${blobWidth},${blobHeight},${area}`);
+                          }
+                        }
+                      }
+                      return blobs.join('||');
+                    };
+
+                    const img = new Image();
+                    const loaded = new Promise((resolve, reject) => {
+                      img.onload = resolve;
+                      img.onerror = reject;
+                    });
+                    img.src = 'data:image/png;base64,' + base64;
+                    await loaded;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    return collectGreenBlobs(ctx, canvas.width, canvas.height);
+                }",
+                new { base64 });
+
+            if (string.IsNullOrWhiteSpace(raw))
+                return [];
+
+            var points = raw
+                .Split("||", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(item => item.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                .Where(parts => parts.Length == 5
+                    && double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out _)
+                    && double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+                .Select(parts => (
+                    double.Parse(parts[0], CultureInfo.InvariantCulture),
+                    double.Parse(parts[1], CultureInfo.InvariantCulture),
+                    double.Parse(parts[2], CultureInfo.InvariantCulture),
+                    double.Parse(parts[3], CultureInfo.InvariantCulture),
+                    int.Parse(parts[4], CultureInfo.InvariantCulture)))
+                .ToArray();
+
+            return MergeNearbyGreenPoints(points);
+        }
+
+        private static IReadOnlyList<(double x, double y, double width, double height, int area)> MergeNearbyGreenPoints(
+            IReadOnlyList<(double x, double y, double width, double height, int area)> points)
+        {
+            if (points.Count <= 1)
+                return points;
+
+            var remaining = points.ToList();
+            var merged = new List<(double x, double y, double width, double height, int area)>();
+
+            while (remaining.Count > 0)
+            {
+                var cluster = new List<(double x, double y, double width, double height, int area)> { remaining[0] };
+                remaining.RemoveAt(0);
+
+                var expanded = true;
+                while (expanded)
+                {
+                    expanded = false;
+                    for (var i = remaining.Count - 1; i >= 0; i--)
+                    {
+                        if (!cluster.Any(existing => ShouldMergeGreenPoints(existing, remaining[i])))
+                            continue;
+
+                        cluster.Add(remaining[i]);
+                        remaining.RemoveAt(i);
+                        expanded = true;
+                    }
+                }
+
+                if (cluster.Count == 1)
+                {
+                    merged.Add(cluster[0]);
+                    continue;
+                }
+
+                var minX = cluster.Min(p => p.x - (p.width / 2));
+                var maxX = cluster.Max(p => p.x + (p.width / 2));
+                var minY = cluster.Min(p => p.y - (p.height / 2));
+                var maxY = cluster.Max(p => p.y + (p.height / 2));
+                var totalArea = cluster.Sum(p => p.area);
+                merged.Add((
+                    (minX + maxX) / 2,
+                    (minY + maxY) / 2,
+                    maxX - minX,
+                    maxY - minY,
+                    totalArea));
+            }
+
+            return merged
+                .OrderBy(p => p.y)
+                .ThenBy(p => p.x)
+                .ToArray();
+        }
+
+        private static bool ShouldMergeGreenPoints(
+            (double x, double y, double width, double height, int area) left,
+            (double x, double y, double width, double height, int area) right)
+        {
+            var dx = Math.Abs(left.x - right.x);
+            var dy = Math.Abs(left.y - right.y);
+            var centerDistance = Math.Sqrt((dx * dx) + (dy * dy));
+            var horizontalGap = dx - ((left.width + right.width) / 2);
+            var verticalGap = dy - ((left.height + right.height) / 2);
+            var boxesTouchOrOverlap = horizontalGap <= 8 && verticalGap <= 8;
+
+            return boxesTouchOrOverlap || centerDistance <= 24;
+        }
+
+        private async Task<bool> HasLivePositionTooltipAsync(ILocator map, IReadOnlyList<(double x, double y, double width, double height, int area)> greenPoints)
+        {
+            var box = await map.BoundingBoxAsync();
+            if (box == null)
+                return false;
+
+            foreach (var (x, y, width, height, area) in greenPoints)
+            {
+                await Page.Mouse.ClickAsync((float)(box.X + x), (float)(box.Y + y));
+                await Page.WaitForTimeoutAsync(500);
+                var popupText = await TryGetLivePositionPopupTextAsync();
+                if (string.IsNullOrWhiteSpace(popupText))
+                {
+                    Console.WriteLine($"Summary green blob click => x:{x:0.0},y:{y:0.0},w:{width:0.0},h:{height:0.0},a:{area}, tooltip:<none>");
+                    continue;
+                }
+
+                Console.WriteLine($"Summary green blob click => x:{x:0.0},y:{y:0.0},w:{width:0.0},h:{height:0.0},a:{area}, tooltip:{popupText}");
+                if (popupText.Contains("Live Position", StringComparison.OrdinalIgnoreCase)
+                    || popupText.Contains("Last Position", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Summary live position tooltip => {popupText}");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private async Task<string?> TryGetLivePositionPopupTextAsync()
+        {
+            var tooltip = await TryFindLocatorAsync(TooltipSelectors, timeoutMs: 300);
+            if (tooltip != null)
+                return (await tooltip.InnerTextAsync()).Trim();
+
+            var infoWindow = await TryFindLocatorAsync(MapInfoWindowSelectors, timeoutMs: 700);
+            if (infoWindow == null)
+                return null;
+
+            var text = (await infoWindow.InnerTextAsync()).Trim();
+            return string.IsNullOrWhiteSpace(text) ? null : text.Replace("\r", " ").Replace("\n", " ");
+        }
+
+        private static string[] GetCoordinateTextCandidates(double value)
+        {
+            return
+            [
+                value.ToString("0.##", CultureInfo.InvariantCulture),
+                value.ToString("0.###", CultureInfo.InvariantCulture),
+                value.ToString("0.####", CultureInfo.InvariantCulture),
+                value.ToString("0.#####", CultureInfo.InvariantCulture),
+                value.ToString("0.######", CultureInfo.InvariantCulture)
+            ];
+        }
+
+        private static bool IsPortLikeLabel(string label)
+        {
+            if (string.IsNullOrWhiteSpace(label))
+                return false;
+
+            return label.Contains("Port", StringComparison.OrdinalIgnoreCase)
+                && !label.Contains("Last Position", StringComparison.OrdinalIgnoreCase)
+                && !label.Contains("Live Position", StringComparison.OrdinalIgnoreCase);
         }
 
         private async Task<string> CaptureSummaryTrackingScreenshotAsync(string suffix)

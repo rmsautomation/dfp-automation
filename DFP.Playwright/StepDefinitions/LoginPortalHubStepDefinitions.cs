@@ -56,6 +56,7 @@ namespace DFP.Playwright.StepDefinitions
 
             var login = new LoginPage(_tc.Page!, baseUrl);
             await login.NavigateAsync();
+            await login.LogoutIfLoggedInAsync();
             await login.LoginToDFPAsync(username, password, searchLoginModal: false);
             await login.WaitForDashboardAsync();
         }
@@ -78,6 +79,7 @@ namespace DFP.Playwright.StepDefinitions
 
             var login = new LoginPage(_tc.Page!, baseUrl);
             await login.NavigateAsync();
+            await login.LogoutIfLoggedInAsync();
             await login.LoginToDFPAsync(username, password, searchLoginModal: false);
             await login.WaitForDashboardAsync();
         }

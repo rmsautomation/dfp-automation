@@ -452,8 +452,8 @@ Given I login to Portal as user "with Int"
     Then I should see a popup  with the current date 
     And I should see the historical changes
 
-@API @9893 @NOINT
-Scenario: Enable tracking for a shipment subscribe containers and send coordinates
+@API @9893 @9894 @NOINT
+Scenario: Enable tracking for a shipment subscribe containers and send coordinates and Unsubscribe
     Given I have a portal API token
     And I have a hub API token
     When I create shipment via webhook
@@ -472,7 +472,7 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
     And I click on Search button
     Then the shipment should appear in the search results
     When I open the shipment from search results
-    Then subscribed containers should be available in Shipment Summary dropdown
+    Then subscribed container should be available in Shipment Summary dropdown
     When I send tracking coordinates for the subscribed container via API
     Then the tracking event request should succeed
     And I refresh the page
@@ -480,3 +480,17 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
     Then I Check that Container LiveTrack and map coordinates are displayed
     When I click on Shipment Tracking tab
     Then the Tracking Events section should display the latest container event
+    When I Unsubscribe the container "" with tracking already added ""
+    Then the container unsubscribe request should succeed
+    And I refresh the page
+    Then unsubscribed container should not be available in Shipment Summary dropdown
+    When I unsubscribe current shipment from live tracking via API
+    Then the shipment unsubscribe request should succeed
+    Given I login to Hub as user "without Int"
+    Then the login dashboard should be visible
+    And I Check the tracking is disabled for the shipment in the hub
+
+@8086 @NOINT
+Scenario: Status update - List View - Subscribe to notifications
+When I Check the email for "suscriptordfpautomation@yopmail.com" with username ""
+Then I should receive the notification "Your shipment's status was updated to Confirmed" status "Confirmed" for shipment "a142e79c-c094-4101-9ab7-09606e909ce9"

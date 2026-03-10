@@ -26,8 +26,10 @@ namespace DFP.Playwright.StepDefinitions
         [When("I create shipment via webhook")]
         public async Task WhenICreateShipmentViaWebhook()
         {
+            EnsureContainerValuesForCreateShipment();
             var payload = ResolveShipmentWebhookPayload();
             payload = ReplaceTemplateVariables(payload);
+            CaptureExpectedPortCodesFromPayload(payload);
             if (_tc.Data.TryGetValue("shipment_reference", out var shipmentRefObj) && shipmentRefObj is string shipmentRef)
                 Console.WriteLine($"CreateShipment context => shipment_reference:{shipmentRef}");
             if (_tc.Data.TryGetValue("transmission_uid", out var transmissionObj) && transmissionObj is string transmissionUid)
@@ -59,6 +61,98 @@ namespace DFP.Playwright.StepDefinitions
                     Console.WriteLine($"CreateShipment resolved => shipmentId:{shipmentId}");
                 }
                 LogReusableContext("CreateShipment post-call");
+            }
+        }
+
+        private void EnsureContainerValuesForCreateShipment()
+        {
+            var explicitPath = Environment.GetEnvironmentVariable(Constants.SHIPMENT_WEBHOOK_PAYLOAD_PATH);
+            var inline = Environment.GetEnvironmentVariable("SHIPMENT_WEBHOOK_PAYLOAD");
+            var requestedProfile = !string.IsNullOrWhiteSpace(explicitPath) || !string.IsNullOrWhiteSpace(inline)
+                ? ""
+                : Environment.GetEnvironmentVariable("SHIPMENT_WEBHOOK_PAYLOAD_PROFILE") ?? "";
+            var profile = string.IsNullOrWhiteSpace(requestedProfile)
+                ? InferPayloadProfileFromScenario()
+                : requestedProfile;
+
+            if (!string.Equals(NormalizeProfile(profile), "createshipmentwithcontainers", StringComparison.Ordinal))
+                return;
+
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+            _tc.Data["timestamp"] = timestamp;
+            _tc.Data["source_container_id_1"] = $"C1-{timestamp}";
+            _tc.Data["container_number_1"] = $"C1-{timestamp}";
+            Console.WriteLine($"CreateShipment generated => source_container_id_1:{_tc.Data["source_container_id_1"]}, container_number_1:{_tc.Data["container_number_1"]}");
+        }
+
+        private void CaptureExpectedPortCodesFromPayload(string payload)
+        {
+            if (string.IsNullOrWhiteSpace(payload))
+                return;
+
+            try
+            {
+                using var document = JsonDocument.Parse(payload);
+                var codes = new List<string>();
+                CollectLegPortCodes(document.RootElement, codes);
+                var distinctCodes = codes
+                    .Where(c => !string.IsNullOrWhiteSpace(c))
+                    .Select(c => c.Trim().ToUpperInvariant())
+                    .Distinct()
+                    .ToArray();
+
+                if (distinctCodes.Length > 0)
+                {
+                    _tc.Data["expected_port_codes"] = string.Join(",", distinctCodes);
+                    Console.WriteLine($"CreateShipment expected_port_codes => {string.Join(", ", distinctCodes)}");
+                }
+            }
+            catch (JsonException)
+            {
+                // Ignore payload parsing for debug metadata; webhook execution can still continue.
+            }
+        }
+
+        private static void CollectLegPortCodes(JsonElement element, List<string> codes)
+        {
+            switch (element.ValueKind)
+            {
+                case JsonValueKind.Object:
+                    if (element.TryGetProperty("legs", out var legs) && legs.ValueKind == JsonValueKind.Array)
+                    {
+                        foreach (var leg in legs.EnumerateArray())
+                        {
+                            if (leg.ValueKind != JsonValueKind.Object)
+                                continue;
+
+                            if (leg.TryGetProperty("lading_port", out var ladingPort)
+                                && ladingPort.ValueKind == JsonValueKind.Object
+                                && ladingPort.TryGetProperty("unlocode", out var ladingCode))
+                            {
+                                var value = ladingCode.GetString();
+                                if (!string.IsNullOrWhiteSpace(value))
+                                    codes.Add(value);
+                            }
+
+                            if (leg.TryGetProperty("arrival_port", out var arrivalPort)
+                                && arrivalPort.ValueKind == JsonValueKind.Object
+                                && arrivalPort.TryGetProperty("unlocode", out var arrivalCode))
+                            {
+                                var value = arrivalCode.GetString();
+                                if (!string.IsNullOrWhiteSpace(value))
+                                    codes.Add(value);
+                            }
+                        }
+                    }
+
+                    foreach (var property in element.EnumerateObject())
+                        CollectLegPortCodes(property.Value, codes);
+                    break;
+
+                case JsonValueKind.Array:
+                    foreach (var item in element.EnumerateArray())
+                        CollectLegPortCodes(item, codes);
+                    break;
             }
         }
 

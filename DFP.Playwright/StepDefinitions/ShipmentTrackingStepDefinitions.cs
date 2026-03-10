@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,6 +28,13 @@ namespace DFP.Playwright.StepDefinitions
         private string _trackingEventBody = "";
         private string _trackingEventTransactionId = "";
         private string _trackingEventOrganizationConnectionId = "";
+        private HttpResponseMessage? _unsubscribeContainerResponse;
+        private string _unsubscribeContainerBody = "";
+        private HttpResponseMessage? _unsubscribeShipmentResponse;
+        private string _unsubscribeShipmentBody = "";
+        private string _notificationEmail = "";
+        private string _notificationUsername = "";
+        private readonly List<string> _latestNotificationEmailBodies = [];
 
         public ShipmentTrackingStepDefinitions(
             DFP.Playwright.Support.TestContext tc,
@@ -88,6 +96,8 @@ namespace DFP.Playwright.StepDefinitions
             var shipmentId = GetRequiredContextValue("shipmentId", "Shipment ID not found.");
             var (containerId, _) = await EnsureFirstContainerIdentifiersAsync(shipmentId);
             _tc.Data["container_id_1"] = containerId;
+            _tc.Data["shipment.containerID"] = containerId;
+            _tc.Data["shipmentId"] = shipmentId;
             LogReusableTrackingContext("Before SubscribeContainer");
             var hubToken = GetHubToken();
             var client = PortalApiClient.FromEnvironment();
@@ -115,13 +125,10 @@ namespace DFP.Playwright.StepDefinitions
         }
 
         [Then("subscribed containers should be available in Shipment Summary dropdown")]
+        [Then("subscribed container should be available in Shipment Summary dropdown")]
         public async Task ThenSubscribedContainersShouldBeAvailableInShipmentSummaryDropdown()
         {
-            var containerForUi = _tc.Data.TryGetValue("shipment.containerUniqueID", out var unique)
-                && unique is string uniqueStr
-                && !string.IsNullOrWhiteSpace(uniqueStr)
-                ? uniqueStr
-                : GetRequiredContextValue("shipment.containerID", "Container ID not found.");
+            var containerForUi = GetExpectedSummaryContainerForUi();
             await _shipmentPage.SubscribedContainersShouldBeVisibleInSummaryDropdownAsync(containerForUi);
             await _shipmentPage.SummaryShouldShowLiveTrackAndMapAsync();
         }
@@ -228,11 +235,7 @@ namespace DFP.Playwright.StepDefinitions
         [When("I select the subscribed container in Shipment Summary")]
         public async Task WhenISelectTheSubscribedContainerInShipmentSummary()
         {
-            var containerToSelect = _tc.Data.TryGetValue("shipment.containerUniqueID", out var unique)
-                && unique is string uniqueStr
-                && !string.IsNullOrWhiteSpace(uniqueStr)
-                ? uniqueStr
-                : GetRequiredContextValue("shipment.containerID", "Container ID not found.");
+            var containerToSelect = GetRequiredContextValue("shipment.containerUniqueID", "shipment.containerUniqueID not found.");
 
             await _shipmentPage.SelectContainerInShipmentSummaryAsync(containerToSelect);
         }
@@ -248,18 +251,20 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I Check that Container LiveTrack and map coordinates are displayed")]
         public async Task ThenTheMapShouldDisplayTrackingPointsForTheSelectedContainer()
         {
-            var containerForUi = _tc.Data.TryGetValue("shipment.containerUniqueID", out var unique)
-                && unique is string uniqueStr
-                && !string.IsNullOrWhiteSpace(uniqueStr)
-                ? uniqueStr
-                : GetRequiredContextValue("shipment.containerID", "Container ID not found.");
+            var containerForUi = GetRequiredContextValue("shipment.containerUniqueID", "shipment.containerUniqueID not found.");
 
-            var arrivalActual = _tc.Data.TryGetValue("leg4.arrival_actual", out var arrVal) && arrVal is string arrText ? arrText : "";
-            var departureActual = _tc.Data.TryGetValue("leg4.departure_actual", out var depVal) && depVal is string depText ? depText : "";
-            var expectedPorts = new[] { "USMIA", "USCGB", "USNYC" };
+            var latRaw = GetRequiredContextValue("tracking_event_latitude", "Tracking latitude not found.");
+            var lonRaw = GetRequiredContextValue("tracking_event_longitude", "Tracking longitude not found.");
+            var latitude = double.Parse(latRaw, CultureInfo.InvariantCulture);
+            var longitude = double.Parse(lonRaw, CultureInfo.InvariantCulture);
+            var expectedPorts = _tc.Data.TryGetValue("expected_port_codes", out var portsValue)
+                && portsValue is string portsText
+                && !string.IsNullOrWhiteSpace(portsText)
+                ? portsText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                : Array.Empty<string>();
             Console.WriteLine($"Summary validation containerUniqueID => {containerForUi}");
 
-            await _shipmentPage.MapShouldDisplayTrackingPointsAsync(containerForUi, expectedPorts, arrivalActual, departureActual);
+            await _shipmentPage.MapShouldDisplayTrackingPointsAsync(containerForUi, expectedPorts, latitude, longitude);
         }
 
         [When("I click on Shipment Tracking tab")]
@@ -272,16 +277,7 @@ namespace DFP.Playwright.StepDefinitions
         public async Task ThenTheTrackingEventsSectionShouldDisplayTheLatestContainerEvent()
         {
             var eventName = GetRequiredContextValue("tracking_event_name", "Tracking event name not found.");
-            var containerUnique = _tc.Data.TryGetValue("shipment.containerUniqueID", out var unique)
-                && unique is string uniqueStr
-                && !string.IsNullOrWhiteSpace(uniqueStr)
-                ? uniqueStr
-                : "";
-            var containerNumeric = _tc.Data.TryGetValue("container_id_1", out var c1Val)
-                && c1Val is string c1Str
-                && !string.IsNullOrWhiteSpace(c1Str)
-                ? c1Str
-                : GetRequiredContextValue("shipment.containerID", "Container ID not found.");
+            var containerForUi = GetRequiredContextValue("shipment.containerUniqueID", "shipment.containerUniqueID not found.");
             var latRaw = GetRequiredContextValue("tracking_event_latitude", "Tracking latitude not found.");
             var lonRaw = GetRequiredContextValue("tracking_event_longitude", "Tracking longitude not found.");
             var latitude = double.Parse(latRaw, CultureInfo.InvariantCulture);
@@ -290,8 +286,206 @@ namespace DFP.Playwright.StepDefinitions
                 eventName,
                 latitude,
                 longitude,
-                containerNumeric,
-                containerUnique);
+                containerForUi);
+        }
+
+        [When("I Unsubscribe from a container with tracking already added")]
+        [When(@"I Unsubscribe the container ""([^""]*)"" with tracking already added ""([^""]*)""")]
+        public async Task WhenIUnsubscribeFromAContainerWithTrackingAlreadyAdded(string? shipmentIdArg = null, string? containerIdArg = null)
+        {
+            var shipmentId = ResolveShipmentIdForUnsubscribe(shipmentIdArg);
+            var containerId = ResolveContainerIdForUnsubscribe(containerIdArg);
+            _tc.Data["shipmentId"] = shipmentId;
+            _tc.Data["container_id_1"] = containerId;
+            _tc.Data["shipment.containerID"] = containerId;
+            var hubToken = GetHubToken();
+            var client = PortalApiClient.FromEnvironment();
+
+            _unsubscribeContainerResponse = await client.UnsubscribeContainerAsync(hubToken, shipmentId, containerId);
+            _unsubscribeContainerBody = _unsubscribeContainerResponse == null
+                ? ""
+                : await _unsubscribeContainerResponse.Content.ReadAsStringAsync();
+        }
+
+        private string ResolveShipmentIdForUnsubscribe(string? shipmentIdArg)
+        {
+            var candidate = NormalizeStepArgument(shipmentIdArg);
+            if (string.IsNullOrWhiteSpace(candidate))
+                return GetRequiredContextValue("shipmentId", "Shipment ID not found.");
+
+            if (candidate.Equals("shipmentID", StringComparison.OrdinalIgnoreCase)
+                || candidate.Equals("shipmentId", StringComparison.OrdinalIgnoreCase))
+            {
+                return GetRequiredContextValue("shipmentId", "Shipment ID not found.");
+            }
+
+            return candidate;
+        }
+
+        private string ResolveContainerIdForUnsubscribe(string? containerIdArg)
+        {
+            var candidate = NormalizeStepArgument(containerIdArg);
+            if (string.IsNullOrWhiteSpace(candidate)
+                || candidate.Equals("containerID", StringComparison.OrdinalIgnoreCase)
+                || candidate.Equals("containerId", StringComparison.OrdinalIgnoreCase))
+            {
+                return _tc.Data.TryGetValue("container_id_1", out var c1Val)
+                && c1Val is string c1Str
+                && !string.IsNullOrWhiteSpace(c1Str)
+                ? c1Str
+                : GetRequiredContextValue("shipment.containerID", "Container ID not found.");
+            }
+
+            return candidate;
+        }
+
+        private static string NormalizeStepArgument(string? raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw))
+                return string.Empty;
+
+            var trimmed = raw.Trim();
+            if (trimmed.StartsWith("{", StringComparison.Ordinal) && trimmed.EndsWith("}", StringComparison.Ordinal) && trimmed.Length > 2)
+                return trimmed[1..^1].Trim();
+            return trimmed;
+        }
+
+        [Then("the container unsubscribe request should succeed")]
+        public void ThenTheContainerUnsubscribeRequestShouldSucceed()
+        {
+            Assert.IsNotNull(_unsubscribeContainerResponse, "Unsubscribe container response is null.");
+            Assert.IsTrue(
+                _unsubscribeContainerResponse!.IsSuccessStatusCode,
+                $"Unsubscribe container failed: {(int)_unsubscribeContainerResponse.StatusCode} {_unsubscribeContainerResponse.ReasonPhrase}. Body: {_unsubscribeContainerBody}");
+        }
+
+        [Then("unsubscribed container should not be available in Shipment Summary dropdown")]
+        public async Task ThenUnsubscribedContainerShouldNotBeAvailableInShipmentSummaryDropdown()
+        {
+            var containerForUi = GetExpectedSummaryContainerForUi();
+
+            await _shipmentPage.UnsubscribedContainerShouldNotBeVisibleInSummaryDropdownAsync(containerForUi);
+        }
+
+        [When("I unsubscribe current shipment from live tracking via API")]
+        public async Task WhenIUnsubscribeCurrentShipmentFromLiveTrackingViaApi()
+        {
+            var shipmentId = GetRequiredContextValue("shipmentId", "Shipment ID not found.");
+            var hubToken = GetHubToken();
+            var client = PortalApiClient.FromEnvironment();
+
+            _unsubscribeShipmentResponse = await client.UnsubscribeShipmentAsync(hubToken, shipmentId);
+            _unsubscribeShipmentBody = _unsubscribeShipmentResponse == null
+                ? ""
+                : await _unsubscribeShipmentResponse.Content.ReadAsStringAsync();
+        }
+
+        [Then("the shipment unsubscribe request should succeed")]
+        public void ThenTheShipmentUnsubscribeRequestShouldSucceed()
+        {
+            Assert.IsNotNull(_unsubscribeShipmentResponse, "Unsubscribe shipment response is null.");
+            Assert.IsTrue(
+                _unsubscribeShipmentResponse!.IsSuccessStatusCode,
+                $"Unsubscribe shipment failed: {(int)_unsubscribeShipmentResponse.StatusCode} {_unsubscribeShipmentResponse.ReasonPhrase}. Body: {_unsubscribeShipmentBody}");
+        }
+
+        [Then("I Check the tracking is disabled for the shipment in the hub")]
+        public async Task ThenCheckTheTrackingIsDisabledForTheShipmentInTheHub()
+        {
+            var shipmentReference = GetRequiredContextValue("shipment_reference", "Shipment reference not found.");
+
+            await _shipmentHubPage.INavigatedToShipmentListInTheHub();
+            await _shipmentHubPage.IClickOnCustomerReferenceInputFieldInTheHub();
+            await _shipmentHubPage.IEnterTheShipmentNameInCustomReferenceFieldInTheHub(shipmentReference);
+            await _shipmentHubPage.IClickOnSearchButtonInTheHub();
+            await _shipmentHubPage.TheShipmentShouldAppearInTheSearchResultsInTheHub(shipmentReference);
+            await _shipmentHubPage.OpenShipmentByReferenceAsync(shipmentReference);
+            await _shipmentHubPage.CheckTheTrackingIsDisabledForTheShipmentAsync();
+        }
+
+        [When(@"I Check the email for ""([^""]*)"" with username ""([^""]*)""")]
+        public async Task WhenICheckTheEmailForWithUsername(string emailAddress, string username)
+        {
+            var fromStep = (emailAddress ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(fromStep))
+                throw new InvalidOperationException("Email is required in the step.");
+
+            _notificationEmail = fromStep;
+            var resolvedUsername = string.IsNullOrWhiteSpace(username)
+                ? _notificationEmail
+                : username.Trim();
+            _notificationUsername = resolvedUsername;
+
+            _tc.Data["notification_email"] = _notificationEmail;
+            await RefreshNotificationEmailsAsync();
+        }
+
+        [Then(@"I should receive the notification ""([^""]*)"" status ""([^""]*)"" for shipment ""([^""]*)""")]
+        public async Task ThenIShouldReceiveTheNotificationStatusForShipment(string notificationTextArg = "", string statusArg = "", string shipmentIdArg = "")
+        {
+            var expectedNotificationText = NormalizeStepArgument(notificationTextArg);
+            var shipmentGuid = string.IsNullOrWhiteSpace(shipmentIdArg)
+                ? GetRequiredContextValue("shipmentId", "Shipment GUID (shipmentId) not found in context.")
+                : NormalizeStepArgument(shipmentIdArg);
+
+            var expectedStatus = NormalizeStepArgument(statusArg);
+            if (string.IsNullOrWhiteSpace(expectedStatus))
+                throw new InvalidOperationException("Status is required in the step.");
+
+            string? latestShipmentNotification = null;
+            for (var attempt = 0; attempt < 6; attempt++)
+            {
+                await RefreshNotificationEmailsAsync();
+                Console.WriteLine($"Notification assert poll {attempt + 1}/6 => emailsLoaded:{_latestNotificationEmailBodies.Count}, shipment:{shipmentGuid}, expectedStatus:{expectedStatus}");
+                latestShipmentNotification = _latestNotificationEmailBodies.FirstOrDefault(body =>
+                    (string.IsNullOrWhiteSpace(expectedNotificationText)
+                        || body.Contains(expectedNotificationText, StringComparison.OrdinalIgnoreCase))
+                    && body.Contains(shipmentGuid, StringComparison.OrdinalIgnoreCase));
+
+                if (!string.IsNullOrWhiteSpace(latestShipmentNotification)
+                    && latestShipmentNotification.Contains(expectedStatus, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"Notification assert matched => shipment:{shipmentGuid}, status:{expectedStatus}");
+                    return;
+                }
+
+                if (attempt < 5)
+                    await Task.Delay(5000);
+            }
+
+            Assert.IsTrue(_latestNotificationEmailBodies.Count > 0,
+                $"No emails from today found in the last checked messages for '{_notificationEmail}'.");
+
+            Assert.IsNotNull(latestShipmentNotification,
+                $"No email from today in the checked set contained notification text '{expectedNotificationText}' and shipment '{shipmentGuid}' after waiting 30 seconds.");
+
+            Assert.IsTrue(latestShipmentNotification.Contains(expectedStatus, StringComparison.OrdinalIgnoreCase),
+                $"The most recent email from today for shipment '{shipmentGuid}' did not contain status '{expectedStatus}' after waiting 30 seconds.");
+        }
+
+        private async Task RefreshNotificationEmailsAsync()
+        {
+            _latestNotificationEmailBodies.Clear();
+
+            var domain = _notificationEmail.Split('@').LastOrDefault()?.Trim().ToLowerInvariant() ?? "";
+            if (domain.Contains("yopmail"))
+            {
+                var inboxPage = new EmailInboxPage(_tc.Page!);
+                await inboxPage.OpenYopmailInboxAsync(_notificationUsername);
+                _latestNotificationEmailBodies.AddRange(await inboxPage.GetLatestYopmailEmailBodiesFromTodayAsync(maxMessages: 3));
+                return;
+            }
+
+            var password = ResolveEnvValue(Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? "");
+            if (string.IsNullOrWhiteSpace(password))
+                throw new InvalidOperationException("EMAIL_PASSWORD is required for non-yopmail inbox providers.");
+
+            _latestNotificationEmailBodies.AddRange(
+                await EmailInboxPage.GetLatestImapEmailBodiesFromTodayAsync(
+                    _notificationEmail,
+                    _notificationUsername,
+                    password,
+                    maxMessages: 3));
         }
 
         private string GetPortalToken()
@@ -332,42 +526,29 @@ namespace DFP.Playwright.StepDefinitions
             return fallback;
         }
 
+        private string GetExpectedSummaryContainerForUi()
+        {
+            return _tc.Data.TryGetValue("shipment.containerUniqueID", out var unique)
+                && unique is string uniqueStr
+                && !string.IsNullOrWhiteSpace(uniqueStr)
+                ? uniqueStr
+                : throw new InvalidOperationException("shipment.containerUniqueID not found.");
+        }
+
         private async Task<(string containerId, string uniqueContainerId)> EnsureFirstContainerIdentifiersAsync(string shipmentId)
         {
             if (_tc.Data.TryGetValue("shipment.containerID", out var existing)
                 && existing is string containerId
-                && IsLikelyContainerRouteId(containerId))
+                && IsLikelyContainerRouteId(containerId)
+                && _tc.Data.TryGetValue("shipment.containerUniqueID", out var uniqueExistingValue)
+                && uniqueExistingValue is string uniqueExisting
+                && !string.IsNullOrWhiteSpace(uniqueExisting))
             {
-                var uniqueExisting = _tc.Data.TryGetValue("shipment.containerUniqueID", out var uVal) && uVal is string uStr && !string.IsNullOrWhiteSpace(uStr)
-                    ? uStr
-                    : containerId;
                 return (containerId, uniqueExisting);
             }
 
-            var hubToken = GetHubToken();
             var portalToken = GetPortalToken();
             var client = PortalApiClient.FromEnvironment();
-
-            // Primary source: webhook logs (same strategy used to resolve shipmentId from transaction logs).
-            var fromLogs = await TryGetContainerIdentifiersFromWebhookLogsAsync();
-            if (fromLogs.HasValue)
-            {
-                _tc.Data["shipment.containerID"] = fromLogs.Value.containerId;
-                _tc.Data["shipment.containerUniqueID"] = fromLogs.Value.uniqueContainerId;
-                return fromLogs.Value;
-            }
-
-            using (var hubContainersResponse = await client.GetHubContainersAsync(hubToken, shipmentId))
-            {
-                var hubContainersBody = await hubContainersResponse.Content.ReadAsStringAsync();
-                if (hubContainersResponse.IsSuccessStatusCode
-                    && TryReadFirstContainerIdentifiers(hubContainersBody, out var hubContainerId, out var hubUniqueId))
-                {
-                    _tc.Data["shipment.containerID"] = hubContainerId;
-                    _tc.Data["shipment.containerUniqueID"] = string.IsNullOrWhiteSpace(hubUniqueId) ? hubContainerId : hubUniqueId;
-                    return (hubContainerId, string.IsNullOrWhiteSpace(hubUniqueId) ? hubContainerId : hubUniqueId);
-                }
-            }
 
             using (var containersResponse = await client.GetContainersAsync(portalToken, shipmentId))
             {
@@ -375,28 +556,16 @@ namespace DFP.Playwright.StepDefinitions
                 if (containersResponse.IsSuccessStatusCode
                     && TryReadFirstContainerIdentifiers(containersBody, out var containerIdFromPortal, out var uniqueIdFromPortal))
                 {
+                    if (string.IsNullOrWhiteSpace(uniqueIdFromPortal))
+                        throw new InvalidOperationException("GetContainers did not return source_container_id / unique container identifier.");
+
                     _tc.Data["shipment.containerID"] = containerIdFromPortal;
-                    _tc.Data["shipment.containerUniqueID"] = string.IsNullOrWhiteSpace(uniqueIdFromPortal) ? containerIdFromPortal : uniqueIdFromPortal;
-                    return (containerIdFromPortal, string.IsNullOrWhiteSpace(uniqueIdFromPortal) ? containerIdFromPortal : uniqueIdFromPortal);
+                    _tc.Data["shipment.containerUniqueID"] = uniqueIdFromPortal;
+                    return (containerIdFromPortal, uniqueIdFromPortal);
                 }
             }
 
-            using (var cargoResponse = await client.GetCargoItemsAsync(portalToken, shipmentId))
-            {
-                var cargoBody = await cargoResponse.Content.ReadAsStringAsync();
-                if (cargoResponse.IsSuccessStatusCode)
-                {
-                    var fromCargo = TryReadFirstId(cargoBody, "cargo_item_id", "cargoItemId", "id");
-                    if (!string.IsNullOrWhiteSpace(fromCargo))
-                    {
-                        _tc.Data["shipment.containerID"] = fromCargo;
-                        _tc.Data["shipment.containerUniqueID"] = fromCargo;
-                        return (fromCargo, fromCargo);
-                    }
-                }
-            }
-
-            throw new InvalidOperationException("Container ID not found for current shipment.");
+            throw new InvalidOperationException("Container identifiers not found in GetContainers response for current shipment.");
         }
 
         private async Task<(string containerId, string uniqueContainerId)?> TryGetContainerIdentifiersFromWebhookLogsAsync()
@@ -533,9 +702,9 @@ namespace DFP.Playwright.StepDefinitions
                               ?? TryReadPropertyValue(element, "container_id")
                               ?? TryReadPropertyValue(element, "containerId");
 
-                var localUnique = TryReadPropertyValue(element, "unique_container_id")
+                var localUnique = TryReadPropertyValue(element, "source_container_id")
+                                  ?? TryReadPropertyValue(element, "unique_container_id")
                                   ?? TryReadPropertyValue(element, "uniqueContainerId")
-                                  ?? TryReadPropertyValue(element, "source_container_id")
                                   ?? TryReadPropertyValue(element, "container_number");
 
                 if (hasContainerFingerprint

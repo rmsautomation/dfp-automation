@@ -106,6 +106,36 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsNotNull(inProgress, $"Automated Tracking Status was not 'In progress'. URL: {Page.Url}");
         }
 
+        public async Task CheckTheTrackingIsDisabledForTheShipmentAsync()
+        {
+            var trackingTab = await FindLocatorAsync(
+            [
+                "internal:role=link[name=\"Tracking\"i]",
+                "internal:role=tab[name=\"Tracking\"i]",
+                "a[href*='view=tracking']",
+                "//*[self::a or self::button][contains(normalize-space(),'Tracking')]"
+            ], timeoutMs: 15000);
+            await ClickAndWaitForNetworkAsync(trackingTab);
+
+            var inProgress = await TryFindLocatorAsync(
+            [
+                "internal:text=\"In progress\"i",
+                "//*[contains(normalize-space(),'Automated tracking')]/following::*[contains(normalize-space(),'In progress')][1]",
+                "//*[contains(normalize-space(),'In progress')]"
+            ], timeoutMs: 8000);
+
+            Assert.IsNull(inProgress, $"Automated Tracking still appears as 'In progress'. URL: {Page.Url}");
+
+            var notTracked = await TryFindLocatorAsync(
+            [
+                "internal:text=\"Not Tracked\"i",
+                "//*[contains(normalize-space(),'Automated tracking')]/following::*[contains(normalize-space(),'Not Tracked')][1]",
+                "//*[contains(normalize-space(),'Not Tracked')]"
+            ], timeoutMs: 10000);
+
+            Assert.IsNotNull(notTracked, $"Automated Tracking Status was not 'Not Tracked'. URL: {Page.Url}");
+        }
+
         /// <summary>
         /// Clicks the Search button in the Hub.
         /// ClickAndWaitForNetworkAsync is correct — search triggers an API call.

@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 12);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 13);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -1503,22 +1503,27 @@ await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Enable tracking for a shipment subscribe containers and send coordinates")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Enable tracking for a shipment subscribe containers and send coordinates")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
+            "bscribe")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
+            "bscribe")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9893")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9894")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task EnableTrackingForAShipmentSubscribeContainersAndSendCoordinates()
+        public async global::System.Threading.Tasks.Task EnableTrackingForAShipmentSubscribeContainersAndSendCoordinatesAndUnsubscribe()
         {
             string[] tagsOfScenario = new string[] {
                     "API",
                     "9893",
+                    "9894",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "9";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enable tracking for a shipment subscribe containers and send coordinates", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
+                    "bscribe", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 456
@@ -1586,7 +1591,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
     await testRunner.WhenAsync("I open the shipment from search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 475
-    await testRunner.ThenAsync("subscribed containers should be available in Shipment Summary dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("subscribed container should be available in Shipment Summary dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 476
     await testRunner.WhenAsync("I send tracking coordinates for the subscribed container via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -1608,6 +1613,70 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
 #line 482
     await testRunner.ThenAsync("the Tracking Events section should display the latest container event", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 483
+    await testRunner.WhenAsync("I Unsubscribe the container \"\" with tracking already added \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 484
+    await testRunner.ThenAsync("the container unsubscribe request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 485
+    await testRunner.AndAsync("I refresh the page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 486
+    await testRunner.ThenAsync("unsubscribed container should not be available in Shipment Summary dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 487
+    await testRunner.WhenAsync("I unsubscribe current shipment from live tracking via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 488
+    await testRunner.ThenAsync("the shipment unsubscribe request should succeed", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 489
+    await testRunner.GivenAsync("I login to Hub as user \"without Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 490
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 491
+    await testRunner.AndAsync("I Check the tracking is disabled for the shipment in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Status update - List View - Subscribe to notifications")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Status update - List View - Subscribe to notifications")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("8086")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        public async global::System.Threading.Tasks.Task StatusUpdate_ListView_SubscribeToNotifications()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "8086",
+                    "NOINT"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "10";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Status update - List View - Subscribe to notifications", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 494
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 495
+await testRunner.WhenAsync("I Check the email for \"suscriptordfpautomation@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 496
+await testRunner.ThenAsync("I should receive the notification \"Your shipment\'s status was updated to Confirme" +
+                        "d\" status \"Confirmed\" for shipment \"a142e79c-c094-4101-9ab7-09606e909ce9\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

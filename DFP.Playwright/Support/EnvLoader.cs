@@ -40,8 +40,7 @@ namespace DFP.Playwright.Support
             Env.Load(envPath);
             ResolveEnvironmentAliases(osEnvSnapshot);
 
-            Console.WriteLine($"Environment loaded: {envPath}");
-            Console.WriteLine($"BASE_URL = {Environment.GetEnvironmentVariable("BASE_URL")}");
+            Console.WriteLine($"Environment loaded: {envPath} (ENV={env})");
         }
 
         private static void ResolveEnvironmentAliases(Dictionary<string, string> osEnvSnapshot)

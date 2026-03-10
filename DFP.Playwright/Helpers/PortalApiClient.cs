@@ -233,6 +233,44 @@ namespace DFP.Playwright.Helpers
             return await _http.SendAsync(request);
         }
 
+        public async Task<HttpResponseMessage> UnsubscribeContainerAsync(string token, string shipmentId, string containerId)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Hub token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+            if (string.IsNullOrWhiteSpace(containerId))
+                throw new InvalidOperationException("Container ID is required.");
+
+            var path = BuildHubPath($"shipments/v2/{shipmentId}/data/containers/{containerId}/unsubscribe");
+            var payload = JsonSerializer.Serialize(new
+            {
+                container_tracking_number = containerId
+            });
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+            Console.WriteLine($"Unsubscribe container URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
+        public async Task<HttpResponseMessage> UnsubscribeShipmentAsync(string token, string shipmentId)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new InvalidOperationException("Hub token is required.");
+            if (string.IsNullOrWhiteSpace(shipmentId))
+                throw new InvalidOperationException("Shipment ID is required.");
+
+            var path = BuildHubPath($"shipments/v2/{shipmentId}/unsubscribe");
+            using var request = new HttpRequestMessage(HttpMethod.Post, path);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            Console.WriteLine($"Unsubscribe shipment URL: {_http.BaseAddress}{path}");
+
+            return await _http.SendAsync(request);
+        }
+
         public async Task<HttpResponseMessage> GetContainersAsync(string token, string shipmentId, int page = 1, int pageSize = 10)
         {
             if (string.IsNullOrWhiteSpace(token))

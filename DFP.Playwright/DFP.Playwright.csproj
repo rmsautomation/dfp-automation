@@ -28,6 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="Microsoft.Playwright" Version="1.57.0" />
+    <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Reqnroll.Microsoft.Extensions.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Reqnroll.MsTest" Version="3.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.10.2" />

@@ -2545,5 +2545,113 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsTrue(await fileEntry.IsVisibleAsync(),
                 $"Expected uploaded file '{fileName}' to appear in the attachments list. URL: {Page.Url}");
         }
+
+        // ── Subscribe / Unsubscribe ───────────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the Subscribe button (bell-plus icon) and waits for it to be visible and enabled.
+        /// </summary>
+        public async Task ClickSubscribeButtonAsync()
+        {
+            var btn = Page.Locator("a.btn-shipment-subscription")
+                .Filter(new LocatorFilterOptions { HasText = "Subscribe" })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
+            await btn.ClickAsync();
+        }
+
+        /// <summary>
+        /// Verifies the subscription notification panel (overlay form) is visible.
+        /// </summary>
+        public async Task ShouldSeeSubscriptionPanelAsync()
+        {
+            var label = Page.Locator("label[for='shipment_activity_notification'], label[for='shipment_status_notification']").First;
+            await label.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await label.IsVisibleAsync(),
+                $"Expected subscription notification panel to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the p-inputswitch slider in the form-group row that contains the given notification label.
+        /// </summary>
+        public async Task EnableNotificationOptionAsync(string option)
+        {
+            // Find the slider inside the row whose label matches the option text
+            var slider = Page.Locator(
+                $"//div[contains(@class,'form-group') and .//label[contains(normalize-space(),'{option}')]]//span[contains(@class,'p-inputswitch-slider')]")
+                .First;
+            await slider.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await slider.ClickAsync();
+        }
+
+        /// <summary>
+        /// In the shipment list, verifies the row containing the stored shipment name
+        /// shows an Unsubscribe button (bell-slash icon).
+        /// </summary>
+        public async Task ShouldSeeUnsubscribeInListAsync(string shipmentName)
+        {
+            var btn = Page.Locator(
+                $"//div[.//span[contains(normalize-space(),'{shipmentName}')] and .//a[contains(@class,'btn-shipment-subscription')]]" +
+                $"//a[contains(@class,'btn-shipment-subscription') and contains(normalize-space(),'Unsubscribe')]")
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await btn.IsVisibleAsync(),
+                $"Expected 'Unsubscribe' button for shipment '{shipmentName}' in list. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// In the shipment details view, verifies the Unsubscribe button (bell-slash) is visible.
+        /// </summary>
+        public async Task ShouldSeeUnsubscribeInDetailsAsync()
+        {
+            var btn = Page.Locator("a.btn-shipment-subscription")
+                .Filter(new LocatorFilterOptions { HasText = "Unsubscribe" })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await btn.IsVisibleAsync(),
+                $"Expected 'Unsubscribe' button to be visible in shipment details. URL: {Page.Url}");
+        }
+
+
+        // ── Portal notifications ──────────────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the notifications bell button in the navbar.
+        /// </summary>
+        public async Task ClickNotificationsButtonAsync()
+        {
+            // HTML: <button class="p-element btn navbar-button btn-primary btn-sm btn-icon">
+            var btn = Page.Locator("button.btn-icon.btn-primary.btn-sm").First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
+            await btn.ClickAsync();
+        }
+
+        /// <summary>
+        /// Verifies the most recent notification contains the expected status text.
+        /// </summary>
+        public async Task ShouldSeeStatusInNotificationsAsync(string status)
+        {
+            // HTML: <a class="h6 mb-1 d-inline-block text-dark"> Shipment status updated to '...' </a>
+            var notification = Page.Locator("a.h6.text-dark")
+                .Filter(new LocatorFilterOptions { HasText = status })
+                .First;
+            await notification.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await notification.IsVisibleAsync(),
+                $"Expected notification with status '{status}' to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the most recent notification contains the stored shipment name link.
+        /// </summary>
+        public async Task ShouldSeeShipmentNameInNotificationsAsync(string shipmentName)
+        {
+            // HTML: <a href="/my-portal/shipments/..."> {shipmentName} </a>
+            var link = Page.Locator($"//a[contains(normalize-space(),'{shipmentName}')]").First;
+            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await link.IsVisibleAsync(),
+                $"Expected notification link with shipment name '{shipmentName}' to be visible. URL: {Page.Url}");
+        }
     }
 }

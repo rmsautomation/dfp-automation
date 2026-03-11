@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
 
@@ -14,9 +15,6 @@ namespace DFP.Playwright.Pages.Web
 
         // ── Navigation ────────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Navigates to /administration/notifications using the current hub origin.
-        /// </summary>
         public async Task NavigateToNotificationsAsync()
         {
             var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
@@ -26,10 +24,6 @@ namespace DFP.Playwright.Pages.Web
 
         // ── Mailing Lists ─────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Asserts the "Create mailing list" button is visible.
-        /// Verified from HTML: button.btn-primary containing "Create mailing list"
-        /// </summary>
         public async Task ShouldSeeCreateMailingListButtonAsync()
         {
             var btn = Page.Locator("button.btn-primary")
@@ -40,10 +34,6 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected 'Create mailing list' button to be visible. URL: {Page.Url}");
         }
 
-        /// <summary>
-        /// Fills the "Search by Name" input in the Mailing Lists section.
-        /// Verified from HTML: input[formcontrolname='name'][placeholder='Search by Name']
-        /// </summary>
         public async Task SearchMailingListByNameAsync(string name)
         {
             var input = Page.Locator("input[formcontrolname='name'][placeholder='Search by Name']").First;
@@ -52,10 +42,6 @@ namespace DFP.Playwright.Pages.Web
             await input.FillAsync(name);
         }
 
-        /// <summary>
-        /// Clicks the Search submit button (shared by mailing list and mailing rule sections).
-        /// Verified from HTML: button[type='submit'].btn-primary.btn-sm with text "Search"
-        /// </summary>
         public async Task ClickSearchButtonAsync()
         {
             var btn = Page.Locator("button[type='submit'].btn-primary.btn-sm")
@@ -66,9 +52,7 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// If the trash (delete) button is visible in search results, clicks it and confirms with "Yes".
-        /// Used for mailing list cleanup before creating a new one.
-        /// Verified from HTML: button.p-element.btn-outline-danger.ml-1 → button.btn-danger "Yes"
+        /// If the trash button is visible, clicks it and confirms "Yes". Waits for NetworkIdle after deletion.
         /// </summary>
         public async Task CheckIfListExistsToDeleteItAsync()
         {
@@ -83,6 +67,7 @@ namespace DFP.Playwright.Pages.Web
                     .First;
                 await yesBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5000 });
                 await ClickAndWaitForNetworkAsync(yesBtn);
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
             }
             catch (Exception)
             {
@@ -91,20 +76,15 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Clicks the link of the created mailing list in the search results table.
-        /// Verified from HTML: //td/a[contains(text(),'{name}')]
+        /// Clicks the mailing list link and waits for the detail page to load.
         /// </summary>
         public async Task SelectCreatedMailingListAsync(string name)
         {
             var link = Page.Locator($"//td/a[contains(text(),'{name}')]").First;
             await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await link.ClickAsync();
+            await ClickAndWaitForNavigationAsync(link);
         }
 
-        /// <summary>
-        /// Asserts the "Available members" heading is visible in the mailing list detail.
-        /// Verified from HTML: h5.font-weight-normal.m-0 "Available members"
-        /// </summary>
         public async Task ShouldSeeAvailableMembersListAsync()
         {
             var heading = Page.Locator("h5").Filter(new LocatorFilterOptions { HasText = "Available members" }).First;
@@ -114,8 +94,8 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Fills the second email input and presses Enter.
-        /// Verified from HTML: second //input[@formcontrolname='email']
+        /// Types the email with delay so the app registers each character, presses Enter,
+        /// then waits for network to settle before the next action.
         /// </summary>
         public async Task EnterEmailToAddMemberAsync(string email)
         {
@@ -125,24 +105,22 @@ namespace DFP.Playwright.Pages.Web
             await input.ClearAsync();
             await input.PressSequentiallyAsync(email, new LocatorPressSequentiallyOptions { Delay = 80 });
             await input.PressAsync("Enter");
-            await Page.WaitForTimeoutAsync(1500);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         /// <summary>
-        /// Clicks the add-member (circle-plus / btn-outline-success with fa-icon) button.
-        /// Verified from HTML: //button[contains(@class,'btn-outline-success') and .//fa-icon]
+        /// Clicks the add-member button and waits for the network request to complete.
         /// </summary>
         public async Task AddMemberAsync()
         {
             var btn = Page.Locator("//button[contains(@class,'btn-outline-success') and .//fa-icon]").First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             await WaitForEnabledAsync(btn, timeoutMs: 5000);
-            await btn.ClickAsync();
+            await ClickAndWaitForNetworkAsync(btn);
         }
 
         /// <summary>
-        /// Clicks the "Save list" button (floppy-disk icon, btn-primary ml-2).
-        /// Verified from HTML: button.btn-primary.ml-2 containing "Save list"
+        /// Saves the mailing list and waits for the page to reach NetworkIdle before continuing.
         /// </summary>
         public async Task SaveListAsync()
         {
@@ -150,12 +128,13 @@ namespace DFP.Playwright.Pages.Web
                 .Filter(new LocatorFilterOptions { HasText = "Save list" })
                 .First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
             await ClickAndWaitForNetworkAsync(btn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         /// <summary>
-        /// Clicks the main "Create mailing list" button to open the creation form.
-        /// Verified from HTML: button.btn-primary (no ml-2) containing "Create mailing list"
+        /// Clicks "Create mailing list" and waits for navigation to the creation form.
         /// </summary>
         public async Task ClickCreateMailingListButtonAsync()
         {
@@ -166,10 +145,6 @@ namespace DFP.Playwright.Pages.Web
             await ClickAndWaitForNavigationAsync(btn);
         }
 
-        /// <summary>
-        /// Fills the Name input in the mailing list creation form.
-        /// Verified from HTML: input#name[placeholder='Name']
-        /// </summary>
         public async Task EnterMailingNameAsync(string name)
         {
             var input = Page.Locator("input#name[placeholder='Name']");
@@ -179,25 +154,21 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Clicks the "Create mailing list" save button (floppy-disk icon, has ml-2 class).
-        /// Verified from HTML: button.btn-primary.ml-2 containing "Create mailing list"
+        /// Waits for the save button to be enabled (avoids hardcoded sleep), then saves.
         /// </summary>
         public async Task ClickCreateMailingListSaveButtonAsync()
         {
-            await Page.WaitForTimeoutAsync(5000);
             var btn = Page.Locator("button.btn-primary.ml-2")
                 .Filter(new LocatorFilterOptions { HasText = "Create mailing list" })
                 .First;
-            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 10000);
             await ClickAndWaitForNetworkAsync(btn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         // ── Mailing Rules ─────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Clicks the "Mailing Rules" nav tab.
-        /// Verified from HTML: a.nav-link[href*='view=mailing-rules']
-        /// </summary>
         public async Task GoToMailingRulesAsync()
         {
             var link = Page.Locator("a.nav-link[href*='view=mailing-rules']");
@@ -205,10 +176,6 @@ namespace DFP.Playwright.Pages.Web
             await ClickAndWaitForNavigationAsync(link);
         }
 
-        /// <summary>
-        /// Asserts the Mailing Rules section is visible via its notice heading.
-        /// Verified from HTML: h6.w-100.text-left "Please note..."
-        /// </summary>
         public async Task ShouldSeeMailingRulesAsync()
         {
             var heading = Page.Locator("h6.w-100.text-left");
@@ -217,10 +184,6 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected Mailing Rules notice heading to be visible. URL: {Page.Url}");
         }
 
-        /// <summary>
-        /// Fills the "Search by Name" input in the Mailing Rules section.
-        /// Verified from HTML: input[formcontrolname='name'][placeholder='Search by Name']
-        /// </summary>
         public async Task SearchMailingRuleByNameAsync(string name)
         {
             var input = Page.Locator("input[formcontrolname='name'][placeholder='Search by Name']").First;
@@ -230,9 +193,7 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// If the trash button is visible in search results, clicks it and confirms "Yes".
-        /// Logs to console if rule was not found (new rule will be created).
-        /// Verified from HTML: button.p-element.btn-outline-danger.ml-1 → button.btn-danger "Yes"
+        /// If the rule exists, deletes it and waits for the rules list to reload before continuing.
         /// </summary>
         public async Task CheckIfRuleExistsToDeleteItAsync()
         {
@@ -246,32 +207,41 @@ namespace DFP.Playwright.Pages.Web
                     .First;
                 await yesBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5000 });
                 await ClickAndWaitForNetworkAsync(yesBtn);
+                await Page.WaitForTimeoutAsync(10000);
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+                // Wait until we're back on the rules list — the search input is the page-ready indicator.
+                // This prevents the next steps from running while the deletion is still in progress.
+                var searchInput = Page.Locator("input[formcontrolname='name'][placeholder='Search by Name']").First;
+                await searchInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+                await WaitForEnabledAsync(searchInput, timeoutMs: 8000);
             }
             catch (Exception)
             {
-                // Trash button not found or not actionable within 10s — rule does not exist, a new one will be created
+                // Rule not found — a new one will be created
                 Console.WriteLine("[MailingRulesHubPage] Rule not found — a new rule will be created.");
             }
         }
 
         /// <summary>
-        /// Clicks the "Create rule" button to open the rule creation form.
-        /// Verified from HTML: button.btn-primary containing "Create rule"
+        /// Waits for the search input to be clickable (page-ready indicator after a delete/reload),
+        /// then clicks "Create rule" and navigates to the creation form.
         /// </summary>
         public async Task ClickCreateRuleButtonAsync()
         {
+            // Use the search input as a page-ready indicator — it becomes enabled once the list has loaded
+            var searchInput = Page.Locator("input[formcontrolname='name'][placeholder='Search by Name']").First;
+            await searchInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(searchInput, timeoutMs: 8000);
+
             var btn = Page.Locator("button.btn-primary")
                 .Filter(new LocatorFilterOptions { HasText = "Create rule" })
                 .First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await WaitForEnabledAsync(btn, timeoutMs: 8000);
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
             await ClickAndWaitForNavigationAsync(btn);
         }
 
-        /// <summary>
-        /// Asserts the rule creation view is visible via "Notification Type" label.
-        /// Verified from HTML: label[for='template_id'] "Notification Type"
-        /// </summary>
         public async Task ShouldSeeCreateRuleViewAsync()
         {
             var label = Page.Locator("label[for='template_id']");
@@ -280,10 +250,6 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected 'Notification Type' label to be visible on create rule page. URL: {Page.Url}");
         }
 
-        /// <summary>
-        /// Fills the Name input in the mailing rule creation form.
-        /// Verified from HTML: input#name[placeholder='Name']
-        /// </summary>
         public async Task EnterMailingRuleNameAsync(string name)
         {
             var input = Page.Locator("input#name[placeholder='Name']");
@@ -293,46 +259,59 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Selects the notification type from the PrimeNG p-dropdown combobox.
-        /// Verified from HTML: span[role='combobox'][aria-label='Select'] → li.p-dropdown-item with type text
+        /// Opens the PrimeNG dropdown and clicks the option using page-level GetByText.
+        /// Waits for the overlay panel before searching — PrimeNG appends overlays to body.
         /// </summary>
         public async Task SelectNotificationTypeAsync(string type)
         {
-            // Click the p-dropdown container to open the panel
             var dropdown = Page.Locator("p-dropdown").First;
             await dropdown.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await dropdown.ClickAsync();
 
-            // Wait for panel and let animation settle
             var panel = Page.Locator(".p-dropdown-panel").First;
             await panel.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await Page.WaitForTimeoutAsync(500);
 
-            // Use page-level GetByText — PrimeNG overlays are appended to body outside the panel locator scope
             var option = Page.GetByText(type, new PageGetByTextOptions { Exact = true }).First;
             await option.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             await option.ClickAsync();
+            // Wait for the form to update after selection before next action
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         /// <summary>
-        /// Clicks the "Create mailing rule" submit button.
-        /// Verified from HTML: button[type='submit'].btn-primary.ml-2 containing "Create mailing rule"
+        /// Clicks "Create mailing rule", waits for it to be enabled, then waits for NetworkIdle.
+        /// Tries multiple selectors to handle class/text variations.
         /// </summary>
         public async Task ClickCreateMailingRuleButtonAsync()
         {
-            var btn = Page.Locator("button.btn-primary")
-                .Filter(new LocatorFilterOptions { HasText = "Create mailing rule" })
-                .First;
-            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await WaitForEnabledAsync(btn, timeoutMs: 5000);
+            // Try GetByRole first (most robust — case-insensitive, partial match)
+            var btn = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions { Name = "Create mailing rule" }).First;
+            var found = false;
+            try
+            {
+                await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+                found = true;
+            }
+            catch { /* fallback below */ }
+
+            if (!found)
+            {
+                // Fallback: any button whose text contains "mailing rule" (case-insensitive via XPath)
+                btn = Page.Locator("//button[contains(translate(normalize-space(.),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'mailing rule')]").First;
+                await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            }
+
+            await WaitForEnabledAsync(btn, timeoutMs: 8000);
             await ClickAndWaitForNetworkAsync(btn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         // ── Recipients ────────────────────────────────────────────────────────────
 
         /// <summary>
-        /// Clicks the first "Add" button (mailing list section), searches by name, then clicks circle-plus.
-        /// Verified from HTML: button.btn-primary.ml-2 "Add" → input Search by Name → button.btn-outline-success circle-plus
+        /// Opens the mailing list search panel, searches by name, waits for the result row,
+        /// then clicks the circle-plus button.
         /// </summary>
         public async Task SelectMailingListAsync(string mailingListName)
         {
@@ -348,16 +327,16 @@ namespace DFP.Playwright.Pages.Web
             await searchInput.FillAsync(mailingListName);
             await searchInput.PressAsync("Enter");
 
+            // Wait for the result row before clicking plus
+            var resultRow = Page.Locator($"//td[contains(normalize-space(),'{mailingListName}')]").First;
+            await resultRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+
             var circlePlusBtn = Page.Locator("button.p-element.btn-outline-success.ml-1").First;
             await circlePlusBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await WaitForEnabledAsync(circlePlusBtn, timeoutMs: 5000);
-            await circlePlusBtn.ClickAsync();
+            await ClickAndWaitForNetworkAsync(circlePlusBtn);
         }
 
-        /// <summary>
-        /// Asserts the mailing list appears in the Recipients tab as a p-button label.
-        /// Verified from HTML: button.p-button span.p-button-label with mailing list name
-        /// </summary>
         public async Task ShouldSeeMailingListInRecipientsAsync(string mailingListName)
         {
             var label = Page.Locator("span.p-button-label")
@@ -369,8 +348,8 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Clicks the second "Add" button (Hub Users section), searches by name, then clicks circle-plus.
-        /// Verified from HTML: second button.btn-primary.ml-2 "Add" → input Search by Name → button.btn-outline-success circle-plus
+        /// Opens the Hub Users search panel, searches by name, waits for the result row,
+        /// then clicks the circle-plus button.
         /// </summary>
         public async Task SelectHubUserAsync(string userName)
         {
@@ -386,16 +365,16 @@ namespace DFP.Playwright.Pages.Web
             await searchInput.FillAsync(userName);
             await searchInput.PressAsync("Enter");
 
+            // Wait for the result row before clicking plus
+            var resultRow = Page.Locator($"//td[contains(normalize-space(),'{userName}')]").First;
+            await resultRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+
             var circlePlusBtn = Page.Locator("button.p-element.btn-outline-success.ml-1").First;
             await circlePlusBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await WaitForEnabledAsync(circlePlusBtn, timeoutMs: 5000);
-            await circlePlusBtn.ClickAsync();
+            await ClickAndWaitForNetworkAsync(circlePlusBtn);
         }
 
-        /// <summary>
-        /// Asserts the hub user appears in the Hub Users Recipients section.
-        /// Verified from HTML: span.p-button-label with user name
-        /// </summary>
         public async Task ShouldSeeUserInHubUsersRecipientsAsync(string userName)
         {
             var label = Page.Locator("span.p-button-label")
@@ -408,10 +387,6 @@ namespace DFP.Playwright.Pages.Web
 
         // ── Customers tab ─────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Clicks the "Customers" nav tab inside the mailing rule detail.
-        /// Verified from HTML: a.nav-link[href*='view=customers']
-        /// </summary>
         public async Task GoToCustomersTabAsync()
         {
             var link = Page.Locator("a.nav-link[href*='view=customers']");
@@ -420,8 +395,8 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Searches for the customer by name, presses Enter, then clicks the user-plus icon button.
-        /// Verified from HTML: input.p-inputtext[formcontrolname='name'] → fa-icon svg[data-icon='user-plus']
+        /// Types the customer name into the second search input with delay, presses Enter,
+        /// waits for the result row to appear, then clicks the plus button.
         /// </summary>
         public async Task SelectCustomerAsync(string customerName)
         {
@@ -431,19 +406,19 @@ namespace DFP.Playwright.Pages.Web
             await input.ClearAsync();
             await input.PressSequentiallyAsync(customerName, new LocatorPressSequentiallyOptions { Delay = 80 });
             await input.PressAsync("Enter");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            var customerRow = Page.Locator($"//td[contains(normalize-space(),'{customerName}')]").First;
+            await customerRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
 
             var userPlusBtn = Page.Locator("//button[contains(@class,'btn-outline-success') and .//fa-icon]").First;
-            await userPlusBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await userPlusBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await WaitForEnabledAsync(userPlusBtn, timeoutMs: 5000);
             await userPlusBtn.ClickAsync();
         }
 
         // ── Hub Notifications verification ───────────────────────────────────────
 
-        /// <summary>
-        /// Asserts the "Recent Notifications" link is visible on the dashboard.
-        /// Verified from HTML: a[href='/notifications'] "Recent Notifications"
-        /// </summary>
         public async Task ShouldSeeLastNotificationsAsync()
         {
             var link = Page.Locator("a[href='/notifications']")
@@ -454,10 +429,6 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected 'Recent Notifications' link to be visible. URL: {Page.Url}");
         }
 
-        /// <summary>
-        /// Asserts a notification containing the given text exists in the notifications list.
-        /// Verified from HTML: div containing notification text inside the notifications section.
-        /// </summary>
         public async Task ShouldSeeNotificationForShipmentAsync(string notificationText)
         {
             var notification = Page.Locator($"//div[contains(normalize-space(),'{notificationText}')]").First;
@@ -466,10 +437,6 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected notification containing '{notificationText}' to be visible. URL: {Page.Url}");
         }
 
-        /// <summary>
-        /// Clicks the "View Shipment" button in the notification card.
-        /// Verified from HTML: button.btn.btn-primary.btn-sm with text "View"
-        /// </summary>
         public async Task ClickViewShipmentButtonAsync()
         {
             var btn = Page.Locator("button.btn.btn-primary.btn-sm")
@@ -481,28 +448,62 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Asserts the current URL contains the shipment GUID and the shipment name text is visible.
+        /// Waits for NetworkIdle after navigation, then verifies the URL contains the shipmentId
+        /// and the shipment name is visible on the page.
         /// </summary>
         public async Task ShouldSeeShipmentDetailsAsync(string shipmentId, string shipmentName)
         {
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-            await Page.WaitForTimeoutAsync(2000);
+            // The "View" button may open a new tab. If so, switch context to it.
+            var targetPage = Page;
+            if (!Page.Url.Contains(shipmentId, StringComparison.OrdinalIgnoreCase))
+            {
+                // Give the browser up to 5s to open a new tab before falling back.
+                var newPage = await TryGetNewPageAsync(timeoutMs: 5000);
+                if (newPage != null)
+                    targetPage = newPage;
+            }
 
-            Assert.IsTrue(Page.Url.Contains(shipmentId, StringComparison.OrdinalIgnoreCase),
-                $"Expected URL to contain shipment ID '{shipmentId}'. Actual URL: {Page.Url}");
+            // Wait for the URL to include the shipment ID (up to 15s).
+            try
+            {
+                await targetPage.WaitForURLAsync(
+                    url => url.Contains(shipmentId, StringComparison.OrdinalIgnoreCase),
+                    new PageWaitForURLOptions { Timeout = 15000 });
+            }
+            catch
+            {
+                // Ignore timeout — the assert below will report the actual URL.
+            }
+
+            Assert.IsTrue(targetPage.Url.Contains(shipmentId, StringComparison.OrdinalIgnoreCase),
+                $"Expected URL to contain shipment ID '{shipmentId}'. Actual URL: {targetPage.Url}");
 
             if (!string.IsNullOrWhiteSpace(shipmentName))
             {
-                var nameEl = Page.Locator($"//*[contains(normalize-space(),'{shipmentName}')]").First;
+                var nameEl = targetPage.Locator($"//*[contains(normalize-space(),'{shipmentName}')]").First;
                 await nameEl.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
                 Assert.IsTrue(await nameEl.IsVisibleAsync(),
-                    $"Expected shipment name '{shipmentName}' to be visible on details page. URL: {Page.Url}");
+                    $"Expected shipment name '{shipmentName}' to be visible on details page. URL: {targetPage.Url}");
             }
         }
 
+        private async Task<IPage?> TryGetNewPageAsync(int timeoutMs)
+        {
+            var context = Page.Context;
+            var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+            while (DateTime.UtcNow < deadline)
+            {
+                var pages = context.Pages;
+                var newTab = pages.FirstOrDefault(p => p != Page && !string.IsNullOrEmpty(p.Url) && p.Url != "about:blank");
+                if (newTab != null)
+                    return newTab;
+                await Task.Delay(300);
+            }
+            return null;
+        }
+
         /// <summary>
-        /// Clicks the "Save" submit button in the mailing rule detail.
-        /// Verified from HTML: button[type='submit'].btn-primary.ml-2 containing "Save"
+        /// Saves the mailing rule and waits for NetworkIdle to confirm the page settled.
         /// </summary>
         public async Task ClickSaveButtonAsync()
         {
@@ -510,7 +511,9 @@ namespace DFP.Playwright.Pages.Web
                 .Filter(new LocatorFilterOptions { HasText = "Save" })
                 .First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 5000);
             await ClickAndWaitForNetworkAsync(btn);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
     }
 }

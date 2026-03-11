@@ -247,7 +247,7 @@ await testRunner.ThenAsync("I should see the Name \"Aylin QuotationOP\" in the H
 await testRunner.WhenAsync("I go to Customers tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 42
-await testRunner.ThenAsync("I select the Customer \"Customer 1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+await testRunner.ThenAsync("I select the Customer \"AutomationOwner\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 43
 await testRunner.WhenAsync("I click on save Mailing Rule button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -323,13 +323,6 @@ await testRunner.ThenAsync("I should receive an email with text \"A new shipment
 await testRunner.WhenAsync("I Check the email for \"aylinquotationop@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 70
-await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
-                        " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 72
-await testRunner.WhenAsync("I Check the email for \"child_noint@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 73
 await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
                         " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden

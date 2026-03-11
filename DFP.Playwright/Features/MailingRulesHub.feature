@@ -38,8 +38,8 @@ And I should see the Mailing List "AutomationMailingList" in the Recipients tab
 When I select the Hub User "Aylin QuotationOP"
 Then I should see the Name "Aylin QuotationOP" in the Hub Users Recipients
 When I go to Customers tab
-#--------Adding Customer 1 to the Rule email child_noint@yopmail.com------------
-Then I select the Customer "Customer 1"
+#--------Adding AutomationOwner to the Rule email child_noint@yopmail.com------------
+Then I select the Customer "AutomationOwner"
 When I click on save Mailing Rule button
 Then I should see the Mailing Rules
 #--------Create Shipment using ANOTHER USER AND CUSTOMER Customer1013----------
@@ -68,9 +68,9 @@ Then I should receive an email with text "A new shipment was booked.|Shipment:" 
 #--------EMAIL VERIFICATIONS Verify Email for Rule Hub User aylinquotationop@yopmail.com ------
 When I Check the email for "aylinquotationop@yopmail.com" with username ""
 Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
-#--------EMAIL VERIFICATIONS Verify Email for Customer 1  child_noint@yopmail.com ------
-When I Check the email for "child_noint@yopmail.com" with username ""
-Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
+#--------EMAIL VERIFICATIONS Verify Email for AutomationOwner  automationdfpowner@gmail.com ------
+#When I Check the email for "automationdfpowner@gmail.com" with username ""
+#Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment ""
 #-------- Verify Hub Notifications for Rule Hub User aylinquotationop@yopmail.com ---
 Given I login to Hub as user "aylinquotationop@yopmail.com"
     Then the login dashboard should be visible

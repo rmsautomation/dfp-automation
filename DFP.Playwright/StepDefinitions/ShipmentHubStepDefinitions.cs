@@ -86,5 +86,34 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I should see the next week {string} in the Milestone tab")]
         public async Task IShouldSeeTheNextDateInTheMilestoneTab(string dateParam)
             => await shipmentHubPage.ShouldSeeNextDateInMilestoneTabAsync(dateParam);
+
+            // ── Milestone confirmation steps ──────────────────────────────────────────
+
+        [Then("I click on Confirm button from {string} section")]
+        public async Task ThenIClickOnConfirmButtonFromSection(string sectionName)
+            => await shipmentHubPage.ClickConfirmButtonInSectionAsync(sectionName);
+
+        [Then("I should see the Confirmation Page")]
+        [When("I should see the Confirmation Page")]
+        public async Task ThenIShouldSeeTheConfirmationPage()
+            => await shipmentHubPage.ShouldSeeConfirmationPageAsync();
+
+        [Then("I select the Actual {string} in the calendar")]
+        [When("I select the Actual {string} in the calendar")]
+        [Then("I select the Actual date {string} in the calendar")]
+        [When("I select the Actual date {string} in the calendar")]
+        public async Task ThenISelectTheActualDateInTheCalendar(string date)
+            => await shipmentHubPage.SelectActualDateInCalendarAsync(date);
+
+        [Then("I select the Expected {string} in the calendar")]
+        [When("I select the Expected {string} in the calendar")]
+        [Then("I select the Expected date {string} in the calendar")]
+        [When("I select the Expected date {string} in the calendar")]
+        public async Task ThenISelectTheExpectedDateInTheCalendar(string date)
+            => await shipmentHubPage.SelectExpectedDateInCalendarAsync(date);
+
+        [Then("I should see the green icon")]
+        public async Task ThenIShouldSeeTheGreenIcon()
+            => await shipmentHubPage.ShouldSeeGreenIconAsync();
     }
 }

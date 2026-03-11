@@ -129,12 +129,29 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I should be in login page")]
         public async Task ThenIShouldBeInLoginPage()
         {
+            // Wait for any pending navigation after logout to settle.
+            try { await _tc.Page!.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle, new Microsoft.Playwright.PageWaitForLoadStateOptions { Timeout = 10000 }); } catch { }
+
             var login = CreateLoginPage(Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL)
                           ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
                           ?? Environment.GetEnvironmentVariable("BASE_URL")
                           ?? "");
-            await login.WaitForLoginAsync();
+
+            // Portal after logout lands on the homepage (Sign-in nav link) — not directly on the
+            // login form. WaitForLoginAsync looks for a heading that only appears after clicking
+            // the nav Sign-in link, so we allow it to time out here without failing.
+            try { await login.WaitForLoginAsync(5000); } catch { /* homepage with nav Sign-in link is fine */ }
+
             var loginPageVisible = await login.IsUsernameInputVisibleAsync();
+            if (!loginPageVisible)
+            {
+                // Portal homepage: verify "Sign in" nav link is visible (confirms user is logged out).
+                var signInLink = _tc.Page!.Locator("a:has-text('Sign in'), .nav-link:has-text('Sign in')").First;
+                var linkVisible = await signInLink.IsVisibleAsync();
+                Assert.IsTrue(linkVisible, "Neither username input nor 'Sign in' link is visible — user may not be logged out.");
+                return;
+            }
+
             Assert.IsTrue(loginPageVisible, "Username input is not visible, user might not be on login screen.");
         }
 

@@ -42,7 +42,7 @@ Scenario: User edits a Table View and verifies selected columns
 
 @3072 @API @INT @login
   Scenario: Verify Customs fields in Warehouse Receipt
-  #Given the transaction "WH" "" with Custom Fields is imported
+  Given the transaction "WH" "TC3072" with Custom Fields is imported
   Given I login to Portal as user "with Int"
   # ── Verify the WR Custom Fields are displayed in Warehouse Receipt List ─────────────
   Given I navigated to Warehouse Receipts List
@@ -55,7 +55,14 @@ Scenario: User edits a Table View and verifies selected columns
   And I check the following custom field values in the table view:
   #Example
   # | Column            | Value             |
-    | StringCustomField | ShipperRefUpdated |
-    | BooleanCustomField | Yes |
-    | IntegerCustomField | 400 |
+    | StringCustomField | STRINGCUSTOMFIELD3072 |
+    | BooleanCustomField | false |
+    | IntegerCustomField | 3072 |
+    | DecimalCustomField | 30.72 |
+    | PickListCustomField | Option1 |
+    | DateCustomField | 2026-02-24-05:00 |
+    | MoneyCustomField | 30.72 USD |
+    | LookupCutomsField | automationUpdated |
+    | QATest | QATEST3072 |
+    | GUIDWH | GUID |
   

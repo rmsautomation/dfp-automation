@@ -77,6 +77,13 @@ namespace DFP.Playwright.StepDefinitions
                 forceDelete: true);
 
             await session.EndSessionAsync();
+
+            // Store the imported transaction number in shared context so subsequent steps
+            // can reference it without hardcoding (e.g. "I set the warehouse receipt name to """).
+            if (type == "WH")
+                _tc.Data["warehouseReceiptName"] = number;
+            else if (type == "SH")
+                _tc.Data["shipmentName"] = number;
         }
 
         [Given("I am on the dashboard page")]

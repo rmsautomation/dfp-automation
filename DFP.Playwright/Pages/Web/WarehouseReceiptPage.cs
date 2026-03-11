@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
 
@@ -175,6 +176,26 @@ namespace DFP.Playwright.Pages.Web
         /// When a WR has Exclude from Tracking = True, the list shows a "No warehouse receipts found" heading.
         /// NOTE: WR names are truncated in the UI (e.g. "TC39…") so we cannot check for the name as text.
         /// </summary>
+        /// <summary>
+        /// Verifies the WR row with the stored name is visible in the search results table.
+        /// HTML: //tr[contains(@class,'warehouse-receipt-row')]
+        /// </summary>
+        public async Task TheWarehouseReceiptShouldAppearInSearchResultsAsync()
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Wait for any result row to be visible first.
+            var anyRow = Page.Locator("//tr[contains(@class,'warehouse-receipt-row')]").First;
+            await anyRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+
+            // Then find a row that contains the stored WR name.
+            var matchingRow = Page.Locator(
+                $"//tr[contains(@class,'warehouse-receipt-row') and contains(normalize-space(),'{_warehouseReceiptName}')]");
+            await matchingRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            Assert.IsTrue(await matchingRow.IsVisibleAsync(),
+                $"Expected warehouse receipt '{_warehouseReceiptName}' to appear in search results. URL: {Page.Url}");
+        }
+
         public async Task TheWarehouseReceiptShouldNotAppearInResultsAsync()
         {
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
@@ -309,6 +330,76 @@ namespace DFP.Playwright.Pages.Web
 
             Assert.IsNotNull(colHeader,
                 $"Expected column header '{col}' to be visible in the Table View. URL: {Page.Url}");
+        }
+
+        // Step: "I check the custom field {string}"
+        // Verifies a column with the given name exists in the table header.
+        // HTML: <th role="columnheader"><div class="d-flex..."> ColumnName <div...>
+        public async Task CheckCustomFieldColumnExistsAsync(string columnName)
+        {
+            var header = Page.Locator(
+                $"//th[@role='columnheader'][.//div[contains(@class,'d-flex') and contains(normalize-space(),'{columnName}')]]");
+            await header.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await header.IsVisibleAsync(),
+                $"Custom field column '{columnName}' not found in table header. URL: {Page.Url}");
+        }
+
+        // Step: "I check the following custom field values in the table view:"
+        // Accepts a DataTable: | ColumnName | ExpectedValue |
+        // Custom field cells load asynchronously (Angular *ngIf renders after an API call),
+        // so we poll each cell with 500ms retries for up to 12s until the value appears.
+        // Uses th.cellIndex (native DOM property) + row.cells[N] to guarantee alignment.
+        public async Task CheckCustomFieldValuesInTableViewAsync(IEnumerable<(string columnName, string expectedValue)> columnValuePairs)
+        {
+            // Wait for the first data row to be present.
+            var firstRow = Page.Locator("table.p-datatable-table tbody tr.warehouse-receipt-row").First;
+            await firstRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+
+            foreach (var (columnName, expectedValue) in columnValuePairs)
+            {
+                var safeCol = columnName.Replace("'", "\\'").ToLower();
+
+                // Find column index via th.cellIndex — the DOM-native column index that
+                // always aligns with tr.cells[N] regardless of spacer columns.
+                var colIndex = await Page.EvaluateAsync<int>($@"
+                    () => {{
+                        const table = document.querySelector('table.p-datatable-table');
+                        if (!table) return -1;
+                        const th = Array.from(table.querySelectorAll('th')).find(h => {{
+                            const d = h.querySelector('div.d-flex');
+                            const label = d ? (d.childNodes[0]?.textContent ?? '') : (h.textContent ?? '');
+                            return label.trim().toLowerCase().includes('{safeCol}');
+                        }});
+                        return th ? th.cellIndex : -1;
+                    }}
+                ");
+
+                Assert.IsTrue(colIndex >= 0,
+                    $"Column '{columnName}' not found in Table View headers. URL: {Page.Url}");
+
+                // Poll with retries: cells render with empty Angular *ngIf placeholders first,
+                // then re-render with actual values once the async API response arrives.
+                var cellText = string.Empty;
+                var deadline = DateTime.UtcNow.AddSeconds(12);
+                while (DateTime.UtcNow < deadline && string.IsNullOrEmpty(cellText))
+                {
+                    cellText = await Page.EvaluateAsync<string>($@"
+                        () => {{
+                            const table = document.querySelector('table.p-datatable-table');
+                            if (!table) return '';
+                            const row = table.querySelector('tbody tr.warehouse-receipt-row');
+                            if (!row) return '';
+                            const cell = row.cells[{colIndex}];
+                            return cell ? (cell.textContent ?? '').trim() : '';
+                        }}
+                    ");
+                    if (string.IsNullOrEmpty(cellText))
+                        await Page.WaitForTimeoutAsync(500);
+                }
+
+                Assert.IsTrue(cellText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
+                    $"Column '{columnName}': expected '{expectedValue}' but found '{cellText}'. URL: {Page.Url}");
+            }
         }
     }
 }

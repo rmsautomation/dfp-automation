@@ -5,12 +5,14 @@ using DFP.Playwright.Helpers;
 using SoapApi.Common;
 using SoapApi.Models;
 using SoapApi.CssSoap;
+using System.Collections.Generic;
 
 namespace DFP.Playwright.StepDefinitions
 {
     [Binding]
     public sealed class DashboardStepDefinitions
     {
+        private const string ImportedTransactionsCleanupViaApiKey = "importedTransactionsForCleanupViaApi";
         private readonly DFP.Playwright.Support.TestContext _tc;
         private readonly DashboardPage _dashboard;
         public DashboardStepDefinitions(
@@ -21,14 +23,8 @@ namespace DFP.Playwright.StepDefinitions
             _dashboard = dashboard;
         }
 
-        [Given(@"^the transaction ""([^""]+)"" ""([^""]+)"" is imported$")]
+        [Given(@"^the transaction ""([^""]+)"" ""([^""]+)"" is imported via API$")]
         public async Task TheTransactionIsImported(string transactionType, string transactionNumber)
-        {
-            await ImportTransactionByTypeAndNumberAsync(transactionType, transactionNumber);
-        }
-
-        [Given(@"^the transaction ""([^""]+)"" ""([^""]+)"" with Custom Fields is imported$")]
-        public async Task TheTransactionWithCustomFieldsIsImported(string transactionType, string transactionNumber)
         {
             await ImportTransactionByTypeAndNumberAsync(transactionType, transactionNumber);
         }
@@ -43,23 +39,14 @@ namespace DFP.Playwright.StepDefinitions
                            ?? "";
             var type = (transactionType ?? "").Trim().ToUpperInvariant();
             var number = transactionNumber?.Trim() ?? "";
-            var suffix = new string(number
-                .Select(ch => char.IsLetterOrDigit(ch) ? char.ToUpperInvariant(ch) : '_')
-                .ToArray());
-            var specificGuidKey = type switch
-            {
-                "WH" => $"WAREHOUSE_RECEIPT_GUID_{suffix}",
-                "SH" => $"SHIPMENT_GUID_{suffix}",
-                _ => $"{type}_GUID_{suffix}"
-            };
-            var transactionGuid = Environment.GetEnvironmentVariable(specificGuidKey) ?? "";
+            var transactionGuid = Guid.NewGuid().ToString();
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("SOAP credentials are missing. Set CORRECT_USERNAME/CORRECT_PASSWORD (or DFP_USERNAME/DFP_PASSWORD).");
-            if (string.IsNullOrWhiteSpace(transactionGuid) || string.IsNullOrWhiteSpace(number))
-                throw new InvalidOperationException($"Transaction GUID is required. Set {specificGuidKey}.");
             if (string.IsNullOrWhiteSpace(type))
                 throw new InvalidOperationException("Transaction type is required.");
+            if (string.IsNullOrWhiteSpace(number))
+                throw new InvalidOperationException("Transaction number is required.");
 
             var session = new ApiSession(username, password);
             var err = await session.StartSessionAsync();
@@ -74,9 +61,10 @@ namespace DFP.Playwright.StepDefinitions
                 type,
                 transactionGuid,
                 number,
-                forceDelete: true);
+                forceDelete: false);
 
             await session.EndSessionAsync();
+            AddImportedTransactionForCleanup(type, transactionGuid);
 
             // Store the imported transaction number in shared context so subsequent steps
             // can reference it without hardcoding (e.g. "I set the warehouse receipt name to """).
@@ -84,6 +72,18 @@ namespace DFP.Playwright.StepDefinitions
                 _tc.Data["warehouseReceiptName"] = number;
             else if (type == "SH")
                 _tc.Data["shipmentName"] = number;
+        }
+
+        private void AddImportedTransactionForCleanup(string transactionType, string transactionGuid)
+        {
+            if (!_tc.Data.TryGetValue(ImportedTransactionsCleanupViaApiKey, out var existing) ||
+                existing is not List<(string Type, string Guid)> transactions)
+            {
+                transactions = new List<(string Type, string Guid)>();
+                _tc.Data[ImportedTransactionsCleanupViaApiKey] = transactions;
+            }
+
+            transactions.Add((transactionType, transactionGuid));
         }
 
         [Given("I am on the dashboard page")]

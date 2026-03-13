@@ -28,8 +28,8 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "WarehouseReceipts"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \n  I want to verify that Warehouse Receipts with Exclude from Trackin" +
-                "g enabled in Magaya\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \r\n  I want to verify that Warehouse Receipts with Exclude from Tracki" +
+                "ng enabled in Magaya\r\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Warehouse.feature"
 #line hidden
@@ -278,7 +278,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 44
@@ -291,6 +291,9 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             else
             {
                 await this.ScenarioStartAsync();
+#line 45
+  await testRunner.GivenAsync("the transaction \"WH\" \"TC3072\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 46
   await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -317,13 +320,34 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "StringCustomField",
-                            "ShipperRefUpdated"});
+                            "STRINGCUSTOMFIELD3072"});
                 table1.AddRow(new string[] {
                             "BooleanCustomField",
-                            "Yes"});
+                            "false"});
                 table1.AddRow(new string[] {
                             "IntegerCustomField",
-                            "400"});
+                            "3072"});
+                table1.AddRow(new string[] {
+                            "DecimalCustomField",
+                            "30.72"});
+                table1.AddRow(new string[] {
+                            "PickListCustomField",
+                            "Option1"});
+                table1.AddRow(new string[] {
+                            "DateCustomField",
+                            "2026-02-24-05:00"});
+                table1.AddRow(new string[] {
+                            "MoneyCustomField",
+                            "30.72 USD"});
+                table1.AddRow(new string[] {
+                            "LookupCutomsField",
+                            "automationUpdated"});
+                table1.AddRow(new string[] {
+                            "QATest",
+                            "QATEST3072"});
+                table1.AddRow(new string[] {
+                            "GUIDWH",
+                            "GUID"});
 #line 55
   await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table1, "And ");
 #line hidden

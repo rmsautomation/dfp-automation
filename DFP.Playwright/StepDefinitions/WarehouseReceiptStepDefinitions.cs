@@ -36,7 +36,7 @@ namespace DFP.Playwright.StepDefinitions
         public void ISetTheWarehouseReceiptNameTo(string name)
         {
             // When called with an empty string, fall back to the WR name stored
-            // in shared context by the import step (e.g. "the transaction WH ... is imported").
+            // in shared context by the import step (e.g. "the transaction WH ... is imported via API").
             if (string.IsNullOrEmpty(name) &&
                 _tc.Data.TryGetValue("warehouseReceiptName", out var ctxName) &&
                 ctxName is string wrName &&

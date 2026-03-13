@@ -5,5 +5,5 @@ Feature: Dashboard
 
   @API @INT
   Scenario: Verify Customs fields in Shipment
-    Given the transaction "SH" "TC5305" with Custom Fields is imported
+    Given the transaction "SH" "TC5305" is imported via API
   

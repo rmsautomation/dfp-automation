@@ -3,12 +3,16 @@ using DFP.Playwright.Support;
 using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web;
 using Reqnroll;
+using SoapApi.Common;
+using SoapApi.Models;
+using SoapApi.CssSoap;
 
 namespace DFP.Playwright.Hooks
 {
     [Binding]
     public sealed class PlaywrightHooks
     {
+        private const string ImportedTransactionsCleanupViaApiKey = "importedTransactionsForCleanupViaApi";
         private readonly Support.TestContext _tc;
         private readonly FeatureContext _fc;
         private readonly ScenarioContext _sc;
@@ -69,11 +73,64 @@ namespace DFP.Playwright.Hooks
         [AfterScenario]
         public async Task AfterScenario()
         {
+            await CleanupImportedTransactionsAsync();
+
             if (_tc.Context != null)
                 await _tc.Context.CloseAsync();
             if (_tc.Browser != null)
                 await _tc.Browser.CloseAsync();
             _tc.Playwright?.Dispose();
+        }
+
+        private async Task CleanupImportedTransactionsAsync()
+        {
+            if (!_tc.Data.TryGetValue(ImportedTransactionsCleanupViaApiKey, out var raw) ||
+                raw is not List<(string Type, string Guid)> transactions ||
+                transactions.Count == 0)
+            {
+                return;
+            }
+
+            var username = Environment.GetEnvironmentVariable("CORRECT_USERNAME")
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_USERNAME)
+                           ?? "";
+            var password = Environment.GetEnvironmentVariable("CORRECT_PASSWORD")
+                           ?? Environment.GetEnvironmentVariable(Constants.DFP_PASSWORD)
+                           ?? "";
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                Console.WriteLine("Cleanup skipped: SOAP credentials are missing.");
+                return;
+            }
+
+            var session = new ApiSession(username, password);
+            var startErr = await session.StartSessionAsync();
+            if (startErr != api_session_error.no_error)
+            {
+                Console.WriteLine($"Cleanup skipped: StartSession failed ({startErr}).");
+                return;
+            }
+
+            try
+            {
+                SoapClientConfigurator.Configure(session.CSSoap);
+
+                for (var i = transactions.Count - 1; i >= 0; i--)
+                {
+                    var (type, guid) = transactions[i];
+                    if (string.IsNullOrWhiteSpace(type) || string.IsNullOrWhiteSpace(guid))
+                        continue;
+
+                    var delErr = await session.CSSoap.DeleteTransactionAsync(session.Key, type, guid);
+                    if (delErr != api_session_error.no_error)
+                        Console.WriteLine($"Cleanup warning: DeleteTransaction failed. Type={type}, GUID={guid}, Error={delErr}");
+                }
+            }
+            finally
+            {
+                await session.EndSessionAsync();
+            }
         }
 
         private async Task EnsureLoggedInAsync()

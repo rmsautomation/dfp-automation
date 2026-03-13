@@ -42,7 +42,7 @@ Scenario: User edits a Table View and verifies selected columns
 
 @3072 @API @INT @login
   Scenario: Verify Customs fields in Warehouse Receipt
-  Given the transaction "WH" "TC3072" with Custom Fields is imported
+  Given the transaction "WH" "TC3072" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the WR Custom Fields are displayed in Warehouse Receipt List ─────────────
   Given I navigated to Warehouse Receipts List

@@ -149,24 +149,8 @@ namespace DFP.Playwright.Helpers
             string? overrideGuid = null,
             string? overrideNumber = null)
         {
-            var checkGuid = !string.IsNullOrWhiteSpace(overrideGuid) ? overrideGuid : guid;
-            var existingXml = await TryGetTransactionXmlAsync(soap, accessKey, type, checkGuid);
-
-            if (existingXml != null)
-            {
-                if (forceDelete)
-                {
-                    // Delete if already exists (to allow re-import)
-                    var delErr = await soap.DeleteTransactionAsync(accessKey, type, checkGuid);
-                    if (delErr != api_session_error.no_error)
-                        throw new InvalidOperationException($"DeleteTransaction failed. Type={type}, GUID={checkGuid}, Error={delErr}");
-                }
-                else
-                {
-                    // Skip if already exists
-                    return;
-                }
-            }
+            // Keep parameter for compatibility at call sites; imports now always upsert by SetTransaction only.
+            _ = forceDelete;
 
             await SetTransactionOnlyAsync(soap, accessKey, type, transactionXmlPath, overrideGuid, overrideNumber);
         }
@@ -314,21 +298,5 @@ namespace DFP.Playwright.Helpers
             }
         }
 
-        private static async Task<string?> TryGetTransactionXmlAsync(
-            CSSoapServiceSoapClient soap,
-            int accessKey,
-            string type,
-            string transactionNumberOrGuid)
-        {
-            var req = new GetTransactionRequest
-            {
-                access_key = accessKey,
-                type = type,
-                number = transactionNumberOrGuid
-            };
-
-            var res = await soap.GetTransactionAsync(req);
-            return res.@return == api_session_error.no_error ? res.trans_xml : null;
-        }
     }
 }

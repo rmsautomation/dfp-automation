@@ -229,13 +229,13 @@ namespace DFP.Playwright.Helpers
 
             if (!string.IsNullOrWhiteSpace(overrideGuid))
             {
-                var guidAttr = root.Attribute("GUID");
-                if (guidAttr == null)
-                    root.SetAttributeValue("GUID", overrideGuid);
+                root.SetAttributeValue("GUID", overrideGuid);
 
                 foreach (var el in root.Descendants())
                 {
                     if (el.Name.LocalName == "WarehouseReceiptGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OwnerGUID")
                         el.Value = overrideGuid;
                 }
             }
@@ -269,13 +269,15 @@ namespace DFP.Playwright.Helpers
 
             if (!string.IsNullOrWhiteSpace(overrideGuid))
             {
-                var guidAttr = root.Attribute("GUID");
-                if (guidAttr == null)
-                    root.SetAttributeValue("GUID", overrideGuid);
+                root.SetAttributeValue("GUID", overrideGuid);
 
                 foreach (var el in root.Descendants())
                 {
                     if (el.Name.LocalName == "ShipmentGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OutShipmentGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OwnerGUID")
                         el.Value = overrideGuid;
                 }
             }

@@ -73,6 +73,13 @@ namespace DFP.Playwright.Support
                 return new PurchaseOrderPage(tc.Page!);
             });
 
+            services.AddScoped<MailingRulesHubPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new MailingRulesHubPage(tc.Page!);
+            });
+
+
             return services;
         }
     }

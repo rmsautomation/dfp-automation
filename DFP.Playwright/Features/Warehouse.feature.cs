@@ -28,8 +28,8 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "WarehouseReceipts"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \r\n  I want to verify that Warehouse Receipts with Exclude from Tracki" +
-                "ng enabled in Magaya\r\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \n  I want to verify that Warehouse Receipts with Exclude from Trackin" +
+                "g enabled in Magaya\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Warehouse.feature"
 #line hidden
@@ -119,7 +119,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Warehouse.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Warehouse.feature.ndjson", 5);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True")]
@@ -256,6 +256,76 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
 #line 41
     await testRunner.ThenAsync("I should see the selected columns in the Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipt")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipt")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Warehouse Receipts")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("WarehouseReceipts")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipt()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "3072",
+                    "API",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 44
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 46
+  await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 48
+  await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 49
+  await testRunner.GivenAsync("I set the warehouse receipt name to \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 50
+  await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 51
+  await testRunner.WhenAsync("I click on Table View in WH Receipt List", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 52
+  await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 53
+  await testRunner.ThenAsync("the warehouse receipt should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 54
+  await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "StringCustomField",
+                            "ShipperRefUpdated"});
+                table1.AddRow(new string[] {
+                            "BooleanCustomField",
+                            "Yes"});
+                table1.AddRow(new string[] {
+                            "IntegerCustomField",
+                            "400"});
+#line 55
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table1, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

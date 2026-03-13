@@ -27,7 +27,7 @@ namespace DFP.Playwright.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Dashboard", "  As a user\r\n  I want to access Transactions from the dashboard", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Dashboard", "  As a user\n  I want to access Transactions from the dashboard", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Dashboard.feature"
 #line hidden
@@ -117,41 +117,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Dashboard.feature.ndjson", 4);
-        }
-        
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipt")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipt")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Dashboard")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
-        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipt()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "3072",
-                    "API",
-                    "INT"};
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 6
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 7
-    await testRunner.GivenAsync("the transaction \"WH\" \"TC3072\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Dashboard.feature.ndjson", 3);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Shipment")]
@@ -165,11 +131,11 @@ namespace DFP.Playwright.Features
                     "API",
                     "INT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "1";
+            string pickleIndex = "0";
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Shipment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 10
+#line 7
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -179,7 +145,7 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 11
+#line 8
     await testRunner.GivenAsync("the transaction \"SH\" \"TC5305\" with Custom Fields is imported", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
             }

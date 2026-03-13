@@ -380,5 +380,98 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsNull(result,
                 $"Shipment '{shipmentName}' was found in the Hub search results but it should not appear (shipment is hidden). URL: {Page.Url}");
         }
+
+        // ── Milestone confirmation ────────────────────────────────────────────────
+
+        /// <summary>
+        /// Finds the milestone section row by its name and clicks the circle-check (confirm) button.
+        /// </summary>
+        public async Task ClickConfirmButtonInSectionAsync(string sectionName)
+        {
+            // The section row: div.row containing a div with the section name text
+            // The confirm button: button.btn-link.text-success containing fa-icon[circle-check]
+            var confirmBtn = Page.Locator(
+                $"//div[contains(@class,'row') and .//div[contains(normalize-space(),'{sectionName}')]]" +
+                $"//button[contains(@class,'text-success') and .//*[local-name()='svg' and @data-icon='circle-check']]")
+                .First;
+            await confirmBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(confirmBtn, timeoutMs: 5000);
+            await confirmBtn.ClickAsync();
+        }
+
+        /// <summary>
+        /// Verifies the "Confirm confirmation milestone" heading is visible.
+        /// </summary>
+        public async Task ShouldSeeConfirmationPageAsync()
+        {
+            var heading = Page.Locator("h5")
+                .Filter(new LocatorFilterOptions { HasText = "Confirm confirmation milestone" })
+                .First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected 'Confirm confirmation milestone' heading to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Fills the Expected date field in the confirmation milestone form.
+        /// Uses today + 7 days if no date is provided.
+        /// </summary>
+        public async Task SelectExpectedDateInCalendarAsync(string date)
+        {
+            var targetDate = string.IsNullOrWhiteSpace(date)
+                ? DateTime.Now.AddDays(7)
+                : (DateTime.TryParse(date, out var parsed) ? parsed : DateTime.Now.AddDays(7));
+
+            await FillMilestoneDateFieldAsync("Expected date", targetDate);
+        }
+
+        /// <summary>
+        /// Fills the Actual date field in the confirmation milestone form.
+        /// Uses today + 3 days if no date is provided.
+        /// </summary>
+        public async Task SelectActualDateInCalendarAsync(string date)
+        {
+            var targetDate = string.IsNullOrWhiteSpace(date)
+                ? DateTime.Now.AddDays(3)
+                : (DateTime.TryParse(date, out var parsed) ? parsed : DateTime.Now.AddDays(3));
+
+            await FillMilestoneDateFieldAsync("Actual date", targetDate);
+        }
+
+        private async Task FillMilestoneDateFieldAsync(string fieldLabel, DateTime targetDate)
+        {
+            // The id is on the <p-calendar> component element, so scope to the input inside it.
+            var dateStr = targetDate.ToString("MM/dd/yyyy HH:mm");
+            var inputId = fieldLabel.Contains("Expected", StringComparison.OrdinalIgnoreCase)
+                ? "#expected_timestamp input"
+                : "#actual_timestamp input";
+
+            var dateInput = Page.Locator(inputId);
+            await dateInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await dateInput.ClickAsync();
+            // Select all existing text and delete it before typing.
+            await dateInput.PressAsync("Control+a");
+            await dateInput.PressAsync("Delete");
+            // PrimeNG p-calendar requires real keystrokes (not FillAsync) to fire Angular
+            // change-detection events. FillAsync bypasses them and the value gets cleared on blur.
+            await dateInput.PressSequentiallyAsync(dateStr, new LocatorPressSequentiallyOptions { Delay = 50 });
+            // Press Escape to close any calendar popup without triggering the blur validator.
+            await dateInput.PressAsync("Escape");
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Verifies the milestone row shows the confirmed state — the duotone green circle-check icon
+        /// and "Confirmed" text in the section header.
+        /// </summary>
+        public async Task ShouldSeeGreenIconAsync()
+        {
+            // After confirming, the section header changes to "Confirmed"
+            var confirmedDiv = Page.Locator("//div[contains(@class,'font-weight-bold') and contains(normalize-space(),'Confirmed')]").First;
+            await confirmedDiv.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 20000 });
+            Assert.IsTrue(await confirmedDiv.IsVisibleAsync(),
+                $"Expected 'Confirmed' status to be visible in the milestone section. URL: {Page.Url}");
+        }
+
     }
 }

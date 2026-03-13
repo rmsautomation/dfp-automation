@@ -39,3 +39,30 @@ Scenario: User edits a Table View and verifies selected columns
     And I select the column Name
     And I close the Customize View
     Then I should see the selected columns in the Table View  
+
+@3072 @API @INT @login
+  Scenario: Verify Customs fields in Warehouse Receipt
+  Given the transaction "WH" "TC3072" with Custom Fields is imported
+  Given I login to Portal as user "with Int"
+  # ── Verify the WR Custom Fields are displayed in Warehouse Receipt List ─────────────
+  Given I navigated to Warehouse Receipts List
+  Given I set the warehouse receipt name to ""
+  And I enter the warehouse receipt name in search field
+  When I click on Table View in WH Receipt List
+  And I click on Search button
+  Then the warehouse receipt should appear in the search results
+  And I check the custom field "StringCustomField"
+  And I check the following custom field values in the table view:
+  #Example
+  # | Column            | Value             |
+    | StringCustomField | STRINGCUSTOMFIELD3072 |
+    | BooleanCustomField | false |
+    | IntegerCustomField | 3072 |
+    | DecimalCustomField | 30.72 |
+    | PickListCustomField | Option1 |
+    | DateCustomField | 2026-02-24-05:00 |
+    | MoneyCustomField | 30.72 USD |
+    | LookupCutomsField | automationUpdated |
+    | QATest | QATEST3072 |
+    | GUIDWH | GUID |
+  

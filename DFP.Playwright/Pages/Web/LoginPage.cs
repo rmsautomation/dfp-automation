@@ -142,6 +142,14 @@ namespace DFP.Playwright.Pages.Web
                 Timeout = 60000
             });
             await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+            try
+            {
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 5000 });
+            }
+            catch
+            {
+                // Portal SPA may keep background connections alive; continue when DOM is ready.
+            }
             // await Page.WaitForResponseAsync(r => r.Url.Contains(MAINAPP_DFP_IMG));
         }
 
@@ -408,6 +416,17 @@ namespace DFP.Playwright.Pages.Web
 
             var logoutButton = await FindLocatorAsync(LogoutButtonSelectors, timeoutMs: 10000);
             await logoutButton.ClickAsync();
+
+            // Wait for the page navigation triggered by logout to settle before any further interaction.
+            try
+            {
+                await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded, new PageWaitForLoadStateOptions { Timeout = 15000 });
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 15000 });
+            }
+            catch
+            {
+                // Navigation may have already completed; continue.
+            }
         }
 
         public async Task LogoutIfLoggedInAsync()

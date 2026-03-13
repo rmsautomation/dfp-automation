@@ -96,6 +96,13 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.IShouldEditTheShipmentName();
         }
 
+        [Then("I store shipment Name")]
+        [When("I store shipment Name")]
+        public void IStoreShipmentName()
+        {
+            _tc.Data["shipmentName"] = _shipmentPage.GetShipmentName();
+        }
+
         [When("I click on save button")]
         public async Task IClickOnSaveButton()
         {
@@ -685,5 +692,49 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I should see the uploaded file {string}")]
         public async Task IShouldSeeTheUploadedFile(string fileName)
             => await _shipmentPage.ShouldSeeUploadedFileAsync(fileName);
+
+        // ── Subscribe / Unsubscribe steps ─────────────────────────────────────────
+
+        [When("I click on the Subscribe button")]
+        public async Task WhenIClickOnTheSubscribeButton()
+            => await _shipmentPage.ClickSubscribeButtonAsync();
+
+        [Then("I should see a new panel to select the Notification")]
+        public async Task ThenIShouldSeeANewPanelToSelectTheNotification()
+            => await _shipmentPage.ShouldSeeSubscriptionPanelAsync();
+
+        [When(@"I enable the option ""?(.+?)""?$")]
+        [Then(@"I enable the option ""?(.+?)""?$")]
+        public async Task WhenIEnableTheOption(string option)
+            => await _shipmentPage.EnableNotificationOptionAsync(option);
+
+        [Then("I should see the subscribe text changed to Unsubscribe in the List")]
+        public async Task ThenIShouldSeeUnsubscribeInList()
+        {
+            var shipmentName = _tc.Data.TryGetValue("shipmentName", out var nm) && nm is string s ? s : "";
+            await _shipmentPage.ShouldSeeUnsubscribeInListAsync(shipmentName);
+        }
+
+        [Then("I should see the subscribe text changed to Unsubscribe in the Details View")]
+        public async Task ThenIShouldSeeUnsubscribeInDetailsView()
+            => await _shipmentPage.ShouldSeeUnsubscribeInDetailsAsync();
+
+        // ── Portal notifications steps ────────────────────────────────────────────
+
+        [Then("I click on notifications button")]
+        [When("I click on notifications button")]
+        public async Task ThenIClickOnNotificationsButton()
+            => await _shipmentPage.ClickNotificationsButtonAsync();
+
+        [Then("I should see the updated status {string} in the notifications")]
+        public async Task ThenIShouldSeeTheUpdatedStatusInNotifications(string status)
+            => await _shipmentPage.ShouldSeeStatusInNotificationsAsync(status);
+
+        [Then("I should see the shipment Name in the notifications")]
+        public async Task ThenIShouldSeeTheShipmentNameInTheNotifications()
+        {
+            var shipmentName = _tc.Data.TryGetValue("shipmentName", out var nm) && nm is string s ? s : "";
+            await _shipmentPage.ShouldSeeShipmentNameInNotificationsAsync(shipmentName);
+        }
     }
 }

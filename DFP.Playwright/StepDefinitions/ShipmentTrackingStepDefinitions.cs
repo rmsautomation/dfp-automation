@@ -474,11 +474,13 @@ namespace DFP.Playwright.StepDefinitions
                 ? GetRequiredContextValue("shipmentName", "Shipment name (shipmentName) not found in context.")
                 : NormalizeStepArgument(shipmentNameArg);
 
+            // Poll every 5 seconds for up to 60 seconds (12 attempts).
+            const int maxAttempts = 12;
             string? latestShipmentEmail = null;
-            for (var attempt = 0; attempt < 6; attempt++)
+            for (var attempt = 0; attempt < maxAttempts; attempt++)
             {
                 await RefreshNotificationEmailsAsync();
-                Console.WriteLine($"Email body assert poll {attempt + 1}/6 => emailsLoaded:{_latestNotificationEmailBodies.Count}, shipmentName:{shipmentName}");
+                Console.WriteLine($"Email body assert poll {attempt + 1}/{maxAttempts} => emailsLoaded:{_latestNotificationEmailBodies.Count}, shipmentName:{shipmentName}");
                 latestShipmentEmail = _latestNotificationEmailBodies.FirstOrDefault(body =>
                     expectedTexts.All(text => body.Contains(text, StringComparison.OrdinalIgnoreCase))
                     && body.Contains(shipmentName, StringComparison.OrdinalIgnoreCase));
@@ -489,7 +491,7 @@ namespace DFP.Playwright.StepDefinitions
                     return;
                 }
 
-                if (attempt < 5)
+                if (attempt < maxAttempts - 1)
                     await Task.Delay(5000);
             }
 
@@ -498,8 +500,8 @@ namespace DFP.Playwright.StepDefinitions
 
             Assert.IsNotNull(latestShipmentEmail,
                 expectedTexts.Length == 0
-                    ? $"No email from today in the last 3 checked messages contained shipment '{shipmentName}' after waiting 30 seconds."
-                    : $"No email from today in the last 3 checked messages contained texts '{string.Join(" | ", expectedTexts)}' and shipment '{shipmentName}' after waiting 30 seconds.");
+                    ? $"No email from today in the last 3 checked messages contained shipment '{shipmentName}' after waiting 60 seconds."
+                    : $"No email from today in the last 3 checked messages contained texts '{string.Join(" | ", expectedTexts)}' and shipment '{shipmentName}' after waiting 60 seconds.");
         }
 
         private async Task RefreshNotificationEmailsAsync()

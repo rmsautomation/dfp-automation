@@ -18,6 +18,7 @@ Feature: Shipments
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -39,6 +40,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -72,6 +74,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -112,6 +115,7 @@ Feature: Shipments
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -311,6 +315,7 @@ Scenario: Shipments - Validate global search bar - Behavior when filtering by Qu
     Then I should be on the Shipment Details page
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -412,6 +417,7 @@ Given I login to Portal as user "with Int"
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -490,10 +496,82 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
     Then the login dashboard should be visible
     And I Check the tracking is disabled for the shipment in the hub
 
-@8086 @NOINT
+@8086 @NOINT @login
 Scenario: Status update - List View - Subscribe to notifications
-When I Check the email for " aylinquotationop@yopmail.com" with username ""
-Then I should receive an email with text "A new shipment was booked.|Shipment:" in the body for shipment "Ocean FCL Los Angeles to Shanghai Pt"
+# ── Create shipment with Owner-------------------------------
+Given I login to Portal as user "automationdfpowner@gmail.com"
+Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    When I click on Edit button to Edit the Shipment Name
+    Then I should edit the Shipment Name
+    And I store shipment Name
+    When I click on save button
+    Then I should see the new Shipment Name
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    When I log out
+    Then I should be in login page
+# ── Suscribe shipment with suscriptordfpautomation@yopmail.com-------------------------------
+Given I login to Portal as user "suscriptordfpautomation@yopmail.com"
+Given I navigated to Shipments List
+    When I click on Show More filters
+    And I enter the shipment name in Shipment Reference field
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I click on the Subscribe button
+    Then I should see a new panel to select the Notification
+    And I enable the option "Receive Shipment Status Notification"
+    When I click on save button
+    Then I should see the subscribe text changed to Unsubscribe in the List
+    #--------When I open the shipment from search results
+    When I open the tagged shipment details view
+    Then I should see the subscribe text changed to Unsubscribe in the Details View
+# ── Go TO Hub and Change Shipment Milestone to Confirmed-------------------------------
+    Given I login to Hub as user "aylin.rodriguez@magaya.com"
+    Then the login dashboard should be visible
+    Given I navigated to shipment List in the Hub
+    When I click on Customer Reference input field in the Hub
+    And I enter the shipment name in Customer Reference field in the Hub
+    And I click on Search button in the hub
+    Then the shipment should appear in the search results in the hub
+    And I select the created Shipment
+    # ── Change Shipment Milestone to Confirmed─────────  
+    When I go to Milestones tab
+    Then I click on Confirm button from "Confirmation" section
+    And I should see the Confirmation Page
+    And I select the Expected date "" in the calendar
+    And I select the Actual date "" in the calendar
+    When I click on save changes button
+    Then I should see the green icon 
+     # ── Check how the subscripted user suscriptordfpautomation@yopmail.com receives a notification (Email, Inbox and Popup).
+    When I open the portal URL "without int"
+    Given I am on the dashboard page
+    Then I click on notifications button
+    And I should see the updated status "Confirmed" in the notifications
+    And I should see the shipment Name in the notifications
+    And I log out from Portal
+    # ── Check how the owner user automationdfpowner@gmail.com receives a notification (Email, Inbox and Popup).
+    Given I login to Portal as user "automationdfpowner@gmail.com"
+    Given I am on the dashboard page
+    Then I click on notifications button
+    And I should see the updated status "Confirmed" in the notifications
+    And I should see the shipment Name in the notifications
+    # ── Check email suscriptordfpautomation@yopmail.com
+  When I Check the email for "suscriptordfpautomation@yopmail.com" with username ""
+  Then I should receive an email with text "Your shipment's status was updated to Confirmed" in the body for shipment ""
+    # ── Check email automationdfpowner@gmail.com
+  When I Check the email for "automationdfpowner@gmail.com" with username ""
+  Then I should receive an email with text "Your shipment's status was updated to Confirmed" in the body for shipment ""
+   
 
 
 @4520 @NOINT @login
@@ -529,6 +607,7 @@ Given I am on the Quotations List page
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     When I click on Send Booking button
@@ -562,6 +641,7 @@ Given I am on the Quotations List page
     Then I store the shipment id from the URL
     When I click on Edit button to Edit the Shipment Name
     Then I should edit the Shipment Name
+    And I store shipment Name
     When I click on save button
     Then I should see the new Shipment Name
     And I click on Attahments tab

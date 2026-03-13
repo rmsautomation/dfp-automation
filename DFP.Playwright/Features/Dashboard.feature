@@ -2,9 +2,6 @@ Feature: Dashboard
   As a user
   I want to access Transactions from the dashboard
 
-  @3072 @API @INT
-  Scenario: Verify Customs fields in Warehouse Receipt
-    Given the transaction "WH" "TC3072" with Custom Fields is imported
 
   @API @INT
   Scenario: Verify Customs fields in Shipment

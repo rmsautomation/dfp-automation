@@ -1,17 +1,19 @@
 using Reqnroll;
+using System.Linq;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web;
-
 namespace DFP.Playwright.StepDefinitions
 {
     [Binding]
     public sealed class WarehouseReceiptStepDefinitions
     {
         private readonly WarehouseReceiptPage _warehouseReceiptPage;
+        private readonly DFP.Playwright.Support.TestContext _tc;
 
-        public WarehouseReceiptStepDefinitions(WarehouseReceiptPage warehouseReceiptPage)
+        public WarehouseReceiptStepDefinitions(WarehouseReceiptPage warehouseReceiptPage, DFP.Playwright.Support.TestContext tc)
         {
             _warehouseReceiptPage = warehouseReceiptPage;
+            _tc = tc;
         }
 
         // ── Navigation steps ──────────────────────────────────────────────────────
@@ -33,6 +35,15 @@ namespace DFP.Playwright.StepDefinitions
         [Given("I set the warehouse receipt name to {string}")]
         public void ISetTheWarehouseReceiptNameTo(string name)
         {
+            // When called with an empty string, fall back to the WR name stored
+            // in shared context by the import step (e.g. "the transaction WH ... is imported").
+            if (string.IsNullOrEmpty(name) &&
+                _tc.Data.TryGetValue("warehouseReceiptName", out var ctxName) &&
+                ctxName is string wrName &&
+                !string.IsNullOrEmpty(wrName))
+            {
+                name = wrName;
+            }
             _warehouseReceiptPage.SetWarehouseReceiptName(name);
         }
 
@@ -51,6 +62,12 @@ namespace DFP.Playwright.StepDefinitions
         }
 
         // ── Assertion steps ───────────────────────────────────────────────────────
+
+        [Then("the warehouse receipt should appear in the search results")]
+        public async Task TheWarehouseReceiptShouldAppearInTheSearchResults()
+        {
+            await _warehouseReceiptPage.TheWarehouseReceiptShouldAppearInSearchResultsAsync();
+        }
 
         [Then("the warehouse receipt should not appear in the search results")]
         public async Task TheWarehouseReceiptShouldNotAppearInTheSearchResults()
@@ -123,6 +140,23 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IShouldSeeTheSelectedColumnsInTheTableView()
         {
             await _warehouseReceiptPage.ShouldSeeSelectedColumnsInTableViewAsync();
+        }
+
+        [Given("I check the custom field {string}")]
+        [When("I check the custom field {string}")]
+        [Then("I check the custom field {string}")]
+        public async Task ICheckTheCustomField(string columnName)
+        {
+            await _warehouseReceiptPage.CheckCustomFieldColumnExistsAsync(columnName);
+        }
+
+        [Given("I check the following custom field values in the table view:")]
+        [When("I check the following custom field values in the table view:")]
+        [Then("I check the following custom field values in the table view:")]
+        public async Task ICheckCustomFieldValuesInTableView(Table dataTable)
+        {
+            var pairs = dataTable.Rows.Select(r => (columnName: r[0], expectedValue: r[1]));
+            await _warehouseReceiptPage.CheckCustomFieldValuesInTableViewAsync(pairs);
         }
     }
 }

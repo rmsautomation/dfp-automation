@@ -335,7 +335,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Option1"});
                 table2.AddRow(new string[] {
                             "DateCustomField",
-                            "2026-02-24-05:00"});
+                            "02/24/2026"});
                 table2.AddRow(new string[] {
                             "MoneyCustomField",
                             "30.72 USD"});

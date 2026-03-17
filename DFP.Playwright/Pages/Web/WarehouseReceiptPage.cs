@@ -353,8 +353,10 @@ namespace DFP.Playwright.Pages.Web
         // HTML: <th role="columnheader"><div class="d-flex..."> ColumnName <div...>
         public async Task CheckCustomFieldColumnExistsAsync(string columnName)
         {
+            // Multiple p-datatable tables can be on the same page, each with the same column header.
+            // Use .First to avoid strict-mode violation — we only need to confirm it appears at least once.
             var header = Page.Locator(
-                $"//th[@role='columnheader'][.//div[contains(@class,'d-flex') and contains(normalize-space(),'{columnName}')]]");
+                $"//th[@role='columnheader'][.//div[contains(@class,'d-flex') and contains(normalize-space(),'{columnName}')]]").First;
             await header.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             Assert.IsTrue(await header.IsVisibleAsync(),
                 $"Custom field column '{columnName}' not found in table header. URL: {Page.Url}");

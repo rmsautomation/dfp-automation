@@ -184,11 +184,6 @@ namespace DFP.Playwright.Pages.Web
         ];
 
         // Used to force a full page reload between retries: navigate away then back to Shipments
-        private static readonly string[] WarehouseNavLinkSelectors =
-        [
-            "//a[.//span[normalize-space()='Warehouse']]"
-        ];
-
         // Table view toggle button: <div class="p-element btn btn-outline-primary"><fa-icon data-icon="table">
         private static readonly string[] TableViewButtonSelectors =
         [
@@ -803,8 +798,9 @@ namespace DFP.Playwright.Pages.Web
         public async Task IShouldNotSeeTheQuickFilterField()
         {
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-            // Quick filter is hidden when the advanced filter panel is expanded
-            var quickFilter = Page.Locator(QuickFilterInputSelectors[0]);
+            // Quick filter is hidden when the advanced filter panel is expanded.
+            // Use a CSS selector that uniquely targets the quick-filter input (not the advanced-filter fields).
+            var quickFilter = Page.Locator("input#full, input[formcontrolname='full'], input[placeholder='Quick search...']").First;
             var isVisible = await IsVisibleAsync(quickFilter, timeoutMs: 2000);
             Assert.IsFalse(isVisible,
                 $"Quick filter field should NOT be visible after expanding advanced filters. URL: {Page.Url}");
@@ -853,8 +849,10 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task TheShipmentShouldAppearInSearchResults()
         {
-            const int maxRetries = 5;
-            const int retryDelayMs = 4000;
+            // Retry loop: every 5 seconds click Reload (if visible) for up to 3 minutes.
+            const int retryIntervalMs = 5000;
+            const int maxDurationMs = 180000; // 3 minutes
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
             string[] resultSelectors =
             [
@@ -862,32 +860,26 @@ namespace DFP.Playwright.Pages.Web
                 $"//*[contains(text(),'{_shipmentName}')]"
             ];
 
-            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            while (true)
             {
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
                 var result = await TryFindLocatorAsync(resultSelectors, timeoutMs: 5000);
                 if (result != null)
                     return;
 
-                if (attempt < maxRetries)
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Shipment '{_shipmentName}' was not found in the search results after 3 minutes of retries.");
+
+                // Wait 5 seconds, then click Reload if it appeared.
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+                var reloadButton = Page.Locator("button.btn-outline-danger").Filter(new() { HasText = "Reload" });
+                if (await reloadButton.IsVisibleAsync())
                 {
-                    await Page.WaitForTimeoutAsync(retryDelayMs);
-
-                    // Navigate Warehouse → Shipments to force a full list reload
-                    var warehouseLink = await TryFindLocatorAsync(WarehouseNavLinkSelectors, timeoutMs: 5000);
-                    if (warehouseLink != null)
-                        await ClickAndWaitForNetworkAsync(warehouseLink);
-
-                    var shipmentsNavLink = await TryFindLocatorAsync(ShipmentsNavLinkSelectors, timeoutMs: 5000);
-                    if (shipmentsNavLink != null)
-                        await ClickAndWaitForNetworkAsync(shipmentsNavLink);
-
-                    var searchButton = await TryFindLocatorAsync(SearchSubmitButtonSelectors, timeoutMs: 3000);
-                    if (searchButton != null)
-                        await ClickAndWaitForNetworkAsync(searchButton);
+                    await reloadButton.ClickAsync();
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                 }
             }
-
-            Assert.Fail($"Shipment '{_shipmentName}' was not found in the search results after {maxRetries} attempts ({maxRetries * retryDelayMs / 1000}s total).");
         }
 
         // ── Tag methods ───────────────────────────────────────────────────────────

@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 14);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 15);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Create a shipment from a created quotation")]
@@ -2192,6 +2192,100 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
 #line hidden
 #line 681
     await testRunner.ThenAsync("I should see the purchase order number in the list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipment - Create a shipment - Verify Custom fields")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipment - Create a shipment - Verify Custom fields")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("5305")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task Shipment_CreateAShipment_VerifyCustomFields()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "5305",
+                    "API",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "12";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment - Create a shipment - Verify Custom fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 684
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 685
+  await testRunner.GivenAsync("the transaction \"SH\" \"TC5305\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 686
+  await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 688
+  await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 689
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 690
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 691
+    await testRunner.AndAsync("I click on Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 692
+  await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 693
+  await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "INCO Terms",
+                            "Exworks"});
+                table1.AddRow(new string[] {
+                            "Boolean",
+                            "true"});
+                table1.AddRow(new string[] {
+                            "DFP Shipper Reference",
+                            "SHIPPER5305"});
+                table1.AddRow(new string[] {
+                            "DFP Consignee Reference",
+                            "CONSIGNEEREF5305"});
+                table1.AddRow(new string[] {
+                            "DFP Pricing",
+                            "PRICING5305"});
+                table1.AddRow(new string[] {
+                            "DFP Forwarder",
+                            "FORWARDER5305"});
+                table1.AddRow(new string[] {
+                            "DFP Payment terms",
+                            "COLLECT"});
+                table1.AddRow(new string[] {
+                            "DFP INCO Terms",
+                            "DAT"});
+                table1.AddRow(new string[] {
+                            "DFP Cargo ready",
+                            "CARGO5305"});
+                table1.AddRow(new string[] {
+                            "Shipper Reference",
+                            "SHIUPPER53052"});
+                table1.AddRow(new string[] {
+                            "Shipment Guid",
+                            "GUID5305"});
+#line 694
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table1, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -679,3 +679,30 @@ Given I am on the Quotations List page
     When I enter the purchase order number in the search
     And I click on PO search button
     Then I should see the purchase order number in the list
+
+@5305 @API @INT @login
+  Scenario: Shipment - Create a shipment - Verify Custom fields
+  Given the transaction "SH" "TC5305" is imported via API
+  Given I login to Portal as user "with Int"
+  # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
+  Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    And I click on Table View
+  Then the shipment should appear in the search results
+  And I check the custom field "StringCustomField"
+  And I check the following custom field values in the table view:
+  #Example
+  # | Column            | Value             |
+    | INCO Terms        | Exworks |
+    | Boolean           | true |
+    | DFP Shipper Reference | SHIPPER5305 |
+    | DFP Consignee Reference | CONSIGNEEREF5305 |
+    | DFP Pricing | PRICING5305 |
+    | DFP Forwarder | FORWARDER5305 |
+    | DFP Payment terms | COLLECT |
+    | DFP INCO Terms | DAT |
+    | DFP Cargo ready | CARGO5305 |
+    | Shipper Reference | SHIUPPER53052 |
+    | Shipment Guid | GUID5305 |
+    

@@ -829,6 +829,14 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IClickOnSearchButton()
         {
+            // If a "Reload" button is visible (stale-data indicator), click it first.
+            var reloadButton = Page.Locator("button.btn-outline-danger").Filter(new() { HasText = "Reload" });
+            if (await reloadButton.IsVisibleAsync())
+            {
+                await reloadButton.ClickAsync();
+                await Page.WaitForLoadStateAsync(Microsoft.Playwright.LoadState.NetworkIdle);
+            }
+
             var searchButton = await FindLocatorAsync(SearchSubmitButtonSelectors);
             await ClickAndWaitForNetworkAsync(searchButton);
 

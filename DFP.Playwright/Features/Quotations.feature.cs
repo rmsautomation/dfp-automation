@@ -121,20 +121,20 @@ namespace DFP.Playwright.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Quotations.feature.ndjson", 8);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("6526_Spot Rates - Create Quotation - MAERSK SPOT")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("6526_Spot Rates - Create Quotation - MAERSK SPOT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Spot Rates - Create Quotation - MAERSK SPOT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Spot Rates - Create Quotation - MAERSK SPOT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("6526")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task _6526_SpotRates_CreateQuotation_MAERSKSPOT()
+        public async global::System.Threading.Tasks.Task SpotRates_CreateQuotation_MAERSKSPOT()
         {
             string[] tagsOfScenario = new string[] {
                     "6526",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("6526_Spot Rates - Create Quotation - MAERSK SPOT", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Spot Rates - Create Quotation - MAERSK SPOT", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 7
@@ -244,14 +244,14 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("145")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _145_PortalQuotation_OCEANFullFCLBuyerBookedStatus()
+        public async global::System.Threading.Tasks.Task PortalQuotation_OCEANFullFCLBuyerBookedStatus()
         {
             string[] tagsOfScenario = new string[] {
                     "145",
@@ -259,7 +259,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Portal Quotation - OCEAN Full FCL Buyer (Booked Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 41
@@ -439,14 +439,14 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("146_Portal Quotation - OCEAN Partial LCL Buyer (Requested status)")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("146_Portal Quotation - OCEAN Partial LCL Buyer (Requested status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Portal Quotation - OCEAN Partial LCL Buyer (Requested status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Portal Quotation - OCEAN Partial LCL Buyer (Requested status)")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("146")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _146_PortalQuotation_OCEANPartialLCLBuyerRequestedStatus()
+        public async global::System.Threading.Tasks.Task PortalQuotation_OCEANPartialLCLBuyerRequestedStatus()
         {
             string[] tagsOfScenario = new string[] {
                     "146",
@@ -454,7 +454,7 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("146_Portal Quotation - OCEAN Partial LCL Buyer (Requested status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Portal Quotation - OCEAN Partial LCL Buyer (Requested status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 105
@@ -619,14 +619,14 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("149_Portal Quotation - Truck Full FTL Buyer (Requested Status)")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("149_Portal Quotation - Truck Full FTL Buyer (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Portal Quotation - Truck Full FTL Buyer (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Portal Quotation - Truck Full FTL Buyer (Requested Status)")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("149")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _149_PortalQuotation_TruckFullFTLBuyerRequestedStatus()
+        public async global::System.Threading.Tasks.Task PortalQuotation_TruckFullFTLBuyerRequestedStatus()
         {
             string[] tagsOfScenario = new string[] {
                     "149",
@@ -634,7 +634,7 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("149_Portal Quotation - Truck Full FTL Buyer (Requested Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Portal Quotation - Truck Full FTL Buyer (Requested Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 163
@@ -771,14 +771,14 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("150")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _150_PortalQuotation_TruckPartialLTLSellerRequestedStatus()
+        public async global::System.Threading.Tasks.Task PortalQuotation_TruckPartialLTLSellerRequestedStatus()
         {
             string[] tagsOfScenario = new string[] {
                     "150",
@@ -786,7 +786,7 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Portal Quotation - Truck Partial LTL Seller (Requested Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 214
@@ -940,13 +940,13 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("152_Portal Quotation - AIR Buyer (Requested Status)")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("150")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("152")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
         public async global::System.Threading.Tasks.Task _152_PortalQuotation_AIRBuyerRequestedStatus()
         {
             string[] tagsOfScenario = new string[] {
-                    "150",
+                    "152",
                     "NOINT",
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();

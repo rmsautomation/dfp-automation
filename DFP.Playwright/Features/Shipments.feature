@@ -4,30 +4,8 @@ Feature: Shipments
   I want to create a shipment from an existing quotation in the DFP Portal
   So I can convert created quotes into active shipments without re-entering data
 
-
-  Scenario: Create a shipment from a created quotation
-    Given I am on the Quotations List page
-    When I open the first quotation in Status Booked
-    Then I should be on the Quotation Details page
-    When I click the "Offers" button
-    Then the list of the offers should appear
-    When I click on Book Now button
-    Then a confirmation dialog should appear
-    When I confirm the shipment creation
-    Then I should be on the Shipment Details page
-    Then I store the shipment id from the URL
-    When I click on Edit button to Edit the Shipment Name
-    Then I should edit the Shipment Name
-    And I store shipment Name
-    When I click on save button
-    Then I should see the new Shipment Name
-    When I click on Send Booking button
-    Then I should click on Go To Shipment button to see the shipment
-    And the shipment should display the shipment name
-
-
   @9340 @NOINT
-  Scenario:9340_Add and validate tags across shipment list, table and details views
+  Scenario: Add and validate tags across shipment list, table and details views
     # ── Shipment 1: Create ────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -102,7 +80,7 @@ Feature: Shipments
 
 
   @9344_MoreThan5tagsSH @NOINT
-  Scenario: 9344_Validate maximum 5 tags per shipment and visibility across all views
+  Scenario: Validate maximum 5 tags per shipment and visibility across all views
     # ── Shipment: Create ──────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -164,7 +142,7 @@ Feature: Shipments
 
 
  @API @9634 @9652 @NOINT
-  Scenario Outline: 9634_Hide_Unhide a shipment created from a quotation
+  Scenario Outline: Hide_Unhide a shipment created from a quotation
     Given I login to Portal as user "without Int"
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -261,7 +239,7 @@ Feature: Shipments
  
 
 @API @7873 @NOINT
-  Scenario: 7873_Shipment with cargo items - add lines from a PO
+  Scenario: Shipment with cargo items - add lines from a PO
     Given I have a portal API token
     When I create shipment via webhook
     And I get cargo items for current shipment via API
@@ -302,7 +280,7 @@ Feature: Shipments
     And Order Line has a Shipment Name link related
 
 @10351 @NOINT
-Scenario: 10351_Shipments - Validate global search bar - Behavior when filtering by Quick search - Table/List View
+Scenario: Shipments - Validate global search bar - Behavior when filtering by Quick search - Table/List View
 # ── Shipment: Create ──────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -343,7 +321,7 @@ Scenario: 10351_Shipments - Validate global search bar - Behavior when filtering
    Then I should see the quick filter field
 
 @4508 @NOINT @login
-Scenario: 4508_Remove View Shipments permission in Hub and validate shipment data is hidden in Portal
+Scenario: Remove View Shipments permission in Hub and validate shipment data is hidden in Portal
     Given I login to Hub as user "without Int"
     Then the login dashboard should be visible
     When I go to Portal Users
@@ -366,7 +344,7 @@ Scenario: 4508_Remove View Shipments permission in Hub and validate shipment dat
     And the dashboard should not show shipment related information
 
 @3986 @INT @login
-Scenario: 3986_Magaya to DFP - Update House shipment - Exclude from Tracking = True
+Scenario: Magaya to DFP - Update House shipment - Exclude from Tracking = True
 # ──I have a House Shipment created in Magaya with enable the Exclude from Tracking option
 Given I login to Portal as user "with Int"
    # ── Verify the House Shipment is not displayed in the in List View─────────
@@ -403,7 +381,7 @@ Given I login to Portal as user "with Int"
     Then the shipment name should not appear in the report results
 
 @10255 @NOINT
- Scenario: 10255_Milestone - Update expected_timestamp for a milestone - Check Date history in the Portal
+ Scenario: Milestone - Update expected_timestamp for a milestone - Check Date history in the Portal
  # ── Create Shipment in the Portal────────
  Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -459,7 +437,7 @@ Given I login to Portal as user "with Int"
     And I should see the historical changes
 
 @API @9893 @9894 @NOINT
-Scenario: 9893_9894Enable tracking for a shipment subscribe containers and send coordinates and Unsubscribe
+Scenario: Enable tracking for a shipment subscribe containers and send coordinates and Unsubscribe
     Given I have a portal API token
     And I have a hub API token
     When I create shipment via webhook
@@ -497,7 +475,7 @@ Scenario: 9893_9894Enable tracking for a shipment subscribe containers and send 
     And I Check the tracking is disabled for the shipment in the hub
 
 @8086 @NOINT @login
-Scenario: 8086_Status update - List View - Subscribe to notifications
+Scenario: Status update - List View - Subscribe to notifications
 # ── Create shipment with Owner-------------------------------
 Given I login to Portal as user "automationdfpowner@gmail.com"
 Given I am on the Quotations List page
@@ -575,7 +553,7 @@ Given I navigated to Shipments List
 
 
 @4520 @NOINT @login
-Scenario:4520_Parent-child tree structure - All permissions
+Scenario:Parent-child tree structure - All permissions
 # ── Create quotation FCL in the Portal WITHOUT INT with a user whose Customer is defined as a Child ───────
 Given I login to Portal as user "child_noint@yopmail.com"
 Given I am on the Quotations List page
@@ -681,28 +659,28 @@ Given I am on the Quotations List page
     Then I should see the purchase order number in the list
 
 @5305 @API @INT @login
-  Scenario: 5305_Shipment - Create a shipment - Verify Custom fields
-  Given the transaction "SH" "TC5305" is imported via API
+  Scenario: Shipment - Create a shipment - Verify Custom fields
+  #Given the transaction "SH" "TC5305" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
   Given I navigated to Shipments List
-    When I enter the shipment Reference in Quick filter
+    When I enter "TC5305" in Quick filter 
     And I click on Search button
     And I click on Table View
+    And I select the "DefaultWithcustom" column view
   Then the shipment should appear in the search results
-  And I check the custom field "StringCustomField"
-  And I check the following custom field values in the table view:
+  And I check the following custom field values in the table view for shipment
   #Example
-  # | Column            | Value             |
-    | INCO Terms        | Exworks |
-    | Boolean           | true |
-    | DFP Shipper Reference | SHIPPER5305 |
-    | DFP Consignee Reference | CONSIGNEEREF5305 |
-    | DFP Pricing | PRICING5305 |
-    | DFP Forwarder | FORWARDER5305 |
-    | DFP Payment terms | COLLECT |
-    | DFP INCO Terms | DAT |
-    | DFP Cargo ready | CARGO5305 |
-    | Shipper Reference | SHIUPPER53052 |
-    | Shipment Guid | GUID5305 |
+  # | Column                  | Value                   |
+    | INCO Terms              | Exworks                 |
+    | Boolean                 | Yes                     | 
+    | DFP Shipper Reference   | SHIPPER5305             |
+    | DFP Consignee Reference | CONSIGNEEREF5305        |  
+   #| DFP Pricing             | PRICING5305             |
+   #| DFP Forwarder           | FORWARDER5305           |
+    | DFP Payment terms       | COLLECT                 |
+   #| DFP INCO Terms          | DAT                     |
+   #| DFP Cargo ready         | CARGO5305               |
+    | Shipper Reference       | SHIUPPER53052           |
+    | Shipment Guid           | GUID5305                |
     

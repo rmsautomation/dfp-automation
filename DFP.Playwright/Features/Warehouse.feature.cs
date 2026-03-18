@@ -122,14 +122,14 @@ namespace DFP.Playwright.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Warehouse.feature.ndjson", 5);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("3907_Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("3907_Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Warehouse Receipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("WarehouseReceipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3907")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _3907_MagayaToDFP_WarehouseReceipt_ExcludeFromTrackingTrue()
+        public async global::System.Threading.Tasks.Task MagayaToDFP_WarehouseReceipt_ExcludeFromTrackingTrue()
         {
             string[] tagsOfScenario = new string[] {
                     "3907",
@@ -137,7 +137,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("3907_Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 9
@@ -199,14 +199,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("5439User edits a Table View and verifies selected columns")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("5439User edits a Table View and verifies selected columns")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("User edits a Table View and verifies selected columns")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("User edits a Table View and verifies selected columns")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Warehouse Receipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("WarehouseReceipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("5439")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
-        public async global::System.Threading.Tasks.Task _5439UserEditsATableViewAndVerifiesSelectedColumns()
+        public async global::System.Threading.Tasks.Task UserEditsATableViewAndVerifiesSelectedColumns()
         {
             string[] tagsOfScenario = new string[] {
                     "5439",
@@ -214,7 +214,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "INT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("5439User edits a Table View and verifies selected columns", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User edits a Table View and verifies selected columns", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 31
@@ -261,15 +261,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("3072_Verify Customs fields in Warehouse Receipt")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("3072_Verify Customs fields in Warehouse Receipt")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Verify Customs fields in Warehouse Receipt")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Verify Customs fields in Warehouse Receipt")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Warehouse Receipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("WarehouseReceipts")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3072")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _3072_VerifyCustomsFieldsInWarehouseReceipt()
+        public async global::System.Threading.Tasks.Task VerifyCustomsFieldsInWarehouseReceipt()
         {
             string[] tagsOfScenario = new string[] {
                     "3072",
@@ -278,7 +278,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("3072_Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 44

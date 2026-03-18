@@ -4,7 +4,7 @@ Feature: Quotations
   I want to create a quotation in the DFP Portal
 
   @6526 @NOINT
-  Scenario: 6526_Spot Rates - Create Quotation - MAERSK SPOT
+  Scenario: Spot Rates - Create Quotation - MAERSK SPOT
   Given I am on the Quotations List page
   When I click on Create Quotation button
   Then I should see the create Quotation Page
@@ -38,7 +38,7 @@ Feature: Quotations
   And the shipment should display the shipment name
 
    @145 @NOINT @login
-  Scenario: 145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)
+  Scenario: Portal Quotation - OCEAN Full FCL Buyer (Booked Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
   Given I am on the Quotations List page
   When I store the initial total Notifications
@@ -102,7 +102,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     And the status should be "Booked"
 
 @146 @NOINT @login
-  Scenario: 146_Portal Quotation - OCEAN Partial LCL Buyer (Requested status)
+  Scenario: Portal Quotation - OCEAN Partial LCL Buyer (Requested status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
   Given I am on the Quotations List page
   When I store the initial total Notifications
@@ -160,7 +160,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     And the status should be "Request"
 
   @149 @NOINT @login
-  Scenario: 149_Portal Quotation - Truck Full FTL Buyer (Requested Status)
+  Scenario: Portal Quotation - Truck Full FTL Buyer (Requested Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
   Given I am on the Quotations List page
   When I store the initial total Notifications
@@ -211,7 +211,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
 
 
 @150 @NOINT @login
-  Scenario: 150_Portal Quotation - Truck Partial LTL Seller (Requested Status)
+  Scenario: Portal Quotation - Truck Partial LTL Seller (Requested Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
   Given I am on the Quotations List page
   When I store the initial total Notifications

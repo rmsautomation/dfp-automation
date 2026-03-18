@@ -6,7 +6,7 @@ Feature: Warehouse Receipts
 
 
 @3907 @INT @login
-Scenario: 3907_Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True
+Scenario: Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True
   # WR TC3907 was created in Magaya with Exclude from Tracking = True
   Given I login to Portal as user "with Int"
   # ── Verify the WR is not displayed in Warehouse Receipt List ─────────────
@@ -28,7 +28,7 @@ Scenario: 3907_Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True
   Then the warehouse receipt name should not appear in the report results
 
 @5439 @login @INT
-Scenario: 5439User edits a Table View and verifies selected columns
+Scenario: User edits a Table View and verifies selected columns
     Given I login to Portal as user "with Int"
     Given I navigated to Warehouse Receipts List
     When I click on Table View in WH Receipt List
@@ -41,7 +41,7 @@ Scenario: 5439User edits a Table View and verifies selected columns
     Then I should see the selected columns in the Table View  
 
 @3072 @API @INT @login
-  Scenario: 3072_Verify Customs fields in Warehouse Receipt
+  Scenario: Verify Customs fields in Warehouse Receipt
   Given the transaction "WH" "TC3072" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the WR Custom Fields are displayed in Warehouse Receipt List ─────────────

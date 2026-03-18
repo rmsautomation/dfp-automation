@@ -2251,41 +2251,41 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
 #line 693
   await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
                             "Exworks"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Boolean",
                             "true"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Shipper Reference",
                             "SHIPPER5305"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Consignee Reference",
                             "CONSIGNEEREF5305"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Pricing",
                             "PRICING5305"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Forwarder",
                             "FORWARDER5305"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Payment terms",
                             "COLLECT"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP INCO Terms",
                             "DAT"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "DFP Cargo ready",
                             "CARGO5305"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Shipper Reference",
                             "SHIUPPER53052"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});
 #line 694
-  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table2, "And ");
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table4, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

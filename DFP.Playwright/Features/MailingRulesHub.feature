@@ -42,6 +42,7 @@ When I go to Customers tab
 Then I select the Customer "AutomationOwner"
 When I click on save Mailing Rule button
 Then I should see the Mailing Rules
+Given I log out from Hub
 #--------Create Shipment using ANOTHER USER AND CUSTOMER Customer1013----------
 Given I login to Portal as user "aylinportalinfra@yopmail.com"
 Given I am on the Quotations List page

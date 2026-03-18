@@ -29,5 +29,11 @@ Scenario: Log out from Portal
     Given I login to Portal with integration
     When I log out
     Then I should be in login page
+
+Scenario: Log out from Hub
+Given I log out from Hub
+    When I click on the profile button in the hub
+    Then I click on Log out option in the hub
+    And I should be in login page in the hub
     
 

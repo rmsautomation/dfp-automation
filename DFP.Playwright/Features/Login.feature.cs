@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Login.feature.ndjson", 7);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Login.feature.ndjson", 8);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Login to Hub")]
@@ -221,6 +221,44 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
 #line 31
     await testRunner.ThenAsync("I should be in login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Log out from Hub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Log out from Hub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Login")]
+        public async global::System.Threading.Tasks.Task LogOutFromHub()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "5";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Log out from Hub", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 33
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 34
+await testRunner.GivenAsync("I log out from Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 35
+    await testRunner.WhenAsync("I click on the profile button in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 36
+    await testRunner.ThenAsync("I click on Log out option in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 37
+    await testRunner.AndAsync("I should be in login page in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

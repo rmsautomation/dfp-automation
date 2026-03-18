@@ -85,8 +85,13 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] DashboardSelectors =
         {
-            "role=link[name='Dashboard']",
-            "a:has-text('Dashboard')"
+            // These sidebar links ONLY exist when logged into the portal.
+            // "a:has-text('Dashboard')" and "role=link[name='Dashboard']" were removed
+            // because the public homepage navbar also has an <a>Dashboard</a> link,
+            // causing a false-positive that triggered LogoutIfLoggedInAsync on every login.
+            "a[href='/my-portal/settings']",
+            "a[href='/my-portal/conversations']",
+            "a[href='/my-portal/orders']",
         };
 
         private static readonly string[] ProfileButtonSelectors =
@@ -138,18 +143,24 @@ namespace DFP.Playwright.Pages.Web
             Console.WriteLine($"navigating to {_baseUrl}");
             await Page.GotoAsync(_baseUrl, new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.DOMContentLoaded,
+                // Commit fires as soon as HTTP response headers arrive — no content wait needed.
+                // For searchLoginModal:true, we navigate away to /my-portal immediately after,
+                // so waiting for DOMContentLoaded here was wasteful. For Hub login (searchLoginModal:false),
+                // WaitForLoginFormAsync (30s timeout) handles waiting for the form.
+                WaitUntil = WaitUntilState.Commit,
                 Timeout = 60000
             });
-            await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-            try
-            {
-                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 5000 });
-            }
-            catch
-            {
-                // Portal SPA may keep background connections alive; continue when DOM is ready.
-            }
+            // Duplicate: DOMContentLoaded already waited by GotoAsync above.
+            // await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+            // NetworkIdle always hits the full timeout on this SPA (background connections stay alive).
+            // try
+            // {
+            //     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 5000 });
+            // }
+            // catch
+            // {
+            //     // Portal SPA may keep background connections alive; continue when DOM is ready.
+            // }
             // await Page.WaitForResponseAsync(r => r.Url.Contains(MAINAPP_DFP_IMG));
         }
 
@@ -167,34 +178,24 @@ namespace DFP.Playwright.Pages.Web
             var passwordInput = await FindPasswordInputAsync();
 
             await usernameInput.FillAsync(email);
-            await Page.WaitForTimeoutAsync(500);
             await passwordInput.FillAsync(password);
-            await Page.WaitForTimeoutAsync(500);
 
-            // Prefer clicking Sign in if available
+            // Prefer clicking Sign in if available, otherwise submit with Enter.
             var signInButton = await TryFindLocatorAsync(SignInButtonSelectors, timeoutMs: 2000);
             if (signInButton != null)
-            {
                 await signInButton.ClickAsync();
-            }
             else
-            {
                 await passwordInput.PressAsync("Enter");
-            }
-            var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 3000);
+
+            // Only wait 500ms for "logout all sessions" — it rarely appears and 3000ms was wasteful.
+            var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
             if (logoutAll != null && await IsVisibleAsync(logoutAll))
             {
                 await CloseAllSessionIfNeeded();
-                await Page.WaitForTimeoutAsync(1000);
                 await usernameInput.FillAsync(email);
-                await Page.WaitForTimeoutAsync(500);
                 await passwordInput.FillAsync(password);
-                await Page.WaitForTimeoutAsync(500);
                 await passwordInput.PressAsync("Enter");
             }
-                
-
-            await Page.WaitForTimeoutAsync(1000);
         }
 
         private async Task<ILocator> FindUsernameInputAsync()

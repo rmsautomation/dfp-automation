@@ -318,13 +318,22 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── LCL Cargo: Package ────────────────────────────────────────────────────
 
-        // Parametrizable: "Carton" | "Crate" | etc.
+        // Parametrizable: "Carton" | "Crate" | etc. (radio buttons, LCL)
         [Given("I select the Package {string}")]
         [When("I select the Package {string}")]
         [Then("I select the Package {string}")]
         public async Task ISelectThePackage(string packageType)
         {
             await _quotationPage.SelectPackageAsync(packageType);
+        }
+
+        // Parametrizable: "Bag" | "Carton" | etc. (ng-select combobox, Truck LTL)
+        [Given("I select the Package {string} for LTL")]
+        [When("I select the Package {string} for LTL")]
+        [Then("I select the Package {string} for LTL")]
+        public async Task ISelectThePackageForLTL(string packageType)
+        {
+            await _quotationPage.SelectPackageLTLAsync(packageType);
         }
 
         // ── LCL Cargo: Dimensions & Weight (DataTable) ────────────────────────────

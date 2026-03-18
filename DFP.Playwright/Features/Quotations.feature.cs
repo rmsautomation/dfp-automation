@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Quotations.feature.ndjson", 6);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Quotations.feature.ndjson", 7);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("6526_Spot Rates - Create Quotation - MAERSK SPOT")]
@@ -744,7 +744,7 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
     await testRunner.AndAsync("I should see the quote  status is \"Request\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 203
-await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+  await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 204
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -765,6 +765,171 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
     await testRunner.ThenAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 210
+    await testRunner.AndAsync("the status should be \"Request\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("150")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task _150_PortalQuotation_TruckPartialLTLSellerRequestedStatus()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "150",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("150_Portal Quotation - Truck Partial LTL Seller (Requested Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 214
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 215
+  await testRunner.GivenAsync("I login to Portal as user \"automationdfpowner@gmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 216
+  await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 217
+  await testRunner.WhenAsync("I store the initial total Notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 218
+  await testRunner.ThenAsync("I click on Create Quotation button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 219
+  await testRunner.AndAsync("I should see the create Quotation Page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 220
+  await testRunner.ThenAsync("I click on \"Truck\" transport mode", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 221
+  await testRunner.AndAsync("I click on \"Partial (LTL)\" load type", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 222
+  await testRunner.AndAsync("I enter \"Los Angeles\" as the Origin Port", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 223
+  await testRunner.AndAsync("I enter \"Shanghai\" as the Destination Port", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 224
+  await testRunner.WhenAsync("I click on Continue your quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 225
+  await testRunner.ThenAsync("I should see the Origin and Destination ports", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 226
+  await testRunner.AndAsync("I click on \"Seller\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 227
+  await testRunner.WhenAsync("I click on the calendar", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 228
+  await testRunner.ThenAsync("I select the date", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 229
+  await testRunner.WhenAsync("I click on currency", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 230
+  await testRunner.ThenAsync("I select \"USD\" as the currency", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 231
+  await testRunner.WhenAsync("I click on Commodity dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 232
+  await testRunner.ThenAsync("I select the Commodity \"Freight All Kinds (FAK)\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 233
+  await testRunner.AndAsync("I select the Package \"Bag\" for LTL", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Weight",
+                            "Length",
+                            "Width",
+                            "Height"});
+                table2.AddRow(new string[] {
+                            "10",
+                            "10",
+                            "10",
+                            "10"});
+#line 234
+  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table2, "And ");
+#line hidden
+#line 237
+  await testRunner.WhenAsync("I click on Create quotation from details", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 239
+  await testRunner.AndAsync("I store the quote ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 241
+  await testRunner.WhenAsync("I click on Request  a differente rate button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 242
+  await testRunner.ThenAsync("I should see the modal to enter the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 243
+  await testRunner.WhenAsync("I click on select a request dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 244
+  await testRunner.ThenAsync("I select the option \"I need a better rate\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 245
+  await testRunner.AndAsync("I enter the remarks \"AutomationRequest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 246
+  await testRunner.WhenAsync("I send the request", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 248
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 249
+    await testRunner.WhenAsync("I enter the quote ID in the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 250
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 251
+    await testRunner.ThenAsync("I should see the quote ID in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 252
+    await testRunner.AndAsync("I should see the quote  status is \"Request\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 257
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 258
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 259
+    await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 260
+    await testRunner.WhenAsync("I click on system id input field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 261
+    await testRunner.AndAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 262
+    await testRunner.AndAsync("I click on Search button in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 263
+    await testRunner.ThenAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 264
     await testRunner.AndAsync("the status should be \"Request\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

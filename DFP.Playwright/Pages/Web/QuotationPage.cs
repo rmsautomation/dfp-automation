@@ -110,6 +110,10 @@ namespace DFP.Playwright.Pages.Web
         private const string PackageLabelXPath =
             "//label[contains(@class,'btn') and .//input[@formcontrolname='packaging'] and contains(normalize-space(),'{0}')]";
 
+        // LTL Package combobox — verified from HTML: ng-select[formcontrolname='packaging'] input[role='combobox']
+        // Scoped to the packaging ng-select to avoid clicking a different combobox on the same page.
+        private const string LtlPackageComboboxSelector = "ng-select[formcontrolname='packaging'] input[role='combobox']";
+
         // Cargo dimension/weight inputs — verified from HTML: input[formcontrolname='unit_*']
         private const string WeightInputSelector    = "input[formcontrolname='unit_weight']";
         private const string LengthInputSelector    = "input[formcontrolname='unit_length']";
@@ -698,6 +702,25 @@ namespace DFP.Playwright.Pages.Web
             var label = Page.Locator(string.Format(PackageLabelXPath, packageType));
             await label.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
             await label.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Selects a package type from the LTL combobox (ng-select dropdown).
+        /// Verified from HTML: input[role='combobox'][aria-autocomplete='list']
+        ///   then div.ng-option containing the package name (e.g. "Bag").
+        /// </summary>
+        public async Task SelectPackageLTLAsync(string packageType)
+        {
+            // Scoped to ng-select[formcontrolname='packaging'] to avoid clicking the wrong combobox.
+            var combobox = Page.Locator(LtlPackageComboboxSelector);
+            await combobox.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await combobox.ClickAsync();
+            await Page.WaitForTimeoutAsync(300); // wait for ng-dropdown-panel to render
+
+            var option = Page.Locator(string.Format(NgOptionXPath, packageType));
+            await option.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 5000 });
+            await option.ClickAsync();
             await Page.WaitForTimeoutAsync(300);
         }
 

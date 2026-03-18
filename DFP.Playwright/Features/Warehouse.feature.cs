@@ -323,7 +323,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "STRINGCUSTOMFIELD3072"});
                 table5.AddRow(new string[] {
                             "BooleanCustomField",
-                            "false"});
+                            "No"});
                 table5.AddRow(new string[] {
                             "IntegerCustomField",
                             "3072"});
@@ -338,7 +338,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "02/24/2026"});
                 table5.AddRow(new string[] {
                             "MoneyCustomField",
-                            "30.72 USD"});
+                            "USD 30.72"});
                 table5.AddRow(new string[] {
                             "LookupCutomsField",
                             "automationUpdated"});

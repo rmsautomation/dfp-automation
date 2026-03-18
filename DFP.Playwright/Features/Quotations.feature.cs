@@ -28,7 +28,7 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "Quotations"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Quotations", "  As a user\r\n  I want to create a quotation in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Quotations", "  As a user\n  I want to create a quotation in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Quotations.feature"
 #line hidden
@@ -118,23 +118,23 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Quotations.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Quotations.feature.ndjson", 4);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Spot Rates - Create Quotation - MAERSK SPOT")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Spot Rates - Create Quotation - MAERSK SPOT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("6526_Spot Rates - Create Quotation - MAERSK SPOT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("6526_Spot Rates - Create Quotation - MAERSK SPOT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("6526")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task SpotRates_CreateQuotation_MAERSKSPOT()
+        public async global::System.Threading.Tasks.Task _6526_SpotRates_CreateQuotation_MAERSKSPOT()
         {
             string[] tagsOfScenario = new string[] {
                     "6526",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Spot Rates - Create Quotation - MAERSK SPOT", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("6526_Spot Rates - Create Quotation - MAERSK SPOT", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 7
@@ -239,6 +239,201 @@ namespace DFP.Playwright.Features
 #line hidden
 #line 38
   await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Quotations")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Quotations")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("145")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task _145_PortalQuotation_OCEANFullFCLBuyerBookedStatus()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "145",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("145_Portal Quotation - OCEAN Full FCL Buyer (Booked Status)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 41
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 42
+  await testRunner.GivenAsync("I login to Portal as user \"automationdfpowner@gmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 43
+  await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 44
+  await testRunner.WhenAsync("I store the initial total Notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 45
+  await testRunner.ThenAsync("I click on Create Quotation button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 46
+  await testRunner.AndAsync("I should see the create Quotation Page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 47
+  await testRunner.ThenAsync("I click on \"Ocean\" transport mode", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 48
+  await testRunner.AndAsync("I click on \"Full (FCL)\" load type", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 49
+  await testRunner.AndAsync("I enter \"Los Angeles\" as the Origin Port", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 50
+  await testRunner.AndAsync("I enter \"Shanghai\" as the Destination Port", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 51
+  await testRunner.WhenAsync("I click on Continue your quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 52
+  await testRunner.ThenAsync("I should see the Origin and Destination ports", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 53
+  await testRunner.AndAsync("I click on \"Buyer\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 54
+  await testRunner.WhenAsync("I click on the calendar", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 55
+  await testRunner.ThenAsync("I select the date", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 56
+  await testRunner.WhenAsync("I click on currency", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 57
+  await testRunner.ThenAsync("I select \"USD\" as the currency", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 58
+  await testRunner.AndAsync("I select the container size \"40\' Container\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 59
+  await testRunner.AndAsync("I select the container type \"All Types\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 60
+  await testRunner.WhenAsync("I click on Commodity dropdown", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 61
+  await testRunner.ThenAsync("I select the Commodity \"Freight All Kinds (FAK)\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 62
+  await testRunner.WhenAsync("I click on Create quotation from details", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 63
+  await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 65
+  await testRunner.AndAsync("I store the quote ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 66
+  await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 67
+  await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 68
+  await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 69
+  await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 70
+  await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 71
+  await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 72
+  await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 73
+  await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 74
+  await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 75
+  await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 76
+  await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 77
+  await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 78
+  await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 81
+  await testRunner.ThenAsync("I click on notifications button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 83
+  await testRunner.AndAsync("I should see the updated status \"Booked\" in the notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 84
+    await testRunner.AndAsync("I should see the shipment Name in the notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 86
+    await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 87
+    await testRunner.WhenAsync("I enter the quote ID in the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 88
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 89
+    await testRunner.ThenAsync("I should see the quote ID in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 90
+    await testRunner.AndAsync("I should see the quote  status is \"Booked\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 92
+  await testRunner.WhenAsync("I Check the email for \"automationdfpowner@gmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 93
+  await testRunner.ThenAsync("I should receive an email with text \"Your shipment\'s status was updated to Booked" +
+                        "\" in the body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 95
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 96
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 97
+    await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 98
+    await testRunner.WhenAsync("I click on system id input field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 99
+    await testRunner.AndAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 100
+    await testRunner.AndAsync("I click on Search button in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 101
+    await testRunner.ThenAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 102
+    await testRunner.AndAsync("the status should be \"Booked\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

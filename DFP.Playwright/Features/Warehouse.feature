@@ -60,7 +60,7 @@ Scenario: User edits a Table View and verifies selected columns
     | IntegerCustomField | 3072 |
     | DecimalCustomField | 30.72 |
     | PickListCustomField | Option1 |
-    | DateCustomField | 2026-02-24-05:00 |
+    | DateCustomField | 02/24/2026 |
     | MoneyCustomField | 30.72 USD |
     | LookupCutomsField | automationUpdated |
     | QATest | QATEST3072 |

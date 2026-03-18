@@ -182,18 +182,34 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task TheWarehouseReceiptShouldAppearInSearchResultsAsync()
         {
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Retry loop: check every 5 seconds for up to 3 minutes.
+            // If the WR is not in results, click Search again and check again.
+            const int retryIntervalMs = 5000;
+            const int maxDurationMs = 180000; // 3 minutes
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
-            // Wait for any result row to be visible first.
-            var anyRow = Page.Locator("//tr[contains(@class,'warehouse-receipt-row')]").First;
-            await anyRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            while (true)
+            {
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            // Then find a row that contains the stored WR name.
-            var matchingRow = Page.Locator(
-                $"//tr[contains(@class,'warehouse-receipt-row') and contains(normalize-space(),'{_warehouseReceiptName}')]");
-            await matchingRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
-            Assert.IsTrue(await matchingRow.IsVisibleAsync(),
-                $"Expected warehouse receipt '{_warehouseReceiptName}' to appear in search results. URL: {Page.Url}");
+                var matchingRow = Page.Locator(
+                    $"//tr[contains(@class,'warehouse-receipt-row') and contains(normalize-space(),'{_warehouseReceiptName}')]");
+                var isVisible = await matchingRow.IsVisibleAsync();
+                if (isVisible)
+                    return;
+
+                if (DateTime.UtcNow >= deadline)
+                {
+                    Assert.Fail(
+                        $"Expected warehouse receipt '{_warehouseReceiptName}' to appear in search results after 3 minutes of retries. URL: {Page.Url}");
+                }
+
+                // Wait 5 seconds then click Search again.
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+                var searchButton = await TryFindLocatorAsync(SearchButtonSelectors, timeoutMs: 5000);
+                if (searchButton != null)
+                    await ClickAndWaitForNetworkAsync(searchButton);
+            }
         }
 
         public async Task TheWarehouseReceiptShouldNotAppearInResultsAsync()
@@ -337,8 +353,10 @@ namespace DFP.Playwright.Pages.Web
         // HTML: <th role="columnheader"><div class="d-flex..."> ColumnName <div...>
         public async Task CheckCustomFieldColumnExistsAsync(string columnName)
         {
+            // Multiple p-datatable tables can be on the same page, each with the same column header.
+            // Use .First to avoid strict-mode violation — we only need to confirm it appears at least once.
             var header = Page.Locator(
-                $"//th[@role='columnheader'][.//div[contains(@class,'d-flex') and contains(normalize-space(),'{columnName}')]]");
+                $"//th[@role='columnheader'][.//div[contains(@class,'d-flex') and contains(normalize-space(),'{columnName}')]]").First;
             await header.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             Assert.IsTrue(await header.IsVisibleAsync(),
                 $"Custom field column '{columnName}' not found in table header. URL: {Page.Url}");

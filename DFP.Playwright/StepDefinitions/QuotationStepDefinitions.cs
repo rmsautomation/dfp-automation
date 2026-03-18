@@ -24,7 +24,9 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── Action steps ──────────────────────────────────────────────────────────
 
+        [Given("I click on Create Quotation button")]
         [When("I click on Create Quotation button")]
+        [Then("I click on Create Quotation button")]
         public async Task IClickOnCreateQuotationButton()
         {
             await _quotationPage.ClickCreateQuotationButtonAsync();
@@ -234,10 +236,84 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationPage.EnterQuotationIdInSearchAsync();
         }
 
+        [When("I enter the quote ID in the search")]
+        public async Task IEnterTheQuoteIdInTheSearch()
+        {
+            await _quotationPage.EnterQuotationIdInSearchAsync();
+        }
+
         [Then("I should see the quote ID in the results")]
         public async Task IShouldSeeTheQuoteIdInTheResults()
         {
             await _quotationPage.ShouldSeeQuoteIdInResultsAsync();
+        }
+
+        // ── TC145: Transaction role ───────────────────────────────────────────────
+
+        [Given("I click on {string}")]
+        [When("I click on {string}")]
+        [Then("I click on {string}")]
+        public async Task IClickOn(string role)
+        {
+            await _quotationPage.ClickTransactionRoleAsync(role);
+        }
+
+        // ── TC145: Notifications counter ──────────────────────────────────────────
+
+        [Given("I store the initial total Notifications")]
+        [When("I store the initial total Notifications")]
+        [Then("I store the initial total Notifications")]
+        public async Task IStoreTheInitialTotalNotifications()
+        {
+            await _quotationPage.StoreInitialNotificationsAsync();
+        }
+
+        [Then("the final notifications should be initial notifications +1")]
+        public async Task TheFinalNotificationsShouldBeInitialPlusOne()
+        {
+            await _quotationPage.VerifyFinalNotificationsAsync();
+        }
+
+        // ── TC145: Portal quote status ────────────────────────────────────────────
+
+        [Then("I should see the quote  status is {string}")]
+        [Then("I should see the quote status is {string}")]
+        public async Task IShouldSeeTheQuoteStatusIs(string status)
+        {
+            await _quotationPage.ShouldSeeQuoteStatusAsync(status);
+        }
+
+        // ── TC145: Hub quotation search ───────────────────────────────────────────
+
+        [Given("I navigated to quotation List in the Hub")]
+        public async Task INavigatedToQuotationListInTheHub()
+        {
+            await _quotationPage.NavigateToQuotationListInHubAsync();
+        }
+
+        [When("I click on system id input field in the Hub")]
+        public async Task IClickOnSystemIdInputFieldInTheHub()
+        {
+            await _quotationPage.ClickSystemIdInputInHubAsync();
+        }
+
+        [When("I enter the quote id in field in the Hub")]
+        [Then("I enter the quote id in field in the Hub")]
+        public async Task IEnterTheQuoteIdInFieldInTheHub()
+        {
+            await _quotationPage.EnterQuoteIdInHubAsync();
+        }
+
+        [Then("the quote should appear in the search results in the hub")]
+        public async Task TheQuoteShouldAppearInTheSearchResultsInTheHub()
+        {
+            await _quotationPage.QuoteShouldAppearInHubResultsAsync();
+        }
+
+        [Then("the status should be {string}")]
+        public async Task TheStatusShouldBe(string status)
+        {
+            await _quotationPage.HubStatusShouldBeAsync(status);
         }
     }
 }

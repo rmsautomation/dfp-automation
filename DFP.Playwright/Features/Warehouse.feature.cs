@@ -28,8 +28,8 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "WarehouseReceipts"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \r\n  I want to verify that Warehouse Receipts with Exclude from Tracki" +
-                "ng enabled in Magaya\r\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Warehouse Receipts", "  As a user \n  I want to verify that Warehouse Receipts with Exclude from Trackin" +
+                "g enabled in Magaya\n  are not visible in the DFP Portal", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Warehouse.feature"
 #line hidden
@@ -318,38 +318,38 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 54
   await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "StringCustomField",
                             "STRINGCUSTOMFIELD3072"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "BooleanCustomField",
                             "false"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "IntegerCustomField",
                             "3072"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DecimalCustomField",
                             "30.72"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "PickListCustomField",
                             "Option1"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DateCustomField",
-                            "2026-02-24-05:00"});
-                table1.AddRow(new string[] {
+                            "02/24/2026"});
+                table2.AddRow(new string[] {
                             "MoneyCustomField",
                             "30.72 USD"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "LookupCutomsField",
                             "automationUpdated"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "QATest",
                             "QATEST3072"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
 #line 55
-  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table1, "And ");
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table2, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

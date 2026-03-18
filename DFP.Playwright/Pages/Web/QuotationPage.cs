@@ -14,6 +14,7 @@ namespace DFP.Playwright.Pages.Web
         private string _firstVessel = string.Empty;
         private string _bookingVessel = string.Empty;
         private string _quoteId = string.Empty;
+        private int _initialNotifications = 0;
 
         public QuotationPage(IPage page) : base(page)
         {
@@ -484,6 +485,16 @@ namespace DFP.Playwright.Pages.Web
         /// <summary>Returns the quote ID stored by StoreQuoteIdAsync (e.g. "QUO-02463").</summary>
         public string GetQuoteId() => _quoteId;
 
+        private static string GetHubBaseUrl()
+        {
+            var url = Environment.GetEnvironmentVariable("HUB_BASE_URL")
+                      ?? Environment.GetEnvironmentVariable("BASE_URL")
+                      ?? "";
+            if (string.IsNullOrWhiteSpace(url))
+                throw new InvalidOperationException("HUB_BASE_URL (or BASE_URL) is required.");
+            return url;
+        }
+
         /// <summary>
         /// Enters the stored quote ID in the "Quotation #" search input and waits for results.
         /// Verified from HTML: input[formcontrolname='friendly_id'][placeholder='Quotation #']
@@ -499,8 +510,8 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Verifies the stored quote ID appears as a link in the results list with status "Created".
-        /// Verified from HTML: li[qwyk-quotations-list-item] > a with quote ID text + span.badge "Created"
+        /// Verifies the stored quote ID appears as a link in the results list.
+        /// Verified from HTML: li[qwyk-quotations-list-item] > a with quote ID text
         /// </summary>
         public async Task ShouldSeeQuoteIdInResultsAsync()
         {
@@ -509,11 +520,128 @@ namespace DFP.Playwright.Pages.Web
             await listItem.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             Assert.IsTrue(await listItem.First.IsVisibleAsync(),
                 $"Expected quote '{_quoteId}' to appear in the results list. URL: {Page.Url}");
+        }
 
-            var statusBadge = listItem.First.Locator("span.badge")
-                .Filter(new LocatorFilterOptions { HasText = "Booked" });
-            Assert.IsTrue(await statusBadge.IsVisibleAsync(),
-                $"Expected quote '{_quoteId}' to have status 'Created' but it was not visible. URL: {Page.Url}");
+        // ── TC145: Transaction role (Buyer / Seller) ──────────────────────────────
+
+        /// <summary>
+        /// Clicks the Buyer/Seller radio button label by its visible span text.
+        /// Verified from HTML: label.btn-outline-secondary > input[formcontrolname='transaction'] + span[text]
+        /// </summary>
+        public async Task ClickTransactionRoleAsync(string role)
+        {
+            var label = Page.Locator(
+                $"//label[contains(@class,'btn-outline-secondary') and .//span[normalize-space()='{role}']]");
+            await label.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await label.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        // ── TC145: Notifications counter ──────────────────────────────────────────
+
+        /// <summary>
+        /// Reads the bell icon counter and stores it for later comparison.
+        /// Verified from HTML: button.btn-icon > fa-layers > fa-layers-counter > span.fa-layers-counter
+        /// </summary>
+        public async Task StoreInitialNotificationsAsync()
+        {
+            var counter = Page.Locator("span.fa-layers-counter").First;
+            await counter.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await counter.InnerTextAsync()).Trim();
+            _initialNotifications = int.TryParse(text, out var n) ? n : 0;
+        }
+
+        /// <summary>
+        /// Asserts the bell icon counter equals the stored initial value + 1.
+        /// Verified from HTML: span.fa-layers-counter
+        /// </summary>
+        public async Task VerifyFinalNotificationsAsync()
+        {
+            var counter = Page.Locator("span.fa-layers-counter").First;
+            await counter.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await counter.InnerTextAsync()).Trim();
+            var finalCount = int.TryParse(text, out var n) ? n : 0;
+            Assert.AreEqual(_initialNotifications + 1, finalCount,
+                $"Expected notifications to be {_initialNotifications + 1} but got {finalCount}. URL: {Page.Url}");
+        }
+
+        // ── TC145: Portal quote status ────────────────────────────────────────────
+
+        /// <summary>
+        /// Verifies the status badge for the stored quote ID shows the expected status.
+        /// Verified from HTML: li[qwyk-quotations-list-item] > span.badge with status text
+        /// </summary>
+        public async Task ShouldSeeQuoteStatusAsync(string status)
+        {
+            var listItem = Page.Locator("li[qwyk-quotations-list-item]")
+                .Filter(new LocatorFilterOptions { HasText = _quoteId });
+            await listItem.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var badge = listItem.First.Locator("span.badge")
+                .Filter(new LocatorFilterOptions { HasText = status });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to have status '{status}'. URL: {Page.Url}");
+        }
+
+        // ── TC145: Hub quotation search ───────────────────────────────────────────
+
+        /// <summary>
+        /// Navigates to the Hub quotations list page.
+        /// Verified from URL: HUB_BASE_URL/quotations/list
+        /// </summary>
+        public async Task NavigateToQuotationListInHubAsync()
+        {
+            var baseUrl = GetHubBaseUrl();
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/quotations/list");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Waits for and clicks the System ID input in the Hub.
+        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
+        /// </summary>
+        public async Task ClickSystemIdInputInHubAsync()
+        {
+            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClickAsync();
+        }
+
+        /// <summary>
+        /// Types the stored quote ID into the Hub System ID input field.
+        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
+        /// </summary>
+        public async Task EnterQuoteIdInHubAsync()
+        {
+            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClearAsync();
+            await input.FillAsync(_quoteId);
+        }
+
+        /// <summary>
+        /// Verifies the stored quote ID appears as a link in the Hub search results table.
+        /// Verified from HTML: tbody > tr > td > a with quote ID text (e.g. "QUO-02487")
+        /// </summary>
+        public async Task QuoteShouldAppearInHubResultsAsync()
+        {
+            var link = Page.Locator($"tbody a:has-text('{_quoteId}')");
+            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await link.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to appear in the Hub results table. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the status badge in the Hub results row shows the expected status.
+        /// Verified from HTML: span.status-badge with text e.g. "Booked"
+        /// </summary>
+        public async Task HubStatusShouldBeAsync(string status)
+        {
+            var row = Page.Locator("tbody tr").Filter(new LocatorFilterOptions { HasText = _quoteId });
+            await row.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var badge = row.First.Locator("span.status-badge")
+                .Filter(new LocatorFilterOptions { HasText = status });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Expected Hub status '{status}' for quote '{_quoteId}'. URL: {Page.Url}");
         }
     }
 }

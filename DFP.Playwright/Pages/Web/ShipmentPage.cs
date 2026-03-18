@@ -572,8 +572,28 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task ClicksOnBookNowButton()
         {
-            var bookNowButton = await FindLocatorAsync(BookNowButtonSelectors);
-            await ClickAsync(bookNowButton);
+            // Poll every 5 seconds for the Book Now button.
+            // The button can appear while "gathering offers" is still visible.
+            // Keep polling until the button is found OR the gathering message disappears.
+            var gatheringMsg = Page.Locator("span:has-text('We\\'re gathering the best offers for you.')").First;
+
+            while (true)
+            {
+                var bookNowButton = await TryFindLocatorAsync(BookNowButtonSelectors, timeoutMs: 5000);
+                if (bookNowButton != null && await bookNowButton.IsVisibleAsync())
+                {
+                    await ClickAsync(bookNowButton);
+                    return;
+                }
+
+                // If gathering message is gone, stop polling and do a final wait for the button.
+                if (!await gatheringMsg.IsVisibleAsync())
+                    break;
+            }
+
+            // Gathering finished — wait for Book Now to appear now.
+            var finalButton = await FindLocatorAsync(BookNowButtonSelectors, timeoutMs: 30000);
+            await ClickAsync(finalButton);
         }
 
         public async Task AConfirmationDialogShouldAppear()

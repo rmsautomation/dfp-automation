@@ -105,6 +105,47 @@ namespace DFP.Playwright.Pages.Web
             "//ng-select[@formcontrolname='currency']"
         ];
 
+        // Package radio label — verified from HTML: label.btn.btn-outline-secondary > input[formcontrolname='packaging'] + text
+        // Used with string.Format to inject package name: "Carton" | "Crate" | etc.
+        private const string PackageLabelXPath =
+            "//label[contains(@class,'btn') and .//input[@formcontrolname='packaging'] and contains(normalize-space(),'{0}')]";
+
+        // Cargo dimension/weight inputs — verified from HTML: input[formcontrolname='unit_*']
+        private const string WeightInputSelector    = "input[formcontrolname='unit_weight']";
+        private const string LengthInputSelector    = "input[formcontrolname='unit_length']";
+        private const string WidthInputSelector     = "input[formcontrolname='unit_width']";
+        private const string HeightInputSelector    = "input[formcontrolname='unit_height']";
+
+        // "Request a different rate" button — verified from HTML: button.btn-sm.btn-outline-secondary.rounded-pill > span
+        private static readonly string[] RequestDifferentRateSelectors =
+        [
+            "button.btn-outline-secondary.rounded-pill:has-text('Request a different rate')",
+            "//button[contains(@class,'rounded-pill') and .//span[contains(normalize-space(),'Request a different rate')]]"
+        ];
+
+        // Spot rate request modal title — verified from HTML: h5.modal-title "Send a spot rate request"
+        private const string SpotRateModalTitleSelector =
+            "//h5[contains(@class,'modal-title') and contains(normalize-space(),'Send a spot rate request')]";
+
+        // ng-select combobox inside spot rate modal — scoped to #reason to avoid strict mode (3 comboboxes on page).
+        // The reason dropdown is the only one inside #reason and the only non-readonly combobox.
+        // Verified from HTML: #reason input[role='combobox']
+        private const string SpotRateDropdownSelector = "#reason input[role='combobox'][aria-autocomplete='list']";
+
+        // ng-option item — used with string.Format to inject option text
+        private const string NgOptionXPath =
+            "//div[contains(@class,'ng-option') and contains(normalize-space(),'{0}')]";
+
+        // Remarks textarea — verified from HTML: textarea[formcontrolname='remarks']
+        private const string RemarksTextareaSelector = "textarea[formcontrolname='remarks']";
+
+        // Send button inside spot rate modal — verified from HTML: button > span "Send"
+        private static readonly string[] SendRequestSelectors =
+        [
+            "//button[.//span[normalize-space()='Send']]",
+            "button:has(span:has-text('Send'))"
+        ];
+
         // ── Navigation methods ────────────────────────────────────────────────────
 
         public async Task NavigateToQuotationsListAsync()
@@ -480,6 +521,7 @@ namespace DFP.Playwright.Pages.Web
             var match = Regex.Match(rawText, @"QUO-\d+");
             Assert.IsTrue(match.Success, $"Could not extract quote ID from text '{rawText}'. URL: {Page.Url}");
             _quoteId = match.Value;
+            Console.WriteLine($"[QuotationPage] Quote ID stored: {_quoteId}");
         }
 
         /// <summary>Returns the quote ID stored by StoreQuoteIdAsync (e.g. "QUO-02463").</summary>
@@ -578,7 +620,8 @@ namespace DFP.Playwright.Pages.Web
             await listItem.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             var badge = listItem.First.Locator("span.badge")
                 .Filter(new LocatorFilterOptions { HasText = status });
-            Assert.IsTrue(await badge.IsVisibleAsync(),
+            await badge.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await badge.First.IsVisibleAsync(),
                 $"Expected quote '{_quoteId}' to have status '{status}'. URL: {Page.Url}");
         }
 
@@ -642,6 +685,133 @@ namespace DFP.Playwright.Pages.Web
                 .Filter(new LocatorFilterOptions { HasText = status });
             Assert.IsTrue(await badge.IsVisibleAsync(),
                 $"Expected Hub status '{status}' for quote '{_quoteId}'. URL: {Page.Url}");
+        }
+
+        // ── LCL Cargo: Package, Dimensions & Weight ───────────────────────────────
+
+        /// <summary>
+        /// Clicks the package type radio label (e.g. "Carton", "Crate").
+        /// Verified from HTML: label.btn.btn-outline-secondary > input[formcontrolname='packaging'] + text
+        /// </summary>
+        public async Task SelectPackageAsync(string packageType)
+        {
+            var label = Page.Locator(string.Format(PackageLabelXPath, packageType));
+            await label.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await label.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Fills all cargo dimensions and weight in one call.
+        /// Verified from HTML: input[formcontrolname='unit_weight/length/width/height']
+        /// </summary>
+        public async Task EnterCargoDetailsAsync(string weight, string length, string width, string height)
+        {
+            var weightInput  = Page.Locator(WeightInputSelector);
+            var lengthInput  = Page.Locator(LengthInputSelector);
+            var widthInput   = Page.Locator(WidthInputSelector);
+            var heightInput  = Page.Locator(HeightInputSelector);
+
+            await weightInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await weightInput.ClearAsync();
+            await weightInput.FillAsync(weight);
+
+            await lengthInput.ClearAsync();
+            await lengthInput.FillAsync(length);
+
+            await widthInput.ClearAsync();
+            await widthInput.FillAsync(width);
+
+            await heightInput.ClearAsync();
+            await heightInput.FillAsync(height);
+        }
+
+        // ── Spot rate request modal ───────────────────────────────────────────────
+
+        /// <summary>
+        /// Waits for the "Request a different rate" button to be visible and enabled, then clicks it.
+        /// Verified from HTML: button.btn-sm.btn-outline-secondary.rounded-pill > span
+        /// </summary>
+        public async Task ClickRequestDifferentRateAsync()
+        {
+            var btn = await FindLocatorAsync(RequestDifferentRateSelectors, timeoutMs: 15000);
+            await WaitForEnabledAsync(btn, timeoutMs: 10000);
+            await ClickAsync(btn);
+        }
+
+        /// <summary>
+        /// Asserts the "Send a spot rate request" modal title is visible.
+        /// Verified from HTML: h5.modal-title "Send a spot rate request"
+        /// </summary>
+        public async Task ShouldSeeSpotRateModalAsync()
+        {
+            var title = Page.Locator(SpotRateModalTitleSelector);
+            await title.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await title.IsVisibleAsync(),
+                $"Expected 'Send a spot rate request' modal to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the reason ng-select combobox inside the spot rate request modal.
+        /// Verified from HTML: input[role='combobox'][aria-autocomplete='list']
+        /// </summary>
+        public async Task ClickSpotRateDropdownAsync()
+        {
+            var input = Page.Locator(SpotRateDropdownSelector);
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Selects the matching option from the open spot rate reason dropdown.
+        /// Verified from HTML: div.ng-option with option text (e.g. "I need a better rate")
+        /// </summary>
+        public async Task SelectSpotRateOptionAsync(string option)
+        {
+            var item = Page.Locator(string.Format(NgOptionXPath, option)).First;
+            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await item.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Fills the remarks textarea in the spot rate modal.
+        /// Verified from HTML: textarea[formcontrolname='remarks']
+        /// </summary>
+        public async Task EnterRemarksAsync(string remarks)
+        {
+            var textarea = Page.Locator(RemarksTextareaSelector);
+            await textarea.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await textarea.ClearAsync();
+            await textarea.FillAsync(remarks);
+        }
+
+        /// <summary>
+        /// Clicks the Send button to submit the spot rate request.
+        /// Verified from HTML: button > span "Send"
+        /// </summary>
+        public async Task SendSpotRateRequestAsync()
+        {
+            var btn = await FindLocatorAsync(SendRequestSelectors, timeoutMs: 8000);
+            await ClickAndWaitForNetworkAsync(btn);
+            await Page.WaitForTimeoutAsync(3000);
+        }
+
+        // ── LCL Cargo: Accessorials ───────────────────────────────────────────────
+
+        /// <summary>
+        /// Toggles the accessorial checkbox by its visible label text (e.g. "Refrigerated").
+        /// Verified from HTML: label[for='refrigerated'] where the for attribute matches the lowercase parameter.
+        /// </summary>
+        public async Task SelectAccessorialAsync(string accessorial)
+        {
+            // The formcontrolname/id is the lowercase version of the visible label text
+            var forAttr = accessorial.ToLowerInvariant();
+            var label = Page.Locator($"label[for='{forAttr}']");
+            await label.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await label.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
         }
     }
 }

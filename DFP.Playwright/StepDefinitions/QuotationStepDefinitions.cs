@@ -315,5 +315,101 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _quotationPage.HubStatusShouldBeAsync(status);
         }
+
+        // ── LCL Cargo: Package ────────────────────────────────────────────────────
+
+        // Parametrizable: "Carton" | "Crate" | etc.
+        [Given("I select the Package {string}")]
+        [When("I select the Package {string}")]
+        [Then("I select the Package {string}")]
+        public async Task ISelectThePackage(string packageType)
+        {
+            await _quotationPage.SelectPackageAsync(packageType);
+        }
+
+        // ── LCL Cargo: Dimensions & Weight (DataTable) ────────────────────────────
+
+        // Professional approach: all cargo fields in one step with a DataTable.
+        // Feature usage:
+        //   And I enter the following cargo details:
+        //     | Weight | Length | Width | Height |
+        //     | 10     | 10     | 10    | 10     |
+        [Given("I enter the following cargo details:")]
+        [When("I enter the following cargo details:")]
+        [Then("I enter the following cargo details:")]
+        public async Task IEnterTheFollowingCargoDetails(Table table)
+        {
+            var row = table.Rows[0];
+            await _quotationPage.EnterCargoDetailsAsync(
+                weight: row["Weight"],
+                length: row["Length"],
+                width:  row["Width"],
+                height: row["Height"]
+            );
+        }
+
+        // ── Spot rate request ─────────────────────────────────────────────────────
+
+        [Given("I click on Request a different rate button")]
+        [When("I click on Request a different rate button")]
+        [Then("I click on Request a different rate button")]
+        [Given("I click on Request  a differente rate button")]
+        [When("I click on Request  a differente rate button")]
+        [Then("I click on Request  a differente rate button")]
+        public async Task IClickOnRequestADifferentRateButton()
+        {
+            await _quotationPage.ClickRequestDifferentRateAsync();
+        }
+
+        [Then("I should see the modal to enter the request")]
+        public async Task IShouldSeeTheModalToEnterTheRequest()
+        {
+            await _quotationPage.ShouldSeeSpotRateModalAsync();
+        }
+
+        [Given("I click on select a request dropdown")]
+        [When("I click on select a request dropdown")]
+        [Then("I click on select a request dropdown")]
+        public async Task IClickOnSelectARequestDropdown()
+        {
+            await _quotationPage.ClickSpotRateDropdownAsync();
+        }
+
+        // Parametrizable: "I need a better rate" | etc.
+        [Given("I select the option {string}")]
+        [When("I select the option {string}")]
+        [Then("I select the option {string}")]
+        public async Task ISelectTheOption(string option)
+        {
+            await _quotationPage.SelectSpotRateOptionAsync(option);
+        }
+
+        // Parametrizable: "AutomationRequest" | etc.
+        [Given("I enter the remarks {string}")]
+        [When("I enter the remarks {string}")]
+        [Then("I enter the remarks {string}")]
+        public async Task IEnterTheRemarks(string remarks)
+        {
+            await _quotationPage.EnterRemarksAsync(remarks);
+        }
+
+        [Given("I send the request")]
+        [When("I send the request")]
+        [Then("I send the request")]
+        public async Task ISendTheRequest()
+        {
+            await _quotationPage.SendSpotRateRequestAsync();
+        }
+
+        // ── LCL Cargo: Accessorials ───────────────────────────────────────────────
+
+        // Parametrizable: "Refrigerated" | etc.
+        [Given("I select the accesorials {string}")]
+        [When("I select the accesorials {string}")]
+        [Then("I select the accesorials {string}")]
+        public async Task ISelectTheAccessorials(string accessorial)
+        {
+            await _quotationPage.SelectAccessorialAsync(accessorial);
+        }
     }
 }

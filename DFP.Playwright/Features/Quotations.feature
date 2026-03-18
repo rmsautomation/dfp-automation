@@ -100,3 +100,61 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     And I click on Search button in the hub
     Then the quote should appear in the search results in the hub
     And the status should be "Booked"
+
+@146 @NOINT @login
+  Scenario: 146_Portal Quotation - OCEAN Partial LCL Buyer (Requested status)
+  Given I login to Portal as user "automationdfpowner@gmail.com"
+  Given I am on the Quotations List page
+  When I store the initial total Notifications
+  Then I click on Create Quotation button
+  And I should see the create Quotation Page
+  Then I click on "Ocean" transport mode
+  And I click on "Partial (LCL)" load type
+  And I enter "Los Angeles" as the Origin Port
+  And I enter "Shanghai" as the Destination Port
+  When I click on Continue your quote
+  Then I should see the Origin and Destination ports
+  And I click on "Buyer"
+  When I click on the calendar
+  Then I select the date
+  When I click on currency
+  Then I select "USD" as the currency
+  When I click on Commodity dropdown
+  Then I select the Commodity "Freight All Kinds (FAK)"
+  And I select the Package "Pallet"
+  And I enter the following cargo details:
+  | Weight | Length | Width | Height |
+  | 10     | 10     | 10    | 10     |
+  And I select the accesorials "Refrigerated"
+  And I select the accesorials "Overweight"
+  And I select the accesorials "Stackable"
+  When I click on Create quotation from details
+  Then the list of the offers should appear
+  #------Get the Quotation ID----------------------------------------------
+  And I store the quote ID
+  #---------Request a Rate-----------
+  When I click on Request  a differente rate button 
+  Then I should see the modal to enter the request
+  When I click on select a request dropdown
+  Then I select the option "I need a better rate"
+  And I enter the remarks "AutomationRequest"
+  When I send the request
+  Then the list of the offers should appear
+  #----------Search the quotation to Verify status is Requested---
+    Given I am on the Quotations List page
+    When I enter the quote ID in the search
+    And I click on Search button
+    Then I should see the quote ID in the results
+    And I should see the quote  status is "Request" 
+   # ── Check email automationdfpowner@gmail.com--------
+  #When I Check the email for "lianetdfpnoint@yopmail.com" with username ""------------We Need to check issues emails with Manual team
+  #Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
+#------Verify HUB with Request STATUS----------------
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+    Then the login dashboard should be visible
+    Given I navigated to quotation List in the Hub
+    When I click on system id input field in the Hub
+    And I enter the quote id in field in the Hub
+    And I click on Search button in the hub
+    Then the quote should appear in the search results in the hub
+    And the status should be "Request"

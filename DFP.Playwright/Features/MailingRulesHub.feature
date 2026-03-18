@@ -1,7 +1,7 @@
 Feature: Mailing Rules Hub
 
 @7831 @NOINT @login
-Scenario: Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Mailing List users and Customer Related users
+Scenario: 7831_Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Mailing List users and Customer Related users
 Given I login to Hub as user "aylin.rodriguez@magaya.com"
 Then the login dashboard should be visible
 When I go to Admin Portal Notifications

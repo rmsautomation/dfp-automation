@@ -634,6 +634,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task IShouldEditTheShipmentName()
         {
             _shipmentName = $"AutoShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
+            Console.WriteLine($"[ShipmentPage] Shipment Name stored: {_shipmentName}");
             var nameInput = await TryFindLocatorAsync(ShipmentNameInputSelectors, timeoutMs: 10000);
             Assert.IsNotNull(nameInput,
                 "Shipment name input field was not found after clicking Edit.");
@@ -1139,7 +1140,10 @@ namespace DFP.Playwright.Pages.Web
 
       var name = (await firstShipmentLink.InnerTextAsync()).Trim();
       if (!string.IsNullOrEmpty(name))
+      {
           _shipmentName = name;
+          Console.WriteLine($"[ShipmentPage] Shipment Name stored: {_shipmentName}");
+      }
           // Click the card to navigate into the shipment detail page.
       var card = await FindLocatorAsync(FirstShipmentCardSelectors, timeoutMs: 10000);
       await WaitForEnabledAsync(card, timeoutMs: 10000);

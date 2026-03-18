@@ -203,20 +203,20 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Add and validate tags across shipment list, table and details views")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add and validate tags across shipment list, table and details views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("9340_Add and validate tags across shipment list, table and details views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("9340_Add and validate tags across shipment list, table and details views")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9340")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task AddAndValidateTagsAcrossShipmentListTableAndDetailsViews()
+        public async global::System.Threading.Tasks.Task _9340_AddAndValidateTagsAcrossShipmentListTableAndDetailsViews()
         {
             string[] tagsOfScenario = new string[] {
                     "9340",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Add and validate tags across shipment list, table and details views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("9340_Add and validate tags across shipment list, table and details views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 30
@@ -427,20 +427,20 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Validate maximum 5 tags per shipment and visibility across all views")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Validate maximum 5 tags per shipment and visibility across all views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("9344_Validate maximum 5 tags per shipment and visibility across all views")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("9344_Validate maximum 5 tags per shipment and visibility across all views")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9344_MoreThan5tagsSH")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task ValidateMaximum5TagsPerShipmentAndVisibilityAcrossAllViews()
+        public async global::System.Threading.Tasks.Task _9344_ValidateMaximum5TagsPerShipmentAndVisibilityAcrossAllViews()
         {
             string[] tagsOfScenario = new string[] {
                     "9344_MoreThan5tagsSH",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Validate maximum 5 tags per shipment and visibility across all views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("9344_Validate maximum 5 tags per shipment and visibility across all views", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 105
@@ -601,16 +601,16 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Hide_Unhide a shipment created from a quotation")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Hide_Unhide a shipment created from a quotation")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("9634_Hide_Unhide a shipment created from a quotation")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("9634_Hide_Unhide a shipment created from a quotation")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9634")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9652")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("", "3", null, DisplayName="Hide_Unhide a shipment created from a quotation(,3)")]
-        public async global::System.Threading.Tasks.Task Hide_UnhideAShipmentCreatedFromAQuotation(string shipment_Id, string @__pickleIndex, string[] exampleTags)
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DataRowAttribute("", "3", null, DisplayName="9634_Hide_Unhide a shipment created from a quotation(,3)")]
+        public async global::System.Threading.Tasks.Task _9634_Hide_UnhideAShipmentCreatedFromAQuotation(string shipment_Id, string @__pickleIndex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "API",
@@ -625,7 +625,7 @@ namespace DFP.Playwright.Features
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("shipment_id", shipment_Id);
             string pickleIndex = @__pickleIndex;
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Hide_Unhide a shipment created from a quotation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("9634_Hide_Unhide a shipment created from a quotation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 167
@@ -880,14 +880,14 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipment with cargo items - add lines from a PO")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipment with cargo items - add lines from a PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("7873_Shipment with cargo items - add lines from a PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("7873_Shipment with cargo items - add lines from a PO")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7873")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task ShipmentWithCargoItems_AddLinesFromAPO()
+        public async global::System.Threading.Tasks.Task _7873_ShipmentWithCargoItems_AddLinesFromAPO()
         {
             string[] tagsOfScenario = new string[] {
                     "API",
@@ -895,7 +895,7 @@ namespace DFP.Playwright.Features
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "4";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment with cargo items - add lines from a PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("7873_Shipment with cargo items - add lines from a PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 264
@@ -1011,23 +1011,23 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipments - Validate global search bar - Behavior when filtering by Quick search " +
-            "- Table/List View")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipments - Validate global search bar - Behavior when filtering by Quick search " +
-            "- Table/List View")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("10351_Shipments - Validate global search bar - Behavior when filtering by Quick s" +
+            "earch - Table/List View")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("10351_Shipments - Validate global search bar - Behavior when filtering by Quick s" +
+            "earch - Table/List View")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("10351")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task Shipments_ValidateGlobalSearchBar_BehaviorWhenFilteringByQuickSearch_TableListView()
+        public async global::System.Threading.Tasks.Task _10351_Shipments_ValidateGlobalSearchBar_BehaviorWhenFilteringByQuickSearch_TableListView()
         {
             string[] tagsOfScenario = new string[] {
                     "10351",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "5";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipments - Validate global search bar - Behavior when filtering by Quick search " +
-                    "- Table/List View", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("10351_Shipments - Validate global search bar - Behavior when filtering by Quick s" +
+                    "earch - Table/List View", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 305
@@ -1140,16 +1140,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
-            "ortal")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
-            "ortal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("4508_Remove View Shipments permission in Hub and validate shipment data is hidden" +
+            " in Portal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("4508_Remove View Shipments permission in Hub and validate shipment data is hidden" +
+            " in Portal")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("4508")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task RemoveViewShipmentsPermissionInHubAndValidateShipmentDataIsHiddenInPortal()
+        public async global::System.Threading.Tasks.Task _4508_RemoveViewShipmentsPermissionInHubAndValidateShipmentDataIsHiddenInPortal()
         {
             string[] tagsOfScenario = new string[] {
                     "4508",
@@ -1157,8 +1157,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "6";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Remove View Shipments permission in Hub and validate shipment data is hidden in P" +
-                    "ortal", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("4508_Remove View Shipments permission in Hub and validate shipment data is hidden" +
+                    " in Portal", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 346
@@ -1229,14 +1229,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Magaya to DFP - Update House shipment - Exclude from Tracking = True")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Magaya to DFP - Update House shipment - Exclude from Tracking = True")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("3986_Magaya to DFP - Update House shipment - Exclude from Tracking = True")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("3986_Magaya to DFP - Update House shipment - Exclude from Tracking = True")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("3986")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task MagayaToDFP_UpdateHouseShipment_ExcludeFromTrackingTrue()
+        public async global::System.Threading.Tasks.Task _3986_MagayaToDFP_UpdateHouseShipment_ExcludeFromTrackingTrue()
         {
             string[] tagsOfScenario = new string[] {
                     "3986",
@@ -1244,7 +1244,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "7";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Magaya to DFP - Update House shipment - Exclude from Tracking = True", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("3986_Magaya to DFP - Update House shipment - Exclude from Tracking = True", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 369
@@ -1345,23 +1345,23 @@ await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Milestone - Update expected_timestamp for a milestone - Check Date history in the" +
-            " Portal")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Milestone - Update expected_timestamp for a milestone - Check Date history in the" +
-            " Portal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("10255_Milestone - Update expected_timestamp for a milestone - Check Date history " +
+            "in the Portal")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("10255_Milestone - Update expected_timestamp for a milestone - Check Date history " +
+            "in the Portal")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("10255")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task Milestone_UpdateExpected_TimestampForAMilestone_CheckDateHistoryInThePortal()
+        public async global::System.Threading.Tasks.Task _10255_Milestone_UpdateExpected_TimestampForAMilestone_CheckDateHistoryInThePortal()
         {
             string[] tagsOfScenario = new string[] {
                     "10255",
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "8";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Milestone - Update expected_timestamp for a milestone - Check Date history in the" +
-                    " Portal", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("10255_Milestone - Update expected_timestamp for a milestone - Check Date history " +
+                    "in the Portal", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 406
@@ -1521,17 +1521,17 @@ await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
-            "bscribe")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
-            "bscribe")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("9893_9894Enable tracking for a shipment subscribe containers and send coordinates" +
+            " and Unsubscribe")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("9893_9894Enable tracking for a shipment subscribe containers and send coordinates" +
+            " and Unsubscribe")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9893")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("9894")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task EnableTrackingForAShipmentSubscribeContainersAndSendCoordinatesAndUnsubscribe()
+        public async global::System.Threading.Tasks.Task _9893_9894EnableTrackingForAShipmentSubscribeContainersAndSendCoordinatesAndUnsubscribe()
         {
             string[] tagsOfScenario = new string[] {
                     "API",
@@ -1540,8 +1540,8 @@ await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "9";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Enable tracking for a shipment subscribe containers and send coordinates and Unsu" +
-                    "bscribe", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("9893_9894Enable tracking for a shipment subscribe containers and send coordinates" +
+                    " and Unsubscribe", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 462
@@ -1663,14 +1663,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Status update - List View - Subscribe to notifications")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Status update - List View - Subscribe to notifications")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("8086_Status update - List View - Subscribe to notifications")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("8086_Status update - List View - Subscribe to notifications")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("8086")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task StatusUpdate_ListView_SubscribeToNotifications()
+        public async global::System.Threading.Tasks.Task _8086_StatusUpdate_ListView_SubscribeToNotifications()
         {
             string[] tagsOfScenario = new string[] {
                     "8086",
@@ -1678,7 +1678,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "10";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Status update - List View - Subscribe to notifications", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("8086_Status update - List View - Subscribe to notifications", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 500
@@ -1889,14 +1889,14 @@ await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), (
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Parent-child tree structure - All permissions")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Parent-child tree structure - All permissions")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("4520_Parent-child tree structure - All permissions")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("4520_Parent-child tree structure - All permissions")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("4520")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task Parent_ChildTreeStructure_AllPermissions()
+        public async global::System.Threading.Tasks.Task _4520_Parent_ChildTreeStructure_AllPermissions()
         {
             string[] tagsOfScenario = new string[] {
                     "4520",
@@ -1904,7 +1904,7 @@ await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), (
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "11";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parent-child tree structure - All permissions", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("4520_Parent-child tree structure - All permissions", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 578
@@ -2197,15 +2197,15 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipment - Create a shipment - Verify Custom fields")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipment - Create a shipment - Verify Custom fields")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("5305_Shipment - Create a shipment - Verify Custom fields")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("5305_Shipment - Create a shipment - Verify Custom fields")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("5305")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task Shipment_CreateAShipment_VerifyCustomFields()
+        public async global::System.Threading.Tasks.Task _5305_Shipment_CreateAShipment_VerifyCustomFields()
         {
             string[] tagsOfScenario = new string[] {
                     "5305",
@@ -2214,7 +2214,7 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "12";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment - Create a shipment - Verify Custom fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("5305_Shipment - Create a shipment - Verify Custom fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 684
@@ -2251,41 +2251,41 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
 #line 693
   await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
                             "Exworks"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Boolean",
                             "true"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Shipper Reference",
                             "SHIPPER5305"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Consignee Reference",
                             "CONSIGNEEREF5305"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Pricing",
                             "PRICING5305"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Forwarder",
                             "FORWARDER5305"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Payment terms",
                             "COLLECT"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP INCO Terms",
                             "DAT"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "DFP Cargo ready",
                             "CARGO5305"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Shipper Reference",
                             "SHIUPPER53052"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});
 #line 694
-  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table1, "And ");
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table2, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

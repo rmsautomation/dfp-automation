@@ -120,15 +120,15 @@ namespace DFP.Playwright.Features
             return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/MailingRulesHub.feature.ndjson", 3);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Mailing" +
-            " List users and Customer Related users")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Mailing" +
-            " List users and Customer Related users")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("7831_Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Ma" +
+            "iling List users and Customer Related users")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("7831_Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Ma" +
+            "iling List users and Customer Related users")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Mailing Rules Hub")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7831")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task MailingRules_NewShipmentAllOptions_AnEmailIsSentToHUBUsersMailingListUsersAndCustomerRelatedUsers()
+        public async global::System.Threading.Tasks.Task _7831_MailingRules_NewShipmentAllOptions_AnEmailIsSentToHUBUsersMailingListUsersAndCustomerRelatedUsers()
         {
             string[] tagsOfScenario = new string[] {
                     "7831",
@@ -136,8 +136,8 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Mailing" +
-                    " List users and Customer Related users", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("7831_Mailing Rules - New Shipment/All options - An email is sent to HUB Users, Ma" +
+                    "iling List users and Customer Related users", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 4

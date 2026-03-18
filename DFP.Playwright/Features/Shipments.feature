@@ -27,7 +27,7 @@ Feature: Shipments
 
 
   @9340 @NOINT
-  Scenario: Add and validate tags across shipment list, table and details views
+  Scenario:9340_Add and validate tags across shipment list, table and details views
     # ── Shipment 1: Create ────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -102,7 +102,7 @@ Feature: Shipments
 
 
   @9344_MoreThan5tagsSH @NOINT
-  Scenario: Validate maximum 5 tags per shipment and visibility across all views
+  Scenario: 9344_Validate maximum 5 tags per shipment and visibility across all views
     # ── Shipment: Create ──────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -164,7 +164,7 @@ Feature: Shipments
 
 
  @API @9634 @9652 @NOINT
-  Scenario Outline: Hide_Unhide a shipment created from a quotation
+  Scenario Outline: 9634_Hide_Unhide a shipment created from a quotation
     Given I login to Portal as user "without Int"
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -261,7 +261,7 @@ Feature: Shipments
  
 
 @API @7873 @NOINT
-  Scenario: Shipment with cargo items - add lines from a PO
+  Scenario: 7873_Shipment with cargo items - add lines from a PO
     Given I have a portal API token
     When I create shipment via webhook
     And I get cargo items for current shipment via API
@@ -302,7 +302,7 @@ Feature: Shipments
     And Order Line has a Shipment Name link related
 
 @10351 @NOINT
-Scenario: Shipments - Validate global search bar - Behavior when filtering by Quick search - Table/List View
+Scenario: 10351_Shipments - Validate global search bar - Behavior when filtering by Quick search - Table/List View
 # ── Shipment: Create ──────────────────────────────────────────────────────
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -343,7 +343,7 @@ Scenario: Shipments - Validate global search bar - Behavior when filtering by Qu
    Then I should see the quick filter field
 
 @4508 @NOINT @login
-Scenario: Remove View Shipments permission in Hub and validate shipment data is hidden in Portal
+Scenario: 4508_Remove View Shipments permission in Hub and validate shipment data is hidden in Portal
     Given I login to Hub as user "without Int"
     Then the login dashboard should be visible
     When I go to Portal Users
@@ -366,7 +366,7 @@ Scenario: Remove View Shipments permission in Hub and validate shipment data is 
     And the dashboard should not show shipment related information
 
 @3986 @INT @login
-Scenario: Magaya to DFP - Update House shipment - Exclude from Tracking = True
+Scenario: 3986_Magaya to DFP - Update House shipment - Exclude from Tracking = True
 # ──I have a House Shipment created in Magaya with enable the Exclude from Tracking option
 Given I login to Portal as user "with Int"
    # ── Verify the House Shipment is not displayed in the in List View─────────
@@ -403,7 +403,7 @@ Given I login to Portal as user "with Int"
     Then the shipment name should not appear in the report results
 
 @10255 @NOINT
- Scenario: Milestone - Update expected_timestamp for a milestone - Check Date history in the Portal
+ Scenario: 10255_Milestone - Update expected_timestamp for a milestone - Check Date history in the Portal
  # ── Create Shipment in the Portal────────
  Given I am on the Quotations List page
     When I open the first quotation in Status Booked
@@ -459,7 +459,7 @@ Given I login to Portal as user "with Int"
     And I should see the historical changes
 
 @API @9893 @9894 @NOINT
-Scenario: Enable tracking for a shipment subscribe containers and send coordinates and Unsubscribe
+Scenario: 9893_9894Enable tracking for a shipment subscribe containers and send coordinates and Unsubscribe
     Given I have a portal API token
     And I have a hub API token
     When I create shipment via webhook
@@ -497,7 +497,7 @@ Scenario: Enable tracking for a shipment subscribe containers and send coordinat
     And I Check the tracking is disabled for the shipment in the hub
 
 @8086 @NOINT @login
-Scenario: Status update - List View - Subscribe to notifications
+Scenario: 8086_Status update - List View - Subscribe to notifications
 # ── Create shipment with Owner-------------------------------
 Given I login to Portal as user "automationdfpowner@gmail.com"
 Given I am on the Quotations List page
@@ -575,7 +575,7 @@ Given I navigated to Shipments List
 
 
 @4520 @NOINT @login
-Scenario:Parent-child tree structure - All permissions
+Scenario:4520_Parent-child tree structure - All permissions
 # ── Create quotation FCL in the Portal WITHOUT INT with a user whose Customer is defined as a Child ───────
 Given I login to Portal as user "child_noint@yopmail.com"
 Given I am on the Quotations List page
@@ -681,7 +681,7 @@ Given I am on the Quotations List page
     Then I should see the purchase order number in the list
 
 @5305 @API @INT @login
-  Scenario: Shipment - Create a shipment - Verify Custom fields
+  Scenario: 5305_Shipment - Create a shipment - Verify Custom fields
   Given the transaction "SH" "TC5305" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────

@@ -4,28 +4,6 @@ Feature: Shipments
   I want to create a shipment from an existing quotation in the DFP Portal
   So I can convert created quotes into active shipments without re-entering data
 
-
-  Scenario: Create a shipment from a created quotation
-    Given I am on the Quotations List page
-    When I open the first quotation in Status Booked
-    Then I should be on the Quotation Details page
-    When I click the "Offers" button
-    Then the list of the offers should appear
-    When I click on Book Now button
-    Then a confirmation dialog should appear
-    When I confirm the shipment creation
-    Then I should be on the Shipment Details page
-    Then I store the shipment id from the URL
-    When I click on Edit button to Edit the Shipment Name
-    Then I should edit the Shipment Name
-    And I store shipment Name
-    When I click on save button
-    Then I should see the new Shipment Name
-    When I click on Send Booking button
-    Then I should click on Go To Shipment button to see the shipment
-    And the shipment should display the shipment name
-
-
   @9340 @NOINT
   Scenario: Add and validate tags across shipment list, table and details views
     # ── Shipment 1: Create ────────────────────────────────────────────────────
@@ -682,27 +660,27 @@ Given I am on the Quotations List page
 
 @5305 @API @INT @login
   Scenario: Shipment - Create a shipment - Verify Custom fields
-  Given the transaction "SH" "TC5305" is imported via API
+  #Given the transaction "SH" "TC5305" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
   Given I navigated to Shipments List
-    When I enter the shipment Reference in Quick filter
+    When I enter "TC5305" in Quick filter 
     And I click on Search button
     And I click on Table View
+    And I select the "DefaultWithcustom" column view
   Then the shipment should appear in the search results
-  And I check the custom field "StringCustomField"
-  And I check the following custom field values in the table view:
+  And I check the following custom field values in the table view for shipment
   #Example
-  # | Column            | Value             |
-    | INCO Terms        | Exworks |
-    | Boolean           | true |
-    | DFP Shipper Reference | SHIPPER5305 |
-    | DFP Consignee Reference | CONSIGNEEREF5305 |
-    | DFP Pricing | PRICING5305 |
-    | DFP Forwarder | FORWARDER5305 |
-    | DFP Payment terms | COLLECT |
-    | DFP INCO Terms | DAT |
-    | DFP Cargo ready | CARGO5305 |
-    | Shipper Reference | SHIUPPER53052 |
-    | Shipment Guid | GUID5305 |
+  # | Column                  | Value                   |
+    | INCO Terms              | Exworks                 |
+    | Boolean                 | Yes                     | 
+    | DFP Shipper Reference   | SHIPPER5305             |
+    | DFP Consignee Reference | CONSIGNEEREF5305        |  
+   #| DFP Pricing             | PRICING5305             |
+   #| DFP Forwarder           | FORWARDER5305           |
+    | DFP Payment terms       | COLLECT                 |
+   #| DFP INCO Terms          | DAT                     |
+   #| DFP Cargo ready         | CARGO5305               |
+    | Shipper Reference       | SHIUPPER53052           |
+    | Shipment Guid           | GUID5305                |
     

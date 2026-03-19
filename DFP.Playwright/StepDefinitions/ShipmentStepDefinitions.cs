@@ -262,10 +262,20 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.TheTagShouldBeVisibleInShipmentListView();
         }
 
+        [Given("I enter the shipment Reference in Quick filter")]
         [When("I enter the shipment Reference in Quick filter")]
+        [Then("I enter the shipment Reference in Quick filter")]
         public async Task IEnterTheShipmentReferenceInQuickFilter()
         {
             await _shipmentPage.IEnterShipmentReferenceInQuickFilter();
+        }
+
+        [Given("I enter {string} in Quick filter")]
+        [When("I enter {string} in Quick filter")]
+        [Then("I enter {string} in Quick filter")]
+        public async Task IEnterTextInQuickFilter(string text)
+        {
+            await _shipmentPage.EnterTextInQuickFilterAsync(text);
         }
 
         [Then("I should not see the quick filter field")]
@@ -308,6 +318,14 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IClickOnTableViewButton()
         {
             await _shipmentPage.IClickOnTableViewButton();
+        }
+
+        [Given("I select the {string} column view")]
+        [When("I select the {string} column view")]
+        [Then("I select the {string} column view")]
+        public async Task ISelectTheColumnView(string viewName)
+        {
+            await _shipmentPage.SelectColumnViewAsync(viewName);
         }
 
         [Then("the shipment should not appear in the search results")]
@@ -735,6 +753,15 @@ namespace DFP.Playwright.StepDefinitions
         {
             var shipmentName = _tc.Data.TryGetValue("shipmentName", out var nm) && nm is string s ? s : "";
             await _shipmentPage.ShouldSeeShipmentNameInNotificationsAsync(shipmentName);
+        }
+
+        [Given("I check the following custom field values in the table view for shipment")]
+        [When("I check the following custom field values in the table view for shipment")]
+        [Then("I check the following custom field values in the table view for shipment")]
+        public async Task ICheckCustomFieldValuesInShipmentTableView(Table dataTable)
+        {
+            var pairs = dataTable.Rows.Select(r => (columnName: r[0], expectedValue: r[1]));
+            await _shipmentPage.CheckCustomFieldValuesInShipmentTableViewAsync(pairs);
         }
     }
 }

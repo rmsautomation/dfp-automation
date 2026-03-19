@@ -155,6 +155,59 @@ namespace DFP.Playwright.StepDefinitions
             Assert.IsTrue(loginPageVisible, "Username input is not visible, user might not be on login screen.");
         }
 
+        // ── Hub logout flow ───────────────────────────────────────────────────────
+
+        [Given("I log out from Hub")]
+        [When("I log out from Hub")]
+        [Then("I log out from Hub")]
+        public async Task GivenILogOutFromHub()
+        {
+            await WhenIClickOnProfileButtonInTheHub();
+            await WhenIClickOnLogOutOptionInTheHub();
+        }
+
+        [When("I click on the profile button in the hub")]
+        [Then("I click on the profile button in the hub")]
+        public async Task WhenIClickOnProfileButtonInTheHub()
+        {
+            // Verified from HTML: button#hubNavbarProfileItemButton
+            var btn = _tc.Page!.Locator("button#hubNavbarProfileItemButton");
+            await btn.WaitForAsync(new Microsoft.Playwright.LocatorWaitForOptions
+            {
+                State = Microsoft.Playwright.WaitForSelectorState.Visible,
+                Timeout = 10000
+            });
+            await btn.ClickAsync();
+        }
+
+        [When("I click on Log out option in the hub")]
+        [Then("I click on Log out option in the hub")]
+        public async Task WhenIClickOnLogOutOptionInTheHub()
+        {
+            // Verified from HTML: span.ng-tns-* with text "Log out" inside the profile dropdown
+            var logoutOption = _tc.Page!.Locator("span:has-text('Log out')").First;
+            await logoutOption.WaitForAsync(new Microsoft.Playwright.LocatorWaitForOptions
+            {
+                State = Microsoft.Playwright.WaitForSelectorState.Visible,
+                Timeout = 5000
+            });
+            await logoutOption.ClickAsync();
+        }
+
+        [Then("I should be in login page in the hub")]
+        public async Task ThenIShouldBeInLoginPageInTheHub()
+        {
+            // Verified from HTML: Auth0 login page shows input#username (Email address field)
+            var emailInput = _tc.Page!.Locator("input#username");
+            await emailInput.WaitForAsync(new Microsoft.Playwright.LocatorWaitForOptions
+            {
+                State = Microsoft.Playwright.WaitForSelectorState.Visible,
+                Timeout = 15000
+            });
+            Assert.IsTrue(await emailInput.IsVisibleAsync(),
+                $"Auth0 login page not reached after Hub logout. URL: {_tc.Page.Url}");
+        }
+
         [Given(@"I login to Hub as user ""?([^""]+)""?")]
         public async Task GivenILoginToHubAs(string userType)
         {

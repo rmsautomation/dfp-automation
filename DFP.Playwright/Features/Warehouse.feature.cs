@@ -318,38 +318,38 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 54
   await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "StringCustomField",
                             "STRINGCUSTOMFIELD3072"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "BooleanCustomField",
-                            "false"});
-                table2.AddRow(new string[] {
+                            "No"});
+                table5.AddRow(new string[] {
                             "IntegerCustomField",
                             "3072"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "DecimalCustomField",
                             "30.72"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "PickListCustomField",
                             "Option1"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "DateCustomField",
                             "02/24/2026"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "MoneyCustomField",
-                            "30.72 USD"});
-                table2.AddRow(new string[] {
+                            "USD 30.72"});
+                table5.AddRow(new string[] {
                             "LookupCutomsField",
                             "automationUpdated"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "QATest",
                             "QATEST3072"});
-                table2.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
 #line 55
-  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table2, "And ");
+  await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table5, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

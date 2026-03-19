@@ -56,12 +56,12 @@ Scenario: User edits a Table View and verifies selected columns
   #Example
   # | Column            | Value             |
     | StringCustomField | STRINGCUSTOMFIELD3072 |
-    | BooleanCustomField | false |
+    | BooleanCustomField | No |
     | IntegerCustomField | 3072 |
     | DecimalCustomField | 30.72 |
     | PickListCustomField | Option1 |
     | DateCustomField | 02/24/2026 |
-    | MoneyCustomField | 30.72 USD |
+    | MoneyCustomField | USD 30.72 |
     | LookupCutomsField | automationUpdated |
     | QATest | QATEST3072 |
     | GUIDWH | GUID |

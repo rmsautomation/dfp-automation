@@ -85,8 +85,13 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] DashboardSelectors =
         {
-            "role=link[name='Dashboard']",
-            "a:has-text('Dashboard')"
+            // These sidebar links ONLY exist when logged into the portal.
+            // "a:has-text('Dashboard')" and "role=link[name='Dashboard']" were removed
+            // because the public homepage navbar also has an <a>Dashboard</a> link,
+            // causing a false-positive that triggered LogoutIfLoggedInAsync on every login.
+            "a[href='/my-portal/settings']",
+            "a[href='/my-portal/conversations']",
+            "a[href='/my-portal/orders']",
         };
 
         private static readonly string[] ProfileButtonSelectors =
@@ -138,18 +143,24 @@ namespace DFP.Playwright.Pages.Web
             Console.WriteLine($"navigating to {_baseUrl}");
             await Page.GotoAsync(_baseUrl, new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.DOMContentLoaded,
+                // Commit fires as soon as HTTP response headers arrive — no content wait needed.
+                // For searchLoginModal:true, we navigate away to /my-portal immediately after,
+                // so waiting for DOMContentLoaded here was wasteful. For Hub login (searchLoginModal:false),
+                // WaitForLoginFormAsync (30s timeout) handles waiting for the form.
+                WaitUntil = WaitUntilState.Commit,
                 Timeout = 60000
             });
-            await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
-            try
-            {
-                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 5000 });
-            }
-            catch
-            {
-                // Portal SPA may keep background connections alive; continue when DOM is ready.
-            }
+            // Duplicate: DOMContentLoaded already waited by GotoAsync above.
+            // await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
+            // NetworkIdle always hits the full timeout on this SPA (background connections stay alive).
+            // try
+            // {
+            //     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 5000 });
+            // }
+            // catch
+            // {
+            //     // Portal SPA may keep background connections alive; continue when DOM is ready.
+            // }
             // await Page.WaitForResponseAsync(r => r.Url.Contains(MAINAPP_DFP_IMG));
         }
 
@@ -167,34 +178,24 @@ namespace DFP.Playwright.Pages.Web
             var passwordInput = await FindPasswordInputAsync();
 
             await usernameInput.FillAsync(email);
-            await Page.WaitForTimeoutAsync(500);
             await passwordInput.FillAsync(password);
-            await Page.WaitForTimeoutAsync(500);
 
-            // Prefer clicking Sign in if available
+            // Prefer clicking Sign in if available, otherwise submit with Enter.
             var signInButton = await TryFindLocatorAsync(SignInButtonSelectors, timeoutMs: 2000);
             if (signInButton != null)
-            {
                 await signInButton.ClickAsync();
-            }
             else
-            {
                 await passwordInput.PressAsync("Enter");
-            }
-            var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 3000);
+
+            // Only wait 500ms for "logout all sessions" — it rarely appears and 3000ms was wasteful.
+            var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
             if (logoutAll != null && await IsVisibleAsync(logoutAll))
             {
                 await CloseAllSessionIfNeeded();
-                await Page.WaitForTimeoutAsync(1000);
                 await usernameInput.FillAsync(email);
-                await Page.WaitForTimeoutAsync(500);
                 await passwordInput.FillAsync(password);
-                await Page.WaitForTimeoutAsync(500);
                 await passwordInput.PressAsync("Enter");
             }
-                
-
-            await Page.WaitForTimeoutAsync(1000);
         }
 
         private async Task<ILocator> FindUsernameInputAsync()
@@ -287,17 +288,14 @@ namespace DFP.Playwright.Pages.Web
 
         private async Task EnsureLoginFormAsync(int timeoutMs)
         {
-            var loginForm = await TryFindLocatorAsync(LoginFormPrimarySelectors, timeoutMs: 2000);
-            if (loginForm == null || !await loginForm.IsVisibleAsync())
+            // Navigating to /my-portal when not logged in auto-redirects to /?next=... and
+            // opens the login modal automatically — no need to find and click "Sign in".
+            var myPortalUrl = _baseUrl.TrimEnd('/') + "/my-portal";
+            await Page.GotoAsync(myPortalUrl, new PageGotoOptions
             {
-                var signIn = await TryFindLocatorAsync(SignInButtonSelectors, timeoutMs: 2000);
-                if (signIn != null && await IsVisibleAsync(signIn))
-                {
-                    await ClickAndWaitForNavigationAsync(signIn);
-                }
-                else
-                    throw new TimeoutException("Login form not visible and Sign in button not found.");
-            }
+                WaitUntil = WaitUntilState.DOMContentLoaded,
+                Timeout = 30000
+            });
 
             await WaitForLoginFormAsync(timeoutMs);
         }
@@ -340,17 +338,21 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task<bool> IsDashboardVisibleAsync()
         {
-            var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 5000);
+            // 1000ms: fail-fast for fresh browser contexts (no session). The loop in
+            // WaitForDashboardAsync and EnsureLoggedInAsync handles retrying.
+            var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 1000);
             return locator != null && await locator.IsVisibleAsync();
         }
 
         public async Task<bool> IsLoggedInAsync()
         {
-            var profile = await TryFindLocatorAsync(ProfileButtonSelectors, timeoutMs: 2000);
+            // 500ms each: fail-fast for fresh browser contexts. Callers that need
+            // to poll (WaitForDashboardAsync, EnsureLoggedInAsync) retry in their own loop.
+            var profile = await TryFindLocatorAsync(ProfileButtonSelectors, timeoutMs: 500);
             if (profile != null && await profile.IsVisibleAsync())
                 return true;
 
-            var logout = await TryFindLocatorAsync(LogoutButtonSelectors, timeoutMs: 2000);
+            var logout = await TryFindLocatorAsync(LogoutButtonSelectors, timeoutMs: 500);
             return logout != null && await logout.IsVisibleAsync();
         }
 

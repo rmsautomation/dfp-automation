@@ -255,94 +255,97 @@ await testRunner.WhenAsync("I click on save Mailing Rule button", ((string)(null
 #line 44
 await testRunner.ThenAsync("I should see the Mailing Rules", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 46
-await testRunner.GivenAsync("I login to Portal as user \"aylinportalinfra@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 45
+await testRunner.GivenAsync("I log out from Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 47
-await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+await testRunner.GivenAsync("I login to Portal as user \"aylinportalinfra@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 48
-    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 49
-    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 50
-    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 51
-    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 52
-    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 53
-    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 54
-    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 55
-    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 56
-    await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 57
-    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 58
-    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on Edit button to Edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 59
-    await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("I should edit the Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 60
-    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 61
-    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on save button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 62
-    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I should see the new Shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 63
-    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 64
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 65
     await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 66
+#line 67
 await testRunner.WhenAsync("I Check the email for \"automationhub@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 67
+#line 68
 await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
                         " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 69
-await testRunner.WhenAsync("I Check the email for \"aylinquotationop@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 70
+await testRunner.WhenAsync("I Check the email for \"aylinquotationop@yopmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 71
 await testRunner.ThenAsync("I should receive an email with text \"A new shipment was booked.|Shipment:\" in the" +
                         " body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 75
+#line 76
 await testRunner.GivenAsync("I login to Hub as user \"aylinquotationop@yopmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 76
+#line 77
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 77
+#line 78
     await testRunner.AndAsync("I should see the last notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 78
+#line 79
     await testRunner.AndAsync("I should see the notification related to the created Shipment \"booked a new shipm" +
                         "ent\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 79
+#line 80
     await testRunner.WhenAsync("I click on View shipment button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 80
+#line 81
     await testRunner.ThenAsync("I should see the shipment details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

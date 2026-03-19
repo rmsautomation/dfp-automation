@@ -41,6 +41,29 @@ namespace DFP.Playwright.Pages.Web
             return baseUrl;
         }
 
+        /// <summary>
+        /// Returns the base URL of the portal currently loaded in the browser.
+        /// Derives it from Page.Url so it works for any environment (INT, non-INT, staging, etc.)
+        /// without hardcoding or checking specific env vars.
+        /// Falls back to PORTAL_INT_BASE_URL → PORTAL_BASE_URL if the page is not loaded yet.
+        /// </summary>
+        private string GetActivePortalBaseUrl()
+        {
+            var current = Page.Url;
+            if (!string.IsNullOrWhiteSpace(current)
+                && !current.StartsWith("about:", StringComparison.OrdinalIgnoreCase)
+                && Uri.TryCreate(current, UriKind.Absolute, out var uri))
+            {
+                return $"{uri.Scheme}://{uri.Host}";
+            }
+
+            // Fallback: prefer INT if set, otherwise non-INT
+            return Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL)
+                   ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+                   ?? Environment.GetEnvironmentVariable("BASE_URL")
+                   ?? throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
+        }
+
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
         public static readonly string[] Selectors = [];
@@ -634,6 +657,7 @@ namespace DFP.Playwright.Pages.Web
         public async Task IShouldEditTheShipmentName()
         {
             _shipmentName = $"AutoShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
+            Console.WriteLine($"[ShipmentPage] Shipment Name stored: {_shipmentName}");
             var nameInput = await TryFindLocatorAsync(ShipmentNameInputSelectors, timeoutMs: 10000);
             Assert.IsNotNull(nameInput,
                 "Shipment name input field was not found after clicking Edit.");
@@ -696,9 +720,10 @@ namespace DFP.Playwright.Pages.Web
 
       public async Task UserNavigatedToShipmentsList()
   {
-      // Replicates "Open shipments from dashboard": go to dashboard, then click Shipments nav link
-      var baseUrl = GetPortalBaseUrl();
-      await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/dashboard?view=ops");
+      // Uses GetActivePortalBaseUrl() so this step works for any portal (INT, non-INT, any env)
+      // without hardcoding — it derives the base URL from the current page URL.
+      var baseUrl = GetActivePortalBaseUrl();
+      await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
       await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
       var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
@@ -804,15 +829,23 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IEnterShipmentReferenceInQuickFilter()
         {
+            await EnterTextInQuickFilterAsync(_shipmentName);
+        }
+
+        /// <summary>
+        /// Types a literal value directly into the Quick filter input.
+        /// Use this when you want to pass the search term as a step parameter
+        /// instead of relying on the stored _shipmentName.
+        /// </summary>
+        public async Task EnterTextInQuickFilterAsync(string text)
+        {
             var quickFilter = await FindLocatorAsync(QuickFilterInputSelectors);
             await WaitForEnabledAsync(quickFilter);
-            if (string.IsNullOrWhiteSpace(_shipmentName))
-                _shipmentName = $"NoSuchShipment-{DateTime.UtcNow:yyyyMMddHHmmss}";
-            await TypeAsync(quickFilter, _shipmentName);
+            await TypeAsync(quickFilter, text);
 
             var typed = await quickFilter.InputValueAsync();
-            Assert.IsTrue(typed.Contains(_shipmentName, StringComparison.OrdinalIgnoreCase),
-                $"Shipment name was not typed correctly into the Quick filter field. Expected: '{_shipmentName}', Actual: '{typed}'. URL: {Page.Url}");
+            Assert.IsTrue(typed.Contains(text, StringComparison.OrdinalIgnoreCase),
+                $"Text was not typed correctly into the Quick filter field. Expected: '{text}', Actual: '{typed}'. URL: {Page.Url}");
         }
 
         public async Task IShouldNotSeeTheQuickFilterField()
@@ -1095,6 +1128,40 @@ namespace DFP.Playwright.Pages.Web
                 $"After clicking Table View, the page navigated away from the shipments list. URL: {Page.Url}");
         }
 
+        /// <summary>
+        /// Selects a column view preset from the PrimeNG dropdown next to the table.
+        /// Waits until the table has more than 2 columns before returning, to ensure
+        /// Angular has fully re-rendered with the new column set.
+        /// </summary>
+        public async Task SelectColumnViewAsync(string viewName)
+        {
+            // Click the column-view dropdown (exclude the pagination rows-per-page dropdown).
+            var dropdown = Page.Locator(".p-dropdown:not(.p-paginator-rpp-options)").First;
+            await dropdown.ClickAsync();
+
+            // Wait for the panel to appear and click the matching option.
+            var option = Page.Locator(".p-dropdown-panel .p-dropdown-item")
+                .Filter(new LocatorFilterOptions { HasText = viewName });
+            await option.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await option.First.ClickAsync();
+
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // Wait for the table to actually update with more than the default 2 columns.
+            // Angular re-renders asynchronously after the view selection API call completes.
+            try
+            {
+                await Page.WaitForFunctionAsync(
+                    "() => (document.querySelectorAll('table.p-datatable-table th').length > 2)",
+                    null,
+                    new PageWaitForFunctionOptions { Timeout = 15000 });
+            }
+            catch
+            {
+                // If still only 2 columns after 15s, let CheckCustomFieldValues give the detailed error.
+            }
+        }
+
         public async Task TheShipmentShouldNotAppearInSearchResults()
         {
             var noResults = await TryFindLocatorAsync(NoResultsMessageSelectors, timeoutMs: 15000);
@@ -1139,7 +1206,10 @@ namespace DFP.Playwright.Pages.Web
 
       var name = (await firstShipmentLink.InnerTextAsync()).Trim();
       if (!string.IsNullOrEmpty(name))
+      {
           _shipmentName = name;
+          Console.WriteLine($"[ShipmentPage] Shipment Name stored: {_shipmentName}");
+      }
           // Click the card to navigate into the shipment detail page.
       var card = await FindLocatorAsync(FirstShipmentCardSelectors, timeoutMs: 10000);
       await WaitForEnabledAsync(card, timeoutMs: 10000);
@@ -2672,6 +2742,110 @@ namespace DFP.Playwright.Pages.Web
             await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             Assert.IsTrue(await link.IsVisibleAsync(),
                 $"Expected notification link with shipment name '{shipmentName}' to be visible. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies custom field column values in the Shipments Table View.
+        /// Finds each column by header text and reads the value from the first data row.
+        /// </summary>
+        public async Task CheckCustomFieldValuesInShipmentTableViewAsync(IEnumerable<(string columnName, string expectedValue)> columnValuePairs)
+        {
+            var pairs = columnValuePairs.ToList();
+
+            // Build JS array of all expected column names (lowercase) to check all-at-once.
+            var colNamesJs = string.Join(",", pairs.Select(p => $"'{p.columnName.Replace("'", "\\'").ToLower()}'"));
+
+            // Wait until ALL expected columns are simultaneously present in the table.
+            // This handles the Angular re-render pattern where the table first shows a temporary
+            // state (e.g. 2 default columns) and then settles into the full custom-field view.
+            var stableDeadline = DateTime.UtcNow.AddSeconds(30);
+            bool allFound = false;
+            string missingCol = string.Empty;
+            while (DateTime.UtcNow < stableDeadline && !allFound)
+            {
+                var result = await Page.EvaluateAsync<string>($@"
+                    () => {{
+                        const table = document.querySelector('table.p-datatable-table');
+                        if (!table) return 'NO_TABLE';
+                        const ths = Array.from(table.querySelectorAll('th'));
+                        const expected = [{colNamesJs}];
+                        const missing = expected.filter(col => !ths.some(h => {{
+                            const d = h.querySelector('div.d-flex');
+                            const label = d ? (d.childNodes[0]?.textContent ?? '') : (h.textContent ?? '');
+                            return label.trim().toLowerCase().includes(col);
+                        }}));
+                        return missing.length === 0 ? 'OK' : 'MISSING:' + missing.join(',');
+                    }}
+                ");
+
+                if (result == "OK")
+                {
+                    allFound = true;
+                }
+                else
+                {
+                    missingCol = result;
+                    await Page.WaitForTimeoutAsync(500);
+                }
+            }
+
+            if (!allFound)
+            {
+                var availableCols = await Page.EvaluateAsync<string>(@"
+                    () => {
+                        const tables = document.querySelectorAll('table.p-datatable-table');
+                        return Array.from(tables).map((t, i) => {
+                            const headers = Array.from(t.querySelectorAll('th'))
+                                .map(h => (h.textContent ?? '').trim()).join(' | ');
+                            return `Table[${i}]: ${headers}`;
+                        }).join('\n');
+                    }
+                ");
+                Assert.Fail($"Table did not reach stable state with all expected columns after 30s.\n{missingCol}\nAvailable:\n{availableCols}\nURL: {Page.Url}");
+            }
+
+            // Table is stable — now read each cell value.
+            foreach (var (columnName, expectedValue) in pairs)
+            {
+                var safeCol = columnName.Replace("'", "\\'").ToLower();
+
+                var colIndex = await Page.EvaluateAsync<int>($@"
+                    () => {{
+                        const table = document.querySelector('table.p-datatable-table');
+                        if (!table) return -1;
+                        const th = Array.from(table.querySelectorAll('th')).find(h => {{
+                            const d = h.querySelector('div.d-flex');
+                            const label = d ? (d.childNodes[0]?.textContent ?? '') : (h.textContent ?? '');
+                            return label.trim().toLowerCase().includes('{safeCol}');
+                        }});
+                        return th ? th.cellIndex : -1;
+                    }}
+                ");
+
+                Assert.IsTrue(colIndex >= 0, $"Column '{columnName}' disappeared after stable check. URL: {Page.Url}");
+
+                // Poll with retries: cells may render empty placeholders first.
+                var cellText = string.Empty;
+                var deadline = DateTime.UtcNow.AddSeconds(12);
+                while (DateTime.UtcNow < deadline && string.IsNullOrEmpty(cellText))
+                {
+                    cellText = await Page.EvaluateAsync<string>($@"
+                        () => {{
+                            const table = document.querySelector('table.p-datatable-table');
+                            if (!table) return '';
+                            const row = table.querySelector('tbody tr');
+                            if (!row) return '';
+                            const cell = row.cells[{colIndex}];
+                            return cell ? (cell.textContent ?? '').trim() : '';
+                        }}
+                    ");
+                    if (string.IsNullOrEmpty(cellText))
+                        await Page.WaitForTimeoutAsync(500);
+                }
+
+                Assert.IsTrue(cellText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
+                    $"Column '{columnName}': expected '{expectedValue}' but found '{cellText}'. URL: {Page.Url}");
+            }
         }
     }
 }

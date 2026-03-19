@@ -147,8 +147,8 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then I should see the quote ID in the results
     And I should see the quote  status is "Request" 
    # ── Check email automationdfpowner@gmail.com--------
-  #When I Check the email for "lianetdfpnoint@yopmail.com" with username ""------------We Need to check issues emails with Manual team
-  #Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
+  When I Check the email for "automationdfpowner@gmail.com" with username ""
+  Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
 #------Verify HUB with Request STATUS----------------
 Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then the login dashboard should be visible
@@ -197,8 +197,8 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then I should see the quote ID in the results
     And I should see the quote  status is "Request" 
    # ── Check email automationdfpowner@gmail.com--------
-  #When I Check the email for "lianetdfpnoint@yopmail.com" with username ""------------We Need to check issues emails with Manual team
-  #Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
+  When I Check the email for "automationdfpowner@gmail.com" with username ""
+  Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
   #------Verify HUB with Request STATUS----------------
   Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then the login dashboard should be visible
@@ -251,8 +251,8 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then I should see the quote ID in the results
     And I should see the quote  status is "Request" 
    # ── Check email automationdfpowner@gmail.com--------
-  #When I Check the email for "lianetdfpnoint@yopmail.com" with username ""------------We Need to check issues emails with Manual team
-  #Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
+  When I Check the email for "automationdfpowner@gmail.com" with username ""
+  Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
 #------Verify HUB with Request STATUS----------------
 Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then the login dashboard should be visible
@@ -303,8 +303,8 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then I should see the quote ID in the results
     And I should see the quote  status is "Request" 
    # ── Check email automationdfpowner@gmail.com--------
-  #When I Check the email for "lianetdfpnoint@yopmail.com" with username ""------------We Need to check issues emails with Manual team
-  #Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
+  When I Check the email for "automationdfpowner@gmail.com" with username ""
+  Then I should receive an email with text "A rate request was sent for a quotation." in the body for shipment ""
 #------Verify HUB with Request STATUS----------------
 Given I login to Hub as user "aylin.rodriguez@magaya.com"
     Then the login dashboard should be visible

@@ -323,6 +323,53 @@ namespace DFP.Playwright.Pages.Web
         public string GetQuoteId() => _quoteId;
 
         /// <summary>
+        /// Selects a package type from the ng-select with placeholder "Packaging".
+        /// Types the parameter text, then clicks the matching span.ng-option-label.
+        /// Verified from HTML: div.ng-placeholder "Packaging", span.ng-option-label "Carton"
+        /// </summary>
+        public async Task SelectPackageInHubAsync(string package)
+        {
+            var ngSelect = Page.Locator("ng-select").Filter(new LocatorFilterOptions
+            {
+                Has = Page.Locator(".ng-placeholder", new PageLocatorOptions { HasText = "Packaging" })
+            });
+            var combobox = ngSelect.Locator("[role='combobox']");
+            await combobox.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await combobox.ClickAsync();
+            await combobox.FillAsync(package);
+            await Page.WaitForTimeoutAsync(500);
+            var option = Page.Locator("span.ng-option-label").Filter(new LocatorFilterOptions { HasText = package });
+            await option.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await option.First.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Fills cargo dimension and weight fields in the Hub form.
+        /// Verified from HTML: input[formcontrolname='unit_weight/unit_length/unit_width/unit_height']
+        /// </summary>
+        public async Task EnterCargoDetailsInHubAsync(string weight, string length, string width, string height)
+        {
+            var weightInput = Page.Locator("input[formcontrolname='unit_weight']");
+            var lengthInput = Page.Locator("input[formcontrolname='unit_length']");
+            var widthInput  = Page.Locator("input[formcontrolname='unit_width']");
+            var heightInput = Page.Locator("input[formcontrolname='unit_height']");
+
+            await weightInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await weightInput.ClearAsync();
+            await weightInput.FillAsync(weight);
+
+            await lengthInput.ClearAsync();
+            await lengthInput.FillAsync(length);
+
+            await widthInput.ClearAsync();
+            await widthInput.FillAsync(width);
+
+            await heightInput.ClearAsync();
+            await heightInput.FillAsync(height);
+        }
+
+        /// <summary>
         /// Clicks the final "Create Quotation" button on Hub step 2 (fa-hand-holding-dollar icon).
         /// Verified from HTML: button.btn-primary.btn-lg containing fa-icon[icon='hand-holding-dollar']
         /// </summary>

@@ -82,6 +82,28 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationsHubPage.ClickContinueButtonInHubAsync();
         }
 
+        [Given("I select the Package {string} in the Hub")]
+        [When("I select the Package {string} in the Hub")]
+        [Then("I select the Package {string} in the Hub")]
+        public async Task ISelectThePackageInHub(string package)
+        {
+            await _quotationsHubPage.SelectPackageInHubAsync(package);
+        }
+
+        [Given("I enter the following cargo details in the Hub:")]
+        [When("I enter the following cargo details in the Hub:")]
+        [Then("I enter the following cargo details in the Hub:")]
+        public async Task IEnterTheFollowingCargoDetailsInHub(Table table)
+        {
+            var row = table.Rows[0];
+            await _quotationsHubPage.EnterCargoDetailsInHubAsync(
+                weight: row["Weight"],
+                length: row["Length"],
+                width:  row["Width"],
+                height: row["Height"]
+            );
+        }
+
         [Then("I should select the commodity in the Hub")]
         public async Task IShouldSelectTheCommodityInHub()
         {
@@ -139,6 +161,21 @@ namespace DFP.Playwright.StepDefinitions
         {
             var quoteId = _quotationsHubPage.GetQuoteId();
             await _quotationPage.ShouldSeeQuoteIdInNotificationsAsync(quoteId);
+        }
+
+        [Then("I should not see the quote id in the notifications")]
+        public async Task IShouldNotSeeTheQuoteIdInTheNotifications()
+        {
+            var quoteId = _quotationsHubPage.GetQuoteId();
+            await _quotationPage.ShouldNotSeeQuoteIdInNotificationsAsync(quoteId);
+        }
+
+        [Then("I should not receive a quotation email with the stored quote id and text {string}")]
+        public async Task IShouldNotReceiveAQuotationEmailWithTheStoredQuoteIdAndText(string text)
+        {
+            var quoteId = _quotationsHubPage.GetQuoteId();
+            var expectedText = string.IsNullOrWhiteSpace(text) ? "" : text;
+            await _emailSteps.ShouldNotReceiveEmailWithTextForShipmentAsync(expectedText, quoteId);
         }
 
         [Then("I should receive a quotation email with the stored quote id and text {string}")]

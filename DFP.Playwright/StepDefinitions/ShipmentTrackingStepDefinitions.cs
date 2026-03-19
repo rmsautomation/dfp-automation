@@ -471,8 +471,8 @@ namespace DFP.Playwright.StepDefinitions
                 .Where(t => !string.IsNullOrWhiteSpace(t))
                 .ToArray();
             var shipmentName = string.IsNullOrWhiteSpace(shipmentNameArg)
-                ? GetRequiredContextValue("shipmentName", "Shipment name (shipmentName) not found in context.")
-                : NormalizeStepArgument(shipmentNameArg);
+                ? (_tc.Data.TryGetValue("shipmentName", out var ctxName) ? ctxName?.ToString() ?? "" : "")
+                : NormalizeStepArgument(shipmentNameArg) ?? "";
 
             // Poll every 5 seconds for up to 60 seconds (12 attempts).
             const int maxAttempts = 12;
@@ -483,7 +483,7 @@ namespace DFP.Playwright.StepDefinitions
                 Console.WriteLine($"Email body assert poll {attempt + 1}/{maxAttempts} => emailsLoaded:{_latestNotificationEmailBodies.Count}, shipmentName:{shipmentName}");
                 latestShipmentEmail = _latestNotificationEmailBodies.FirstOrDefault(body =>
                     expectedTexts.All(text => body.Contains(text, StringComparison.OrdinalIgnoreCase))
-                    && body.Contains(shipmentName, StringComparison.OrdinalIgnoreCase));
+                    && (string.IsNullOrWhiteSpace(shipmentName) || body.Contains(shipmentName, StringComparison.OrdinalIgnoreCase)));
 
                 if (!string.IsNullOrWhiteSpace(latestShipmentEmail))
                 {
@@ -502,6 +502,29 @@ namespace DFP.Playwright.StepDefinitions
                 expectedTexts.Length == 0
                     ? $"No email from today in the last 3 checked messages contained shipment '{shipmentName}' after waiting 60 seconds."
                     : $"No email from today in the last 3 checked messages contained texts '{string.Join(" | ", expectedTexts)}' and shipment '{shipmentName}' after waiting 60 seconds.");
+        }
+
+        /// <summary>
+        /// Refreshes the last 3 emails and asserts that none contains both the shipmentName and all expectedTexts.
+        /// Used for negative email verification (e.g. no notification was sent).
+        /// </summary>
+        public async Task ShouldNotReceiveEmailWithTextForShipmentAsync(string textArg, string shipmentNameArg)
+        {
+            var expectedTexts = (textArg ?? string.Empty)
+                .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .ToArray();
+            var shipmentName = shipmentNameArg ?? "";
+
+            await RefreshNotificationEmailsAsync();
+            var matchingEmail = _latestNotificationEmailBodies.FirstOrDefault(body =>
+                expectedTexts.All(text => body.Contains(text, StringComparison.OrdinalIgnoreCase))
+                && (string.IsNullOrWhiteSpace(shipmentName) || body.Contains(shipmentName, StringComparison.OrdinalIgnoreCase)));
+
+            Assert.IsNull(matchingEmail,
+                $"Expected NO email containing texts '{string.Join(" | ", expectedTexts)}'" +
+                (string.IsNullOrWhiteSpace(shipmentName) ? "" : $" and '{shipmentName}'") +
+                $" but one was found. URL: checked inbox for '{_notificationEmail}'.");
         }
 
         private async Task RefreshNotificationEmailsAsync()

@@ -544,6 +544,26 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected notification link containing '{quoteId}' to be visible. URL: {Page.Url}");
         }
 
+        /// <summary>
+        /// Verifies the stored quote ID does NOT appear in any of the last 3 notification links.
+        /// Verified from HTML: a.h6.text-dark links — none should contain the quoteId.
+        /// </summary>
+        public async Task ShouldNotSeeQuoteIdInNotificationsAsync(string quoteId)
+        {
+            await Page.WaitForTimeoutAsync(2000);
+            var links = Page.Locator("a.h6.text-dark");
+            var count = await links.CountAsync();
+            var found = false;
+            var checked_ = Math.Min(count, 3);
+            for (var i = 0; i < checked_; i++)
+            {
+                var text = (await links.Nth(i).InnerTextAsync()).Trim();
+                if (text.Contains(quoteId, StringComparison.OrdinalIgnoreCase)) { found = true; break; }
+            }
+            Assert.IsFalse(found,
+                $"Expected quote '{quoteId}' NOT to appear in the last {checked_} notifications. URL: {Page.Url}");
+        }
+
         private static string GetHubBaseUrl()
         {
             var url = Environment.GetEnvironmentVariable("HUB_BASE_URL")

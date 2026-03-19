@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 4);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation- Create Open Quotation (Full Load-Ocean)")]
@@ -238,6 +238,130 @@ await testRunner.AndAsync("I should see the quote id in the notifications", ((st
 await testRunner.WhenAsync("I Check the email for \"automationdfpowner@gmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 41
+await testRunner.ThenAsync("I should receive a quotation email with the stored quote id and text \"You receive" +
+                        "d a new quotation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation- Create Close Quotation (Full Load-Truck)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("HUB Quotation- Create Close Quotation (Full Load-Truck)")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("131")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task HUBQuotation_CreateCloseQuotationFullLoad_Truck()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "131",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HUB Quotation- Create Close Quotation (Full Load-Truck)", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 44
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 45
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 46
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 47
+await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 48
+await testRunner.WhenAsync("I click on Create Quotation button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 49
+await testRunner.ThenAsync("I should see the create quotation page in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 50
+await testRunner.AndAsync("I select the Customer \"AutomationOwner\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 52
+await testRunner.AndAsync("I select the Load Type \"Full Load\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 53
+await testRunner.AndAsync("I select the modality \"Truck\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 54
+await testRunner.AndAsync("I enter the Origin \"Hefei\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 55
+await testRunner.AndAsync("I enter the Destination \"Shanghai\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 56
+await testRunner.WhenAsync("I click on continue button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 57
+await testRunner.ThenAsync("I should see the quotation page to enter the details in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 58
+await testRunner.AndAsync("I select the commodity \"Agriculture\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 59
+await testRunner.AndAsync("I select the currency \"USD\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 60
+await testRunner.AndAsync("I select the container Size \"40\' Container\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 61
+await testRunner.AndAsync("I select additionals \"Require origin charges\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 62
+await testRunner.AndAsync("I select additionals \"Require destination charges\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 63
+await testRunner.WhenAsync("I click on Create Quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 64
+await testRunner.ThenAsync("I should see the quotation in \"Draft\" status in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 65
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 66
+await testRunner.AndAsync("I should see offers in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 67
+await testRunner.AndAsync("I click on Publish Quotation in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 68
+await testRunner.WhenAsync("I click on Yes button in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 70
+await testRunner.ThenAsync("I should see the quotation in \"Open\" status in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 72
+await testRunner.GivenAsync("I login to Portal as user \"automationdfpowner@gmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 73
+await testRunner.ThenAsync("I click on notifications button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 74
+await testRunner.AndAsync("I should see the updated status \"You received a new quotation\" in the notificatio" +
+                        "ns", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 75
+await testRunner.AndAsync("I should see the quote id in the notifications", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 77
+await testRunner.WhenAsync("I Check the email for \"automationdfpowner@gmail.com\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 78
 await testRunner.ThenAsync("I should receive a quotation email with the stored quote id and text \"You receive" +
                         "d a new quotation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden

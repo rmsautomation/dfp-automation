@@ -531,6 +531,19 @@ namespace DFP.Playwright.Pages.Web
         /// <summary>Returns the quote ID stored by StoreQuoteIdAsync (e.g. "QUO-02463").</summary>
         public string GetQuoteId() => _quoteId;
 
+        /// <summary>
+        /// Verifies the stored quote ID appears in a portal notification link.
+        /// Verified from HTML: a.h6.text-dark containing the quote ID (e.g. "QUO-02527")
+        /// </summary>
+        public async Task ShouldSeeQuoteIdInNotificationsAsync(string quoteId)
+        {
+            var link = Page.Locator("a.h6.text-dark")
+                .Filter(new LocatorFilterOptions { HasText = quoteId });
+            await link.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await link.First.IsVisibleAsync(),
+                $"Expected notification link containing '{quoteId}' to be visible. URL: {Page.Url}");
+        }
+
         private static string GetHubBaseUrl()
         {
             var url = Environment.GetEnvironmentVariable("HUB_BASE_URL")
@@ -836,5 +849,6 @@ namespace DFP.Playwright.Pages.Web
             await label.ClickAsync();
             await Page.WaitForTimeoutAsync(300);
         }
+
     }
 }

@@ -683,4 +683,4 @@ Given I am on the Quotations List page
    #| DFP Cargo ready         | CARGO5305               |
     | Shipper Reference       | SHIUPPER53052           |
     | Shipment Guid           | GUID5305                |
-    
+  #Commented customs fields are related to this bug in DFP https://gocatapult.atlassian.net/browse/QWYK-9584

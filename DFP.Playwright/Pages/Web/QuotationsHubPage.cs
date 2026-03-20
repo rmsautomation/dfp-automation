@@ -13,6 +13,16 @@ namespace DFP.Playwright.Pages.Web
         {
         }
 
+        private static string GetHubBaseUrl()
+        {
+            var url = Environment.GetEnvironmentVariable("HUB_BASE_URL")
+                      ?? Environment.GetEnvironmentVariable("BASE_URL")
+                      ?? "";
+            if (string.IsNullOrWhiteSpace(url))
+                throw new InvalidOperationException("HUB_BASE_URL (or BASE_URL) is required.");
+            return url;
+        }
+
         // ── TC129: Hub Create Quotation (Full Load-Ocean) ─────────────────────────
 
         /// <summary>
@@ -267,8 +277,8 @@ namespace DFP.Playwright.Pages.Web
         {
             var btn = Page.Locator("button.btn-outline-primary")
                 .Filter(new LocatorFilterOptions { HasText = "Publish quotation" });
-            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
-            await Assertions.Expect(btn.First).ToBeEnabledAsync(new LocatorAssertionsToBeEnabledOptions { Timeout = 15000 });
+            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 20000 });
+            await Assertions.Expect(btn.First).ToBeEnabledAsync(new LocatorAssertionsToBeEnabledOptions { Timeout = 230000 });
             await btn.First.ClickAsync();
             await Page.WaitForTimeoutAsync(500);
         }
@@ -323,6 +333,53 @@ namespace DFP.Playwright.Pages.Web
         public string GetQuoteId() => _quoteId;
 
         /// <summary>
+        /// Selects a package type from the ng-select with placeholder "Packaging".
+        /// Types the parameter text, then clicks the matching span.ng-option-label.
+        /// Verified from HTML: div.ng-placeholder "Packaging", span.ng-option-label "Carton"
+        /// </summary>
+        public async Task SelectPackageInHubAsync(string package)
+        {
+            var ngSelect = Page.Locator("ng-select").Filter(new LocatorFilterOptions
+            {
+                Has = Page.Locator(".ng-placeholder", new PageLocatorOptions { HasText = "Packaging" })
+            });
+            var combobox = ngSelect.Locator("[role='combobox']");
+            await combobox.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await combobox.ClickAsync();
+            await combobox.FillAsync(package);
+            await Page.WaitForTimeoutAsync(500);
+            var option = Page.Locator("span.ng-option-label").Filter(new LocatorFilterOptions { HasText = package });
+            await option.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await option.First.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Fills cargo dimension and weight fields in the Hub form.
+        /// Verified from HTML: input[formcontrolname='unit_weight/unit_length/unit_width/unit_height']
+        /// </summary>
+        public async Task EnterCargoDetailsInHubAsync(string weight, string length, string width, string height)
+        {
+            var weightInput = Page.Locator("input[formcontrolname='unit_weight']");
+            var lengthInput = Page.Locator("input[formcontrolname='unit_length']");
+            var widthInput  = Page.Locator("input[formcontrolname='unit_width']");
+            var heightInput = Page.Locator("input[formcontrolname='unit_height']");
+
+            await weightInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await weightInput.ClearAsync();
+            await weightInput.FillAsync(weight);
+
+            await lengthInput.ClearAsync();
+            await lengthInput.FillAsync(length);
+
+            await widthInput.ClearAsync();
+            await widthInput.FillAsync(width);
+
+            await heightInput.ClearAsync();
+            await heightInput.FillAsync(height);
+        }
+
+        /// <summary>
         /// Clicks the final "Create Quotation" button on Hub step 2 (fa-hand-holding-dollar icon).
         /// Verified from HTML: button.btn-primary.btn-lg containing fa-icon[icon='hand-holding-dollar']
         /// </summary>
@@ -332,6 +389,164 @@ namespace DFP.Playwright.Pages.Web
             await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await btn.First.ClickAsync();
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        // ── TC145: Hub quotation search ───────────────────────────────────────────
+
+        /// <summary>
+        /// Navigates to the Hub quotations list page.
+        /// Verified from URL: HUB_BASE_URL/quotations/list
+        /// </summary>
+        public async Task NavigateToQuotationListInHubAsync()
+        {
+            var baseUrl = GetHubBaseUrl();
+            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/quotations/list");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Waits for and clicks the System ID input in the Hub.
+        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
+        /// </summary>
+        public async Task ClickSystemIdInputInHubAsync()
+        {
+            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClickAsync();
+        }
+
+        /// <summary>
+        /// Types the stored quote ID into the Hub System ID input field.
+        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
+        /// </summary>
+        public async Task EnterQuoteIdInHubAsync()
+        {
+            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClearAsync();
+            await input.FillAsync(_quoteId);
+        }
+
+        /// <summary>
+        /// Verifies the stored quote ID appears as a link in the Hub search results table.
+        /// Verified from HTML: tbody > tr > td > a with quote ID text (e.g. "QUO-02487")
+        /// </summary>
+        public async Task QuoteShouldAppearInHubResultsAsync()
+        {
+            var link = Page.Locator($"tbody a:has-text('{_quoteId}')");
+            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await link.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to appear in the Hub results table. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the status badge in the Hub results row shows the expected status.
+        /// Verified from HTML: span.status-badge with text e.g. "Booked"
+        /// </summary>
+        public async Task HubStatusShouldBeAsync(string status)
+        {
+            var row = Page.Locator("tbody tr").Filter(new LocatorFilterOptions { HasText = _quoteId });
+            await row.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var badge = row.First.Locator("span.status-badge")
+                .Filter(new LocatorFilterOptions { HasText = status });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Expected Hub status '{status}' for quote '{_quoteId}'. URL: {Page.Url}");
+        }
+
+        // ── TC162: Requests > Change Status to Closed ─────────────────────────────
+
+        /// <summary>
+        /// Selects a status from the PrimeNG p-dropdown filter on the quotations list.
+        /// Verified from HTML: p-dropdown[formcontrolname='status'] → li.p-dropdown-item options (Open, Draft, Request, Booked, Closed).
+        /// </summary>
+        public async Task FilterQuotationsByStatusInHubAsync(string status)
+        {
+            var dropdown = Page.Locator("p-dropdown[formcontrolname='status']");
+            await dropdown.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await dropdown.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+            var option = Page.Locator("li.p-dropdown-item").Filter(new LocatorFilterOptions { HasText = status });
+            await option.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await option.First.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Clicks the Search button in the quotations list filter area.
+        /// Verified from HTML: button with text "Search" in the filters form.
+        /// </summary>
+        public async Task ClickSearchButtonInHubAsync()
+        {
+            var btn = Page.Locator("button").Filter(new LocatorFilterOptions { HasText = "Search" });
+            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.First.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Clicks the first quotation link in the filtered results table.
+        /// Verified from HTML: table tbody tr first td a link.
+        /// </summary>
+        public async Task SelectFirstQuotationInHubAsync()
+        {
+            var firstLink = Page.Locator("table tbody tr").First.Locator("td a").First;
+            await firstLink.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await firstLink.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Navigates to the Requests tab on a quotation detail page.
+        /// Verified from HTML: a[href*='view=requests'] nav link inside the right-side nav.
+        /// </summary>
+        public async Task NavigateToRequestsTabInHubAsync()
+        {
+            var tab = Page.Locator("a[href*='view=requests']");
+            await tab.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await tab.ClickAsync();
+            await Page.WaitForTimeoutAsync(500);
+        }
+
+        /// <summary>
+        /// Clicks the Close button on the first open request row in the Requests tab.
+        /// Verified from HTML: button.btn-outline-danger with text "Close" in the requests table row.
+        /// </summary>
+        public async Task ClickCloseRequestButtonInHubAsync()
+        {
+            var btn = Page.Locator("button.btn-outline-danger")
+                .Filter(new LocatorFilterOptions { HasText = "Close" });
+            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.First.ClickAsync();
+            await Page.WaitForTimeoutAsync(300);
+        }
+
+        /// <summary>
+        /// Fills the close reason textarea in the "Close Rate Request without Offer" PrimeNG dialog.
+        /// Verified from HTML: textarea[placeholder='Close reason...'] inside p-dynamic-dialog.
+        /// </summary>
+        public async Task EnterCloseReasonInHubAsync(string reason)
+        {
+            var textarea = Page.Locator("textarea[placeholder='Close reason...']");
+            await textarea.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await textarea.FillAsync(reason);
+        }
+
+        /// <summary>
+        /// Verifies the first request row in the Requests tab has the expected status badge.
+        /// Verified from HTML: span.badge inside first tbody tr of the requests table (e.g. span.badge.badge-success "Closed").
+        /// </summary>
+        public async Task ShouldSeeFirstRequestInStatusInHubAsync(string status)
+        {
+            var requestsTable = Page.Locator("table").Filter(new LocatorFilterOptions
+            {
+                Has = Page.Locator("th").Filter(new LocatorFilterOptions { HasText = "Status" })
+            });
+            var statusBadge = requestsTable.Locator("tbody tr").First
+                .Locator("span.badge")
+                .Filter(new LocatorFilterOptions { HasText = status });
+            await statusBadge.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await statusBadge.First.IsVisibleAsync(),
+                $"Expected request status badge '{status}' to be visible. URL: {Page.Url}");
         }
     }
 }

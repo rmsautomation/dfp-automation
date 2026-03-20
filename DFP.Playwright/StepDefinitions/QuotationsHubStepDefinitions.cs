@@ -82,6 +82,28 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationsHubPage.ClickContinueButtonInHubAsync();
         }
 
+        [Given("I select the Package {string} in the Hub")]
+        [When("I select the Package {string} in the Hub")]
+        [Then("I select the Package {string} in the Hub")]
+        public async Task ISelectThePackageInHub(string package)
+        {
+            await _quotationsHubPage.SelectPackageInHubAsync(package);
+        }
+
+        [Given("I enter the following cargo details in the Hub:")]
+        [When("I enter the following cargo details in the Hub:")]
+        [Then("I enter the following cargo details in the Hub:")]
+        public async Task IEnterTheFollowingCargoDetailsInHub(Table table)
+        {
+            var row = table.Rows[0];
+            await _quotationsHubPage.EnterCargoDetailsInHubAsync(
+                weight: row["Weight"],
+                length: row["Length"],
+                width:  row["Width"],
+                height: row["Height"]
+            );
+        }
+
         [Then("I should select the commodity in the Hub")]
         public async Task IShouldSelectTheCommodityInHub()
         {
@@ -141,6 +163,21 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationPage.ShouldSeeQuoteIdInNotificationsAsync(quoteId);
         }
 
+        [Then("I should not see the quote id in the notifications")]
+        public async Task IShouldNotSeeTheQuoteIdInTheNotifications()
+        {
+            var quoteId = _quotationsHubPage.GetQuoteId();
+            await _quotationPage.ShouldNotSeeQuoteIdInNotificationsAsync(quoteId);
+        }
+
+        [Then("I should not receive a quotation email with the stored quote id and text {string}")]
+        public async Task IShouldNotReceiveAQuotationEmailWithTheStoredQuoteIdAndText(string text)
+        {
+            var quoteId = _quotationsHubPage.GetQuoteId();
+            var expectedText = string.IsNullOrWhiteSpace(text) ? "" : text;
+            await _emailSteps.ShouldNotReceiveEmailWithTextForShipmentAsync(expectedText, quoteId);
+        }
+
         [Then("I should receive a quotation email with the stored quote id and text {string}")]
         public async Task IShouldReceiveAQuotationEmailWithTheStoredQuoteIdAndText(string text)
         {
@@ -191,6 +228,96 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IClickOnCreateQuotationInTheHub()
         {
             await _quotationsHubPage.ClickCreateQuotationFinalInHubAsync();
+        }
+
+        // ── TC145: Hub quotation search ───────────────────────────────────────────
+
+        [Given("I navigated to quotation List in the Hub")]
+        public async Task INavigatedToQuotationListInTheHub()
+        {
+            await _quotationsHubPage.NavigateToQuotationListInHubAsync();
+        }
+
+        [When("I click on system id input field in the Hub")]
+        public async Task IClickOnSystemIdInputFieldInTheHub()
+        {
+            await _quotationsHubPage.ClickSystemIdInputInHubAsync();
+        }
+
+        [When("I enter the quote id in field in the Hub")]
+        [Then("I enter the quote id in field in the Hub")]
+        public async Task IEnterTheQuoteIdInFieldInTheHub()
+        {
+            await _quotationsHubPage.EnterQuoteIdInHubAsync();
+        }
+
+        [Then("the quote should appear in the search results in the hub")]
+        public async Task TheQuoteShouldAppearInTheSearchResultsInTheHub()
+        {
+            await _quotationsHubPage.QuoteShouldAppearInHubResultsAsync();
+        }
+
+        [Then("the status should be {string}")]
+        public async Task TheStatusShouldBe(string status)
+        {
+            await _quotationsHubPage.HubStatusShouldBeAsync(status);
+        }
+
+
+        // ── TC162: Requests > Change Status to Closed ─────────────────────────────
+
+        [Given("I filter quotations by status {string} in the Hub")]
+        [When("I filter quotations by status {string} in the Hub")]
+        [Then("I filter quotations by status {string} in the Hub")]
+        public async Task IFilterQuotationsByStatusInHub(string status)
+        {
+            await _quotationsHubPage.FilterQuotationsByStatusInHubAsync(status);
+        }
+
+        [Given("I click on Search button in the Hub")]
+        [When("I click on Search button in the Hub")]
+        [Then("I click on Search button in the Hub")]
+        public async Task IClickOnSearchButtonInHub()
+        {
+            await _quotationsHubPage.ClickSearchButtonInHubAsync();
+        }
+
+        [Given("I select the first quotation in the Hub")]
+        [When("I select the first quotation in the Hub")]
+        [Then("I select the first quotation in the Hub")]
+        public async Task ISelectTheFirstQuotationInHub()
+        {
+            await _quotationsHubPage.SelectFirstQuotationInHubAsync();
+        }
+
+        [Given("I navigate to Requests tab in the Hub")]
+        [When("I navigate to Requests tab in the Hub")]
+        [Then("I navigate to Requests tab in the Hub")]
+        public async Task INavigateToRequestsTabInHub()
+        {
+            await _quotationsHubPage.NavigateToRequestsTabInHubAsync();
+        }
+
+        [Given("I click on Close request button in the Hub")]
+        [When("I click on Close request button in the Hub")]
+        [Then("I click on Close request button in the Hub")]
+        public async Task IClickOnCloseRequestButtonInHub()
+        {
+            await _quotationsHubPage.ClickCloseRequestButtonInHubAsync();
+        }
+
+        [Given("I enter the close reason {string} in the Hub")]
+        [When("I enter the close reason {string} in the Hub")]
+        [Then("I enter the close reason {string} in the Hub")]
+        public async Task IEnterTheCloseReasonInHub(string reason)
+        {
+            await _quotationsHubPage.EnterCloseReasonInHubAsync(reason);
+        }
+
+        [Then("I should see the first request in {string} status in the Hub")]
+        public async Task IShouldSeeTheFirstRequestInStatusInHub(string status)
+        {
+            await _quotationsHubPage.ShouldSeeFirstRequestInStatusInHubAsync(status);
         }
     }
 }

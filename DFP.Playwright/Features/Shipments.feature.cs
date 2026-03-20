@@ -2168,29 +2168,29 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
 #line 671
   await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
                             "Exworks"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Boolean",
                             "Yes"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "DFP Shipper Reference",
                             "SHIPPER5305"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "DFP Consignee Reference",
                             "CONSIGNEEREF5305"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "DFP Payment terms",
                             "COLLECT"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Shipper Reference",
                             "SHIUPPER53052"});
-                table4.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});
 #line 672
-  await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table4, "And ");
+  await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table7, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

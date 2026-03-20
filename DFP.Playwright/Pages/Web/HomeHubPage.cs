@@ -94,7 +94,8 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ShouldSeeSectionHeaderInHubAsync(string header)
         {
-            var el = Page.Locator("h5, a[href]").Filter(new LocatorFilterOptions { HasText = header }).First;
+            // Covers h3 (Portal Customers, Quotations…), h5 (User Approvals…), a[href] (Quotation Requests…)
+            var el = Page.Locator("h1, h2, h3, h4, h5, h6, a[href]").Filter(new LocatorFilterOptions { HasText = header }).First;
             await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             Assert.IsTrue(await el.IsVisibleAsync(),
                 $"Expected section header '{header}' to be visible. URL: {Page.Url}");

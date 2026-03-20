@@ -85,6 +85,12 @@ namespace DFP.Playwright.Support
                 return new MailingRulesHubPage(tc.Page!);
             });
 
+            services.AddScoped<HomeHubPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new HomeHubPage(tc.Page!);
+            });
+
 
             return services;
         }

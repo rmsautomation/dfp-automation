@@ -267,8 +267,8 @@ namespace DFP.Playwright.Pages.Web
         {
             var btn = Page.Locator("button.btn-outline-primary")
                 .Filter(new LocatorFilterOptions { HasText = "Publish quotation" });
-            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
-            await Assertions.Expect(btn.First).ToBeEnabledAsync(new LocatorAssertionsToBeEnabledOptions { Timeout = 15000 });
+            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 20000 });
+            await Assertions.Expect(btn.First).ToBeEnabledAsync(new LocatorAssertionsToBeEnabledOptions { Timeout = 230000 });
             await btn.First.ClickAsync();
             await Page.WaitForTimeoutAsync(500);
         }

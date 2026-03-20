@@ -229,5 +229,95 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _quotationsHubPage.ClickCreateQuotationFinalInHubAsync();
         }
+
+        // ── TC145: Hub quotation search ───────────────────────────────────────────
+
+        [Given("I navigated to quotation List in the Hub")]
+        public async Task INavigatedToQuotationListInTheHub()
+        {
+            await _quotationsHubPage.NavigateToQuotationListInHubAsync();
+        }
+
+        [When("I click on system id input field in the Hub")]
+        public async Task IClickOnSystemIdInputFieldInTheHub()
+        {
+            await _quotationsHubPage.ClickSystemIdInputInHubAsync();
+        }
+
+        [When("I enter the quote id in field in the Hub")]
+        [Then("I enter the quote id in field in the Hub")]
+        public async Task IEnterTheQuoteIdInFieldInTheHub()
+        {
+            await _quotationsHubPage.EnterQuoteIdInHubAsync();
+        }
+
+        [Then("the quote should appear in the search results in the hub")]
+        public async Task TheQuoteShouldAppearInTheSearchResultsInTheHub()
+        {
+            await _quotationsHubPage.QuoteShouldAppearInHubResultsAsync();
+        }
+
+        [Then("the status should be {string}")]
+        public async Task TheStatusShouldBe(string status)
+        {
+            await _quotationsHubPage.HubStatusShouldBeAsync(status);
+        }
+
+
+        // ── TC162: Requests > Change Status to Closed ─────────────────────────────
+
+        [Given("I filter quotations by status {string} in the Hub")]
+        [When("I filter quotations by status {string} in the Hub")]
+        [Then("I filter quotations by status {string} in the Hub")]
+        public async Task IFilterQuotationsByStatusInHub(string status)
+        {
+            await _quotationsHubPage.FilterQuotationsByStatusInHubAsync(status);
+        }
+
+        [Given("I click on Search button in the Hub")]
+        [When("I click on Search button in the Hub")]
+        [Then("I click on Search button in the Hub")]
+        public async Task IClickOnSearchButtonInHub()
+        {
+            await _quotationsHubPage.ClickSearchButtonInHubAsync();
+        }
+
+        [Given("I select the first quotation in the Hub")]
+        [When("I select the first quotation in the Hub")]
+        [Then("I select the first quotation in the Hub")]
+        public async Task ISelectTheFirstQuotationInHub()
+        {
+            await _quotationsHubPage.SelectFirstQuotationInHubAsync();
+        }
+
+        [Given("I navigate to Requests tab in the Hub")]
+        [When("I navigate to Requests tab in the Hub")]
+        [Then("I navigate to Requests tab in the Hub")]
+        public async Task INavigateToRequestsTabInHub()
+        {
+            await _quotationsHubPage.NavigateToRequestsTabInHubAsync();
+        }
+
+        [Given("I click on Close request button in the Hub")]
+        [When("I click on Close request button in the Hub")]
+        [Then("I click on Close request button in the Hub")]
+        public async Task IClickOnCloseRequestButtonInHub()
+        {
+            await _quotationsHubPage.ClickCloseRequestButtonInHubAsync();
+        }
+
+        [Given("I enter the close reason {string} in the Hub")]
+        [When("I enter the close reason {string} in the Hub")]
+        [Then("I enter the close reason {string} in the Hub")]
+        public async Task IEnterTheCloseReasonInHub(string reason)
+        {
+            await _quotationsHubPage.EnterCloseReasonInHubAsync(reason);
+        }
+
+        [Then("I should see the first request in {string} status in the Hub")]
+        public async Task IShouldSeeTheFirstRequestInStatusInHub(string status)
+        {
+            await _quotationsHubPage.ShouldSeeFirstRequestInStatusInHubAsync(status);
+        }
     }
 }

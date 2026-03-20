@@ -564,15 +564,7 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected quote '{quoteId}' NOT to appear in the last {checked_} notifications. URL: {Page.Url}");
         }
 
-        private static string GetHubBaseUrl()
-        {
-            var url = Environment.GetEnvironmentVariable("HUB_BASE_URL")
-                      ?? Environment.GetEnvironmentVariable("BASE_URL")
-                      ?? "";
-            if (string.IsNullOrWhiteSpace(url))
-                throw new InvalidOperationException("HUB_BASE_URL (or BASE_URL) is required.");
-            return url;
-        }
+        
 
         /// <summary>
         /// Enters the stored quote ID in the "Quotation #" search input and waits for results.
@@ -662,67 +654,7 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected quote '{_quoteId}' to have status '{status}'. URL: {Page.Url}");
         }
 
-        // ── TC145: Hub quotation search ───────────────────────────────────────────
-
-        /// <summary>
-        /// Navigates to the Hub quotations list page.
-        /// Verified from URL: HUB_BASE_URL/quotations/list
-        /// </summary>
-        public async Task NavigateToQuotationListInHubAsync()
-        {
-            var baseUrl = GetHubBaseUrl();
-            await Page.GotoAsync(baseUrl.TrimEnd('/') + "/quotations/list");
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        }
-
-        /// <summary>
-        /// Waits for and clicks the System ID input in the Hub.
-        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
-        /// </summary>
-        public async Task ClickSystemIdInputInHubAsync()
-        {
-            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
-            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await input.ClickAsync();
-        }
-
-        /// <summary>
-        /// Types the stored quote ID into the Hub System ID input field.
-        /// Verified from HTML: input[id='friendly_id'][placeholder='System ID']
-        /// </summary>
-        public async Task EnterQuoteIdInHubAsync()
-        {
-            var input = Page.Locator("input#friendly_id[placeholder='System ID']");
-            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await input.ClearAsync();
-            await input.FillAsync(_quoteId);
-        }
-
-        /// <summary>
-        /// Verifies the stored quote ID appears as a link in the Hub search results table.
-        /// Verified from HTML: tbody > tr > td > a with quote ID text (e.g. "QUO-02487")
-        /// </summary>
-        public async Task QuoteShouldAppearInHubResultsAsync()
-        {
-            var link = Page.Locator($"tbody a:has-text('{_quoteId}')");
-            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
-            Assert.IsTrue(await link.IsVisibleAsync(),
-                $"Expected quote '{_quoteId}' to appear in the Hub results table. URL: {Page.Url}");
-        }
-
-        /// <summary>
-        /// Verifies the status badge in the Hub results row shows the expected status.
-        /// Verified from HTML: span.status-badge with text e.g. "Booked"
-        /// </summary>
-        public async Task HubStatusShouldBeAsync(string status)
-        {
-            var row = Page.Locator("tbody tr").Filter(new LocatorFilterOptions { HasText = _quoteId });
-            await row.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            var badge = row.First.Locator("span.status-badge")
-                .Filter(new LocatorFilterOptions { HasText = status });
-            Assert.IsTrue(await badge.IsVisibleAsync(),
-                $"Expected Hub status '{status}' for quote '{_quoteId}'. URL: {Page.Url}");
-        }
+        
 
         // ── LCL Cargo: Package, Dimensions & Weight ───────────────────────────────
 

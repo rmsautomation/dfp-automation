@@ -193,3 +193,23 @@ And I should see the quote id in the notifications
 #------The user receives an Email with the notification “You received a new quotation“------
 When I Check the email for "automationdfpowner@gmail.com" with username ""
 Then I should receive a quotation email with the stored quote id and text "You received a new quotation"
+
+@162 @NOINT @login
+Scenario: HUB Quotation - Requests > Change Status to Closed
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+Given I navigated to quotation List in the Hub
+And I filter quotations by status "Request" in the Hub
+And I click on Search button in the Hub
+And I select the first quotation in the Hub
+And I store the quote id in the Hub
+When I navigate to Requests tab in the Hub
+And I click on Close request button in the Hub
+And I enter the close reason "AutomationCloseReason" in the Hub
+And I click on continue button in the Hub
+Then I should see the first request in "Closed" status in the Hub
+Given I navigated to quotation List in the Hub
+When I click on system id input field in the Hub
+Then I enter the quote id in field in the Hub
+And the quote should appear in the search results in the hub
+And the status should be "Closed"

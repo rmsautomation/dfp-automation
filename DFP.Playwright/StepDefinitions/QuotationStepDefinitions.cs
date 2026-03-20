@@ -283,39 +283,7 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationPage.ShouldSeeQuoteStatusAsync(status);
         }
 
-        // ── TC145: Hub quotation search ───────────────────────────────────────────
-
-        [Given("I navigated to quotation List in the Hub")]
-        public async Task INavigatedToQuotationListInTheHub()
-        {
-            await _quotationPage.NavigateToQuotationListInHubAsync();
-        }
-
-        [When("I click on system id input field in the Hub")]
-        public async Task IClickOnSystemIdInputFieldInTheHub()
-        {
-            await _quotationPage.ClickSystemIdInputInHubAsync();
-        }
-
-        [When("I enter the quote id in field in the Hub")]
-        [Then("I enter the quote id in field in the Hub")]
-        public async Task IEnterTheQuoteIdInFieldInTheHub()
-        {
-            await _quotationPage.EnterQuoteIdInHubAsync();
-        }
-
-        [Then("the quote should appear in the search results in the hub")]
-        public async Task TheQuoteShouldAppearInTheSearchResultsInTheHub()
-        {
-            await _quotationPage.QuoteShouldAppearInHubResultsAsync();
-        }
-
-        [Then("the status should be {string}")]
-        public async Task TheStatusShouldBe(string status)
-        {
-            await _quotationPage.HubStatusShouldBeAsync(status);
-        }
-
+    
         // ── LCL Cargo: Package ────────────────────────────────────────────────────
 
         // Parametrizable: "Carton" | "Crate" | etc. (radio buttons, LCL)

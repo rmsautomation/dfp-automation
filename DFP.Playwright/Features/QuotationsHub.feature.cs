@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 7);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 8);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation- Create Open Quotation (Full Load-Ocean)")]
@@ -759,6 +759,89 @@ await testRunner.WhenAsync("I Check the email for \"automationdfpowner@gmail.com
 #line 195
 await testRunner.ThenAsync("I should receive a quotation email with the stored quote id and text \"You receive" +
                         "d a new quotation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation - Requests > Change Status to Closed")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("HUB Quotation - Requests > Change Status to Closed")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("162")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task HUBQuotation_RequestsChangeStatusToClosed()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "162",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "5";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HUB Quotation - Requests > Change Status to Closed", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 198
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 199
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 200
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 201
+await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 202
+await testRunner.AndAsync("I filter quotations by status \"Request\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 203
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 204
+await testRunner.AndAsync("I select the first quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 205
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 206
+await testRunner.WhenAsync("I navigate to Requests tab in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 207
+await testRunner.AndAsync("I click on Close request button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 208
+await testRunner.AndAsync("I enter the close reason \"AutomationCloseReason\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 209
+await testRunner.AndAsync("I click on continue button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 210
+await testRunner.ThenAsync("I should see the first request in \"Closed\" status in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 211
+await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 212
+await testRunner.WhenAsync("I click on system id input field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 213
+await testRunner.ThenAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 214
+await testRunner.AndAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 215
+await testRunner.AndAsync("the status should be \"Closed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

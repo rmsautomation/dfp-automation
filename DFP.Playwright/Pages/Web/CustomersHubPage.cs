@@ -142,5 +142,49 @@ namespace DFP.Playwright.Pages.Web
             Assert.IsTrue(await link.First.IsVisibleAsync(),
                 $"Expected customer '{resolvedName}' to be visible in results. URL: {Page.Url}");
         }
+
+        /// <summary>
+        /// Clicks the customer name link in the search results table to open the customer detail page.
+        /// Verified from HTML: td > a href="/administration/portal-teams/{id}" text = customer name
+        /// </summary>
+        public async Task SelectCustomerInResultsAsync(string resolvedName)
+        {
+            var link = Page.Locator("td a").Filter(new LocatorFilterOptions { HasText = resolvedName }).First;
+            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await link.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Clicks the Users tab on the customer detail page.
+        /// Verified from HTML: a.nav-link[href*="?view=users"] containing "Users"
+        /// </summary>
+        public async Task ClickUsersTabInHubAsync()
+        {
+            // href*="?view=users" targets the customer-detail tab, not the sidebar nav link /portal-users
+            var tab = Page.Locator("a.nav-link[href*='?view=users']");
+            await tab.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await tab.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Clicks the "Create User" outline button in the users tab. Waits until enabled.
+        /// Verified from HTML: button.btn-outline-primary "Create User"
+        /// </summary>
+        public async Task ClickCreateUserOutlineButtonAsync()
+        {
+            await Page.WaitForFunctionAsync(
+                @"() => {
+                    const buttons = Array.from(document.querySelectorAll('button'));
+                    const btn = buttons.find(b => b.textContent.trim() === 'Create User');
+                    return btn != null && !btn.disabled;
+                }",
+                null,
+                new PageWaitForFunctionOptions { Timeout = 10000 });
+            var btn = Page.Locator("button.btn-outline-primary").Filter(new LocatorFilterOptions { HasText = "Create User" }).First;
+            await btn.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
     }
 }

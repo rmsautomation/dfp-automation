@@ -97,6 +97,18 @@ namespace DFP.Playwright.Support
                 return new CustomersHubPage(tc.Page!);
             });
 
+            services.AddScoped<HubAdminUsersPortalPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new HubAdminUsersPortalPage(tc.Page!);
+            });
+
+            services.AddScoped<YopmailPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new YopmailPage(tc.Page!);
+            });
+
             return services;
         }
     }

@@ -41,14 +41,18 @@ namespace DFP.Playwright.StepDefinitions
             string resolvedName;
             if (string.IsNullOrEmpty(name))
             {
-                resolvedName = $"AutoTest{DateTime.Now:yyyyMMddHHmmss}";
+                // Reuse Now from context if available (TC1483), otherwise generate locally (TC1482)
+                var now = _scenarioContext.TryGetValue("Now", out var v) && v is string s && !string.IsNullOrWhiteSpace(s)
+                    ? s
+                    : DateTime.Now.ToString("yyyyMMddHHmmss");
+                resolvedName = $"AutoTest{now}";
                 _scenarioContext["CustomerName"] = resolvedName;
             }
             else
             {
                 resolvedName = name;
             }
-            Console.WriteLine($"[TC1482] Customer name: {resolvedName}");
+            Console.WriteLine($"[TC1482/1483] CustomerName: {resolvedName}");
             await _customersHubPage.EnterCustomerNameInHubAsync(resolvedName);
         }
 
@@ -96,6 +100,33 @@ namespace DFP.Playwright.StepDefinitions
                 ? _scenarioContext["CustomerName"]?.ToString() ?? ""
                 : name;
             await _customersHubPage.ShouldSeeCustomerNameInResultsAsync(resolvedName);
+        }
+
+        [Given("I select the customer {string} in the results in the Hub")]
+        [When("I select the customer {string} in the results in the Hub")]
+        [Then("I select the customer {string} in the results in the Hub")]
+        public async Task ISelectTheCustomerInTheResultsInTheHub(string name)
+        {
+            string resolvedName = string.IsNullOrEmpty(name)
+                ? _scenarioContext["CustomerName"]?.ToString() ?? ""
+                : name;
+            await _customersHubPage.SelectCustomerInResultsAsync(resolvedName);
+        }
+
+        [Given("I click on users tab in the Hub")]
+        [When("I click on users tab in the Hub")]
+        [Then("I click on users tab in the Hub")]
+        public async Task IClickOnUsersTabInTheHub()
+        {
+            await _customersHubPage.ClickUsersTabInHubAsync();
+        }
+
+        [Given("I click on create user button")]
+        [When("I click on create user button")]
+        [Then("I click on create user button")]
+        public async Task IClickOnCreateUserButton()
+        {
+            await _customersHubPage.ClickCreateUserOutlineButtonAsync();
         }
     }
 }

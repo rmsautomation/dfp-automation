@@ -211,5 +211,6 @@ Then I should see the first request in "Closed" status in the Hub
 Given I navigated to quotation List in the Hub
 When I click on system id input field in the Hub
 Then I enter the quote id in field in the Hub
+And I click on Search button in the Hub
 And the quote should appear in the search results in the hub
 And the status should be "Closed"

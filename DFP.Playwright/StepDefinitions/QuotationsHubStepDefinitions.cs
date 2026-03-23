@@ -248,12 +248,18 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I enter the quote id in field in the Hub")]
         public async Task IEnterTheQuoteIdInFieldInTheHub()
         {
+            // Sync quote ID from Portal page if the Hub page has no ID stored (cross-context scenario)
+            if (string.IsNullOrEmpty(_quotationsHubPage.GetQuoteId()))
+                _quotationsHubPage.SetQuoteId(_quotationPage.GetQuoteId());
             await _quotationsHubPage.EnterQuoteIdInHubAsync();
         }
 
         [Then("the quote should appear in the search results in the hub")]
         public async Task TheQuoteShouldAppearInTheSearchResultsInTheHub()
         {
+            // Sync quote ID from Portal page if the Hub page has no ID stored (cross-context scenario)
+            if (string.IsNullOrEmpty(_quotationsHubPage.GetQuoteId()))
+                _quotationsHubPage.SetQuoteId(_quotationPage.GetQuoteId());
             await _quotationsHubPage.QuoteShouldAppearInHubResultsAsync();
         }
 

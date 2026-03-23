@@ -169,32 +169,70 @@ namespace DFP.Playwright.Pages.Web
             if (searchLoginModal)
             {
                 await EnsureLoginFormAsync(30000);
+
+                // Wait for the modal dialog and scope ALL form interactions to it so the background
+                // inline form (added to the portal UI recently) is never touched by mistake.
+                // The modal is a div[role='dialog'].p-dynamic-dialog — NOT a native <dialog> element.
+                // Exclude cookie-consent banners (aria-label="cookieconsent") — use the login dialog only.
+                var dialog = Page.Locator("[role='dialog']:not([aria-label='cookieconsent'])").First;
+                bool dialogVisible = false;
+                try
+                {
+                    await dialog.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+                    dialogVisible = true;
+                }
+                catch { /* no dialog — fall through to legacy path */ }
+
+                if (dialogVisible)
+                {
+                    // password is type="password", button text is "Sign in".
+                    var emailInput    = dialog.Locator("input[placeholder='Email address']");
+                    var passwordInput = dialog.Locator("input[type='password']");
+                    var signInBtn     = dialog.Locator("button:has-text('Sign in')");
+
+                    await emailInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+                    await Microsoft.Playwright.Assertions.Expect(emailInput).ToBeEnabledAsync(new() { Timeout = 10000 });
+                    await emailInput.FillAsync(email);
+                    await passwordInput.FillAsync(password);
+                    await signInBtn.ClickAsync();
+
+                    var logoutAllModal = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
+                    if (logoutAllModal != null && await IsVisibleAsync(logoutAllModal))
+                    {
+                        await CloseAllSessionIfNeeded();
+                        await emailInput.FillAsync(email);
+                        await passwordInput.FillAsync(password);
+                        await passwordInput.PressAsync("Enter");
+                    }
+                    return;
+                }
             }
             else
             {
                 await WaitForLoginFormAsync(30000);
             }
-            var usernameInput = await FindUsernameInputAsync();
-            var passwordInput = await FindPasswordInputAsync();
 
-            await usernameInput.FillAsync(email);
-            await passwordInput.FillAsync(password);
+            var usernameInputFallback = await FindUsernameInputAsync();
+            var passwordInputFallback = await FindPasswordInputAsync();
+
+            await usernameInputFallback.FillAsync(email);
+            await passwordInputFallback.FillAsync(password);
 
             // Prefer clicking Sign in if available, otherwise submit with Enter.
             var signInButton = await TryFindLocatorAsync(SignInButtonSelectors, timeoutMs: 2000);
             if (signInButton != null)
                 await signInButton.ClickAsync();
             else
-                await passwordInput.PressAsync("Enter");
+                await passwordInputFallback.PressAsync("Enter");
 
             // Only wait 500ms for "logout all sessions" — it rarely appears and 3000ms was wasteful.
             var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
             if (logoutAll != null && await IsVisibleAsync(logoutAll))
             {
                 await CloseAllSessionIfNeeded();
-                await usernameInput.FillAsync(email);
-                await passwordInput.FillAsync(password);
-                await passwordInput.PressAsync("Enter");
+                await usernameInputFallback.FillAsync(email);
+                await passwordInputFallback.FillAsync(password);
+                await passwordInputFallback.PressAsync("Enter");
             }
         }
 

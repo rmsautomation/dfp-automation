@@ -838,9 +838,12 @@ await testRunner.WhenAsync("I click on system id input field in the Hub", ((stri
 await testRunner.ThenAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 214
-await testRunner.AndAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 215
+await testRunner.AndAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 216
 await testRunner.AndAsync("the status should be \"Closed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

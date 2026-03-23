@@ -331,6 +331,7 @@ namespace DFP.Playwright.Pages.Web
         }
 
         public string GetQuoteId() => _quoteId;
+        public void SetQuoteId(string id) => _quoteId = id;
 
         /// <summary>
         /// Selects a package type from the ng-select with placeholder "Packaging".
@@ -430,13 +431,35 @@ namespace DFP.Playwright.Pages.Web
         /// <summary>
         /// Verifies the stored quote ID appears as a link in the Hub search results table.
         /// Verified from HTML: tbody > tr > td > a with quote ID text (e.g. "QUO-02487")
+        /// Retries up to 3 times with 3s delay to handle Angular table re-rendering after search.
         /// </summary>
         public async Task QuoteShouldAppearInHubResultsAsync()
         {
-            var link = Page.Locator($"tbody a:has-text('{_quoteId}')");
-            await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
-            Assert.IsTrue(await link.IsVisibleAsync(),
-                $"Expected quote '{_quoteId}' to appear in the Hub results table. URL: {Page.Url}");
+            const int maxRetries = 3;
+            const int retryDelayMs = 3000;
+
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                var link = Page.Locator($"tbody a:has-text('{_quoteId}')");
+                try
+                {
+                    await link.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+                    Assert.IsTrue(await link.IsVisibleAsync(),
+                        $"Expected quote '{_quoteId}' to appear in the Hub results table. URL: {Page.Url}");
+                    return;
+                }
+                catch when (attempt < maxRetries)
+                {
+                    Console.WriteLine($"[QuotationsHubPage] Quote '{_quoteId}' not visible yet, retrying ({attempt}/{maxRetries})...");
+                    await Task.Delay(retryDelayMs);
+                }
+            }
+
+            // Final attempt — let it throw naturally
+            var finalLink = Page.Locator($"tbody a:has-text('{_quoteId}')");
+            await finalLink.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await finalLink.IsVisibleAsync(),
+                $"Expected quote '{_quoteId}' to appear in the Hub results table after {maxRetries} retries. URL: {Page.Url}");
         }
 
         /// <summary>
@@ -537,6 +560,8 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ShouldSeeFirstRequestInStatusInHubAsync(string status)
         {
+            await Page.WaitForTimeoutAsync(2000);
+
             var requestsTable = Page.Locator("table").Filter(new LocatorFilterOptions
             {
                 Has = Page.Locator("th").Filter(new LocatorFilterOptions { HasText = "Status" })

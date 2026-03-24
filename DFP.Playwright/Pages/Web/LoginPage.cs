@@ -399,19 +399,28 @@ namespace DFP.Playwright.Pages.Web
             var start = DateTime.UtcNow;
             while ((DateTime.UtcNow - start).TotalMilliseconds < timeoutMs)
             {
-                var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 1000);
-                if (locator != null && await locator.IsVisibleAsync())
-                    return;
+                try
+                {
+                    var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 1000);
+                    if (locator != null && await locator.IsVisibleAsync())
+                        return;
 
-                if (await IsLoggedInAsync())
-                    return;
+                    if (await IsLoggedInAsync())
+                        return;
 
-                var userInput = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 500);
-                var passInput = await TryFindLocatorAsync(PasswordSelectors, timeoutMs: 500);
-                var loginFormVisible = (userInput != null && await userInput.IsVisibleAsync())
-                                       || (passInput != null && await passInput.IsVisibleAsync());
-                if (!loginFormVisible)
+                    var userInput = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 500);
+                    var passInput = await TryFindLocatorAsync(PasswordSelectors, timeoutMs: 500);
+                    var loginFormVisible = (userInput != null && await userInput.IsVisibleAsync())
+                                           || (passInput != null && await passInput.IsVisibleAsync());
+                    if (!loginFormVisible)
+                        return;
+                }
+                catch (Exception ex) when (ex.Message.Contains("Frame was detached") || ex.Message.Contains("frame was detached"))
+                {
+                    // Frame detached means the SPA triggered a navigation — wait for the new frame to settle.
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                     return;
+                }
 
                 await Task.Delay(500);
             }

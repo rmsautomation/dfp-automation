@@ -41,28 +41,6 @@ namespace DFP.Playwright.Pages.Web
             return baseUrl;
         }
 
-        /// <summary>
-        /// Returns the base URL of the portal currently loaded in the browser.
-        /// Derives it from Page.Url so it works for any environment (INT, non-INT, staging, etc.)
-        /// without hardcoding or checking specific env vars.
-        /// Falls back to PORTAL_INT_BASE_URL → PORTAL_BASE_URL if the page is not loaded yet.
-        /// </summary>
-        private string GetActivePortalBaseUrl()
-        {
-            var current = Page.Url;
-            if (!string.IsNullOrWhiteSpace(current)
-                && !current.StartsWith("about:", StringComparison.OrdinalIgnoreCase)
-                && Uri.TryCreate(current, UriKind.Absolute, out var uri))
-            {
-                return $"{uri.Scheme}://{uri.Host}";
-            }
-
-            // Fallback: prefer INT if set, otherwise non-INT
-            return Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL)
-                   ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                   ?? Environment.GetEnvironmentVariable("BASE_URL")
-                   ?? throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-        }
 
         // codegen:selectors-start
         // Selectors captured by codegen for 'createshipmentfromquotation'
@@ -719,16 +697,13 @@ namespace DFP.Playwright.Pages.Web
         // ── ShipmentSearch methods ────────────────────────────────────────────────
 
       public async Task UserNavigatedToShipmentsList()
-  {
-      // Uses GetActivePortalBaseUrl() so this step works for any portal (INT, non-INT, any env)
-      // without hardcoding — it derives the base URL from the current page URL.
-      var baseUrl = GetActivePortalBaseUrl();
-      await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
-      await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-
-      var shipmentsNavLink = await FindLocatorAsync(ShipmentsNavLinkSelectors);
-      await ClickAndWaitForNetworkAsync(shipmentsNavLink);
-  }
+      {
+          // Use GetPortalBaseUrl() (env var) — not GetActivePortalBaseUrl() (current page URL)
+          // so this always navigates to the Portal, not the Hub if the previous step was there.
+          var baseUrl = GetPortalBaseUrl();
+          await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
+          await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      }
 
         public async Task IClickOnShowMoreFilters()
         {
@@ -902,36 +877,37 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task TheShipmentShouldAppearInSearchResults()
         {
-            // Retry loop: every 5 seconds click Reload (if visible) for up to 3 minutes.
-            const int retryIntervalMs = 5000;
+            // Check instantly → if not found, click Reload immediately → wait 2s → repeat.
+            // HTML shipment name: <span>AutoShipment-...</span> inside qwyk-shipments-list-item
+            // HTML reload: <button class="btn btn-sm ms-2 btn-outline-secondary"><svg data-icon="arrows-rotate">
+            const int retryIntervalMs = 2000;
             const int maxDurationMs = 180000; // 3 minutes
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
-            string[] resultSelectors =
-            [
-                $"internal:text=\"{_shipmentName}\"i",
-                $"//*[contains(text(),'{_shipmentName}')]"
-            ];
+            // Card View:  qwyk-shipments-list-item containing the name span
+            // Table View: td[qwyk-shipment-index-table-item] containing the name <a>
+            // Both covered by filtering on the component element that contains the shipment name text.
+            var shipmentLocator = Page.Locator("qwyk-shipments-list-item, [qwyk-shipment-index-table-item]")
+                .Filter(new LocatorFilterOptions { HasText = _shipmentName });
+            var reloadButton = Page.Locator("button.btn-outline-secondary:has(svg[data-icon='arrows-rotate'])");
 
             while (true)
             {
                 await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-                var result = await TryFindLocatorAsync(resultSelectors, timeoutMs: 5000);
-                if (result != null)
+                if (await shipmentLocator.IsVisibleAsync())
                     return;
 
                 if (DateTime.UtcNow >= deadline)
                     Assert.Fail($"Shipment '{_shipmentName}' was not found in the search results after 3 minutes of retries.");
 
-                // Wait 5 seconds, then click Reload if it appeared.
-                await Page.WaitForTimeoutAsync(retryIntervalMs);
-                var reloadButton = Page.Locator("button.btn-outline-danger").Filter(new() { HasText = "Reload" });
+                // Click Reload immediately, then wait 2 seconds before next check.
                 if (await reloadButton.IsVisibleAsync())
                 {
                     await reloadButton.ClickAsync();
                     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                 }
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
             }
         }
 

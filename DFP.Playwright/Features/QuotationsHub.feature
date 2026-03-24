@@ -214,3 +214,29 @@ Then I enter the quote id in field in the Hub
 And I click on Search button in the Hub
 And the quote should appear in the search results in the hub
 And the status should be "Closed"
+
+@158 @NOINT @login
+Scenario: HUB Quotation- Download All Quotations_158
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+Given I navigated to quotation List in the Hub
+#-------Download all quotations list as CSV and verify row count-------
+And I store the total quotations count in the Hub
+When I click on Download Quotations list in the Hub
+Then the downloaded CSV should match the total quotations count in the Hub
+
+
+@135 @NOINT @login
+Scenario: HUB Quotation - Verify Ocean FCL Quotation (Download, copy and delete)_135
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+Given I navigated to quotation List in the Hub
+#-------Download individual quotation as PDF and verify all stored data-------
+And I filter quotations by status "Open" in the Hub
+And I click on Search button in the Hub
+And I select the first quotation in the Hub
+And I store the quote id in the Hub
+And I store all infromation in the quote
+When I click on Download button in the Hub
+And I open the downloaded PDF in the Hub
+Then I verify all information in the PDF in the Hub

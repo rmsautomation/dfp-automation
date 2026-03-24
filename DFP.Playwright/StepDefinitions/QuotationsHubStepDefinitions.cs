@@ -325,5 +325,56 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _quotationsHubPage.ShouldSeeFirstRequestInStatusInHubAsync(status);
         }
+
+        // ── TC158: Download All Quotations ────────────────────────────────────────
+
+        [Given("I store the total quotations count in the Hub")]
+        [When("I store the total quotations count in the Hub")]
+        [Then("I store the total quotations count in the Hub")]
+        public async Task IStoreTheTotalQuotationsCountInHub()
+        {
+            await _quotationsHubPage.StoreTotalQuotationsCountInHubAsync();
+        }
+
+        [When("I click on Download Quotations list in the Hub")]
+        [Then("I click on Download Quotations list in the Hub")]
+        public async Task IClickOnDownloadQuotationsListInHub()
+        {
+            await _quotationsHubPage.ClickDownloadQuotationsListInHubAsync();
+        }
+
+        [Then("the downloaded CSV should match the total quotations count in the Hub")]
+        public async Task TheDownloadedCsvShouldMatchTheTotalQuotationsCountInHub()
+        {
+            await _quotationsHubPage.VerifyDownloadedCsvMatchesTotalCountInHubAsync();
+        }
+
+        [Given("I store all infromation in the quote")]
+        [When("I store all infromation in the quote")]
+        [Then("I store all infromation in the quote")]
+        public async Task IStoreAllInformationInTheQuote()
+        {
+            await _quotationsHubPage.StoreAllInformationInQuoteAsync();
+        }
+
+        [When("I click on Download button in the Hub")]
+        [Then("I click on Download button in the Hub")]
+        public async Task IClickOnDownloadButtonInHub()
+        {
+            await _quotationsHubPage.ClickDownloadButtonInDetailInHubAsync();
+        }
+
+        [When("I open the downloaded PDF in the Hub")]
+        [Then("I open the downloaded PDF in the Hub")]
+        public async Task IOpenTheDownloadedPdfInHub()
+        {
+            await _quotationsHubPage.OpenDownloadedPdfInHubAsync();
+        }
+
+        [Then("I verify all information in the PDF in the Hub")]
+        public async Task IVerifyAllInformationInThePdfInHub()
+        {
+            await _quotationsHubPage.VerifyAllInformationInPdfAsync();
+        }
     }
 }

@@ -109,6 +109,12 @@ namespace DFP.Playwright.Support
                 return new YopmailPage(tc.Page!);
             });
 
+            services.AddScoped<HubRadarPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new HubRadarPage(tc.Page!);
+            });
+
             return services;
         }
     }

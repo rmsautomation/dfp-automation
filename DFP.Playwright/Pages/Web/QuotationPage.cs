@@ -115,10 +115,10 @@ namespace DFP.Playwright.Pages.Web
         private const string LtlPackageComboboxSelector = "ng-select[formcontrolname='packaging'] input[role='combobox']";
 
         // Cargo dimension/weight inputs — verified from HTML: input[formcontrolname='unit_*']
-        private const string WeightInputSelector    = "input[formcontrolname='unit_weight']";
-        private const string LengthInputSelector    = "input[formcontrolname='unit_length']";
-        private const string WidthInputSelector     = "input[formcontrolname='unit_width']";
-        private const string HeightInputSelector    = "input[formcontrolname='unit_height']";
+        private const string WeightInputSelector = "input[formcontrolname='unit_weight']";
+        private const string LengthInputSelector = "input[formcontrolname='unit_length']";
+        private const string WidthInputSelector = "input[formcontrolname='unit_width']";
+        private const string HeightInputSelector = "input[formcontrolname='unit_height']";
 
         // "Request a different rate" button — verified from HTML: button.btn-sm.btn-outline-secondary.rounded-pill > span
         private static readonly string[] RequestDifferentRateSelectors =
@@ -531,6 +531,9 @@ namespace DFP.Playwright.Pages.Web
         /// <summary>Returns the quote ID stored by StoreQuoteIdAsync (e.g. "QUO-02463").</summary>
         public string GetQuoteId() => _quoteId;
 
+        /// <summary>Sets the quote ID directly (used when syncing from Hub context).</summary>
+        public void SetQuoteId(string id) => _quoteId = id;
+
         /// <summary>
         /// Verifies the stored quote ID appears in a portal notification link.
         /// Verified from HTML: a.h6.text-dark containing the quote ID (e.g. "QUO-02527")
@@ -564,7 +567,7 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected quote '{quoteId}' NOT to appear in the last {checked_} notifications. URL: {Page.Url}");
         }
 
-        
+
 
         /// <summary>
         /// Enters the stored quote ID in the "Quotation #" search input and waits for results.
@@ -591,6 +594,26 @@ namespace DFP.Playwright.Pages.Web
             await listItem.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             Assert.IsTrue(await listItem.First.IsVisibleAsync(),
                 $"Expected quote '{_quoteId}' to appear in the results list. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the stored quote ID does NOT appear in the Portal results.
+        /// Checks for "We couldn't find any matching quotations" message.
+        /// </summary>
+        public async Task ShouldNotSeeQuoteIdInResultsAsync()
+        {
+            var noResultsMessage = Page.GetByRole(AriaRole.Heading, new() { Name = "No Quotations found" });
+
+            await noResultsMessage.WaitForAsync(new LocatorWaitForOptions
+            {
+                State = WaitForSelectorState.Visible,
+                Timeout = 15000
+            });
+
+            Assert.IsTrue(await noResultsMessage.IsVisibleAsync(),
+                $"Expected 'no results' message for quote '{_quoteId}'. URL: {Page.Url}");
+
+            Console.WriteLine($"[QuotationPage] Quote '{_quoteId}' correctly not found in Portal results.");
         }
 
         // ── TC145: Transaction role (Buyer / Seller) ──────────────────────────────
@@ -654,7 +677,7 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected quote '{_quoteId}' to have status '{status}'. URL: {Page.Url}");
         }
 
-        
+
 
         // ── LCL Cargo: Package, Dimensions & Weight ───────────────────────────────
 
@@ -695,10 +718,10 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task EnterCargoDetailsAsync(string weight, string length, string width, string height)
         {
-            var weightInput  = Page.Locator(WeightInputSelector);
-            var lengthInput  = Page.Locator(LengthInputSelector);
-            var widthInput   = Page.Locator(WidthInputSelector);
-            var heightInput  = Page.Locator(HeightInputSelector);
+            var weightInput = Page.Locator(WeightInputSelector);
+            var lengthInput = Page.Locator(LengthInputSelector);
+            var widthInput = Page.Locator(WidthInputSelector);
+            var heightInput = Page.Locator(HeightInputSelector);
 
             await weightInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
             await weightInput.ClearAsync();

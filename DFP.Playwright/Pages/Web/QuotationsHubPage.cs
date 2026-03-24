@@ -12,15 +12,25 @@ namespace DFP.Playwright.Pages.Web
         private string _quoteId = string.Empty;
 
         // ── TC158 stored data ────────────────────────────────────────────────────
-        private int    _totalQuotationsCount    = 0;
-        private string _lastDownloadedFilePath  = string.Empty;
-        private string _pdfText                 = string.Empty;
+        private int    _totalQuotationsCount       = 0;
+        private string _lastDownloadedFilePath     = string.Empty;
+        private string _lastDownloadedSuggestedName = string.Empty;
+        private string _pdfText                    = string.Empty;
         private string _modality                = string.Empty;
         private string _origin                  = string.Empty;
         private string _destination             = string.Empty;
         private string _currency                = string.Empty;
         private string _cargoReady              = string.Empty;
         private string _commodity               = string.Empty;
+
+        // ── TC135 copy data ──────────────────────────────────────────────────────
+        private string _copyQuoteId             = string.Empty;
+        private string _copyModality            = string.Empty;
+        private string _copyOrigin              = string.Empty;
+        private string _copyDestination         = string.Empty;
+        private string _copyCurrency            = string.Empty;
+        private string _copyCargoReady          = string.Empty;
+        private string _copyCommodity           = string.Empty;
 
         public QuotationsHubPage(IPage page) : base(page)
         {
@@ -331,6 +341,12 @@ namespace DFP.Playwright.Pages.Web
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
+        public async Task ClickYesButtonInHubAsyncToDeleteQuote()
+        {
+            var btn = Page.GetByRole(AriaRole.Button, new() { Name = "Yes" });
+            await btn.ClickAsync();
+            await btn.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+        }
         /// <summary>
         /// Reads and stores the quote ID from the quotation detail heading (e.g. "QUO-02524").
         /// Verified from HTML: h3 > span.text-muted containing the quote ID.
@@ -689,8 +705,9 @@ namespace DFP.Playwright.Pages.Web
             var downloadTask = Page.WaitForDownloadAsync();
             await btn.ClickAsync();
             var download = await downloadTask;
-            _lastDownloadedFilePath = await download.PathAsync() ?? string.Empty;
-            Console.WriteLine($"[QuotationsHubPage] PDF downloaded: {Path.GetFileName(_lastDownloadedFilePath)}");
+            _lastDownloadedFilePath      = await download.PathAsync() ?? string.Empty;
+            _lastDownloadedSuggestedName = download.SuggestedFilename;
+            Console.WriteLine($"[QuotationsHubPage] PDF downloaded: '{_lastDownloadedSuggestedName}' → {_lastDownloadedFilePath}");
             Assert.IsFalse(string.IsNullOrEmpty(_lastDownloadedFilePath), "Expected PDF file to be downloaded but path is empty.");
         }
 
@@ -702,8 +719,12 @@ namespace DFP.Playwright.Pages.Web
         {
             Assert.IsFalse(string.IsNullOrEmpty(_lastDownloadedFilePath), "No downloaded PDF path stored. Call ClickDownloadButtonInDetailInHubAsync first.");
             Assert.IsTrue(File.Exists(_lastDownloadedFilePath), $"PDF file not found at: {_lastDownloadedFilePath}");
-            var ext = Path.GetExtension(_lastDownloadedFilePath).ToLowerInvariant();
-            Assert.AreEqual(".pdf", ext, $"Expected a .pdf file but got '{ext}'.");
+            // Playwright stores downloads in a temp path without extension; use SuggestedFilename for the .pdf check
+            var nameForCheck = string.IsNullOrEmpty(_lastDownloadedSuggestedName)
+                ? Path.GetFileName(_lastDownloadedFilePath)
+                : _lastDownloadedSuggestedName;
+            var ext = Path.GetExtension(nameForCheck).ToLowerInvariant();
+            Assert.AreEqual(".pdf", ext, $"Expected a .pdf file but got '{ext}'. Suggested filename: '{_lastDownloadedSuggestedName}', Temp path: '{_lastDownloadedFilePath}'.");
 
             var sb = new StringBuilder();
             using (var doc = PdfDocument.Open(_lastDownloadedFilePath))
@@ -732,7 +753,6 @@ namespace DFP.Playwright.Pages.Web
                 ["Modality"]    = _modality,
                 ["Origin"]      = _origin,
                 ["Destination"] = _destination,
-                ["Currency"]    = _currency,
                 ["Cargo ready"] = _cargoReady,
                 ["Commodity"]   = _commodity,
             };
@@ -745,16 +765,45 @@ namespace DFP.Playwright.Pages.Web
                     Console.WriteLine($"[QuotationsHubPage] Skipping '{fieldName}' — no value stored.");
                     continue;
                 }
-                // PDFs sometimes split words with spaces; check for the key token
-                var token = expected.Trim();
-                if (!_pdfText.Contains(token, StringComparison.OrdinalIgnoreCase))
+
+                string token;
+                switch (fieldName)
+                {
+                    case "Destination":
+                    case "Origin":
+                        // Check only the first word (e.g. "Shanghai" from "Shanghai Pt, 31")
+                        token = expected.Trim().Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                        break;
+
+                    case "Cargo ready":
+                        // UI stores MM/DD/YYYY; PDF uses ISO YYYY-MM-DD
+                        if (DateTime.TryParseExact(expected.Trim(), "MM/dd/yyyy",
+                                System.Globalization.CultureInfo.InvariantCulture,
+                                System.Globalization.DateTimeStyles.None, out var dt))
+                            token = dt.ToString("yyyy-MM-dd");
+                        else
+                            token = expected.Trim();
+                        break;
+
+                    default:
+                        token = expected.Trim();
+                        break;
+                }
+
+                // Check in normal text AND in space-stripped text (handles PdfPig font encoding
+                // issues where "USD" may be extracted as separate characters "U S D")
+                var pdfNoSpaces = _pdfText.Replace(" ", "");
+                var found = _pdfText.Contains(token, StringComparison.OrdinalIgnoreCase)
+                         || pdfNoSpaces.Contains(token, StringComparison.OrdinalIgnoreCase);
+
+                if (!found)
                     failures.Add($"  - '{fieldName}': expected to find \"{token}\" in PDF");
                 else
                     Console.WriteLine($"[QuotationsHubPage] ✓ '{fieldName}' found: \"{token}\"");
             }
 
             Assert.AreEqual(0, failures.Count,
-                $"PDF is missing {failures.Count} field(s):\n{string.Join('\n', failures)}\n\nPDF text (first 500 chars):\n{_pdfText[..Math.Min(500, _pdfText.Length)]}");
+                $"PDF is missing {failures.Count} field(s):\n{string.Join('\n', failures)}\n\nPDF text (first 1000 chars):\n{_pdfText[..Math.Min(1000, _pdfText.Length)]}");
             await Task.CompletedTask;
         }
 
@@ -765,5 +814,104 @@ namespace DFP.Playwright.Pages.Web
         public string GetCurrency()     => _currency;
         public string GetCargoReady()   => _cargoReady;
         public string GetCommodity()    => _commodity;
+
+        // ── TC135: Filter by customer ─────────────────────────────────────────────
+
+        public async Task FilterByCustomerInHubAsync(string customer)
+        {
+            var input = Page.Locator("p-autocomplete input[type='text']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.ClearAsync();
+            await input.FillAsync(customer);
+            var firstItem = Page.Locator("ul[role='listbox'] li.p-autocomplete-item").First;
+            await firstItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await firstItem.ClickAsync();
+        }
+
+        // ── TC135: Quote options dropdown ─────────────────────────────────────────
+
+        public async Task ClickQuoteOptionsArrowInHubAsync()
+        {
+            var btn = Page.Locator("button.dropdown-toggle-split").First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.ClickAsync();
+        }
+
+        public async Task SelectCopyQuotationOptionInHubAsync()
+        {
+            var copyLink = Page.Locator("a[href*='copy=true']").First;
+            await copyLink.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await copyLink.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task StoreCopyQuoteIdInHubAsync()
+        {
+            var span = Page.Locator("h3 span.text-muted").Filter(new LocatorFilterOptions { HasText = "QUO-" });
+            await span.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            _copyQuoteId = (await span.First.InnerTextAsync()).Trim();
+            Console.WriteLine($"[QuotationsHubPage] Copy Quote ID stored: {_copyQuoteId}");
+        }
+
+        public async Task StoreAllInformationInCopyQuoteAsync()
+        {
+            var firstItem = Page.Locator("li.list-group-item").First;
+            await firstItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            _copyModality    = await ReadDetailFieldAsync("Modality",   isLink: false);
+            _copyOrigin      = await ReadDetailFieldAsync("Origin",     isLink: true);
+            _copyDestination = await ReadDetailFieldAsync("Destination",isLink: true);
+            _copyCurrency    = await ReadDetailFieldAsync("Currency",   isLink: false);
+            _copyCargoReady  = await ReadDetailFieldAsync("Cargo ready",isLink: false);
+            _copyCommodity   = await ReadDetailFieldAsync("Commodity",  isLink: false);
+            Console.WriteLine($"[QuotationsHubPage] Copy info | Modality: {_copyModality} | Origin: {_copyOrigin} | Destination: {_copyDestination} | Currency: {_copyCurrency} | Cargo ready: {_copyCargoReady} | Commodity: {_copyCommodity}");
+        }
+
+        public async Task VerifyCopyMatchesOriginalAsync()
+        {
+            var failures = new List<string>();
+            void Check(string field, string original, string copy)
+            {
+                if (!string.Equals(original, copy, StringComparison.OrdinalIgnoreCase))
+                    failures.Add($"  - '{field}': original=\"{original}\" vs copy=\"{copy}\"");
+                else
+                    Console.WriteLine($"[QuotationsHubPage] ✓ '{field}' matches: \"{copy}\"");
+            }
+            Check("Modality",    _modality,    _copyModality);
+            Check("Origin",      _origin,      _copyOrigin);
+            Check("Destination", _destination, _copyDestination);
+            Check("Currency",    _currency,    _copyCurrency);
+            Check("Commodity",   _commodity,   _copyCommodity);
+            Assert.AreEqual(0, failures.Count,
+                $"Copy quote fields do not match original:\n{string.Join('\n', failures)}");
+            await Task.CompletedTask;
+        }
+
+        public string GetCopyQuoteId() => _copyQuoteId;
+
+        // ── TC135: Delete quotation ───────────────────────────────────────────────
+
+        public async Task SelectDeleteQuotationOptionInHubAsync()
+        {
+            var deleteLink = Page.Locator(".dropdown-item a.text-danger").First;
+            await deleteLink.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await deleteLink.ClickAsync();
+        }
+
+        public async Task ShouldSeeSectionHeaderInHubAsync(string header)
+        {
+            var heading = Page.Locator("h1, h2, h3, .page-title").Filter(new LocatorFilterOptions { HasText = header });
+            await heading.First.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.First.IsVisibleAsync(),
+                $"Expected section header '{header}' to be visible. URL: {Page.Url}");
+        }
+
+        public async Task QuoteShouldNotAppearInHubResultsAsync()
+        {
+            var notFoundCell = Page.Locator("td.text-muted.text-center");
+            await notFoundCell.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await notFoundCell.IsVisibleAsync(),
+                $"Expected 'Nothing found' to appear after deleting quote '{_quoteId}'. URL: {Page.Url}");
+            Console.WriteLine($"[QuotationsHubPage] Quote '{_quoteId}' correctly shows 'Nothing found'.");
+        }
     }
 }

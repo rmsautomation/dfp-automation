@@ -941,25 +941,91 @@ await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string
 await testRunner.AndAsync("I filter quotations by status \"Open\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 236
-await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I filter by customer \"AutomationOwner\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 237
-await testRunner.AndAsync("I select the first quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 238
-await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I select the first quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 239
-await testRunner.AndAsync("I store all infromation in the quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 240
-await testRunner.WhenAsync("I click on Download button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+await testRunner.AndAsync("I store all infromation in the quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 241
-await testRunner.AndAsync("I open the downloaded PDF in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.WhenAsync("I click on Download button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 242
+await testRunner.AndAsync("I open the downloaded PDF in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 243
 await testRunner.ThenAsync("I verify all information in the PDF in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 245
+await testRunner.AndAsync("I click on the arrow to select the quote options", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 246
+await testRunner.AndAsync("I select copy quotation option", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 247
+await testRunner.WhenAsync("I click on Create Quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 248
+await testRunner.ThenAsync("I should see the quotation in \"Draft\" status in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 249
+await testRunner.AndAsync("I store the copy quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 250
+await testRunner.AndAsync("I store all infromation in the copy quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 251
+await testRunner.ThenAsync("I verify that all information in the copied quote matches the original quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 252
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 254
+await testRunner.WhenAsync("I click on the arrow to select the quote options", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 255
+await testRunner.ThenAsync("I select the delete option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 256
+await testRunner.AndAsync("I click on Yes button in the hub to delete quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 257
+await testRunner.ThenAsync("I should see the section header \"Quotations\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 258
+await testRunner.WhenAsync("I click on system id input field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 259
+await testRunner.ThenAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 260
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 261
+await testRunner.AndAsync("the quote should NOT appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 263
+await testRunner.GivenAsync("I login to Portal as user \"automationdfpowner@gmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 264
+await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 265
+await testRunner.WhenAsync("I enter the quote ID in the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 266
+await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 267
+await testRunner.ThenAsync("I should NOT see the quote ID in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

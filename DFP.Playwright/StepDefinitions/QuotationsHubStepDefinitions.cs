@@ -222,6 +222,17 @@ namespace DFP.Playwright.StepDefinitions
             await _quotationsHubPage.ClickYesButtonInHubAsync();
         }
 
+        [Given("I click on Yes button in the hub to delete quote")]
+        [When("I click on Yes button in the hub to delete quote")]
+        [Then("I click on Yes button in the hub to delete quote")]
+        [Given("I click on Yes button in the hub to delete quote")]
+        [When("I click on Yes button in the hub to delete quote")]
+        [Then("I click on Yes button in the hub to delete quote")]
+        public async Task IClickOnYesButtonInTheHubToDeleteQuote()
+        {
+            await _quotationsHubPage.ClickYesButtonInHubAsyncToDeleteQuote();
+        }
+
         [Given("I click on Create Quotation in the Hub")]
         [When("I click on Create Quotation in the Hub")]
         [Then("I click on Create Quotation in the Hub")]
@@ -375,6 +386,70 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IVerifyAllInformationInThePdfInHub()
         {
             await _quotationsHubPage.VerifyAllInformationInPdfAsync();
+        }
+
+        // ── TC135: Filter by customer ─────────────────────────────────────────────
+
+        [Given("I filter by customer {string}")]
+        [When("I filter by customer {string}")]
+        [Then("I filter by customer {string}")]
+        public async Task IFilterByCustomer(string customer)
+        {
+            await _quotationsHubPage.FilterByCustomerInHubAsync(customer);
+        }
+
+        // ── TC135: Quote options (copy / delete) ──────────────────────────────────
+
+        [Given("I click on the arrow to select the quote options")]
+        [When("I click on the arrow to select the quote options")]
+        [Then("I click on the arrow to select the quote options")]
+        public async Task IClickOnTheArrowToSelectTheQuoteOptions()
+        {
+            await _quotationsHubPage.ClickQuoteOptionsArrowInHubAsync();
+        }
+
+        [Given("I select copy quotation option")]
+        [When("I select copy quotation option")]
+        [Then("I select copy quotation option")]
+        public async Task ISelectCopyQuotationOption()
+        {
+            await _quotationsHubPage.SelectCopyQuotationOptionInHubAsync();
+        }
+
+        [Given("I store the copy quote id in the Hub")]
+        [When("I store the copy quote id in the Hub")]
+        [Then("I store the copy quote id in the Hub")]
+        public async Task IStoreTheCopyQuoteIdInHub()
+        {
+            await _quotationsHubPage.StoreCopyQuoteIdInHubAsync();
+        }
+
+        [Given("I store all infromation in the copy quote")]
+        [When("I store all infromation in the copy quote")]
+        [Then("I store all infromation in the copy quote")]
+        public async Task IStoreAllInformationInTheCopyQuote()
+        {
+            await _quotationsHubPage.StoreAllInformationInCopyQuoteAsync();
+        }
+
+        [Then("I verify that all information in the copied quote matches the original quote")]
+        public async Task IVerifyThatAllInformationInCopiedQuoteMatchesOriginal()
+        {
+            await _quotationsHubPage.VerifyCopyMatchesOriginalAsync();
+        }
+
+        [Given("I select the delete option")]
+        [When("I select the delete option")]
+        [Then("I select the delete option")]
+        public async Task ISelectTheDeleteOption()
+        {
+            await _quotationsHubPage.SelectDeleteQuotationOptionInHubAsync();
+        }
+
+        [Then("the quote should NOT appear in the search results in the hub")]
+        public async Task TheQuoteShouldNotAppearInTheSearchResultsInTheHub()
+        {
+            await _quotationsHubPage.QuoteShouldNotAppearInHubResultsAsync();
         }
     }
 }

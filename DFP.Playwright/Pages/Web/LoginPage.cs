@@ -496,6 +496,73 @@ namespace DFP.Playwright.Pages.Web
         }
 
         // FindLocatorAsync / TryFindLocatorAsync are defined in BasePage
+    // ── Portal login page assertion ───────────────────────────────────────────
+
+        /// <summary>
+        /// Verifies the portal login page is visible by checking the logo image.
+        /// HTML: img[alt="Logo"][src*="site_contrast_logo"]
+        /// </summary>
+        public async Task ShouldSeeLoginPageAsync()
+        {
+            var logo = Page.Locator("img[alt='Logo'][src*='site_contrast_logo']");
+            await logo.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+        }
+
+        // ── Portal login (individual steps for TC1483) ────────────────────────────
+
+        private LoginPage CreateLoginPage() =>
+            new LoginPage(Page,
+                Environment.GetEnvironmentVariable("PORTAL_BASE_URL")
+                ?? Environment.GetEnvironmentVariable("BASE_URL")
+                ?? "");
+
+        /// <summary>
+        /// Waits for input#email to be visible and enabled, then fills it.
+        /// HTML: input#email[name="email"] placeholder="Email address"
+        /// </summary>
+        public async Task FillPortalUsernameAsync(string username)
+        {
+            var input = Page.Locator("input#email[name='email']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
+            await input.FillAsync(username);
+        }
+
+        /// <summary>
+        /// Waits for input#password to be visible and enabled, then fills it.
+        /// HTML: input#password[name="password"] type="password"
+        /// </summary>
+        public async Task FillPortalPasswordAsync(string password)
+        {
+            var input = Page.Locator("input#password[name='password']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
+            await input.FillAsync(password);
+        }
+
+        /// <summary>
+        /// Clicks the Sign in submit button and waits for the dashboard.
+        /// HTML: button[type="submit"].btn-primary containing "Sign in"
+        /// </summary>
+        public async Task ClickPortalSignInAsync()
+        {
+            var btn = Page.Locator("button[type='submit'].btn-primary").Filter(
+                new LocatorFilterOptions { HasText = "Sign in" });
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.ClickAsync();
+            await CreateLoginPage().WaitForDashboardAsync();
+        }
+
+        /// <summary>Full portal login in one call (used by ILoginToPortalAsTheCreatedUser).</summary>
+        public async Task LoginToPortalAsCreatedUserAsync(string email, string password)
+        {
+            var login = CreateLoginPage();
+            await login.NavigateAsync();
+            await login.LogoutIfLoggedInAsync();
+            await login.LoginToDFPAsync(email, password, searchLoginModal: true);
+            await login.WaitForDashboardAsync();
+        }
+
     }
 }
 

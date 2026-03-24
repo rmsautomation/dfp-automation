@@ -134,57 +134,5 @@ namespace DFP.Playwright.StepDefinitions
             await _hubAdminUsersPortalPage.ClickCreateUserSubmitButtonAsync();
         }
 
-        // ── TC1483: Portal login (individual steps) ────────────────────────────────
-
-        [Given("I should see the login page")]
-        [When("I should see the login page")]
-        [Then("I should see the login page")]
-        public async Task IShouldSeeTheLoginPage()
-        {
-            await _hubAdminUsersPortalPage.ShouldSeeLoginPageAsync();
-        }
-
-        [Given("I enter the created username {string} in the Portal")]
-        [When("I enter the created username {string} in the Portal")]
-        [Then("I enter the created username {string} in the Portal")]
-        public async Task IEnterTheCreatedUsernameInThePortal(string username)
-        {
-            string resolved = string.IsNullOrEmpty(username)
-                ? _scenarioContext["usernamePortal"]?.ToString() ?? ""
-                : username;
-            Console.WriteLine($"[TC1483] Portal username: {resolved}");
-            await _hubAdminUsersPortalPage.FillPortalUsernameAsync(resolved);
-        }
-
-        [Given("I enter the password {string} in the Portal")]
-        [When("I enter the password {string} in the Portal")]
-        [Then("I enter the password {string} in the Portal")]
-        public async Task IEnterThePasswordInThePortal(string password)
-        {
-            string resolved = string.IsNullOrEmpty(password)
-                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
-                : password;
-            Console.WriteLine($"[TC1483] Portal password: {resolved}");
-            await _hubAdminUsersPortalPage.FillPortalPasswordAsync(resolved);
-        }
-
-        [Given("click on Sign in button")]
-        [When("click on Sign in button")]
-        [Then("click on Sign in button")]
-        public async Task IClickOnSignInButton()
-        {
-            await _hubAdminUsersPortalPage.ClickPortalSignInAsync();
-        }
-
-        [Given("I login to Portal as the created user")]
-        [When("I login to Portal as the created user")]
-        [Then("I login to Portal as the created user")]
-        public async Task ILoginToPortalAsTheCreatedUser()
-        {
-            var email    = _scenarioContext["ContactEmail"]?.ToString()   ?? "";
-            var password = _scenarioContext["PortalPassword"]?.ToString() ?? "";
-            Console.WriteLine($"[TC1483] Logging in to Portal as: {email}");
-            await _hubAdminUsersPortalPage.LoginToPortalAsCreatedUserAsync(email, password);
-        }
     }
 }

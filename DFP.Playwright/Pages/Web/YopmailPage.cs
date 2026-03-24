@@ -18,8 +18,19 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task NavigateAsync()
         {
-            await Page.GotoAsync("https://yopmail.com/");
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Use DOMContentLoaded — yopmail has ads/trackers and Hub leaves open
+            // WebSocket connections that prevent NetworkIdle from being reached.
+            await Page.GotoAsync("https://yopmail.com/",
+                new PageGotoOptions { WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = 60000 });
+            try
+            {
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle,
+                    new PageWaitForLoadStateOptions { Timeout = 5000 });
+            }
+            catch (TimeoutException)
+            {
+                // DOMContentLoaded is sufficient to interact with yopmail; ignore lingering connections
+            }
         }
 
         /// <summary>

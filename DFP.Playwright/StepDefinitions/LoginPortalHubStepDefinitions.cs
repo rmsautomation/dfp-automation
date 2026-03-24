@@ -8,14 +8,13 @@ using Reqnroll;
 namespace DFP.Playwright.StepDefinitions
 {
     [Binding]
-    public sealed class LoginPortalHubStepDefinitions
+    public sealed class LoginPortalHubStepDefinitions(DFP.Playwright.Support.TestContext tc, ScenarioContext scenarioContext)
     {
-        private readonly DFP.Playwright.Support.TestContext _tc;
-
-        public LoginPortalHubStepDefinitions(DFP.Playwright.Support.TestContext tc)
-        {
-            _tc = tc;
-        }
+        private readonly DFP.Playwright.Support.TestContext _tc = tc;
+        private readonly ScenarioContext _scenarioContext = scenarioContext;
+        private readonly LoginPage _loginPage = new LoginPage(tc.Page!,
+            Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
+            ?? Environment.GetEnvironmentVariable("BASE_URL") ?? "");
 
         [Given("I login to Portal")]
         public async Task GivenILoginToPortal()
@@ -366,6 +365,59 @@ namespace DFP.Playwright.StepDefinitions
                 throw new InvalidOperationException("PORTAL_PASSWORD (or DFP_PASSWORD) is required as fallback.");
 
             return ResolveEnvValue(fallback);
+        }
+
+        // ── TC1483: Portal login (individual steps) ────────────────────────────────
+
+        [Given("I should see the login page")]
+        [When("I should see the login page")]
+        [Then("I should see the login page")]
+        public async Task IShouldSeeTheLoginPage()
+        {
+            await _loginPage.ShouldSeeLoginPageAsync();
+        }
+
+        [Given("I enter the created username {string} in the Portal")]
+        [When("I enter the created username {string} in the Portal")]
+        [Then("I enter the created username {string} in the Portal")]
+        public async Task IEnterTheCreatedUsernameInThePortal(string username)
+        {
+            string resolved = string.IsNullOrEmpty(username)
+                ? _scenarioContext["usernamePortal"]?.ToString() ?? ""
+                : username;
+            Console.WriteLine($"[TC1483] Portal username: {resolved}");
+            await _loginPage.FillPortalUsernameAsync(resolved);
+        }
+
+        [Given("I enter the password {string} in the Portal")]
+        [When("I enter the password {string} in the Portal")]
+        [Then("I enter the password {string} in the Portal")]
+        public async Task IEnterThePasswordInThePortal(string password)
+        {
+            string resolved = string.IsNullOrEmpty(password)
+                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
+                : password;
+            Console.WriteLine($"[TC1483] Portal password: {resolved}");
+            await _loginPage.FillPortalPasswordAsync(resolved);
+        }
+
+        [Given("click on Sign in button")]
+        [When("click on Sign in button")]
+        [Then("click on Sign in button")]
+        public async Task IClickOnSignInButton()
+        {
+            await _loginPage.ClickPortalSignInAsync();
+        }
+
+        [Given("I login to Portal as the created user")]
+        [When("I login to Portal as the created user")]
+        [Then("I login to Portal as the created user")]
+        public async Task ILoginToPortalAsTheCreatedUser()
+        {
+            var email    = _scenarioContext["ContactEmail"]?.ToString()   ?? "";
+            var password = _scenarioContext["PortalPassword"]?.ToString() ?? "";
+            Console.WriteLine($"[TC1483] Logging in to Portal as: {email}");
+            await _loginPage.LoginToPortalAsCreatedUserAsync(email, password);
         }
     }
 }

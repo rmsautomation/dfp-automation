@@ -115,6 +115,12 @@ namespace DFP.Playwright.Support
                 return new HubRadarPage(tc.Page!);
             });
 
+            services.AddScoped<PortalRegisterPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new PortalRegisterPage(tc.Page!);
+            });
+
             return services;
         }
     }

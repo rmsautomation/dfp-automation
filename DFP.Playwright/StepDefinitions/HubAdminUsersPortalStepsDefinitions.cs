@@ -134,5 +134,79 @@ namespace DFP.Playwright.StepDefinitions
             await _hubAdminUsersPortalPage.ClickCreateUserSubmitButtonAsync();
         }
 
+        // ── TC1275: Hub approval of portal user ───────────────────────────────────
+
+        [Given("I select the created user {string} in the Hub to approve the access")]
+        [When("I select the created user {string} in the Hub to approve the access")]
+        [Then("I select the created user {string} in the Hub to approve the access")]
+        public async Task ISelectTheCreatedUserInTheHubToApproveTheAccess(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            await _hubAdminUsersPortalPage.SelectPendingUserByEmailAsync(resolved);
+        }
+
+        [Given("I enter the username {string}")]
+        [When("I enter the username {string}")]
+        [Then("I enter the username {string}")]
+        public async Task IEnterTheUsername(string username)
+        {
+            string resolved = string.IsNullOrEmpty(username)
+                ? GetNow()
+                : username;
+            _scenarioContext["UserName"] = resolved;
+            Console.WriteLine($"[TC1275] UserName stored: {resolved}");
+            await _hubAdminUsersPortalPage.EnterUsernameAsync(resolved);
+        }
+
+        [Given("I click on search icon to search the Entity")]
+        [When("I click on search icon to search the Entity")]
+        [Then("I click on search icon to search the Entity")]
+        public async Task IClickOnSearchIconToSearchTheEntity()
+        {
+            await _hubAdminUsersPortalPage.ClickSearchIconForEntityAsync();
+        }
+
+        [Given("I enter the Entity {string}")]
+        [When("I enter the Entity {string}")]
+        [Then("I enter the Entity {string}")]
+        public async Task IEnterTheEntity(string entityName)
+        {
+            await _hubAdminUsersPortalPage.EnterEntityNameAsync(entityName);
+        }
+
+        [Given("I click on search button in the Entity page")]
+        [When("I click on search button in the Entity page")]
+        [Then("I click on search button in the Entity page")]
+        public async Task IClickOnSearchButtonInTheEntityPage()
+        {
+            await _hubAdminUsersPortalPage.ClickSearchButtonInEntityPageAsync();
+        }
+
+        [Given("I select the entity {string}")]
+        [When("I select the entity {string}")]
+        [Then("I select the entity {string}")]
+        public async Task ISelectTheEntity(string entityName)
+        {
+            await _hubAdminUsersPortalPage.SelectEntityByNameAsync(entityName);
+        }
+
+        [Given("I click on Continue button in the entity Page")]
+        [When("I click on Continue button in the entity Page")]
+        [Then("I click on Continue button in the entity Page")]
+        public async Task IClickOnContinueButtonInTheEntityPage()
+        {
+            await _hubAdminUsersPortalPage.ClickContinueButtonInEntityPageAsync();
+        }
+
+        [Given("I click on approve access button")]
+        [When("I click on approve access button")]
+        [Then("I click on approve access button")]
+        public async Task IClickOnApproveAccessButton()
+        {
+            await _hubAdminUsersPortalPage.ClickApproveAccessButtonAsync();
+        }
+
     }
 }

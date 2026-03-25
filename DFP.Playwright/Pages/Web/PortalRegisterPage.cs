@@ -136,6 +136,108 @@ namespace DFP.Playwright.Pages.Web
                 $"Expected email confirmation message. URL: {Page.Url}");
         }
 
+        // ── Complete your account page (INT portal) ───────────────────────────────
+
+        /// <summary>
+        /// Verifies the "Complete your account" h2 heading is visible and enabled.
+        /// HTML: h2 containing "Complete your account"
+        /// </summary>
+        public async Task VerifyCompleteYourAccountPageAsync()
+        {
+            var heading = Page.Locator("h2").Filter(new LocatorFilterOptions { HasText = "Complete your account" }).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected 'Complete your account' heading. URL: {Page.Url}");
+        }
+
+        /// <summary>Fills input#username on the Complete your account form.</summary>
+        public async Task EnterUsernameToCompleteAccountAsync(string username)
+        {
+            var input = Page.Locator("input#username[formcontrolname='username']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(username);
+        }
+
+        /// <summary>Fills input#password on the Complete your account form.</summary>
+        public async Task EnterPasswordToCompleteAccountAsync(string password)
+        {
+            var input = Page.Locator("input#password[formcontrolname='password']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(password);
+        }
+
+        /// <summary>Fills input#password_confirmation on the Complete your account form.</summary>
+        public async Task ConfirmPasswordToCompleteAccountAsync(string password)
+        {
+            var input = Page.Locator("input#password_confirmation[formcontrolname='password_confirmation']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(password);
+        }
+
+        /// <summary>Fills input#first_name on the Complete your account form.</summary>
+        public async Task EnterFirstNameToCompleteAccountAsync(string firstName)
+        {
+            var input = Page.Locator("input#first_name[formcontrolname='first_name']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(firstName);
+        }
+
+        /// <summary>Fills input#email on the Complete your account form.</summary>
+        public async Task EnterEmailToCompleteAccountAsync(string email)
+        {
+            var input = Page.Locator("input#email[formcontrolname='email']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(email);
+        }
+
+        /// <summary>Fills input#last_name on the Complete your account form.</summary>
+        public async Task EnterLastNameToCompleteAccountAsync(string lastName)
+        {
+            var input = Page.Locator("input#last_name[formcontrolname='last_name']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(input, timeoutMs: 10000);
+            await input.FillAsync(lastName);
+        }
+
+        /// <summary>
+        /// Verifies the welcome h4 heading is visible with the given text.
+        /// HTML: h4.pt-4.pb-4 containing the welcome text
+        /// </summary>
+        public async Task VerifyWelcomeTextAsync(string expectedText)
+        {
+            var heading = Page.Locator("h4").Filter(new LocatorFilterOptions { HasText = expectedText }).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected welcome text '{expectedText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Fills the Email address input on the INT portal registration form.
+        /// HTML: input#email[type="email"] formcontrolname="email" placeholder="Email address"
+        /// </summary>
+        public async Task EnterEmailAddressAsync(string email)
+        {
+            var input = Page.Locator("input#email[type='email']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.FillAsync(email);
+        }
+
+        /// <summary>
+        /// Fills the Confirm your email address input on the INT portal registration form.
+        /// HTML: input#email_confirmation[type="email"] formcontrolname="email_confirmation" placeholder="Confirm your email address"
+        /// </summary>
+        public async Task ConfirmEmailAddressAsync(string email)
+        {
+            var input = Page.Locator("input#email_confirmation[type='email']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.FillAsync(email);
+        }
+
         /// <summary>
         /// Verifies that the Recent Notifications widget on the Hub dashboard contains a notification
         /// with the registered user's full name (e.g. "{fullName} from QA Team signed up for an account").

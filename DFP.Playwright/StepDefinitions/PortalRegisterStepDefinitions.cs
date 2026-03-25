@@ -115,6 +115,110 @@ namespace DFP.Playwright.StepDefinitions
         public async Task ThenIShouldSeeConfirmationSuccessfull()
             => await _registerPage.VerifyEmailConfirmedAsync();
 
+        // ── Complete your account page (INT portal) ───────────────────────────────
+
+        [Given("I should see complete your account page")]
+        [When("I should see complete your account page")]
+        [Then("I should see complete your account page")]
+        public async Task IShouldSeeCompleteYourAccountPage()
+            => await _registerPage.VerifyCompleteYourAccountPageAsync();
+
+        [Given("I enter the username {string} to complete my account")]
+        [When("I enter the username {string} to complete my account")]
+        [Then("I enter the username {string} to complete my account")]
+        public async Task IEnterTheUsernameToCompleteMyAccount(string username)
+        {
+            string resolved = string.IsNullOrEmpty(username) ? GetNow() : username;
+            _scenarioContext["UserName"] = resolved;
+            Console.WriteLine($"[INT] Username to complete account: {resolved}");
+            await _registerPage.EnterUsernameToCompleteAccountAsync(resolved);
+        }
+
+        [Given("I enter the password {string} to complete my account")]
+        [When("I enter the password {string} to complete my account")]
+        [Then("I enter the password {string} to complete my account")]
+        public async Task IEnterThePasswordToCompleteMyAccount(string password)
+        {
+            string resolved = string.IsNullOrEmpty(password)
+                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
+                : password;
+            Console.WriteLine($"[INT] Password to complete account: {resolved}");
+            await _registerPage.EnterPasswordToCompleteAccountAsync(resolved);
+        }
+
+        [Given("I confirm the password {string} to complete my account")]
+        [When("I confirm the password {string} to complete my account")]
+        [Then("I confirm the password {string} to complete my account")]
+        public async Task IConfirmThePasswordToCompleteMyAccount(string password)
+        {
+            string resolved = string.IsNullOrEmpty(password)
+                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
+                : password;
+            await _registerPage.ConfirmPasswordToCompleteAccountAsync(resolved);
+        }
+
+        [Given("I enter the first name {string} to complete my account")]
+        [When("I enter the first name {string} to complete my account")]
+        [Then("I enter the first name {string} to complete my account")]
+        public async Task IEnterTheFirstNameToCompleteMyAccount(string firstName)
+        {
+            string resolved = string.IsNullOrEmpty(firstName) ? GetNow() : firstName;
+            Console.WriteLine($"[INT] First name to complete account: {resolved}");
+            await _registerPage.EnterFirstNameToCompleteAccountAsync(resolved);
+        }
+
+        [Given("I enter the email {string} to complete my account")]
+        [When("I enter the email {string} to complete my account")]
+        [Then("I enter the email {string} to complete my account")]
+        public async Task IEnterTheEmailToCompleteMyAccount(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            Console.WriteLine($"[INT] Email to complete account: {resolved}");
+            await _registerPage.EnterEmailToCompleteAccountAsync(resolved);
+        }
+
+        [Given("I enter the last name {string} to complete my account")]
+        [When("I enter the last name {string} to complete my account")]
+        [Then("I enter the last name {string} to complete my account")]
+        public async Task IEnterTheLastNameToCompleteMyAccount(string lastName)
+            => await _registerPage.EnterLastNameToCompleteAccountAsync(lastName);
+
+        // ── Welcome text verification ─────────────────────────────────────────────
+
+        [Given("I should see Welcome text {string}")]
+        [When("I should see Welcome text {string}")]
+        [Then("I should see Welcome text {string}")]
+        public async Task IShouldSeeWelcomeText(string expectedText)
+            => await _registerPage.VerifyWelcomeTextAsync(expectedText);
+
+        // ── Email address fields (INT portal registration) ────────────────────────
+
+        [Given("I provide an email address {string}")]
+        [When("I provide an email address {string}")]
+        [Then("I provide an email address {string}")]
+        public async Task IProvideAnEmailAddress(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            Console.WriteLine($"[TC1275] Email address: {resolved}");
+            await _registerPage.EnterEmailAddressAsync(resolved);
+        }
+
+        [Given("I confirm the provide email address {string} second time.")]
+        [When("I confirm the provide email address {string} second time.")]
+        [Then("I confirm the provide email address {string} second time.")]
+        public async Task IConfirmTheProvideEmailAddress(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            Console.WriteLine($"[TC1275] Confirm email address: {resolved}");
+            await _registerPage.ConfirmEmailAddressAsync(resolved);
+        }
+
         // ── Hub notification verification ─────────────────────────────────────────
 
         [Then("I verify the notification on the Dashboard page")]

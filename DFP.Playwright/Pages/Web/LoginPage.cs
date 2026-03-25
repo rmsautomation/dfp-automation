@@ -499,13 +499,27 @@ namespace DFP.Playwright.Pages.Web
     // ── Portal login page assertion ───────────────────────────────────────────
 
         /// <summary>
-        /// Verifies the portal login page is visible by checking the logo image.
-        /// HTML: img[alt="Logo"][src*="site_contrast_logo"]
+        /// Verifies the portal login page / homepage is visible.
+        /// No-int portal: checks logo img[alt="Logo"][src*="site_contrast_logo"]
+        /// Int portal: falls back to Sign in nav link a[href="/my-portal"] with text "Sign in"
         /// </summary>
         public async Task ShouldSeeLoginPageAsync()
         {
             var logo = Page.Locator("img[alt='Logo'][src*='site_contrast_logo']");
-            await logo.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            try
+            {
+                await logo.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+                return;
+            }
+            catch { /* int portal may not have the logo — fall through to Sign in button check */ }
+
+            // Int portal: homepage shows a "Sign in" nav link instead of the login form directly
+            // HTML: <a class="nav-link btn btn-outline-secondary..." href="/my-portal">Sign in</a>
+            var signInBtn = Page.Locator("a[href='/my-portal']")
+                .Filter(new LocatorFilterOptions { HasText = "Sign in" })
+                .First;
+            await signInBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await WaitForEnabledAsync(signInBtn, timeoutMs: 5000);
         }
 
         // ── Portal login (individual steps for TC1483) ────────────────────────────
@@ -517,40 +531,36 @@ namespace DFP.Playwright.Pages.Web
                 ?? "");
 
         /// <summary>
-        /// Waits for input#email to be visible and enabled, then fills it.
-        /// HTML: input#email[name="email"] placeholder="Email address"
+        /// Finds the username/email input using the same UsernameSelectors as LoginToDFPAsync.
+        /// Works for both no-int (Email address) and int (Username) portals.
         /// </summary>
         public async Task FillPortalUsernameAsync(string username)
         {
-            var input = Page.Locator("input#email[name='email']");
-            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var input = await FindUsernameInputAsync();
             await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
             await input.FillAsync(username);
         }
 
         /// <summary>
-        /// Waits for input#password to be visible and enabled, then fills it.
-        /// HTML: input#password[name="password"] type="password"
+        /// Finds the password input using the same PasswordSelectors as LoginToDFPAsync.
+        /// Works for both no-int and int portals.
         /// </summary>
         public async Task FillPortalPasswordAsync(string password)
         {
-            var input = Page.Locator("input#password[name='password']");
-            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var input = await FindPasswordInputAsync();
             await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
             await input.FillAsync(password);
         }
 
         /// <summary>
-        /// Clicks the Sign in submit button and waits for the dashboard.
-        /// HTML: button[type="submit"].btn-primary containing "Sign in"
+        /// Clicks the Sign in button using the same SignInButtonSelectors as LoginToDFPAsync.
+        /// Works for both no-int and int portals.
         /// </summary>
         public async Task ClickPortalSignInAsync()
         {
-            var btn = Page.Locator("button[type='submit'].btn-primary").Filter(
-                new LocatorFilterOptions { HasText = "Sign in" });
-            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var btn = await FindLocatorAsync(SignInButtonSelectors, 10000);
             await btn.ClickAsync();
-            await CreateLoginPage().WaitForDashboardAsync();
+            await WaitForDashboardAsync();
         }
 
         /// <summary>Full portal login in one call (used by ILoginToPortalAsTheCreatedUser).</summary>

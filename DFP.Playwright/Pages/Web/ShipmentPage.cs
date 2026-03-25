@@ -698,9 +698,19 @@ namespace DFP.Playwright.Pages.Web
 
       public async Task UserNavigatedToShipmentsList()
       {
-          // Use GetPortalBaseUrl() (env var) — not GetActivePortalBaseUrl() (current page URL)
-          // so this always navigates to the Portal, not the Hub if the previous step was there.
-          var baseUrl = GetPortalBaseUrl();
+          var portalBaseUrl = GetPortalBaseUrl();
+          var intBaseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL) ?? "";
+
+          // If the current page is already on the INT portal, stay on INT.
+          // This handles @INT scenarios (e.g. TC5305, TC3986) where login was done with "with Int".
+          // For all other cases (non-INT portal, Hub, etc.) fall back to PORTAL_BASE_URL.
+          string baseUrl;
+          if (!string.IsNullOrWhiteSpace(intBaseUrl)
+              && Page.Url.StartsWith(intBaseUrl.TrimEnd('/'), StringComparison.OrdinalIgnoreCase))
+              baseUrl = intBaseUrl;
+          else
+              baseUrl = portalBaseUrl;
+
           await Page.GotoAsync(baseUrl.TrimEnd('/') + "/my-portal/shipments");
           await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
       }

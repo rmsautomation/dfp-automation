@@ -660,7 +660,7 @@ Given I am on the Quotations List page
 
 @5305 @API @INT @login
   Scenario: Shipment - Create a shipment - Verify Custom fields
-  #Given the transaction "SH" "TC5305" is imported via API
+  Given the transaction "SH" "TC5305" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
   Given I navigated to Shipments List

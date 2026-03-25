@@ -831,6 +831,10 @@ namespace DFP.Playwright.Pages.Web
             var typed = await quickFilter.InputValueAsync();
             Assert.IsTrue(typed.Contains(text, StringComparison.OrdinalIgnoreCase),
                 $"Text was not typed correctly into the Quick filter field. Expected: '{text}', Actual: '{typed}'. URL: {Page.Url}");
+
+            // Keep _shipmentName in sync so subsequent steps like
+            // "the shipment should appear in the search results" know what to look for.
+            _shipmentName = text;
         }
 
         public async Task IShouldNotSeeTheQuickFilterField()

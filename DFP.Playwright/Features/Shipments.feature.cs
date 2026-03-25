@@ -800,14 +800,14 @@ namespace DFP.Playwright.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipment with cargo items - add lines from a PO")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipment with cargo items - add lines from a PO")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Shipment with cargo items - add lines from a PO_7873")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Shipment with cargo items - add lines from a PO_7873")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("API")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("7873")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
-        public async global::System.Threading.Tasks.Task ShipmentWithCargoItems_AddLinesFromAPO()
+        public async global::System.Threading.Tasks.Task ShipmentWithCargoItems_AddLinesFromAPO_7873()
         {
             string[] tagsOfScenario = new string[] {
                     "API",
@@ -815,7 +815,7 @@ namespace DFP.Playwright.Features
                     "NOINT"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "3";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment with cargo items - add lines from a PO", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment with cargo items - add lines from a PO_7873", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 242

@@ -898,10 +898,11 @@ namespace DFP.Playwright.Pages.Web
             const int maxDurationMs = 180000; // 3 minutes
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
-            // Card View:  qwyk-shipments-list-item containing the name span
-            // Table View: td[qwyk-shipment-index-table-item] containing the name <a>
-            // Both covered by filtering on the component element that contains the shipment name text.
-            var shipmentLocator = Page.Locator("qwyk-shipments-list-item, [qwyk-shipment-index-table-item]")
+            // Card View:  qwyk-shipments-list-item (1 component per shipment)
+            // Table View: tr that contains td[qwyk-shipment-index-table-item] (1 row per shipment).
+            //             We target the <tr> — not individual <td> cells — so that HasText matches
+            //             exactly 1 element even when the name appears in multiple columns (e.g. custom fields).
+            var shipmentLocator = Page.Locator("qwyk-shipments-list-item, tr:has([qwyk-shipment-index-table-item])")
                 .Filter(new LocatorFilterOptions { HasText = _shipmentName });
             var reloadButton = Page.Locator("button.btn-outline-secondary:has(svg[data-icon='arrows-rotate'])");
 
@@ -1125,8 +1126,10 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task SelectColumnViewAsync(string viewName)
         {
-            // Click the column-view dropdown (exclude the pagination rows-per-page dropdown).
+            // Wait for the column-view dropdown to be visible before interacting.
+            // The table may still be rendering after switching to Table View.
             var dropdown = Page.Locator(".p-dropdown:not(.p-paginator-rpp-options)").First;
+            await dropdown.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             await dropdown.ClickAsync();
 
             // Wait for the panel to appear and click the matching option.
@@ -1137,19 +1140,12 @@ namespace DFP.Playwright.Pages.Web
 
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-            // Wait for the table to actually update with more than the default 2 columns.
-            // Angular re-renders asynchronously after the view selection API call completes.
-            try
-            {
-                await Page.WaitForFunctionAsync(
-                    "() => (document.querySelectorAll('table.p-datatable-table th').length > 2)",
-                    null,
-                    new PageWaitForFunctionOptions { Timeout = 15000 });
-            }
-            catch
-            {
-                // If still only 2 columns after 15s, let CheckCustomFieldValues give the detailed error.
-            }
+            // Wait for the table to update with the expected column set (more than the default 2).
+            // Fail fast here so the error is actionable rather than timing out in CheckCustomFieldValues.
+            await Page.WaitForFunctionAsync(
+                "() => (document.querySelectorAll('table.p-datatable-table th').length > 2)",
+                null,
+                new PageWaitForFunctionOptions { Timeout = 20000 });
         }
 
         public async Task TheShipmentShouldNotAppearInSearchResults()

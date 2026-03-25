@@ -666,9 +666,9 @@ Given I am on the Quotations List page
   Given I navigated to Shipments List
     When I enter "TC5305" in Quick filter 
     And I click on Search button
+    Then the shipment should appear in the search results
     And I click on Table View
     And I select the "DefaultWithcustom" column view
-  Then the shipment should appear in the search results
   And I check the following custom field values in the table view for shipment
   #Example
   # | Column                  | Value                   |
@@ -681,6 +681,6 @@ Given I am on the Quotations List page
     | DFP Payment terms       | COLLECT                 |
    #| DFP INCO Terms          | DAT                     |
    #| DFP Cargo ready         | CARGO5305               |
-    | Shipper Reference       | SHIUPPER53052           |
+    | Shipper Reference       | SHIPPER5305           |
     | Shipment Guid           | GUID5305                |
   #Commented customs fields are related to this bug in DFP https://gocatapult.atlassian.net/browse/QWYK-9584

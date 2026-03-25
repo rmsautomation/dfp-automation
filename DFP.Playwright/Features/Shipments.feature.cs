@@ -2160,13 +2160,13 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 669
-    await testRunner.AndAsync("I click on Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 670
-    await testRunner.AndAsync("I select the \"DefaultWithcustom\" column view", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I click on Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 671
-  await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("I select the \"DefaultWithcustom\" column view", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
@@ -2185,7 +2185,7 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
                             "COLLECT"});
                 table7.AddRow(new string[] {
                             "Shipper Reference",
-                            "SHIUPPER53052"});
+                            "SHIPPER5305"});
                 table7.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});

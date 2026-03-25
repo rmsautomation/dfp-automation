@@ -239,7 +239,7 @@ Feature: Shipments
  
 
 @API @7873 @NOINT
-  Scenario: Shipment with cargo items - add lines from a PO
+  Scenario: Shipment with cargo items - add lines from a PO_7873
     Given I have a portal API token
     When I create shipment via webhook
     And I get cargo items for current shipment via API

@@ -33,3 +33,12 @@ Then I should see the "About" page in the Hub
 When I navigate to home in the Hub
 And I click on the first View button in Recent Notifications in the Hub
 Then I should be redirected to a page with the Qwyk breadcrumb in the Hub
+
+@811 @login @NOINT
+Scenario:Hub - Hub - Recent Notifications_811
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+And I should see the section header "Recent Notifications" in the Hub
+And the "Recent Notifications" list should not be empty in the Hub
+And I click on the first View button in Recent Notifications in the Hub
+Then I should be redirected to a page with the Qwyk breadcrumb in the Hub

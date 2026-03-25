@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/HomeHub.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/HomeHub.feature.ndjson", 4);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Hub-Home_280")]
@@ -216,6 +216,56 @@ await testRunner.WhenAsync("I navigate to home in the Hub", ((string)(null)), ((
 await testRunner.AndAsync("I click on the first View button in Recent Notifications in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 35
+await testRunner.ThenAsync("I should be redirected to a page with the Qwyk breadcrumb in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Hub - Hub - Recent Notifications_811")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Hub - Hub - Recent Notifications_811")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "HomeHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("HomeHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("811")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        public async global::System.Threading.Tasks.Task Hub_Hub_RecentNotifications_811()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "811",
+                    "login",
+                    "NOINT"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Hub - Hub - Recent Notifications_811", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 38
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 39
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 40
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 41
+await testRunner.AndAsync("I should see the section header \"Recent Notifications\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 42
+await testRunner.AndAsync("the \"Recent Notifications\" list should not be empty in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 43
+await testRunner.AndAsync("I click on the first View button in Recent Notifications in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 44
 await testRunner.ThenAsync("I should be redirected to a page with the Qwyk breadcrumb in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

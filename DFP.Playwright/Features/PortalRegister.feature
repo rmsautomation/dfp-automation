@@ -32,3 +32,49 @@ Scenario: New User registration - a new user registers for the portal_272
   Then the login dashboard should be visible
   And I verify the notification on the Dashboard page
   
+@1275 @INT @login
+Scenario:Portal - New User registration_1275
+#------Create YOPMAIL user----------
+  When I go to yopmail URL
+  Then I store the now var
+  And I store the new contact email ""
+  And I create my yopmail email ""
+  #--------Register New User in the PORTAL-------------
+  When I open the portal URL "with int"
+  Then I click on Register button
+  And I should see the create your account page in the Portal
+  And I enter the username ""
+  And I enter the Full Name ""
+  And I enter the email ""
+  And I enter the password ""
+  When I click on continue button to register the user
+  Then I enter the company name "QA Team"
+  And I accept the terms
+  When I click on create your account button in the Portal
+  Then I should see the created account page
+  # ── Check email --------
+  When I Check the email for "" with username ""
+  Then I should receive an email with text "Thank you for signing up! We'd like to take a moment of your time to confirm your email address by clicking the button below" in the body for shipment ""
+  When I confirm the email
+  Then I should see confirmation successfull
+  #----------Verify notification in the Hub-------------
+  Given I login to Hub as user "aylindfpstagmagauto@yopmail.com" 
+  Then the login dashboard should be visible
+  And I verify the notification on the Dashboard page
+  #----------Approve the user in the Hub-----------------
+  And I select the created user "Register" in the Hub to approve the access
+  #And I should see the section header "Portal User" in the Hub
+  And I click on search icon to search the Entity
+  When I enter the Entity "Automation"
+  Then I click on search button in the Entity page
+  And I select the entity "automation"
+  And I click on Continue button in the entity Page
+  And I click on approve access button
+  And I should see the section header "Portal Users" in the Hub
+#----------Verify Login in the PORTAL-----------------
+  When I open the portal URL "with int"
+  And I should see the login page
+  When I enter the created username "" in the Portal
+  And I enter the password "" in the Portal
+  And click on Sign in button
+  Then the login dashboard should be visible

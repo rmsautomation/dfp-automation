@@ -382,10 +382,21 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I enter the created username {string} in the Portal")]
         public async Task IEnterTheCreatedUsernameInThePortal(string username)
         {
-            string resolved = string.IsNullOrEmpty(username)
-                ? _scenarioContext["usernamePortal"]?.ToString() ?? ""
-                : username;
-            Console.WriteLine($"[TC1483] Portal username: {resolved}");
+            string resolved;
+            if (!string.IsNullOrEmpty(username))
+            {
+                resolved = username;
+            }
+            else if (_scenarioContext.TryGetValue("UserName", out var un) && un is string uname && !string.IsNullOrWhiteSpace(uname))
+            {
+                // INT env: username entered in Hub (And I enter the username "") — not the email
+                resolved = uname;
+            }
+            else
+            {
+                resolved = _scenarioContext["usernamePortal"]?.ToString() ?? "";
+            }
+            Console.WriteLine($"[TC1483/TC1275] Portal username: {resolved}");
             await _loginPage.FillPortalUsernameAsync(resolved);
         }
 

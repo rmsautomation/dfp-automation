@@ -389,14 +389,19 @@ namespace DFP.Playwright.StepDefinitions
             }
             else if (_scenarioContext.TryGetValue("UserName", out var un) && un is string uname && !string.IsNullOrWhiteSpace(uname))
             {
-                // INT env: username entered in Hub (And I enter the username "") — not the email
+                // INT env: username entered in Hub (And I enter the username "")
                 resolved = uname;
+            }
+            else if (_scenarioContext.TryGetValue("Now", out var now) && now is string nowStr && !string.IsNullOrWhiteSpace(nowStr))
+            {
+                // INT env (TC329/TC580): Magaya contact username = Now var (no @yopmail.com)
+                resolved = nowStr;
             }
             else
             {
                 resolved = _scenarioContext["usernamePortal"]?.ToString() ?? "";
             }
-            Console.WriteLine($"[TC1483/TC1275] Portal username: {resolved}");
+            Console.WriteLine($"[TC1483/TC1275/TC329] Portal username: {resolved}");
             await _loginPage.FillPortalUsernameAsync(resolved);
         }
 

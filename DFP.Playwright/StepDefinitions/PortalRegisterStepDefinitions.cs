@@ -115,6 +115,40 @@ namespace DFP.Playwright.StepDefinitions
         public async Task ThenIShouldSeeConfirmationSuccessfull()
             => await _registerPage.VerifyEmailConfirmedAsync();
 
+        // ── Welcome text verification ─────────────────────────────────────────────
+
+        [Given("I should see Welcome text {string}")]
+        [When("I should see Welcome text {string}")]
+        [Then("I should see Welcome text {string}")]
+        public async Task IShouldSeeWelcomeText(string expectedText)
+            => await _registerPage.VerifyWelcomeTextAsync(expectedText);
+
+        // ── Email address fields (INT portal registration) ────────────────────────
+
+        [Given("I provide an email address {string}")]
+        [When("I provide an email address {string}")]
+        [Then("I provide an email address {string}")]
+        public async Task IProvideAnEmailAddress(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            Console.WriteLine($"[TC1275] Email address: {resolved}");
+            await _registerPage.EnterEmailAddressAsync(resolved);
+        }
+
+        [Given("I confirm the provide email address {string} second time.")]
+        [When("I confirm the provide email address {string} second time.")]
+        [Then("I confirm the provide email address {string} second time.")]
+        public async Task IConfirmTheProvideEmailAddress(string email)
+        {
+            string resolved = string.IsNullOrEmpty(email)
+                ? _scenarioContext["ContactEmail"]?.ToString() ?? ""
+                : email;
+            Console.WriteLine($"[TC1275] Confirm email address: {resolved}");
+            await _registerPage.ConfirmEmailAddressAsync(resolved);
+        }
+
         // ── Hub notification verification ─────────────────────────────────────────
 
         [Then("I verify the notification on the Dashboard page")]

@@ -78,3 +78,37 @@ Scenario:Portal - New User registration_1275
   And I enter the password "" in the Portal
   And click on Sign in button
   Then the login dashboard should be visible
+  #Delete Contact Magaya
+
+@580 @INT @login
+Scenario:Integration - Authentication_580
+#------Create YOPMAIL user----------
+  When I go to yopmail URL
+  Then I store the now var
+  And I store the new contact email ""
+  And I create my yopmail email ""
+#Create Contact (without email) Parent Automation in Magaya guardar username en VAR para usar despues
+#A ese contact dar permisos de Livetrack con USERNAME:NOW VAR Y PASS:testingprod123.
+When I open the portal URL "with int"
+And I should see the login page
+When I enter the created username "" in the Portal
+And I enter the password "" in the Portal
+And click on Sign in button
+#-----Adding Email Via Portal-----------------
+And I provide an email address "" first time
+And I confirm the provide  email address "" second time
+Then I should see the created account page
+# ── Check email --------
+  When I Check the email for "" with username ""
+  Then I should receive an email with text "Thank you for signing up! We'd like to take a moment of your time to confirm your email address by clicking the button below" in the body for shipment ""
+  When I confirm the email
+  Then I should see confirmation successfull
+  #----------Verify Login in the PORTAL-----------------
+  When I open the portal URL "with int"
+  And I should see the login page
+  When I enter the created username "" in the Portal
+  And I enter the password "" in the Portal
+  And click on Sign in button
+  And I should see Welcome text "Welcome to our new Digital Freight Portal"
+  #Delete Contact Magaya
+

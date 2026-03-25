@@ -137,6 +137,40 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
+        /// Verifies the welcome h4 heading is visible with the given text.
+        /// HTML: h4.pt-4.pb-4 containing the welcome text
+        /// </summary>
+        public async Task VerifyWelcomeTextAsync(string expectedText)
+        {
+            var heading = Page.Locator("h4").Filter(new LocatorFilterOptions { HasText = expectedText }).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected welcome text '{expectedText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Fills the Email address input on the INT portal registration form.
+        /// HTML: input#email[type="email"] formcontrolname="email" placeholder="Email address"
+        /// </summary>
+        public async Task EnterEmailAddressAsync(string email)
+        {
+            var input = Page.Locator("input#email[type='email']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.FillAsync(email);
+        }
+
+        /// <summary>
+        /// Fills the Confirm your email address input on the INT portal registration form.
+        /// HTML: input#email_confirmation[type="email"] formcontrolname="email_confirmation" placeholder="Confirm your email address"
+        /// </summary>
+        public async Task ConfirmEmailAddressAsync(string email)
+        {
+            var input = Page.Locator("input#email_confirmation[type='email']").First;
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await input.FillAsync(email);
+        }
+
+        /// <summary>
         /// Verifies that the Recent Notifications widget on the Hub dashboard contains a notification
         /// with the registered user's full name (e.g. "{fullName} from QA Team signed up for an account").
         /// </summary>

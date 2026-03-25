@@ -211,5 +211,57 @@ Then I should see the first request in "Closed" status in the Hub
 Given I navigated to quotation List in the Hub
 When I click on system id input field in the Hub
 Then I enter the quote id in field in the Hub
+And I click on Search button in the Hub
 And the quote should appear in the search results in the hub
 And the status should be "Closed"
+
+@158 @NOINT @login
+Scenario: HUB Quotation- Download All Quotations_158
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+Given I navigated to quotation List in the Hub
+#-------Download all quotations list as CSV and verify row count-------
+And I store the total quotations count in the Hub
+When I click on Download Quotations list in the Hub
+Then the downloaded CSV should match the total quotations count in the Hub
+
+
+@135 @NOINT @login
+Scenario: HUB Quotation - Verify Ocean FCL Quotation (Download, copy and delete)_135
+Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Then the login dashboard should be visible
+Given I navigated to quotation List in the Hub
+#-------Download individual quotation as PDF and verify all stored data-------
+And I filter quotations by status "Open" in the Hub
+And I filter by customer "AutomationOwner"
+And I click on Search button in the Hub
+And I select the first quotation in the Hub
+And I store the quote id in the Hub
+And I store all infromation in the quote
+When I click on Download button in the Hub
+And I open the downloaded PDF in the Hub
+Then I verify all information in the PDF in the Hub
+#-------Copy individual quotation and verify all stored data-------
+And I click on the arrow to select the quote options
+And I select copy quotation option
+When I click on Create Quotation in the Hub
+Then I should see the quotation in "Draft" status in the Hub
+And I store the copy quote id in the Hub
+And I store all infromation in the copy quote
+Then I verify that all information in the copied quote matches the original quote
+And I store the quote id in the Hub
+#-------Delete individual quotation and verify data-------
+When I click on the arrow to select the quote options
+Then I select the delete option
+And I click on Yes button in the hub to delete quote
+Then I should see the section header "Quotations" in the Hub
+When I click on system id input field in the Hub
+Then I enter the quote id in field in the Hub
+And I click on Search button in the Hub
+And the quote should NOT appear in the search results in the hub
+#--------Verify the copy quotation does NOT Exist in the PORTAL-----
+Given I login to Portal as user "automationdfpowner@gmail.com"
+Given I am on the Quotations List page
+When I enter the quote ID in the search
+And I click on Search button
+Then I should NOT see the quote ID in the results

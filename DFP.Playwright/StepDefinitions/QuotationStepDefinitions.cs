@@ -8,10 +8,12 @@ namespace DFP.Playwright.StepDefinitions
     public sealed class QuotationStepDefinitions
     {
         private readonly QuotationPage _quotationPage;
+        private readonly QuotationsHubPage _quotationsHubPage;
 
-        public QuotationStepDefinitions(QuotationPage quotationPage)
+        public QuotationStepDefinitions(QuotationPage quotationPage, QuotationsHubPage quotationsHubPage)
         {
             _quotationPage = quotationPage;
+            _quotationsHubPage = quotationsHubPage;
         }
 
         // ── Navigation steps ──────────────────────────────────────────────────────
@@ -239,7 +241,16 @@ namespace DFP.Playwright.StepDefinitions
         [When("I enter the quote ID in the search")]
         public async Task IEnterTheQuoteIdInTheSearch()
         {
+            // Sync quote ID from Hub if Portal doesn't have one (cross-context scenario)
+            if (string.IsNullOrEmpty(_quotationPage.GetQuoteId()))
+                _quotationPage.SetQuoteId(_quotationsHubPage.GetQuoteId());
             await _quotationPage.EnterQuotationIdInSearchAsync();
+        }
+
+        [Then("I should NOT see the quote ID in the results")]
+        public async Task IShouldNotSeeTheQuoteIdInTheResults()
+        {
+            await _quotationPage.ShouldNotSeeQuoteIdInResultsAsync();
         }
 
         [Then("I should see the quote ID in the results")]

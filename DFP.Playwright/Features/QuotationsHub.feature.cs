@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 8);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/QuotationsHub.feature.ndjson", 10);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation- Create Open Quotation (Full Load-Ocean)")]
@@ -838,10 +838,194 @@ await testRunner.WhenAsync("I click on system id input field in the Hub", ((stri
 await testRunner.ThenAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 214
-await testRunner.AndAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 215
+await testRunner.AndAsync("the quote should appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 216
 await testRunner.AndAsync("the status should be \"Closed\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation- Download All Quotations_158")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("HUB Quotation- Download All Quotations_158")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("158")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task HUBQuotation_DownloadAllQuotations_158()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "158",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "6";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HUB Quotation- Download All Quotations_158", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 219
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 220
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 221
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 222
+await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 224
+await testRunner.AndAsync("I store the total quotations count in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 225
+await testRunner.WhenAsync("I click on Download Quotations list in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 226
+await testRunner.ThenAsync("the downloaded CSV should match the total quotations count in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB Quotation - Verify Ocean FCL Quotation (Download, copy and delete)_135")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("HUB Quotation - Verify Ocean FCL Quotation (Download, copy and delete)_135")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QuotationsHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("135")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task HUBQuotation_VerifyOceanFCLQuotationDownloadCopyAndDelete_135()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "135",
+                    "NOINT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "7";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HUB Quotation - Verify Ocean FCL Quotation (Download, copy and delete)_135", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 230
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 231
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 232
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 233
+await testRunner.GivenAsync("I navigated to quotation List in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 235
+await testRunner.AndAsync("I filter quotations by status \"Open\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 236
+await testRunner.AndAsync("I filter by customer \"AutomationOwner\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 237
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 238
+await testRunner.AndAsync("I select the first quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 239
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 240
+await testRunner.AndAsync("I store all infromation in the quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 241
+await testRunner.WhenAsync("I click on Download button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 242
+await testRunner.AndAsync("I open the downloaded PDF in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 243
+await testRunner.ThenAsync("I verify all information in the PDF in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 245
+await testRunner.AndAsync("I click on the arrow to select the quote options", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 246
+await testRunner.AndAsync("I select copy quotation option", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 247
+await testRunner.WhenAsync("I click on Create Quotation in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 248
+await testRunner.ThenAsync("I should see the quotation in \"Draft\" status in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 249
+await testRunner.AndAsync("I store the copy quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 250
+await testRunner.AndAsync("I store all infromation in the copy quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 251
+await testRunner.ThenAsync("I verify that all information in the copied quote matches the original quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 252
+await testRunner.AndAsync("I store the quote id in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 254
+await testRunner.WhenAsync("I click on the arrow to select the quote options", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 255
+await testRunner.ThenAsync("I select the delete option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 256
+await testRunner.AndAsync("I click on Yes button in the hub to delete quote", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 257
+await testRunner.ThenAsync("I should see the section header \"Quotations\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 258
+await testRunner.WhenAsync("I click on system id input field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 259
+await testRunner.ThenAsync("I enter the quote id in field in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 260
+await testRunner.AndAsync("I click on Search button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 261
+await testRunner.AndAsync("the quote should NOT appear in the search results in the hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 263
+await testRunner.GivenAsync("I login to Portal as user \"automationdfpowner@gmail.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 264
+await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 265
+await testRunner.WhenAsync("I enter the quote ID in the search", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 266
+await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 267
+await testRunner.ThenAsync("I should NOT see the quote ID in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -36,14 +36,21 @@ namespace DFP.Playwright.StepDefinitions
         private string _notificationUsername = "";
         private readonly List<string> _latestNotificationEmailBodies = [];
 
+        private readonly ScenarioContext _scenarioContext;
+        private readonly YopmailPage _yopmailPage;
+
         public ShipmentTrackingStepDefinitions(
             DFP.Playwright.Support.TestContext tc,
             ShipmentPage shipmentPage,
-            ShipmentHubPage shipmentHubPage)
+            ShipmentHubPage shipmentHubPage,
+            ScenarioContext scenarioContext,
+            YopmailPage yopmailPage)
         {
             _tc = tc;
             _shipmentPage = shipmentPage;
             _shipmentHubPage = shipmentHubPage;
+            _scenarioContext = scenarioContext;
+            _yopmailPage = yopmailPage;
         }
 
         [Then("a shipment id should be available for tracking")]
@@ -408,6 +415,12 @@ namespace DFP.Playwright.StepDefinitions
         {
             var fromStep = (emailAddress ?? string.Empty).Trim();
             if (string.IsNullOrWhiteSpace(fromStep))
+            {
+                // Use ContactEmail from ScenarioContext when param is empty
+                if (_scenarioContext.TryGetValue("ContactEmail", out var ctxEmail))
+                    fromStep = ctxEmail?.ToString()?.Trim() ?? "";
+            }
+            if (string.IsNullOrWhiteSpace(fromStep))
                 throw new InvalidOperationException("Email is required in the step.");
 
             _notificationEmail = fromStep;
@@ -417,7 +430,13 @@ namespace DFP.Playwright.StepDefinitions
             _notificationUsername = resolvedUsername;
 
             _tc.Data["notification_email"] = _notificationEmail;
-            await RefreshNotificationEmailsAsync();
+
+            // YopmailPage handles: domain check + polling 5s/5min internally.
+            // Returns empty for non-yopmail → fallback to RefreshNotificationEmailsAsync (IMAP).
+            var yopmailBodies = await _yopmailPage.WaitForEmailAsync(_notificationEmail);
+            _latestNotificationEmailBodies.AddRange(yopmailBodies);
+            if (_latestNotificationEmailBodies.Count == 0)
+                await RefreshNotificationEmailsAsync();
         }
 
         [Then(@"I should receive the notification ""([^""]*)"" status ""([^""]*)"" for shipment ""([^""]*)""")]
@@ -1115,5 +1134,6 @@ namespace DFP.Playwright.StepDefinitions
                     CollectErrorTokens(item, sb);
             }
         }
+
     }
 }

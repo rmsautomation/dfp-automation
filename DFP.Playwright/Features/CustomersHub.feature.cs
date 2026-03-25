@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CustomersHub.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CustomersHub.feature.ndjson", 4);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Hub-Create Customer_1482")]
@@ -190,6 +190,159 @@ await testRunner.AndAsync("I click on Search button in Customers Hub", ((string)
 #line hidden
 #line 21
 await testRunner.ThenAsync("I should see the customer name \"\" in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("HUB - Customer - Create user_1483")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("HUB - Customer - Create user_1483")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CustomersHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CustomersHub")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("1483")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("NOINT")]
+        public async global::System.Threading.Tasks.Task HUB_Customer_CreateUser_1483()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "1483",
+                    "login",
+                    "NOINT"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("HUB - Customer - Create user_1483", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 24
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 26
+await testRunner.WhenAsync("I go to yopmail URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 27
+await testRunner.ThenAsync("I store the now var", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 28
+await testRunner.AndAsync("I store the new contact email \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 29
+await testRunner.AndAsync("I create my yopmail email \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 30
+await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 31
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 32
+await testRunner.WhenAsync("I go to Portal Customers in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 33
+await testRunner.ThenAsync("I should see the section header \"Portal Customers\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 34
+await testRunner.WhenAsync("I click on Create customer button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 35
+await testRunner.ThenAsync("I should see the section header \"Portal Customer\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 36
+await testRunner.AndAsync("I enter the customer name \"\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 37
+await testRunner.AndAsync("I select the type \"Company\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 38
+await testRunner.AndAsync("I select the segment \"Customer\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 39
+await testRunner.WhenAsync("I click on Create customer button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 40
+await testRunner.ThenAsync("I should see the section header \"Portal Customers\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 41
+await testRunner.WhenAsync("I enter the customer name \"\" in the search section in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 42
+await testRunner.AndAsync("I click on Search button in Customers Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 43
+await testRunner.ThenAsync("I should see the customer name \"\" in the results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 44
+await testRunner.AndAsync("I select the customer \"\" in the results in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 45
+await testRunner.AndAsync("I should see the section header \"Portal Customer\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 46
+await testRunner.AndAsync("I click on users tab in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 47
+await testRunner.WhenAsync("I click on create user button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 48
+await testRunner.ThenAsync("I should see the section header \"Portal User\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 50
+await testRunner.ThenAsync("I enter the email for the portal user in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 51
+await testRunner.AndAsync("I store the password for the portal user created in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 52
+await testRunner.AndAsync("I select the site \"Magaya QA\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 53
+await testRunner.AndAsync("I enter the User Name \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 54
+await testRunner.AndAsync("I enter the company name \"\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 55
+await testRunner.AndAsync("I confirm the privacy", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 56
+await testRunner.AndAsync("I click on create user button in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 57
+await testRunner.AndAsync("I should see the section header \"Portal User\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 59
+  await testRunner.WhenAsync("I Check the email for \"\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 60
+await testRunner.ThenAsync("I should receive an email with text \"Your account has been created\" in the body f" +
+                        "or shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 61
+await testRunner.AndAsync("I store the portal user password from the email", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 62
+await testRunner.AndAsync("I click on Login to Magaya in the email", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 63
+await testRunner.AndAsync("I should see the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 64
+await testRunner.WhenAsync("I enter the created username \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 65
+await testRunner.AndAsync("I enter the password \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 66
+await testRunner.AndAsync("click on Sign in button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 67
+await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

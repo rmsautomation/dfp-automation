@@ -239,7 +239,7 @@ Feature: Shipments
  
 
 @API @7873 @NOINT
-  Scenario: Shipment with cargo items - add lines from a PO
+  Scenario: Shipment with cargo items - add lines from a PO_7873
     Given I have a portal API token
     When I create shipment via webhook
     And I get cargo items for current shipment via API
@@ -660,7 +660,7 @@ Given I am on the Quotations List page
 
 @5305 @API @INT @login
   Scenario: Shipment - Create a shipment - Verify Custom fields
-  #Given the transaction "SH" "TC5305" is imported via API
+  Given the transaction "SH" "TC5305" is imported via API
   Given I login to Portal as user "with Int"
   # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
   Given I navigated to Shipments List

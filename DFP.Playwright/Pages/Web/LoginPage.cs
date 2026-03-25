@@ -169,32 +169,70 @@ namespace DFP.Playwright.Pages.Web
             if (searchLoginModal)
             {
                 await EnsureLoginFormAsync(30000);
+
+                // Wait for the modal dialog and scope ALL form interactions to it so the background
+                // inline form (added to the portal UI recently) is never touched by mistake.
+                // The modal is a div[role='dialog'].p-dynamic-dialog — NOT a native <dialog> element.
+                // Exclude cookie-consent banners (aria-label="cookieconsent") — use the login dialog only.
+                var dialog = Page.Locator("[role='dialog']:not([aria-label='cookieconsent'])").First;
+                bool dialogVisible = false;
+                try
+                {
+                    await dialog.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+                    dialogVisible = true;
+                }
+                catch { /* no dialog — fall through to legacy path */ }
+
+                if (dialogVisible)
+                {
+                    // password is type="password", button text is "Sign in".
+                    var emailInput    = dialog.Locator("input[placeholder='Email address']");
+                    var passwordInput = dialog.Locator("input[type='password']");
+                    var signInBtn     = dialog.Locator("button:has-text('Sign in')");
+
+                    await emailInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+                    await Microsoft.Playwright.Assertions.Expect(emailInput).ToBeEnabledAsync(new() { Timeout = 10000 });
+                    await emailInput.FillAsync(email);
+                    await passwordInput.FillAsync(password);
+                    await signInBtn.ClickAsync();
+
+                    var logoutAllModal = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
+                    if (logoutAllModal != null && await IsVisibleAsync(logoutAllModal))
+                    {
+                        await CloseAllSessionIfNeeded();
+                        await emailInput.FillAsync(email);
+                        await passwordInput.FillAsync(password);
+                        await passwordInput.PressAsync("Enter");
+                    }
+                    return;
+                }
             }
             else
             {
                 await WaitForLoginFormAsync(30000);
             }
-            var usernameInput = await FindUsernameInputAsync();
-            var passwordInput = await FindPasswordInputAsync();
 
-            await usernameInput.FillAsync(email);
-            await passwordInput.FillAsync(password);
+            var usernameInputFallback = await FindUsernameInputAsync();
+            var passwordInputFallback = await FindPasswordInputAsync();
+
+            await usernameInputFallback.FillAsync(email);
+            await passwordInputFallback.FillAsync(password);
 
             // Prefer clicking Sign in if available, otherwise submit with Enter.
             var signInButton = await TryFindLocatorAsync(SignInButtonSelectors, timeoutMs: 2000);
             if (signInButton != null)
                 await signInButton.ClickAsync();
             else
-                await passwordInput.PressAsync("Enter");
+                await passwordInputFallback.PressAsync("Enter");
 
             // Only wait 500ms for "logout all sessions" — it rarely appears and 3000ms was wasteful.
             var logoutAll = await TryFindLocatorAsync(LogoutAllSessionSelectors, timeoutMs: 500);
             if (logoutAll != null && await IsVisibleAsync(logoutAll))
             {
                 await CloseAllSessionIfNeeded();
-                await usernameInput.FillAsync(email);
-                await passwordInput.FillAsync(password);
-                await passwordInput.PressAsync("Enter");
+                await usernameInputFallback.FillAsync(email);
+                await passwordInputFallback.FillAsync(password);
+                await passwordInputFallback.PressAsync("Enter");
             }
         }
 
@@ -361,19 +399,28 @@ namespace DFP.Playwright.Pages.Web
             var start = DateTime.UtcNow;
             while ((DateTime.UtcNow - start).TotalMilliseconds < timeoutMs)
             {
-                var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 1000);
-                if (locator != null && await locator.IsVisibleAsync())
-                    return;
+                try
+                {
+                    var locator = await TryFindLocatorAsync(DashboardSelectors, timeoutMs: 1000);
+                    if (locator != null && await locator.IsVisibleAsync())
+                        return;
 
-                if (await IsLoggedInAsync())
-                    return;
+                    if (await IsLoggedInAsync())
+                        return;
 
-                var userInput = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 500);
-                var passInput = await TryFindLocatorAsync(PasswordSelectors, timeoutMs: 500);
-                var loginFormVisible = (userInput != null && await userInput.IsVisibleAsync())
-                                       || (passInput != null && await passInput.IsVisibleAsync());
-                if (!loginFormVisible)
+                    var userInput = await TryFindLocatorAsync(UsernameSelectors, timeoutMs: 500);
+                    var passInput = await TryFindLocatorAsync(PasswordSelectors, timeoutMs: 500);
+                    var loginFormVisible = (userInput != null && await userInput.IsVisibleAsync())
+                                           || (passInput != null && await passInput.IsVisibleAsync());
+                    if (!loginFormVisible)
+                        return;
+                }
+                catch (Exception ex) when (ex.Message.Contains("Frame was detached") || ex.Message.Contains("frame was detached"))
+                {
+                    // Frame detached means the SPA triggered a navigation — wait for the new frame to settle.
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                     return;
+                }
 
                 await Task.Delay(500);
             }
@@ -449,6 +496,73 @@ namespace DFP.Playwright.Pages.Web
         }
 
         // FindLocatorAsync / TryFindLocatorAsync are defined in BasePage
+    // ── Portal login page assertion ───────────────────────────────────────────
+
+        /// <summary>
+        /// Verifies the portal login page is visible by checking the logo image.
+        /// HTML: img[alt="Logo"][src*="site_contrast_logo"]
+        /// </summary>
+        public async Task ShouldSeeLoginPageAsync()
+        {
+            var logo = Page.Locator("img[alt='Logo'][src*='site_contrast_logo']");
+            await logo.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+        }
+
+        // ── Portal login (individual steps for TC1483) ────────────────────────────
+
+        private LoginPage CreateLoginPage() =>
+            new LoginPage(Page,
+                Environment.GetEnvironmentVariable("PORTAL_BASE_URL")
+                ?? Environment.GetEnvironmentVariable("BASE_URL")
+                ?? "");
+
+        /// <summary>
+        /// Waits for input#email to be visible and enabled, then fills it.
+        /// HTML: input#email[name="email"] placeholder="Email address"
+        /// </summary>
+        public async Task FillPortalUsernameAsync(string username)
+        {
+            var input = Page.Locator("input#email[name='email']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
+            await input.FillAsync(username);
+        }
+
+        /// <summary>
+        /// Waits for input#password to be visible and enabled, then fills it.
+        /// HTML: input#password[name="password"] type="password"
+        /// </summary>
+        public async Task FillPortalPasswordAsync(string password)
+        {
+            var input = Page.Locator("input#password[name='password']");
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await Microsoft.Playwright.Assertions.Expect(input).ToBeEnabledAsync(new() { Timeout = 10000 });
+            await input.FillAsync(password);
+        }
+
+        /// <summary>
+        /// Clicks the Sign in submit button and waits for the dashboard.
+        /// HTML: button[type="submit"].btn-primary containing "Sign in"
+        /// </summary>
+        public async Task ClickPortalSignInAsync()
+        {
+            var btn = Page.Locator("button[type='submit'].btn-primary").Filter(
+                new LocatorFilterOptions { HasText = "Sign in" });
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await btn.ClickAsync();
+            await CreateLoginPage().WaitForDashboardAsync();
+        }
+
+        /// <summary>Full portal login in one call (used by ILoginToPortalAsTheCreatedUser).</summary>
+        public async Task LoginToPortalAsCreatedUserAsync(string email, string password)
+        {
+            var login = CreateLoginPage();
+            await login.NavigateAsync();
+            await login.LogoutIfLoggedInAsync();
+            await login.LoginToDFPAsync(email, password, searchLoginModal: true);
+            await login.WaitForDashboardAsync();
+        }
+
     }
 }
 

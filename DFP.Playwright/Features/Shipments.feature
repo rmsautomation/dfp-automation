@@ -684,3 +684,35 @@ Given I am on the Quotations List page
     | Shipper Reference       | SHIPPER5305           |
     | Shipment Guid           | GUID5305                |
   #Commented customs fields are related to this bug in DFP https://gocatapult.atlassian.net/browse/QWYK-9584
+
+  @553 @login @Int
+  Scenario: Integration - QWYK to Magaya - Shipment- Attach a jpg file_553
+#-------Create Shipment in Portal With attachments-----------------------
+Given I login to Portal as user "with Int"
+Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    And I store shipment Name
+    #----------Adding attachment JPG in DFP Shipment ------------
+    And I click on Attahments tab
+    When I click on Attach document button
+    Then I should see the screen to upload the attachment
+    When I select the file to upload "test.jpg"
+    Then I click on Upload button
+    And I should see the uploaded file "test.jpg"
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    #---------MAGAYA STEPS------------------------
+#Go To Magaya and verify the Booking is created 
+#Verify the attachment exists in the Booking
+#Create Shipment from Bookign in Magaya
+#Verify attachment in the shipment in Magaya
+    

@@ -210,10 +210,28 @@ namespace DFP.Playwright.StepDefinitions
         [Given(@"I login to Hub as user ""?([^""]+)""?")]
         public async Task GivenILoginToHubAs(string userType)
         {
-            var isIntegration = IsIntegration(userType);
-            if (isIntegration)
+            if (IsIntegration(userType))
             {
                 await GivenILoginToHubWithIntegration();
+                return;
+            }
+
+            // Specific email passed → use it as username, resolve password from env
+            if (userType.Contains("@") && !IsWithoutIntegration(userType))
+            {
+                var baseUrl = Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL)
+                              ?? Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+                if (string.IsNullOrWhiteSpace(baseUrl))
+                    throw new InvalidOperationException("HUB_BASE_URL (or BASE_URL) is required.");
+
+                var username = userType.Trim();
+                var password = ResolvePasswordForUsername(username);
+
+                var login = new LoginPage(_tc.Page!, baseUrl);
+                await login.NavigateAsync();
+                await login.LogoutIfLoggedInAsync();
+                await login.LoginToDFPAsync(username, password, searchLoginModal: false);
+                await login.WaitForDashboardAsync();
                 return;
             }
 

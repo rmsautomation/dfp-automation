@@ -28,6 +28,11 @@ namespace DFP.Playwright.StepDefinitions
                 ? s
                 : DateTime.Now.ToString("yyyyMMddHHmmss");
 
+        private string ResolvePortalPassword() =>
+            _scenarioContext.TryGetValue("PortalPassword", out var v) && v is string p && !string.IsNullOrWhiteSpace(p)
+                ? p
+                : Environment.GetEnvironmentVariable(Helpers.Constants.PORTAL_PASSWORD) ?? "";
+
         // ── Register button ───────────────────────────────────────────────────────
 
         [Then("I click on Register button")]
@@ -139,9 +144,7 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I enter the password {string} to complete my account")]
         public async Task IEnterThePasswordToCompleteMyAccount(string password)
         {
-            string resolved = string.IsNullOrEmpty(password)
-                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
-                : password;
+            string resolved = string.IsNullOrEmpty(password) ? ResolvePortalPassword() : password;
             Console.WriteLine($"[INT] Password to complete account: {resolved}");
             await _registerPage.EnterPasswordToCompleteAccountAsync(resolved);
         }
@@ -151,9 +154,7 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I confirm the password {string} to complete my account")]
         public async Task IConfirmThePasswordToCompleteMyAccount(string password)
         {
-            string resolved = string.IsNullOrEmpty(password)
-                ? (_scenarioContext.TryGetValue("PortalPassword", out var v) ? v?.ToString() ?? "" : "")
-                : password;
+            string resolved = string.IsNullOrEmpty(password) ? ResolvePortalPassword() : password;
             await _registerPage.ConfirmPasswordToCompleteAccountAsync(resolved);
         }
 

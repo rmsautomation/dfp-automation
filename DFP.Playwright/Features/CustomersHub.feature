@@ -5,7 +5,7 @@ Feature: CustomersHub
 
 @1482 @login @NOINT
 Scenario: Hub-Create Customer_1482
-Given I login to Hub as user "aylin.rodriguez@magaya.com"
+Given I login to Hub as user "without Int"
 Then the login dashboard should be visible
 When I go to Portal Customers in the Hub
 Then I should see the section header "Portal Customers" in the Hub

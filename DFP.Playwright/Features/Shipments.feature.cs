@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 14);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 16);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Add and validate tags across shipment list, table and details views")]
@@ -2134,7 +2134,7 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "11";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment - Create a shipment - Verify Custom fields", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Shipment - Create a shipment - Verify Custom fields", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 662
@@ -2147,6 +2147,9 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
             else
             {
                 await this.ScenarioStartAsync();
+#line 663
+  await testRunner.GivenAsync("the transaction \"SH\" \"TC5305\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 664
   await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -2191,6 +2194,237 @@ await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null))
                             "GUID5305"});
 #line 672
   await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table7, "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Integration - QWYK to Magaya - Shipment- Attach a jpg file_553")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Integration - QWYK to Magaya - Shipment- Attach a jpg file_553")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("553")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Int")]
+        public async global::System.Threading.Tasks.Task Integration_QWYKToMagaya_Shipment_AttachAJpgFile_553()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "553",
+                    "login",
+                    "Int"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "12";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Integration - QWYK to Magaya - Shipment- Attach a jpg file_553", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 689
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 691
+await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 692
+await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 693
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 694
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 695
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 696
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 697
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 698
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 699
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 700
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 701
+    await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 702
+    await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 704
+    await testRunner.AndAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 705
+    await testRunner.WhenAsync("I click on Attach document button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 706
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 707
+    await testRunner.WhenAsync("I select the file to upload \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 708
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 709
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 710
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 711
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 712
+    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("840_858_SHDFPToMagaya_UpdateBookingMagaya")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("840_858_SHDFPToMagaya_UpdateBookingMagaya")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("840")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("858")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Int")]
+        public async global::System.Threading.Tasks.Task _840_858_SHDFPToMagaya_UpdateBookingMagaya()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "840",
+                    "858",
+                    "login",
+                    "Int"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "13";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("840_858_SHDFPToMagaya_UpdateBookingMagaya", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 721
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 723
+await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 724
+await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 725
+    await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 726
+    await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 727
+    await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 728
+    await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 730
+    await testRunner.AndAsync("I store the quote ID", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 731
+    await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 732
+    await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 733
+    await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 734
+    await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 735
+    await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 736
+    await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 737
+    await testRunner.AndAsync("I store the now var", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 738
+    await testRunner.AndAsync("I enter the vessel \"AutomationVessel\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 739
+    await testRunner.WhenAsync("I go to \"References\" Tab in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 740
+    await testRunner.ThenAsync("I enter the Shipper \"ShipperReference\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 741
+    await testRunner.AndAsync("I enter the Consignee \"ConsigneeReference\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 742
+    await testRunner.AndAsync("I enter the Notify \"NotifyReference\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 743
+    await testRunner.AndAsync("I enter the Forwarder \"ForwarderReference\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 744
+    await testRunner.WhenAsync("I go to \"Shipment Parties\" Tab in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 745
+    await testRunner.ThenAsync("I enter the name \"AutomationName\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 746
+    await testRunner.AndAsync("I enter the address \"AutomationAddress\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 747
+    await testRunner.WhenAsync("I go to \"Terms & Requirements\" Tab in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 749
+    await testRunner.ThenAsync("I enter the  Instructions remarks  \"\" in the Shipment Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 750
+    await testRunner.AndAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 751
+    await testRunner.WhenAsync("I click on Attach document button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 752
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 753
+    await testRunner.WhenAsync("I select the file to upload \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 754
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 755
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 756
+    await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 757
+    await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 758
+    await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

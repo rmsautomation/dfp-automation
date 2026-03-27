@@ -1,17 +1,10 @@
-using Reqnroll;
-using System;
 using System.Net;
-using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace DFP.Playwright.StepDefinitions
 {
-    [Binding]
     public sealed class ShipmentStepDefinitions
     {
         private readonly DFP.Playwright.Support.TestContext _tc;
@@ -763,5 +756,24 @@ namespace DFP.Playwright.StepDefinitions
             var pairs = dataTable.Rows.Select(r => (columnName: r[0], expectedValue: r[1]));
             await _shipmentPage.CheckCustomFieldValuesInShipmentTableViewAsync(pairs);
         }
+
+        // ── Portal Shipment Form steps ────────────────────────────────────────────
+
+        [When("I enter the vessel {string} in the Portal")]
+        public async Task IEnterTheVesselInThePortal(string vessel)
+            => await _shipmentPage.EnterVesselAsync(vessel);
+
+        [When("I go to {string} Tab in the Shipment Portal")]
+        public async Task IGoToTabInTheShipmentPortal(string tabName)
+            => await _shipmentPage.ClickShipmentTabByNameAsync(tabName);
+
+        // Single regex step covers: Shipper, Consignee, Notify, Forwarder, name, address, Instructions remarks
+        // Feature file usage:  When I enter the Shipper "RefValue" in the Shipment Portal
+        //                      When I enter the Instructions remarks "" in the Shipment Portal
+        [When(@"I enter the ([\w][\w\s]*) ""([^""]*)"" in the Shipment Portal")]
+        [Then(@"I enter the ([\w][\w\s]*) ""([^""]*)"" in the Shipment Portal")]
+        [Given(@"I enter the ([\w][\w\s]*) ""([^""]*)"" in the Shipment Portal")]
+        public async Task IEnterFieldInTheShipmentPortal(string fieldKey, string value)
+            => await _shipmentPage.EnterShipmentFormFieldAsync(fieldKey, value);
     }
 }

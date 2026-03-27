@@ -684,3 +684,82 @@ Given I am on the Quotations List page
     | Shipper Reference       | SHIPPER5305           |
     | Shipment Guid           | GUID5305                |
   #Commented customs fields are related to this bug in DFP https://gocatapult.atlassian.net/browse/QWYK-9584
+
+  @553 @login @Int
+  Scenario: Integration - QWYK to Magaya - Shipment- Attach a jpg file_553
+#-------Create Shipment in Portal With attachments-----------------------
+Given I login to Portal as user "with Int"
+Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    And I store shipment Name
+    #----------Adding attachment JPG in DFP Shipment ------------
+    And I click on Attahments tab
+    When I click on Attach document button
+    Then I should see the screen to upload the attachment
+    When I select the file to upload "test.jpg"
+    Then I click on Upload button
+    And I should see the uploaded file "test.jpg"
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    #---------MAGAYA STEPS------------------------
+#Go To Magaya and verify the Booking is created 
+#Verify the attachment exists in the Booking
+#Create Shipment from Bookign in Magaya
+#Verify attachment in the shipment in Magaya
+
+
+@840 @858 @login @Int
+  Scenario: 840_858_SHDFPToMagaya_UpdateBookingMagaya
+#-------Create Shipment in Portal With ALL INFO-----------------------
+Given I login to Portal as user "with Int"
+Given I am on the Quotations List page
+    When I open the first quotation in Status Booked
+    Then I should be on the Quotation Details page
+    When I click the "Offers" button
+    Then the list of the offers should appear
+#------Get the Quotation ID----------------------------------------------
+    And I store the quote ID
+    When I click on Book Now button
+    Then a confirmation dialog should appear
+    When I confirm the shipment creation
+    Then I should be on the Shipment Details page
+    Then I store the shipment id from the URL
+    And I store shipment Name
+    And I store the now var
+    And I enter the vessel "AutomationVessel" in the Portal
+    When I go to "References" Tab in the Shipment Portal
+    Then I enter the Shipper "ShipperReference" in the Shipment Portal
+    And I enter the Consignee "ConsigneeReference" in the Shipment Portal
+    And I enter the Notify "NotifyReference" in the Shipment Portal
+    And I enter the Forwarder "ForwarderReference" in the Shipment Portal
+    When I go to "Shipment Parties" Tab in the Shipment Portal
+    Then I enter the name "AutomationName" in the Shipment Portal
+    And I enter the address "AutomationAddress" in the Shipment Portal
+    When I go to "Terms & Requirements" Tab in the Shipment Portal
+    #If the parameter is Empty this value should be the NOW var
+    Then I enter the  Instructions remarks  "" in the Shipment Portal
+    And I click on Attahments tab
+    When I click on Attach document button
+    Then I should see the screen to upload the attachment
+    When I select the file to upload "test.jpg"
+    Then I click on Upload button
+    And I should see the uploaded file "test.jpg"
+    When I click on Send Booking button
+    Then I should click on Go To Shipment button to see the shipment
+    And the shipment should display the shipment name
+    #-------In MAGAYA, verify that the Booking was received with ALL INFO------------
+    #-------Update the booking in MAGAYA.--------------------------------
+    #------Verify the UPDATES in DFP.-------------------------
+
+
+
+

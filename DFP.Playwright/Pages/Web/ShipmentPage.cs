@@ -430,6 +430,36 @@ namespace DFP.Playwright.Pages.Web
             "internal:text=\"Shipment activity\"i",
             "//*[contains(normalize-space(),'Shipment activity')]"
         ];
+        // ── Portal Shipment Form selectors ───────────────────────────────────────
+        // Vessel input — Verified from HTML: input[formcontrolname='vessel'][placeholder='Vessel']
+        private const string VesselInputSelector = "input[formcontrolname='vessel']";
+
+        // Nav tab by name — parameterized via string.Format with tab name text
+        private const string NavTabByNameXPath = "//li[contains(@class,'nav-item')]//a[contains(@class,'nav-link') and contains(normalize-space(),'{0}')]";
+
+        // Field key → CSS selector map for all simple form inputs.
+        // Keys are matched case-insensitively against the step parameter (e.g. "Shipper", "name").
+        private static readonly Dictionary<string, string> ShipmentFormFieldSelectors =
+            new(StringComparer.OrdinalIgnoreCase)
+            {
+                ["shipper"]              = "input[formcontrolname='shipper_reference']",
+                ["consignee"]            = "input[formcontrolname='consignee_reference']",
+                ["notify"]               = "input[formcontrolname='notify_reference']",
+                ["forwarder"]            = "input[formcontrolname='forwarder_reference']",
+                ["name"]                 = "input[formcontrolname='name'][placeholder='Name']",
+                ["address"]              = "input[formcontrolname='address_1']",
+            };
+
+        // Instructions/Remarks textarea (Grammarly wraps it; target the textarea itself)
+        private static readonly string[] InstructionsTextareaSelectors =
+        [
+            "textarea[formcontrolname='instructions']",
+            "textarea[formcontrolname='remarks']",
+            "textarea[placeholder*='instruction' i]",
+            "textarea[placeholder*='remark' i]",
+            "div.col textarea"
+        ];
+
         //////////Purchase Order selectors/////////////
         private static readonly string[] POSectionInSHSelectors =
         [
@@ -2832,6 +2862,59 @@ namespace DFP.Playwright.Pages.Web
                 Assert.IsTrue(cellText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
                     $"Column '{columnName}': expected '{expectedValue}' but found '{cellText}'. URL: {Page.Url}");
             }
+        }
+
+        // ── Portal Shipment Form methods ──────────────────────────────────────────
+
+        /// <summary>
+        /// Fills the Vessel input in the booking/shipment edit form.
+        /// Verified from HTML: input[formcontrolname='vessel'][placeholder='Vessel']
+        /// </summary>
+        public async Task EnterVesselAsync(string vessel)
+        {
+            var input = Page.Locator(VesselInputSelector);
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await TypeAsync(input, vessel);
+        }
+
+        /// <summary>
+        /// Clicks the nav tab whose visible text matches <paramref name="tabName"/>.
+        /// Verified from HTML: li.nav-item > a.nav-link containing tab name text.
+        /// </summary>
+        public async Task ClickShipmentTabByNameAsync(string tabName)
+        {
+            var tab = Page.Locator(string.Format(NavTabByNameXPath, tabName));
+            await tab.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await ClickAsync(tab);
+        }
+
+        /// <summary>
+        /// Generic entry point for all simple shipment form fields.
+        /// <paramref name="fieldKey"/> is matched case-insensitively against
+        /// <see cref="ShipmentFormFieldSelectors"/> (e.g. "Shipper", "name", "address").
+        /// For "Instructions remarks" / "instructions": uses the textarea fallback array;
+        /// if <paramref name="value"/> is empty the current datetime is used (NOW).
+        /// </summary>
+        public async Task EnterShipmentFormFieldAsync(string fieldKey, string value)
+        {
+            var key = fieldKey.Trim();
+
+            if (key.StartsWith("instructions", StringComparison.OrdinalIgnoreCase))
+            {
+                var text = string.IsNullOrEmpty(value)
+                    ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    : value;
+                var textarea = await FindLocatorAsync(InstructionsTextareaSelectors, timeoutMs: 10000);
+                await TypeAsync(textarea, text);
+                return;
+            }
+
+            if (!ShipmentFormFieldSelectors.TryGetValue(key, out var selector))
+                throw new ArgumentException($"Unknown shipment form field: '{key}'. Valid keys: {string.Join(", ", ShipmentFormFieldSelectors.Keys)}");
+
+            var input = Page.Locator(selector);
+            await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await TypeAsync(input, value);
         }
     }
 }

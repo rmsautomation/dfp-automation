@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PortalRegister.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/PortalRegister.feature.ndjson", 6);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("New User registration - a new user registers for the portal_272")]
@@ -460,6 +460,127 @@ await testRunner.ThenAsync("I should see the created account page", ((string)(nu
   await testRunner.AndAsync("click on Sign in button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 112
+  await testRunner.AndAsync("I should see Welcome text \"Welcome to our new Digital Freight Portal\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("New Magaya Customer User-Login in QWYK Portal (using a non-existing email in the " +
+            "personal information)_329")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("New Magaya Customer User-Login in QWYK Portal (using a non-existing email in the " +
+            "personal information)_329")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "PortalRegister")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("PortalRegister")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("329")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task NewMagayaCustomerUser_LoginInQWYKPortalUsingANon_ExistingEmailInThePersonalInformation_329()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "329",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("New Magaya Customer User-Login in QWYK Portal (using a non-existing email in the " +
+                    "personal information)_329", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 116
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 119
+  await testRunner.WhenAsync("I go to yopmail URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 120
+  await testRunner.ThenAsync("I store the now var", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 121
+  await testRunner.AndAsync("I store the new contact email \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 122
+  await testRunner.AndAsync("I create my yopmail email \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 124
+  await testRunner.WhenAsync("I open the portal URL \"with int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 125
+  await testRunner.AndAsync("I should see the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 126
+  await testRunner.WhenAsync("I enter the created username \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 127
+  await testRunner.AndAsync("I enter the password \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 128
+  await testRunner.AndAsync("click on Sign in button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 130
+  await testRunner.AndAsync("I should see complete your account page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 131
+  await testRunner.AndAsync("I enter the username \"\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 132
+  await testRunner.AndAsync("I enter the password \"\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 133
+  await testRunner.AndAsync("I confirm the password \"\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 134
+  await testRunner.AndAsync("I enter the first name \"\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 135
+  await testRunner.AndAsync("I enter the last name \"Last\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 136
+  await testRunner.AndAsync("I enter the email \"\" to complete my account", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 137
+  await testRunner.WhenAsync("I click on continue button to register the user", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 138
+  await testRunner.ThenAsync("I should see the created account page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 140
+  await testRunner.WhenAsync("I Check the email for \"\" with username \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 141
+  await testRunner.ThenAsync("I should receive an email with text \"Thank you for signing up! We\'d like to take " +
+                        "a moment of your time to confirm your email address by clicking the button below" +
+                        "\" in the body for shipment \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 142
+  await testRunner.WhenAsync("I confirm the email", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 143
+  await testRunner.ThenAsync("I should see confirmation successfull", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 145
+  await testRunner.WhenAsync("I open the portal URL \"with int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 146
+  await testRunner.AndAsync("I should see the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 147
+  await testRunner.WhenAsync("I enter the created username \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 148
+  await testRunner.AndAsync("I enter the password \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 149
+  await testRunner.AndAsync("click on Sign in button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 150
   await testRunner.AndAsync("I should see Welcome text \"Welcome to our new Digital Freight Portal\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

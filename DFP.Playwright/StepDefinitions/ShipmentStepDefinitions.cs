@@ -10,6 +10,7 @@ namespace DFP.Playwright.StepDefinitions
         private readonly DFP.Playwright.Support.TestContext _tc;
         private readonly ShipmentPage _shipmentPage;
         private readonly ShipmentHubPage _shipmentHubPage;
+        private readonly QuotationPage _quotationPage;
 
         private HttpResponseMessage? _hideResponse;
         private string _hideResponseBody = "";
@@ -20,11 +21,12 @@ namespace DFP.Playwright.StepDefinitions
         private string _linkShipmentBody = "";
         private string _linkCargoBody = "";
 
-        public ShipmentStepDefinitions(DFP.Playwright.Support.TestContext tc, ShipmentPage shipmentPage, ShipmentHubPage shipmentHubPage)
+        public ShipmentStepDefinitions(DFP.Playwright.Support.TestContext tc, ShipmentPage shipmentPage, ShipmentHubPage shipmentHubPage, QuotationPage quotationPage)
         {
             _tc = tc;
             _shipmentPage = shipmentPage;
             _shipmentHubPage = shipmentHubPage;
+            _quotationPage = quotationPage;
         }
 // ── Shipment Creation steps ───────────────────────────────────────────────
         [When("I open the first quotation in Status Booked")]
@@ -775,5 +777,72 @@ namespace DFP.Playwright.StepDefinitions
         [Given(@"I enter the ([\w][\w\s]*) ""([^""]*)"" in the Shipment Portal")]
         public async Task IEnterFieldInTheShipmentPortal(string fieldKey, string value)
             => await _shipmentPage.EnterShipmentFormFieldAsync(fieldKey, value);
+
+        // ── Portal Shipment Detail — verification steps ───────────────────────────
+
+        [Then("the shipment name should contains {string}")]
+        public async Task TheShipmentNameShouldContains(string text)
+            => await _shipmentPage.VerifyShipmentNameContainsAsync(text);
+
+        [Then("I verify the origin {string}")]
+        public async Task IVerifyTheOrigin(string city)
+            => await _shipmentPage.VerifyOriginAsync(city);
+
+        [Then("I verify the status {string} in the shipment detail page")]
+        public async Task IVerifyTheStatusInTheShipmentDetailPage(string status)
+            => await _shipmentPage.VerifyStatusAsync(status);
+
+        // Single regex step covers: shipper, consignee, forwarder (and any future label)
+        // Feature file: Then I verify the shipper contains "Updated" in the shipment detail page
+        [Then(@"I verify the (\w+) contains ""([^""]*)"" in the shipment detail page")]
+        public async Task IVerifyFieldContainsInShipmentDetailPage(string fieldLabel, string expectedText)
+            => await _shipmentPage.VerifyShipmentDetailFieldAsync(fieldLabel, expectedText);
+
+        [Then("I verify the quote id in the shipment detail page")]
+        public async Task IVerifyTheQuoteIdInTheShipmentDetailPage()
+            => await _shipmentPage.VerifyQuoteIdInDetailAsync(_quotationPage.GetQuoteId());
+
+        [When("I go to Tracking tab")]
+        [Then("I go to Tracking tab")]
+        public async Task IGoToTrackingTab()
+            => await _shipmentPage.ClickTrackingTabAsync();
+
+        [Then("I should see the event {string}")]
+        public async Task IShouldSeeTheEvent(string eventText)
+            => await _shipmentPage.VerifyTrackingEventAsync(eventText);
+
+        // ── Booking Details tab steps ─────────────────────────────────────────────
+
+        [When("I go to Booking Details tab")]
+        [Then("I go to Booking Details tab")]
+        public async Task IGoToBookingDetailsTab()
+            => await _shipmentPage.ClickBookingDetailsTabAsync();
+
+        [Then("I should see the commodity {string}")]
+        public async Task IShouldSeeTheCommodity(string commodity)
+            => await _shipmentPage.VerifyCommodityAsync(commodity);
+
+        [Then("I should see the Remarks Instructions contains {string}")]
+        public async Task IShouldSeeTheRemarksInstructionsContains(string text)
+            => await _shipmentPage.VerifyRemarksInstructionsAsync(text);
+
+        // Single regex step covers: "shipper", "billing client", "link entities shipper", etc.
+        // Feature file: Then I should see the shipper contains "updated"
+        //               Then I should see billing client contains "automation"
+        //               Then I should see link entities shipper contains "updated"
+        [Then(@"I should see (?:the )?([\w][\w\s]*) contains ""([^""]*)""")]
+        public async Task IShouldSeeEntityContains(string roleLabel, string expectedText)
+            => await _shipmentPage.VerifyEntityCardContainsAsync(roleLabel.Trim(), expectedText);
+
+        // ── Charges & Invoices tab steps ──────────────────────────────────────────
+
+        [When("I go to Charge and Invoices tab")]
+        [Then("I go to Charge and Invoices tab")]
+        public async Task IGoToChargeAndInvoicesTab()
+            => await _shipmentPage.ClickChargesInvoicesTabAsync();
+
+        [Then("I should see the charge {string}")]
+        public async Task IShouldSeeTheCharge(string chargeName)
+            => await _shipmentPage.VerifyChargeAsync(chargeName);
     }
 }

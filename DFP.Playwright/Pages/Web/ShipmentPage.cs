@@ -430,6 +430,70 @@ namespace DFP.Playwright.Pages.Web
             "internal:text=\"Shipment activity\"i",
             "//*[contains(normalize-space(),'Shipment activity')]"
         ];
+        // ── Portal Shipment Detail — verification selectors ──────────────────────
+        // Shipment name heading: h3.font-weight-normal > span.text-muted (contains dynamic number + name)
+        private const string ShipmentNameHeadingSelector = "h3.font-weight-normal.m-0";
+
+        // Origin city: h6.font-weight-normal.text-primary.text-truncate
+        private const string OriginCitySelector = "h6.font-weight-normal.text-primary.text-truncate";
+
+        // Status badge: span.badge.badge-secondary
+        private const string StatusBadgeSelector = "span.badge.badge-secondary";
+
+        // Tracking nav link — verified from HTML: a[href*='?view=tracking']
+        private static readonly string[] TrackingTabSelectors =
+        [
+            "a[href*='?view=tracking']",
+            "//a[contains(@href,'?view=tracking')]",
+            "//a[.//div[contains(normalize-space(),'Tracking')]]"
+        ];
+
+        // Detail field label → XPath for the sibling div that holds the value.
+        // Verified from HTML: label.small.font-weight-bold + div containing the value.
+        private static readonly Dictionary<string, string> ShipmentDetailFieldXPaths =
+            new(StringComparer.OrdinalIgnoreCase)
+            {
+                ["shipper"]   = "//label[normalize-space()='Shipper']/following-sibling::div[1]",
+                ["consignee"] = "//label[normalize-space()='Consignee']/following-sibling::div[1]",
+                ["forwarder"] = "//label[normalize-space()='Forwarder']/following-sibling::div[1]",
+                ["notify"]    = "//label[normalize-space()='Notify']/following-sibling::div[1]",
+                ["pricing"]   = "//label[normalize-space()='Pricing']/following-sibling::div[1]",
+                // Booking Details tab — Remarks / Instructions label
+                ["remarks"]   = "//label[contains(normalize-space(),'Remarks') and contains(normalize-space(),'Instructions')]/following-sibling::div[1]",
+            };
+
+        // Booking Details tab: a[href*='?view=instructions']
+        private static readonly string[] BookingDetailsTabSelectors =
+        [
+            "a[href*='?view=instructions']",
+            "//a[contains(@href,'?view=instructions')]",
+            "//a[.//div[contains(normalize-space(),'Booking Details')]]"
+        ];
+
+        // Charges & Invoices tab: a[href*='?view=charges-invoices']
+        private static readonly string[] ChargesInvoicesTabSelectors =
+        [
+            "a[href*='?view=charges-invoices']",
+            "//a[contains(@href,'?view=charges-invoices')]",
+            "//a[.//div[contains(normalize-space(),'Charges')]]"
+        ];
+
+        // Commodity text — Booking Details: div.text-truncate inside div.col-lg-4
+        // Verified from HTML: div.col-12.col-lg-4 > div.text-truncate containing commodity name
+        private const string CommodityXPathTemplate =
+            "//div[contains(@class,'col-lg-4')]//div[contains(@class,'text-truncate') and contains(normalize-space(),{0})]";
+
+        // Entity card value (Shipper / Billing Client / etc.) — Booking Details
+        // Verified from HTML: div.small.text-muted with role label anchors the container;
+        // the bold name lives in div.text-truncate.font-weight-bold in the sibling flex div.
+        private const string EntityCardXPathTemplate =
+            "//div[contains(@class,'text-muted') and normalize-space()={0}]/ancestor::div[contains(@class,'d-flex')][1]//div[contains(@class,'font-weight-bold')]";
+
+        // Charge row — Charges & Invoices tab: div.col-6 containing the charge name
+        // Verified from HTML: div.row.my-2 > div.col-6 with charge name text
+        private const string ChargeRowXPathTemplate =
+            "//div[contains(@class,'col-6') and contains(normalize-space(),{0})]";
+
         // ── Portal Shipment Form selectors ───────────────────────────────────────
         // Vessel input — Verified from HTML: input[formcontrolname='vessel'][placeholder='Vessel']
         private const string VesselInputSelector = "input[formcontrolname='vessel']";
@@ -2862,6 +2926,163 @@ namespace DFP.Playwright.Pages.Web
                 Assert.IsTrue(cellText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
                     $"Column '{columnName}': expected '{expectedValue}' but found '{cellText}'. URL: {Page.Url}");
             }
+        }
+
+        // ── Portal Shipment Detail — verification methods ────────────────────────
+
+        /// <summary>
+        /// Verifies the shipment name heading contains <paramref name="text"/>.
+        /// Verified from HTML: h3.font-weight-normal > span.text-muted (dynamic number prefix + text)
+        /// </summary>
+        public async Task VerifyShipmentNameContainsAsync(string text)
+        {
+            var heading = Page.Locator(ShipmentNameHeadingSelector);
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var headingText = (await heading.InnerTextAsync()).Trim();
+            Assert.IsTrue(headingText.Contains(text, StringComparison.OrdinalIgnoreCase),
+                $"Shipment name heading '{headingText}' does not contain '{text}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the origin city h6 contains <paramref name="city"/>.
+        /// Verified from HTML: h6.font-weight-normal.text-primary.text-truncate
+        /// </summary>
+        public async Task VerifyOriginAsync(string city)
+        {
+            var el = Page.Locator(OriginCitySelector).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await el.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(city, StringComparison.OrdinalIgnoreCase),
+                $"Origin city '{text}' does not contain '{city}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the status badge contains <paramref name="status"/>.
+        /// Verified from HTML: span.badge.badge-secondary
+        /// </summary>
+        public async Task VerifyStatusAsync(string status)
+        {
+            var badge = Page.Locator(StatusBadgeSelector).First;
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await badge.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(status, StringComparison.OrdinalIgnoreCase),
+                $"Status badge '{text}' does not contain '{status}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies that a labelled detail field (Shipper, Consignee, Forwarder, Notify, Pricing)
+        /// contains <paramref name="expectedText"/>.
+        /// Verified from HTML: label.small.font-weight-bold + sibling div
+        /// </summary>
+        public async Task VerifyShipmentDetailFieldAsync(string fieldLabel, string expectedText)
+        {
+            if (!ShipmentDetailFieldXPaths.TryGetValue(fieldLabel, out var xpath))
+                throw new ArgumentException($"Unknown detail field: '{fieldLabel}'. Valid: {string.Join(", ", ShipmentDetailFieldXPaths.Keys)}");
+
+            var el = Page.Locator(xpath).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await el.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(expectedText, StringComparison.OrdinalIgnoreCase),
+                $"Detail field '{fieldLabel}' value '{text}' does not contain '{expectedText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the Pricing field contains <paramref name="quoteId"/> (e.g. "QUO-00622").
+        /// Verified from HTML: label 'Pricing' / sibling div containing "Quote: QUO-XXXXX"
+        /// </summary>
+        public async Task VerifyQuoteIdInDetailAsync(string quoteId)
+            => await VerifyShipmentDetailFieldAsync("pricing", quoteId);
+
+        /// <summary>
+        /// Clicks the Tracking nav tab.
+        /// Verified from HTML: a[href*='?view=tracking']
+        /// </summary>
+        public async Task ClickTrackingTabAsync()
+        {
+            var tab = await FindLocatorAsync(TrackingTabSelectors, timeoutMs: 10000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Verifies that the tracking events section shows an event containing <paramref name="eventText"/>.
+        /// Verified from HTML: div inside the tracking events list containing the event name.
+        /// </summary>
+        public async Task VerifyTrackingEventAsync(string eventText)
+        {
+            var el = Page.Locator($"//div[contains(normalize-space(),{ToXPathLiteral(eventText)})]").First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Tracking event '{eventText}' is not visible. URL: {Page.Url}");
+        }
+
+        // ── Booking Details tab methods ───────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the Booking Details nav tab.
+        /// Verified from HTML: a[href*='?view=instructions']
+        /// </summary>
+        public async Task ClickBookingDetailsTabAsync()
+        {
+            var tab = await FindLocatorAsync(BookingDetailsTabSelectors, timeoutMs: 10000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Verifies the commodity div in Booking Details contains <paramref name="commodity"/>.
+        /// Verified from HTML: div.col-lg-4 > div.text-truncate
+        /// </summary>
+        public async Task VerifyCommodityAsync(string commodity)
+        {
+            var el = Page.Locator(string.Format(CommodityXPathTemplate, ToXPathLiteral(commodity))).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Commodity '{commodity}' not visible in Booking Details. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the Remarks / Instructions field contains <paramref name="text"/>.
+        /// Delegates to the shared label-based lookup.
+        /// </summary>
+        public async Task VerifyRemarksInstructionsAsync(string text)
+            => await VerifyShipmentDetailFieldAsync("remarks", text);
+
+        /// <summary>
+        /// Verifies an entity card (Shipper, Billing Client, etc.) shows a name containing <paramref name="expectedText"/>.
+        /// <paramref name="roleLabel"/> matches the div.small.text-muted label (e.g. "Shipper", "Billing Client").
+        /// Verified from HTML: div.text-muted role label → ancestor d-flex → div.font-weight-bold
+        /// </summary>
+        public async Task VerifyEntityCardContainsAsync(string roleLabel, string expectedText)
+        {
+            var xpath = string.Format(EntityCardXPathTemplate, ToXPathLiteral(roleLabel));
+            var el = Page.Locator(xpath).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await el.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(expectedText, StringComparison.OrdinalIgnoreCase),
+                $"Entity card '{roleLabel}' value '{text}' does not contain '{expectedText}'. URL: {Page.Url}");
+        }
+
+        // ── Charges & Invoices tab methods ────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the Charges &amp; Invoices nav tab.
+        /// Verified from HTML: a[href*='?view=charges-invoices']
+        /// </summary>
+        public async Task ClickChargesInvoicesTabAsync()
+        {
+            var tab = await FindLocatorAsync(ChargesInvoicesTabSelectors, timeoutMs: 10000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Verifies a charge row with <paramref name="chargeName"/> is visible in the Charges tab.
+        /// Verified from HTML: div.row.my-2 > div.col-6 containing the charge name text.
+        /// </summary>
+        public async Task VerifyChargeAsync(string chargeName)
+        {
+            var el = Page.Locator(string.Format(ChargeRowXPathTemplate, ToXPathLiteral(chargeName))).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Charge '{chargeName}' not visible in Charges & Invoices tab. URL: {Page.Url}");
         }
 
         // ── Portal Shipment Form methods ──────────────────────────────────────────

@@ -759,6 +759,45 @@ Given I am on the Quotations List page
     #-------In MAGAYA, verify that the Booking was received with ALL INFO------------
     #-------Update the booking in MAGAYA.--------------------------------
     #------Verify the UPDATES in DFP.-------------------------
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I open the tagged shipment details view
+    Then I the shipment name should contains "UPDATED" 
+    And I verify the origin "MIAMI"
+    And I verify the status "Arrived" in the shipment detail page 
+    And I verify the shipper contains "Updated" in the shipment detail page 
+    And I verify the consignee contains "Updated" in the shipment detail page 
+    And I verify the Forwarder contains "Updated" in the shipment detail page 
+    And I verify the quote id in the shipment detail page
+    When I go to Tracking tab 
+    Then I should see the event "Arrived at destination"
+    And I click on Attahments tab
+    And I should see the uploaded file "RoundPriceUpdated.xlsx"
+    And I should see the uploaded file "DOCDFP.docx"
+    And I should see the uploaded file "PDFDFP.pdf"
+    And I should see the uploaded file "XLSDFP.xlsx"
+    And I should see the uploaded file "CSVDFP.csv"
+    And I should see the uploaded file "TXT_MAGAYA.txt"
+    And I should see the uploaded file "MSGDFP.msg"
+    And I should see the uploaded file "XML_MAGAYA.xml"
+    And I should see the uploaded file "test1.png"
+    And I should see the uploaded file "test.jpg"
+    And I should see the uploaded file "JSON_MAGAYA.json"
+    When I go to Booking Details tab 
+    Then I should see the commodity "UpdateCommodity"
+    And I should see the Remarks Instructions contains "UPDATED"
+    And I should see the shipper contains "Updated"
+    And I should see billing client contains "automation"
+    And I should see link entities shipper contains "updated"
+    When I go to Charge and Invoices tab  
+    Then I should see the charge "Storage Fee"
+
+    
+    
+
+
 
 
 

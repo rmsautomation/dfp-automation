@@ -762,7 +762,9 @@ Feature: Shipments
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button
-    Then the shipment should appear in the search results
+    #If the shipment is updated in Magaya, the shipment name should be updated with "UPDATED" text in DFP
+    #Click the reload button every 3 seconds for 5 minutes, until the shipment name is updated in DFP with the text "UPDATED" following the update in Magaya.
+    And the shipment should appear in the search results with text "UPDATED"
     When I open the tagged shipment details view
     Then I the shipment name should contains "UPDATED"
     And I verify the origin "MIAMI"
@@ -794,7 +796,7 @@ Feature: Shipments
     When I go to Charge and Invoices tab
     Then I should see the charge "Storage Fee"
 
-@841 @login @Int
+  @841 @login @Int
   Scenario: 841_SHQWYKToMagayaShipmentSendAttcahment
     #-------Create Shipment in Portal With attachments-----------------------
     Given I login to Portal as user "with Int"
@@ -815,17 +817,19 @@ Feature: Shipments
     #---------MAGAYA STEPS------------------------
     #Go To Magaya and verify the Booking is created
     #In Magaya, convert the booking into a shipment
-    #Add All Type of Attachments in the shipment in Magaya (PDF, Excel, Word, CSV, TXT, MSG, XML, JSON, PNG, JPG) AT COMMODITY LEVEL
+    #Update the name in Magaya with UPDATED Add All Type of Attachments in the shipment in Magaya (PDF, Excel, Word, CSV, TXT, MSG, XML, JSON, PNG, JPG) AT COMMODITY LEVEL
     #-------------------Verify the attachments are displayed in the shipment in DFP VerifyDFPAllAttachmentsToShInMagayaCommodity----------------
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button
-    Then the shipment should appear in the search results
+    #If the shipment is updated in Magaya, the shipment name should be updated with "UPDATED" text in DFP
+    #Click the reload button every 3 seconds for 5 minutes, until the shipment name is updated in DFP with the text "UPDATED" following the update in Magaya.
+    And the shipment should appear in the search results with text "UPDATED"
     When I open the tagged shipment details view
     When I click on Attahments tab
-    And I should see the uploaded file "DOCDFP.docx"    
+    And I should see the uploaded file "DOCDFP.docx"
     And I should see the uploaded file "PDFDFP.pdf"
-    And I should see the uploaded file "XLSDFP.xlsx"  
+    And I should see the uploaded file "XLSDFP.xlsx"
     And I should see the uploaded file "CSVDFP.csv"
     And I should see the uploaded file "TXT_MAGAYA.txt"
     And I should see the uploaded file "MSGDFP.msg"
@@ -848,8 +852,168 @@ Feature: Shipments
     #---------MAGAYA STEPS------------------------
     #IN MAGAYA Verify the attachment is displayed DFPAttachment.jpg and DFPAttachPDF.pdf----------------
 
+  @2244 @login @Int
+  Scenario: 2244_AirShipment_UpdateMasterHouse
+    #---------MAGAYA STEPS------------------------
+    #Go To Magaya and create a WH
+    #I store the "WH" GUID
+    #Go To Magaya and create the Master AIR Shipment with attachments  test.jpg and test2.pdf, AIRCarrier, Forwarde AgentDestination, Los Angeles to Shanghai, etc
+    #I store shipment reference and shipment name
+    #-------Verify Shipment in Portal With attachments-----------------------
+    Given I login to Portal as user "with Int"
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    #_shipmentName wihtout parameter should be the same as the stored shipment name
+    #If the shipment is updated in Magaya, the shipment name should be updated with "UPDATED" text in DFP
+    #Click the reload button every 2 seconds for 3 minutes, until the shipment name is updated in DFP with the text "UPDATED" following the update in Magaya.
+    Then the shipment should appear in the search results
+    When I open the tagged shipment details view
+    Then I should see the oringin "Los Angeles"
+    And I should see the destination "Shanghai"
+    And I should see the shipper "SHIPPER"
+    And I should see the consignee "CONSIGNEE"
+    When I go to attachments tab
+    Then I should see the uploaded file "test.jpg"
+    And I should see the uploaded file "test2.pdf"
+    When I go to charge and invoice tab
+    Then I should see the charge "Crating Fee"
+    When I go to Booking Details tab
+    Then I should see the commodity "Automation Commodity"
+    #---------MAGAYA STEPS-----------------------
+    #In Magaya, create a House SH linked to the Master SH
+    #Update Master shipment name to have text "WithHouse" in Magaya
+    #---------Portal STEPS Verify House create linked to the Master SH-----------------------
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    #_shipmentName wihtout parameter should be the same as the stored shipment name
+    #If the shipment is updated in Magaya, the shipment name should be updated with "UPDATED" text in DFP
+    #Click the reload button every 2 seconds for 3 minutes, until the shipment name is updated in DFP with the text "UPDATED" following the update in Magaya.
+    Then the shipment should appear in the search results with text "WithHouse"
+    And  I should see the Master SH icon in the search results
+    When I open the tagged shipment details view
+    Then I should see the shipment details page
+    And I store the shipmentId
+    And I go to booking details tab
+    Then I store the master total pieces
+    And I go to House tab
+    Then I should see the House SH linked to the Master SH contains "HAWB"
+    And I store the houseId
+    #---------Portal STEPS Verify House SH Details-----------------------
+    When I click on the houseId in the shipment details page
+    Then I should see the shipment details page
+    And I should see the origin "Los Angeles"
+    And I should see the destination "Shanghai"
+    When I go to attachments tab
+    And I should see the uploaded file "test2.pdf"
+    And I should see the uploaded file "Arrival Notice - Air - Unrated.pdf"
+    When I go to charge and invoice tab
+    Then I should see the charge "Crating Fee"
+    When I go to booking details tab
+    Then I should see the house total pieces
+    And I store house total pieces
+    And I verify the house total pieces is  Expected HousePIeces+1= Master Shipment total pieces
+    And I should see the house was created in DFP
+    #---------Portal STEPS Verify RelationShipMasterHouseWH-------------------------
+    When I click on "warehouse-receipts" link in the House SH details page
+    Then I should see the "Warehouse receipt" details page
+    And I should see the correct "WH" GUID in the URL
+    When I go to cargo tab
+    Then I should see the cargo items page
+    And I click on the "shipments" link in the cargo item details
+    And I should see the shipment details page
+    And I should see shipmentId
+    And I go to House tab
+    Then I should see the House SH linked to the Master SH contains "HAWB"
+    When I click on the houseId in the shipment details page
+    Then I should see the shipment details page
+    #---------MAGAYA STEPS-----------------------
+    #Update MASTER SHIPMENT in Magaya
+    #Update Shipment Name with UPDATED
+    #---------Portal STEPS Verify Updated Master SH-----------------------
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    Then the shipment should appear in the search results with text "UPDATED"
+    And  I should see the Master SH icon in the search results
+    When I open the tagged shipment details view
+    Then I should see the shipment details page
+    And I should see the oringin "New York"
+    And I should see the destination "Rotterdam"
+    And I should see the shipper "UPDATEDSHIPPER"
+    And I should see the consignee "UPDATEDCONSIGNEE"
+    When I go to tracking tab
+    Then I should see the event "Arrived at destination"
+    When I go to attachments tab
+    And I should see the uploaded file "RoundPriceUpdated.xlsx"
+    When I go to booking details tab
+    Then I should see the commodity "UpdateCommodity"
+    And I should see the description contains "Description of Goods UPDATED"
+    And I should see panel "COLLECT" in the booking details
+    And I should see the GUID "ShipmentGuidUPDATED" in the booking details
+    And I should see the shipmentRef contains "UPDATED" in the booking details
+    And I should see the link entities contains "Updated" in the booking details
+    #-----  ---Portal STEPS Verify Updated House SH Details-----------------------
+    When I go to House tab
+    Then I should see the House SH linked to the Master SH contains "HAWB"
+    When I click on the houseId in the shipment details page
+    Then I should see the shipment details page
+    And I should see the oringin "New York"
+    And I should see the destination "Rotterdam"
+    When I go to booking details tab
+    Then I should see the link entities contains "Updated" in the booking details
+    #---------MAGAYA STEPS-----------------------
+    #Update HOUSE SHIPMENT in Magaya, add attachCommodity.pdf at commodity level
+    #Update Master Shipment  Name with UPDATEDHOUSE
+    #--------Verify the UPDATES in DFP for Master Shipment includes houseCommodity -------------------------
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    Then the shipment should appear in the search results with text "UPDATEDHOUSE"
+    And  I should see the Master SH icon in the search results
+    When I open the tagged shipment details view
+    Then I should see the shipment details page
+    When I go to booking details tab
+    Then I should see the commodity "houseUpdatedDescription"
+    #---------Portal STEPS Verify Updated House SH-----------------------
+    When I go to House tab
+    Then I should see the House SH linked to the Master SH contains "HAWB"
+    When I click on the houseId in the shipment details page
+    Then I should see the shipment details page
+    And I should see the oringin "New York"
+    And I should see the destination "Rotterdam"
+    And I should see the shipper "UPDATEDSHIPPER"
+    And I should see the consignee "UPDATEDCONSIGNEE"
+    When I go to tracking tab
+    Then I should see the event "Arrived at destination"
+    When I go to attachments tab
+    And I should see the uploaded file "RoundPriceUpdated.xlsx"
+    And I should see the uploaded file "attachCommodity.pdf"
+    When I go to booking details tab
+    Then I should see the commodity "houseUpdatedDescription"
+    And I store the house total pieces after updating the house
+    And And I should see the description contains "General Goods UPDATEDSHIPMENT"
+    And I should see panel "COLLECT" in the booking details
+    And I should see panel "Test" in the booking details
+    And I should see the GUID "ShipmentGuidUPDATED" in the booking details
+    And I should see the shipmentRef contains "UPDATED" in the booking details
+    And I should see the link entities contains "Updated" in the booking details
+    When I go to charge and invoice tab
+    Then I should see the charge "Storage Fee"
+
     
 
+
+
+
+
+
+
+
+
+
+   
 
 
 

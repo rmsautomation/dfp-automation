@@ -181,6 +181,10 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.TheShipmentShouldAppearInSearchResults();
         }
 
+        [Then("the shipment should appear in the search results with text {string}")]
+        public async Task TheShipmentShouldAppearInTheSearchResultsWithText(string text)
+            => await _shipmentPage.TheShipmentShouldAppearInSearchResultsWithText(text);
+
         // ── Tag steps ────────────────────────────────────────────────────────────
 
         [Then("a tag icon should be displayed below the shipment name or on the left side of existing tags")]
@@ -844,5 +848,164 @@ namespace DFP.Playwright.StepDefinitions
         [Then("I should see the charge {string}")]
         public async Task IShouldSeeTheCharge(string chargeName)
             => await _shipmentPage.VerifyChargeAsync(chargeName);
+
+        // ── TC2244: Master / House SH steps ──────────────────────────────────────
+
+        [Then("I should see the Master SH icon in the search results")]
+        public async Task IShouldSeeTheMasterShIconInTheSearchResults()
+            => await _shipmentPage.VerifyMasterShIconInSearchResultsAsync();
+
+        [When("I go to House tab")]
+        [Then("I go to House tab")]
+        public async Task IGoToHouseTab()
+            => await _shipmentPage.ClickHouseTabAsync();
+
+        [Then("I should see the House SH linked to the Master SH contains {string}")]
+        public async Task IShouldSeeTheHouseShLinkedToMasterShContains(string text)
+            => await _shipmentPage.VerifyHouseShLinkedToMasterContainsAsync(text);
+
+        [Then("I store the master total pieces")]
+        public async Task IStoreTheMasterTotalPieces()
+        {
+            _tc.Data["masterPieces"] = await _shipmentPage.StorePiecesAsync("masterPieces");
+        }
+
+        [Then("I store the houseId")]
+        public async Task IStoreTheHouseId()
+        {
+            _tc.Data["houseId"] = await _shipmentPage.GetAndLogHouseIdAsync();
+        }
+
+        [When("I click on the houseId in the shipment details page")]
+        public async Task IClickOnTheHouseIdInTheShipmentDetailsPage()
+        {
+            if (!_tc.Data.TryGetValue("houseId", out var val) || val is not string houseId || string.IsNullOrWhiteSpace(houseId))
+                throw new InvalidOperationException("houseId not stored. Run 'I store the houseId' first.");
+            await _shipmentPage.ClickHouseIdInDetailsAsync(houseId);
+        }
+
+        [Then("I should see the shipment details page")]
+        public async Task IShouldSeeTheShipmentDetailsPage2()
+            => await _shipmentPage.VerifySummaryTabVisibleAsync();
+
+        [Then("I should see the house total pieces")]
+        public async Task IShouldSeeTheHouseTotalPieces()
+            => await _shipmentPage.VerifyHouseTotalPiecesVisibleAsync();
+
+        [Then("I store house total pieces")]
+        public async Task IStoreHouseTotalPieces()
+        {
+            _tc.Data["housePieces"] = await _shipmentPage.StorePiecesAsync("housePieces");
+        }
+
+        [Then("I store the house total pieces after updating the house")]
+        public async Task IStoreTheHouseTotalPiecesAfterUpdatingTheHouse()
+        {
+            _tc.Data["housePiecesUpdated"] = await _shipmentPage.StorePiecesAsync("housePiecesUpdated");
+        }
+
+        [Then("I store the master total pieces after updating the house")]
+        public async Task IStoreTheMasterTotalPiecesAfterUpdatingTheHouse()
+        {
+            _tc.Data["masterPiecesUpdated"] = await _shipmentPage.StorePiecesAsync("masterPiecesUpdated");
+        }
+
+        [Then("I verify the master total pieces after updating the house")]
+        public void IVerifyTheMasterTotalPiecesAfterUpdatingTheHouse()
+        {
+            if (!_tc.Data.TryGetValue("masterPiecesUpdated", out var mpVal) || mpVal is not int masterPiecesUpdated)
+                throw new InvalidOperationException("masterPiecesUpdated not stored.");
+            if (!_tc.Data.TryGetValue("housePiecesUpdated", out var hpVal) || hpVal is not int housePiecesUpdated)
+                throw new InvalidOperationException("housePiecesUpdated not stored.");
+            Assert.AreEqual(housePiecesUpdated + 2, masterPiecesUpdated,
+                $"Expected masterPiecesUpdated ({masterPiecesUpdated}) == housePiecesUpdated ({housePiecesUpdated}) + 2, but the values do not match.");
+            Console.WriteLine("[Test] Master Shipment has the correct PIECES!!(House+2)");
+        }
+
+        [Then("I should see the house was created in DFP")]
+        public void IShouldSeeTheHouseWasCreatedInDFP()
+        {
+            Console.WriteLine("[Test] House was created in DFP correctly!");
+        }
+
+        [Then("I verify the house total pieces is  Expected HousePIeces+1= Master Shipment total pieces")]
+        public void IVerifyTheHouseTotalPiecesEquality()
+        {
+            if (!_tc.Data.TryGetValue("masterPieces", out var mpVal) || mpVal is not int masterPieces)
+                throw new InvalidOperationException("masterPieces not stored.");
+            if (!_tc.Data.TryGetValue("housePieces", out var hpVal) || hpVal is not int housePieces)
+                throw new InvalidOperationException("housePieces not stored.");
+            Assert.IsTrue(masterPieces == housePieces + 1,
+                $"Expected masterPieces ({masterPieces}) == housePieces ({housePieces}) + 1, but the values do not match.");
+            Console.WriteLine($"[Test] Shipment House has the CORRECT number of pieces: Master-1(CommodityMaster)!!!!");
+        }
+
+        [When("I click on {string} link in the House SH details page")]
+        public async Task IClickOnLinkInTheHouseShDetailsPage(string linkType)
+        {
+            var guid = await _shipmentPage.ClickLinkByTypeAndExtractGuidAsync(linkType);
+            if (!string.IsNullOrWhiteSpace(guid))
+                _tc.Data["WH"] = guid;
+        }
+
+        [Then("I should see the {string} details page")]
+        public async Task IShouldSeeTheDetailsPage(string pageTitle)
+            => await _shipmentPage.VerifyDetailsPageHeadingAsync(pageTitle);
+
+        [Then("I should see the correct {string} GUID in the URL")]
+        public void IShouldSeeTheCorrectGuidInTheUrl(string guidKey)
+        {
+            if (!_tc.Data.TryGetValue(guidKey, out var val) || val is not string guid || string.IsNullOrWhiteSpace(guid))
+                throw new InvalidOperationException($"GUID for key '{guidKey}' not stored. Ensure the link click step ran first.");
+            _shipmentPage.VerifyGuidInCurrentUrl(guid);
+        }
+
+        // ── TC2244: Shipment heading / origin / destination / booking detail steps ─
+
+        [Then("I store the shipmentId")]
+        public async Task IStoreTheShipmentIdFromHeading()
+        {
+            _tc.Data["shipmentNumber"] = await _shipmentPage.StoreShipmentNumberFromHeadingAsync();
+        }
+
+        [Then("I should see shipmentId")]
+        public async Task IShouldSeeShipmentId()
+        {
+            if (!_tc.Data.TryGetValue("shipmentNumber", out var val) || val is not string num || string.IsNullOrWhiteSpace(num))
+                throw new InvalidOperationException("shipmentNumber not stored. Run 'I store the shipmentId' first.");
+            await _shipmentPage.VerifyShipmentNumberInHeadingAsync(num);
+        }
+
+        [Then("I should see the oringin {string}")]
+        public async Task IShouldSeeTheOringin(string city)
+            => await _shipmentPage.VerifyOriginAsync(city);
+
+        [Then("I should see the shipper {string}")]
+        public async Task IShouldSeeTheShipper(string shipper)
+            => await _shipmentPage.VerifyShipmentDetailFieldAsync("shipper", shipper);
+
+        [Then("I should see the destination {string}")]
+        public async Task IShouldSeeTheDestination(string city)
+            => await _shipmentPage.VerifyDestinationAsync(city);
+
+        [Then("I should see the description contains {string}")]
+        public async Task IShouldSeeTheDescriptionContains(string text)
+            => await _shipmentPage.VerifyDivContainsTextAsync(text);
+
+        [Then("I should see panel {string} in the booking details")]
+        public async Task IShouldSeePanelInTheBookingDetails(string text)
+            => await _shipmentPage.VerifyDivContainsTextAsync(text);
+
+        [Then("I should see the GUID {string} in the booking details")]
+        public async Task IShouldSeeTheGuidInTheBookingDetails(string guid)
+            => await _shipmentPage.VerifyDivContainsTextAsync(guid);
+
+        [Then("I should see the shipmentRef contains {string} in the booking details")]
+        public async Task IShouldSeeTheShipmentRefContainsInTheBookingDetails(string text)
+            => await _shipmentPage.VerifyDivContainsTextAsync(text);
+
+        [Then("I should see the link entities contains {string} in the booking details")]
+        public async Task IShouldSeeTheLinkEntitiesContainsInTheBookingDetails(string text)
+            => await _shipmentPage.VerifyDivContainsTextAsync(text);
     }
 }

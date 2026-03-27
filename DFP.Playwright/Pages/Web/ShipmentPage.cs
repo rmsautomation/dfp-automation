@@ -2,8 +2,6 @@ using Microsoft.Playwright;
 using DFP.Playwright.Pages.Web.BasePages;
 using DFP.Playwright.Helpers;
 using System.Globalization;
-using System.IO;
-
 namespace DFP.Playwright.Pages.Web
 {
     public sealed class ShipmentPage(IPage page) : BasePage(page)
@@ -1020,6 +1018,40 @@ namespace DFP.Playwright.Pages.Web
             }
         }
 
+        /// <summary>
+        /// Polls the shipment search results every 3 seconds for up to 5 minutes, clicking the
+        /// Reload button each time, until a shipment card/row containing <paramref name="text"/>
+        /// becomes visible. Used to detect when Magaya pushes an update (e.g. name contains "UPDATED").
+        /// </summary>
+        public async Task TheShipmentShouldAppearInSearchResultsWithText(string text)
+        {
+            const int retryIntervalMs = 3000;
+            const int maxDurationMs = 300000; // 5 minutes
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
+
+            var shipmentLocator = Page.Locator("qwyk-shipments-list-item, tr:has([qwyk-shipment-index-table-item])")
+                .Filter(new LocatorFilterOptions { HasText = text });
+            var reloadButton = Page.Locator("button.btn-outline-secondary:has(svg[data-icon='arrows-rotate'])");
+
+            while (true)
+            {
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+                if (await shipmentLocator.IsVisibleAsync())
+                    return;
+
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Shipment containing '{text}' was not found in search results after 5 minutes of retries. URL: {Page.Url}");
+
+                if (await reloadButton.IsVisibleAsync())
+                {
+                    await reloadButton.ClickAsync();
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                }
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+            }
+        }
+
         // ── Tag methods ───────────────────────────────────────────────────────────
 
         public async Task ATagIconShouldBeDisplayed()
@@ -1143,8 +1175,6 @@ namespace DFP.Playwright.Pages.Web
         {
             var shipmentLink = await FindLocatorAsync(
             [
-                $"//*[contains(text(),'{_shipmentName}')]/ancestor::*[contains(@class,'card') or contains(@class,'item')]//a",
-                $"//*[contains(text(),'{_shipmentName}')]/ancestor::article//a",
                 "//a[contains(@href,'/shipments/')]"
             ]);
             await ClickAndWaitForNavigationAsync(shipmentLink);
@@ -3136,6 +3166,221 @@ namespace DFP.Playwright.Pages.Web
             var input = Page.Locator(selector);
             await input.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await TypeAsync(input, value);
+        }
+
+        // ── TC2244: Master / House SH methods ────────────────────────────────────
+
+        // Badge: <span class="badge badge-outline-secondary ..."><fa-icon><svg data-icon="folder-tree"/></fa-icon> Master <span>(1HB/L)</span></span>
+        private const string MasterShBadgeInSearchXPath =
+            "//span[contains(@class,'badge')][.//svg[@data-icon='folder-tree']][contains(normalize-space(),'Master')]";
+
+        // House Bs/L nav tab: <a class="nav-link" href="...?view=house-bsl"><div>...<svg data-icon="folder-tree"/> House Bs/L </div></a>
+        private static readonly string[] HouseTabNavSelectors =
+        [
+            "//a[contains(@href,'?view=house-bsl')]",
+            "//a[contains(@class,'nav-link')][.//div[contains(normalize-space(),'House Bs/L')]]"
+        ];
+
+        // Pieces panel: <div>N piece(s)</div>
+        private const string PiecesXPath = "//div[contains(normalize-space(text()), 'piece(s)')]";
+
+        // HAWB span in House list or detail
+        private const string HawbSpanXPath = "//span[contains(text(), 'HAWB')]";
+
+        // Summary tab nav: <a class="nav-link active" href="...?view=summary"><div><svg data-icon="rss"/> Summary</div></a>
+        private const string SummaryTabNavXPath =
+            "//a[contains(@class,'nav-link')][.//svg[@data-icon='rss']]";
+
+        /// <summary>
+        /// Verifies the Master SH badge (folder-tree icon + "Master" text) is visible in search results.
+        /// Verified from HTML: span.badge containing svg[data-icon='folder-tree'] and text "Master".
+        /// </summary>
+        public async Task VerifyMasterShIconInSearchResultsAsync()
+        {
+            var badge = Page.Locator(MasterShBadgeInSearchXPath).First;
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Master SH badge icon not found in search results. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the House Bs/L nav tab in the shipment detail page.
+        /// Verified from HTML: a.nav-link with href containing ?view=house-bsl.
+        /// </summary>
+        public async Task ClickHouseTabAsync()
+        {
+            var tab = await FindLocatorAsync(HouseTabNavSelectors, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Verifies a House SH list item containing <paramref name="text"/> is visible.
+        /// Verified from HTML: li.list-group-item containing a span with HAWB text.
+        /// </summary>
+        public async Task VerifyHouseShLinkedToMasterContainsAsync(string text)
+        {
+            var item = Page.Locator(
+                $"//li[contains(@class,'list-group-item')][.//span[contains(text(),'{text}')]]").First;
+            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await item.IsVisibleAsync(),
+                $"House SH list item containing '{text}' not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Waits for the pieces panel to be enabled, extracts the integer value, logs it, and returns it.
+        /// Verified from HTML: div containing text 'piece(s)'.
+        /// </summary>
+        public async Task<int> StorePiecesAsync(string logLabel)
+        {
+            var el = Page.Locator(PiecesXPath).First;
+            await WaitForEnabledAsync(el, timeoutMs: 15000);
+            var text = (await el.InnerTextAsync()).Trim();
+            var digitsOnly = System.Text.RegularExpressions.Regex.Replace(text, @"\D+", "");
+            var pieces = int.Parse(digitsOnly);
+            Console.WriteLine($"[ShipmentPage] {logLabel} stored: {pieces}");
+            return pieces;
+        }
+
+        /// <summary>
+        /// Waits for the pieces panel to be visible and asserts it exists.
+        /// </summary>
+        public async Task VerifyHouseTotalPiecesVisibleAsync()
+        {
+            var el = Page.Locator(PiecesXPath).First;
+            await WaitForEnabledAsync(el, timeoutMs: 15000);
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"House total pieces element not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Gets the text content of the first HAWB span, logs it, and returns it.
+        /// Verified from HTML: span containing text 'HAWB'.
+        /// </summary>
+        public async Task<string> GetAndLogHouseIdAsync()
+        {
+            var el = Page.Locator(HawbSpanXPath).First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var houseId = (await el.InnerTextAsync()).Trim();
+            Console.WriteLine($"[ShipmentPage] houseId stored: {houseId}");
+            return houseId;
+        }
+
+        /// <summary>
+        /// Clicks the HAWB span that matches <paramref name="houseId"/> and waits for navigation.
+        /// </summary>
+        public async Task ClickHouseIdInDetailsAsync(string houseId)
+        {
+            var el = Page.Locator($"//span[contains(text(),'{houseId}')]").First;
+            await WaitForEnabledAsync(el, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(el);
+        }
+
+        /// <summary>
+        /// Waits for the Summary nav tab (rss icon) to be enabled and visible.
+        /// Verified from HTML: a.nav-link containing svg[data-icon='rss'].
+        /// </summary>
+        public async Task VerifySummaryTabVisibleAsync()
+        {
+            var el = Page.Locator(SummaryTabNavXPath).First;
+            await WaitForEnabledAsync(el, timeoutMs: 15000);
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Summary tab nav link not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Finds the first link whose href contains '/{linkType}/', extracts the GUID from the href,
+        /// stores it in <paramref name="storedGuid"/>, then clicks the link.
+        /// </summary>
+        public async Task<string> ClickLinkByTypeAndExtractGuidAsync(string linkType)
+        {
+            var link = Page.Locator($"//a[contains(@href,'/{linkType}/')]").First;
+            await WaitForEnabledAsync(link, timeoutMs: 15000);
+            var href = await link.GetAttributeAsync("href") ?? "";
+            var match = System.Text.RegularExpressions.Regex.Match(
+                href, @"/[a-zA-Z-]+/([0-9a-fA-F\-]{36})");
+            var guid = match.Success ? match.Groups[1].Value : "";
+            Console.WriteLine($"[ShipmentPage] {linkType} GUID extracted: {guid}");
+            await ClickAndWaitForNavigationAsync(link);
+            return guid;
+        }
+
+        /// <summary>
+        /// Waits for an h3 heading containing <paramref name="title"/> to be visible.
+        /// Verified from HTML: h3.font-weight-normal with title text.
+        /// </summary>
+        public async Task VerifyDetailsPageHeadingAsync(string title)
+        {
+            var heading = Page.Locator(
+                $"//h3[contains(normalize-space(),'{title}')]").First;
+            await WaitForEnabledAsync(heading, timeoutMs: 15000);
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Details page heading containing '{title}' not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Asserts that the current page URL contains <paramref name="guid"/>.
+        /// </summary>
+        public void VerifyGuidInCurrentUrl(string guid)
+        {
+            var url = Page.Url;
+            Assert.IsTrue(url.Contains(guid, StringComparison.OrdinalIgnoreCase),
+                $"URL '{url}' does not contain GUID '{guid}'.");
+        }
+
+        // ── TC2244: Shipment heading / origin / destination / booking detail methods ─
+
+        /// <summary>
+        /// Extracts the first span.text-muted text from the shipment h3 heading (e.g. "426UPDATED"),
+        /// logs it, and returns it.
+        /// Verified from HTML: h3.font-weight-normal.m-0 > span.text-muted[0]
+        /// </summary>
+        public async Task<string> StoreShipmentNumberFromHeadingAsync()
+        {
+            var span = Page.Locator(
+                "//h3[contains(@class,'font-weight-normal') and contains(@class,'m-0')]/span[contains(@class,'text-muted')][1]").First;
+            await span.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var number = (await span.InnerTextAsync()).Trim();
+            Console.WriteLine($"[ShipmentPage] shipmentNumber stored: {number}");
+            return number;
+        }
+
+        /// <summary>
+        /// Verifies that the shipment h3 heading contains <paramref name="number"/>.
+        /// </summary>
+        public async Task VerifyShipmentNumberInHeadingAsync(string number)
+        {
+            var heading = Page.Locator(ShipmentNameHeadingSelector).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var text = (await heading.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(number, StringComparison.OrdinalIgnoreCase),
+                $"Shipment heading '{text}' does not contain '{number}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies the destination city (second h6 city element) contains <paramref name="city"/>.
+        /// Verified from HTML: second h6.font-weight-normal.text-primary.text-truncate on the page.
+        /// </summary>
+        public async Task VerifyDestinationAsync(string city)
+        {
+            var el = Page.Locator(OriginCitySelector).Last;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            var text = (await el.InnerTextAsync()).Trim();
+            Assert.IsTrue(text.Contains(city, StringComparison.OrdinalIgnoreCase),
+                $"Destination city '{text}' does not contain '{city}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies that a div element whose normalized text contains <paramref name="text"/> is visible.
+        /// Used for booking detail fields: description, panel, GUID, shipmentRef, link entities.
+        /// </summary>
+        public async Task VerifyDivContainsTextAsync(string text)
+        {
+            var literal = ToXPathLiteral(text);
+            var el = Page.Locator(
+                $"//div[contains(normalize-space(text()),{literal})]").First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Div containing '{text}' not found. URL: {Page.Url}");
         }
     }
 }

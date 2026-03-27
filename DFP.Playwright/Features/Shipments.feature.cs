@@ -28,9 +28,9 @@ namespace DFP.Playwright.Features
         private static string[] featureTags = new string[] {
                 "Shipments"};
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipments", "    As a user\r\n    I want to create a shipment from an existing quotation in the " +
-                "DFP Portal\r\n    So I can convert created quotes into active shipments without re" +
-                "-entering data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Shipments", "    As a user\n    I want to create a shipment from an existing quotation in the D" +
+                "FP Portal\n    So I can convert created quotes into active shipments without re-e" +
+                "ntering data", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "Shipments.feature"
 #line hidden
@@ -120,7 +120,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 17);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Shipments.feature.ndjson", 18);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Add and validate tags across shipment list, table and details views")]
@@ -2663,10 +2663,196 @@ namespace DFP.Playwright.Features
     await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 840
-    await testRunner.WhenAsync("I select the file to upload \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("I select the file to upload \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 841
     await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 842
+    await testRunner.AndAsync("I should see the uploaded file \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 843
+    await testRunner.WhenAsync("I click on Attach document button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 844
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 845
+    await testRunner.WhenAsync("I select the file to upload \"DFPAttachPDF.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 846
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 847
+    await testRunner.AndAsync("I should see the uploaded file \"DFPAttachPDF.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("2244_AirShipment_UpdateMasterHouse")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("2244_AirShipment_UpdateMasterHouse")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Shipments")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("2244")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Int")]
+        public async global::System.Threading.Tasks.Task _2244_AirShipment_UpdateMasterHouse()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "2244",
+                    "login",
+                    "Int"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "15";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("2244_AirShipment_UpdateMasterHouse", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 852
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 858
+    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 859
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 860
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 861
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 862
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 863
+    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 864
+    await testRunner.ThenAsync("I should see the oringin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 865
+    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 866
+    await testRunner.AndAsync("I should see the shipper \"SHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 867
+    await testRunner.AndAsync("I should see the consignee \"CONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 868
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 869
+    await testRunner.ThenAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 870
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 871
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 872
+    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 873
+    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 874
+    await testRunner.ThenAsync("I should see the commodity \"Automation Commodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 878
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 879
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 880
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 881
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 882
+    await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 883
+    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 884
+    await testRunner.AndAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 885
+    await testRunner.ThenAsync("I store the master total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 886
+    await testRunner.AndAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 887
+    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 888
+    await testRunner.AndAsync("I store the houseId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 890
+    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 891
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 892
+    await testRunner.AndAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 893
+    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 894
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 895
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 896
+    await testRunner.AndAsync("I should see the uploaded file \"Arrival Notice - Air - Unrated.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 897
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 898
+    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 899
+     await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 900
+    await testRunner.ThenAsync("I should see the house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 901
+    await testRunner.AndAsync("I store house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 902
+    await testRunner.AndAsync("I verify the house total pieces is  Expected HousePIeces+1= Master Shipment total" +
+                        " pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 903
+    await testRunner.AndAsync("I should see the house was created in DFP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 905
+   await testRunner.WhenAsync("I click on \"warehouse-receipts\" link in the House SH details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 906
+    await testRunner.ThenAsync("I should see the \"Warehouse receipt\" details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 907
+    await testRunner.AndAsync("I should see the correct \"WH\" GUID in the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

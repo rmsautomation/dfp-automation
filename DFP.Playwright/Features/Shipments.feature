@@ -881,7 +881,7 @@ Feature: Shipments
     When I go to Booking Details tab
     Then I should see the commodity "Automation Commodity"
     #---------MAGAYA STEPS-----------------------
-    #In Magaya, create a House SH linked to the Master SH
+    #In Magaya, create a House SH linked to the Master SH using wizard with WH already created
     #Update Master shipment name to have text "WithHouse" in Magaya
     #---------Portal STEPS Verify House create linked to the Master SH-----------------------
     Given I navigated to Shipments List
@@ -976,6 +976,9 @@ Feature: Shipments
     Then I should see the shipment details page
     When I go to booking details tab
     Then I should see the commodity "houseUpdatedDescription"
+    And I store the master total pieces after updating the house
+    When I go to attachments tab
+    And I should see the uploaded file "attachCommodity.pdf"
     #---------Portal STEPS Verify Updated House SH-----------------------
     When I go to House tab
     Then I should see the House SH linked to the Master SH contains "HAWB"
@@ -1001,6 +1004,56 @@ Feature: Shipments
     And I should see the link entities contains "Updated" in the booking details
     When I go to charge and invoice tab
     Then I should see the charge "Storage Fee"
+    And I verify the master total pieces after updating the house 
+
+@859 @login @Int
+  Scenario: 859_MagayaToQWYKAddAutomaticEvent
+    #Go To Magaya and create a Master AIR Shipment with attachments  test.jpg and test2.pdf, AIRCarrier, Forwarde AgentDestination, Los Angeles to Shanghai, etc
+    #I store shipment reference and shipment name
+    #In MAGAYA, add the automatic event "Arrived at destination" in the Master SH
+    #-------Verify Shipment in Portal-----------------------
+    Given I login to Portal as user "with Int"
+    Given I navigated to Shipments List
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    Then the shipment should appear in the search results
+    When I open the tagged shipment details view
+    Then I should see the oringin "Los Angeles"
+    And I should see the destination "Shanghai"
+    And I should see the shipper "SHIPPER"
+    And I should see the consignee "CONSIGNEE"
+    When I go to attachments tab
+    Then I should see the uploaded file "test.jpg"
+    And I should see the uploaded file "test2.pdf"
+    When I go to charge and invoice tab
+    Then I should see the charge "Crating Fee"
+    When I go to Booking Details tab
+    Then I should see the commodity "Automation Commodity"
+    And I should see the link entities contains "Air" in the booking details
+    And I should see the GUID "ShipmentGuid" in the booking details
+    And I should see the shipmentRef in the booking details
+    And I should see panel "PREPAID" in the booking details
+    When I go to charge and invoice tab
+    Then I should see the charge "Crating Fee"
+    #-----------MAGAYA STEPS------------------------
+    #In MAGAYA, SET the SHIPMENT IN TRANSIT and Verify that the  automatic event "In Transit" was added in the SH Shipment has been set as in transit
+    #In Magaya update ShipmentName with EVENT
+    #-----------PORTAL VERIFICATIONS Related to Automatic Event------------------------
+    Given I navigated to Shipments List 
+    When I enter the shipment Reference in Quick filter
+    And I click on Search button
+    Then the shipment should appear in the search results with text "EVENT"
+    When I open the tagged shipment details view
+    And I go to tracking tab
+    Then I should see the event "In Transit" in the tracking tab
+    And I should see the event "Shipment has been set as in transit" in the tracking tab 
+    
+
+
+
+    When I go to tracking tab
+    Then I should see the event "Arrived at destination"
+
 
     
 

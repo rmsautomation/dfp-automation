@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "06f7bfd2-d4a2-48e3-b290-873cbf9b7fac",
+		"name": "aylin.rodriguez@magaya.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8180331",
+		"_collection_link": "https://galactic-space-446184.postman.co/workspace/4df02b8b-85c2-4efd-8ee3-63a6119e95c4/collection/8180331-06f7bfd2-d4a2-48e3-b290-873cbf9b7fac?action=share&source=collection_link&creator=8180331"
+	},
+	"item": [
+		{
+			"name": "Create Charge Mappings Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "username=magaya;password=d1195ae96c7431f2984e9259b87872d131fde3f7b87fc081228a6c833accae28",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"charges\": [\r\n     {\r\n    \"qwyk_code\": \"_NONE\",\r\n    \"magaya_income_code\": \"DELIVERY\"\r\n    },\r\n    {\r\n    \"qwyk_code\": \"BASE\",\r\n    \"magaya_income_code\": \"FRAFEE-TV\"\r\n    },\r\n    {\r\n    \"qwyk_code\": \"BKS-INC\",\r\n    \"magaya_income_code\": \"BKS-INC8\"\r\n    },{\r\n    \"qwyk_code\": \"BKS-INC21\",\r\n    \"magaya_income_code\": \"BKS-INC8226\"\r\n    },\r\n    {\r\n    \"qwyk_code\": \"BKS-INC21\",\r\n    \"magaya_income_code\": \"BKS-INC82299099\"\r\n    }\r\n]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://w19-dev07-v:3040/ext/magaya/ltm/chargemappings",
+					"protocol": "http",
+					"host": [
+						"w19-dev07-v"
+					],
+					"port": "3040",
+					"path": [
+						"ext",
+						"magaya",
+						"ltm",
+						"chargemappings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

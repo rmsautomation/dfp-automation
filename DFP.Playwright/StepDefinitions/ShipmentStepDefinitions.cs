@@ -3,8 +3,10 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web;
+using Reqnroll;
 namespace DFP.Playwright.StepDefinitions
 {
+    [Binding]
     public sealed class ShipmentStepDefinitions
     {
         private readonly DFP.Playwright.Support.TestContext _tc;
@@ -808,6 +810,8 @@ namespace DFP.Playwright.StepDefinitions
 
         [When("I go to Tracking tab")]
         [Then("I go to Tracking tab")]
+        [When("I go to tracking tab")]
+        [Then("I go to tracking tab")]
         public async Task IGoToTrackingTab()
             => await _shipmentPage.ClickTrackingTabAsync();
 
@@ -842,6 +846,8 @@ namespace DFP.Playwright.StepDefinitions
 
         [When("I go to Charge and Invoices tab")]
         [Then("I go to Charge and Invoices tab")]
+        [When("I go to charge and invoice tab")]
+        [Then("I go to charge and invoice tab")]
         public async Task IGoToChargeAndInvoicesTab()
             => await _shipmentPage.ClickChargesInvoicesTabAsync();
 
@@ -976,8 +982,8 @@ namespace DFP.Playwright.StepDefinitions
             await _shipmentPage.VerifyShipmentNumberInHeadingAsync(num);
         }
 
-        [Then("I should see the oringin {string}")]
-        public async Task IShouldSeeTheOringin(string city)
+        [Then("I should see the origin {string}")]
+        public async Task IShouldSeeTheOrigin(string city)
             => await _shipmentPage.VerifyOriginAsync(city);
 
         [Then("I should see the shipper {string}")]

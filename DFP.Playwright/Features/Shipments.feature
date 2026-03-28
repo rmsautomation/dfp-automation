@@ -869,7 +869,7 @@ Feature: Shipments
     #Click the reload button every 2 seconds for 3 minutes, until the shipment name is updated in DFP with the text "UPDATED" following the update in Magaya.
     Then the shipment should appear in the search results
     When I open the tagged shipment details view
-    Then I should see the oringin "Los Angeles"
+    Then I should see the origin "Los Angeles"
     And I should see the destination "Shanghai"
     And I should see the shipper "SHIPPER"
     And I should see the consignee "CONSIGNEE"
@@ -939,7 +939,7 @@ Feature: Shipments
     And  I should see the Master SH icon in the search results
     When I open the tagged shipment details view
     Then I should see the shipment details page
-    And I should see the oringin "New York"
+    And I should see the origin "New York"
     And I should see the destination "Rotterdam"
     And I should see the shipper "UPDATEDSHIPPER"
     And I should see the consignee "UPDATEDCONSIGNEE"
@@ -959,7 +959,7 @@ Feature: Shipments
     Then I should see the House SH linked to the Master SH contains "HAWB"
     When I click on the houseId in the shipment details page
     Then I should see the shipment details page
-    And I should see the oringin "New York"
+    And I should see the origin "New York"
     And I should see the destination "Rotterdam"
     When I go to booking details tab
     Then I should see the link entities contains "Updated" in the booking details
@@ -984,7 +984,7 @@ Feature: Shipments
     Then I should see the House SH linked to the Master SH contains "HAWB"
     When I click on the houseId in the shipment details page
     Then I should see the shipment details page
-    And I should see the oringin "New York"
+    And I should see the origin "New York"
     And I should see the destination "Rotterdam"
     And I should see the shipper "UPDATEDSHIPPER"
     And I should see the consignee "UPDATEDCONSIGNEE"
@@ -1010,7 +1010,6 @@ Feature: Shipments
   Scenario: 859_MagayaToQWYKAddAutomaticEvent
     #Go To Magaya and create a Master AIR Shipment with attachments  test.jpg and test2.pdf, AIRCarrier, Forwarde AgentDestination, Los Angeles to Shanghai, etc
     #I store shipment reference and shipment name
-    #In MAGAYA, add the automatic event "Arrived at destination" in the Master SH
     #-------Verify Shipment in Portal-----------------------
     Given I login to Portal as user "with Int"
     Given I navigated to Shipments List
@@ -1018,7 +1017,7 @@ Feature: Shipments
     And I click on Search button
     Then the shipment should appear in the search results
     When I open the tagged shipment details view
-    Then I should see the oringin "Los Angeles"
+    Then I should see the origin "Los Angeles"
     And I should see the destination "Shanghai"
     And I should see the shipper "SHIPPER"
     And I should see the consignee "CONSIGNEE"

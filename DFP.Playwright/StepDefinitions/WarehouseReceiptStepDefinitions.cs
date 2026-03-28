@@ -158,5 +158,20 @@ namespace DFP.Playwright.StepDefinitions
             var pairs = dataTable.Rows.Select(r => (columnName: r[0], expectedValue: r[1]));
             await _warehouseReceiptPage.CheckCustomFieldValuesInTableViewAsync(pairs);
         }
+
+        // ── TC2244: WH Cargo tab steps ────────────────────────────────────────────
+
+        [When("I go to cargo tab")]
+        [Then("I go to cargo tab")]
+        public async Task IGoToCargoTab()
+            => await _warehouseReceiptPage.ClickCargoTabAsync();
+
+        [Then("I should see the cargo items page")]
+        public async Task IShouldSeeTheCargoItemsPage()
+            => await _warehouseReceiptPage.VerifyCargoItemsHeadingAsync();
+
+        [When("I click on the {string} link in the cargo item details")]
+        public async Task IClickOnTheLinkInTheCargoItemDetails(string linkType)
+            => await _warehouseReceiptPage.ClickLinkInCargoDetailsAsync(linkType);
     }
 }

@@ -419,5 +419,53 @@ namespace DFP.Playwright.Pages.Web
                     $"Column '{columnName}': expected '{expectedValue}' but found '{cellText}'. URL: {Page.Url}");
             }
         }
+
+        // ── TC2244: WH Cargo tab methods ─────────────────────────────────────────
+
+        // Cargo nav tab: <a class="nav-link" href="...?view=cargo-items"><svg data-icon="list"/> Cargo </a>
+        private static readonly string[] CargoTabNavSelectors =
+        [
+            "//a[contains(@href,'?view=cargo-items')][.//svg[@data-icon='list']]",
+            "//a[contains(@href,'?view=cargo-items')]",
+            "a.nav-link:has(svg[data-icon='list'])"
+        ];
+
+        // Cargo Items heading: <h5 class="font-weight-normal m-0">Cargo Items</h5>
+        private const string CargoItemsHeadingSelector = "h5.font-weight-normal.m-0";
+
+        /// <summary>
+        /// Clicks the Cargo nav tab on the WH receipt detail page.
+        /// Verified from HTML: a.nav-link with href containing ?view=cargo-items and svg data-icon='list'.
+        /// </summary>
+        public async Task ClickCargoTabAsync()
+        {
+            var tab = await FindLocatorAsync(CargoTabNavSelectors, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Waits for the "Cargo Items" h5 heading to be enabled and visible.
+        /// Verified from HTML: h5.font-weight-normal.m-0 containing "Cargo Items".
+        /// </summary>
+        public async Task VerifyCargoItemsHeadingAsync()
+        {
+            var heading = Page.Locator(CargoItemsHeadingSelector)
+                .Filter(new LocatorFilterOptions { HasText = "Cargo Items" })
+                .First;
+            await WaitForEnabledAsync(heading, timeoutMs: 15000);
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"'Cargo Items' heading not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the first link whose href contains '/{linkType}/' in the cargo item details.
+        /// Verified from HTML: a[href*='/shipments/'] with fa-icon data-icon='link'.
+        /// </summary>
+        public async Task ClickLinkInCargoDetailsAsync(string linkType)
+        {
+            var link = Page.Locator($"//a[contains(@href,'/{linkType}/')]").First;
+            await WaitForEnabledAsync(link, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(link);
+        }
     }
 }

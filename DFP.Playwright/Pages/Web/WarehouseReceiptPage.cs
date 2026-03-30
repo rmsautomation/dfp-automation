@@ -11,9 +11,11 @@ namespace DFP.Playwright.Pages.Web
     {
         private string _warehouseReceiptName = string.Empty;
         private string _tableViewColumnName = string.Empty;
+        private readonly string _baseUrl;
 
-        public WarehouseReceiptPage(IPage page) : base(page)
+        public WarehouseReceiptPage(IPage page, string baseUrl) : base(page)
         {
+            _baseUrl = baseUrl.TrimEnd('/');
         }
 
         // ── Selectors ─────────────────────────────────────────────────────────────
@@ -108,17 +110,13 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task NavigateToWarehouseReceiptsListAsync()
         {
-            // Verified URL: /my-portal/warehouse-receipts (redirects to /list)
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/warehouse-receipts");
+            await Page.GotoAsync(_baseUrl + "/my-portal/warehouse-receipts");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task NavigateToCargoDetailPageAsync()
         {
-            // Verified URL: /my-portal/cargo-detail (Warehouse > Cargo Detail submenu)
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/cargo-detail");
+            await Page.GotoAsync(_baseUrl + "/my-portal/cargo-detail");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 

@@ -10,9 +10,11 @@ namespace DFP.Playwright.Pages.Web
     public sealed class InvoicePage : BasePage
     {
         private string _invoiceName = string.Empty;
+        private readonly string _baseUrl;
 
-        public InvoicePage(IPage page) : base(page)
+        public InvoicePage(IPage page, string baseUrl) : base(page)
         {
+            _baseUrl = baseUrl.TrimEnd('/');
         }
 
         // ── Selectors ─────────────────────────────────────────────────────────────
@@ -61,8 +63,7 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task NavigateToInvoicesListAsync()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/invoices");
+            await Page.GotoAsync(_baseUrl + "/my-portal/invoices");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 

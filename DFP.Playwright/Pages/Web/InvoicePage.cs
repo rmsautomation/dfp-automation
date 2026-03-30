@@ -111,25 +111,28 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task SelectInvoiceInSearchResultsWithTextAsync(string text)
         {
-            const int initialWaitMs = 5000;
             const int retryIntervalMs = 2000;
             const int maxDurationMs = 180000;
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
             var resultDiv = Page.Locator($"//div[contains(normalize-space(),'{text}')]").First;
 
-            await Page.WaitForTimeoutAsync(initialWaitMs);
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Check immediately first — only enter the retry loop if not yet visible
+            try
+            {
+                await resultDiv.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Visible,
+                    Timeout = 5000
+                });
+                await resultDiv.ClickAsync();
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                return;
+            }
+            catch (TimeoutException) { }
 
             while (true)
             {
-                if (await resultDiv.IsVisibleAsync())
-                {
-                    await resultDiv.ClickAsync();
-                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-                    return;
-                }
-
                 if (DateTime.UtcNow >= deadline)
                     Assert.Fail($"Invoice with text '{text}' not found in search results after 3 minutes. URL: {Page.Url}");
 
@@ -138,6 +141,13 @@ namespace DFP.Playwright.Pages.Web
                     await ClickAndWaitForNetworkAsync(searchButton);
 
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
+
+                if (await resultDiv.IsVisibleAsync())
+                {
+                    await resultDiv.ClickAsync();
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                    return;
+                }
             }
         }
 
@@ -167,21 +177,26 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task TheInvoiceShouldAppearInSearchResultsInListAsync(string text)
         {
-            const int initialWaitMs = 5000;
             const int retryIntervalMs = 2000;
             const int maxDurationMs = 180000;
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
             var resultDiv = Page.Locator($"//div[contains(normalize-space(),'{text}')]").First;
 
-            await Page.WaitForTimeoutAsync(initialWaitMs);
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // Check immediately first — only enter the retry loop if not yet visible
+            try
+            {
+                await resultDiv.WaitForAsync(new LocatorWaitForOptions
+                {
+                    State = WaitForSelectorState.Visible,
+                    Timeout = 5000
+                });
+                return;
+            }
+            catch (TimeoutException) { }
 
             while (true)
             {
-                if (await resultDiv.IsVisibleAsync())
-                    return;
-
                 if (DateTime.UtcNow >= deadline)
                     Assert.Fail($"Invoice with text '{text}' not found in search results after 3 minutes. URL: {Page.Url}");
 
@@ -190,6 +205,9 @@ namespace DFP.Playwright.Pages.Web
                     await ClickAndWaitForNetworkAsync(searchButton);
 
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
+
+                if (await resultDiv.IsVisibleAsync())
+                    return;
             }
         }
 

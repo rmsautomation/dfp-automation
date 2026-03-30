@@ -127,6 +127,12 @@ namespace DFP.Playwright.Support
                 return new InvoicePage(tc.Page!);
             });
 
+            services.AddScoped<LiveTrackPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new LiveTrackPage(tc.Page!);
+            });
+
             return services;
         }
     }

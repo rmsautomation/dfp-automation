@@ -268,6 +268,12 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IShouldSeeTheCommodityInCargoDetailsWarehouse(string commodity)
             => await _warehouseReceiptPage.VerifyCommodityInCargoDetailsAsync(commodity);
 
+        [Given("I should see the total pieces {string} in cargo details warehouse")]
+        [When("I should see the total pieces {string} in cargo details warehouse")]
+        [Then("I should see the total pieces {string} in cargo details warehouse")]
+        public async Task IShouldSeeTheTotalPiecesInCargoDetailsWarehouse(string text)
+            => await _warehouseReceiptPage.VerifyTotalPiecesInCargoDetailsAsync(text);
+
         [Given("I go to attachments tab")]
         [When("I go to attachments tab")]
         [Then("I go to attachments tab")]

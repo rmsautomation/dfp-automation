@@ -547,6 +547,7 @@ namespace DFP.Playwright.Pages.Web
 
             var expected = $"Warehouse receipt {name}";
             var heading = Page.Locator("h3.font-weight-normal").Filter(new LocatorFilterOptions { HasText = expected }).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
             await WaitForEnabledAsync(heading, timeoutMs: 15000);
             Assert.IsTrue(await heading.IsVisibleAsync(),
                 $"Expected WR detail heading to contain '{expected}'. URL: {Page.Url}");
@@ -593,6 +594,19 @@ namespace DFP.Playwright.Pages.Web
         {
             foreach (var (labelText, expectedValue) in pairs)
                 await VerifyCustomFieldsLabelHeaderContainsAsync(labelText, expectedValue);
+        }
+
+        /// <summary>
+        /// Verifies the total pieces text is visible in the WR cargo details.
+        /// HTML: &lt;div&gt;503 pieces&lt;/div&gt;
+        /// XPath: //div[normalize-space(text())='{text}']
+        /// </summary>
+        public async Task VerifyTotalPiecesInCargoDetailsAsync(string text)
+        {
+            var el = Page.Locator($"//div[normalize-space(text())='{text}']").First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Total pieces '{text}' not found in cargo details. URL: {Page.Url}");
         }
 
         /// <summary>

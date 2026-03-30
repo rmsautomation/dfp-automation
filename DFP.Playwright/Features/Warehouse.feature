@@ -81,7 +81,7 @@ Feature: Warehouse Receipts
     And the warehouse receipt details should be displayed with the name "TC923_3373"
     And I should verify label header "Number" contains "TC923_3373"
     And I should verify the following label headers in warehouse receipt details:
-    # | Header                  | Value                    |
+      # | Header                  | Value                    |
       | Number                  | TC923_3373               |
       | Carrier PRO Number      | 1485PONumber             |
       | Carrier Tracking Number | 1485TrackingNumber       |
@@ -143,9 +143,9 @@ Feature: Warehouse Receipts
     And I should see the uploaded file "XLSDFP.xlsx"
     And I should see the uploaded file "PDFDFP.pdf"
 
-@924 @API @INT @login
+  @924 @API @INT @login
   Scenario:924_MagayaToQWYK_UpdateWR
-  #-----------Magaya Steps--------------------------------------
+    #-----------Magaya Steps--------------------------------------
     Given the transaction "WH" "TC924" is imported via API
     Given I login to Portal as user "with Int"
     # ── Verify the WR is displayed in Warehouse Receipt List ─────────────
@@ -158,7 +158,7 @@ Feature: Warehouse Receipts
     And the warehouse receipt details should be displayed with the name "TC924"
     And I should verify label header "Number" contains "TC924"
     And I should verify the following label headers in warehouse receipt details:
-    # | Header                  | Value                    |
+      # | Header                  | Value                    |
       | Number                  | TC924                    |
       | Carrier PRO Number      | 1487PONumber             |
       | Carrier Tracking Number | 1487TrackingNumber       |
@@ -209,12 +209,12 @@ Feature: Warehouse Receipts
     And I should see the uploaded file "test.jpg"
     #------Verify attachment AT COMMODITY LEVEL in WH details page---------
     And I should see the uploaded file "test2.pdf"
-#----------MAGAYA STEPS------------------
-# ──-------- Update the WR in Magaya ─────────────
-#----------XML for updating the WR in Magaya----------------
-#CHECK WITH ANNIA SAME GUID ????
-  #Given the XML file "TC924updated.xml" is imported via API
-#----------Verigfy. update in DFP after updating the WR in Magaya----------------
+    #----------MAGAYA STEPS------------------
+    # ──-------- Update the WR in Magaya ─────────────
+    #----------XML for updating the WR in Magaya----------------
+    #CHECK WITH ANNIA SAME GUID ????
+    #Given the XML file "TC924updated.xml" is imported via API
+    #----------Verigfy. update in DFP after updating the WR in Magaya----------------
     Given I navigated to Warehouse Receipts List
     Given I set the warehouse receipt name to "TC924UPDATED"
     And I enter the warehouse receipt name in search field
@@ -224,37 +224,37 @@ Feature: Warehouse Receipts
     And the warehouse receipt details should be displayed with the name "TC924UPDATED"
     And I should verify label header "Number" contains "TC924UPDATED"
     And I should verify the following label headers in warehouse receipt details:
-    # | Header                  | Value                    |
-      | Number                  | TC924UPDATED             |
-      | Carrier PRO Number      | 1487PONumberUpdated             |
-      | Carrier Tracking Number | 1487TrackingNumberUpdated       |
-      | Driver                  | 1487DriverNameUpdated          |
-      | License                 | 1487LicenseNumberUpdated        |
-      | Supplier                | automation               |
-      | PO Number               | 1487PONumberUpdated            |
-      | PO Invoice Number       | 1487INVNumber            |
-      | Billing Client          | automation               |
-      | Note                    | NOTE UPDATED |
+      # | Header                  | Value                    |
+      | Number                  | TC924UPDATED              |
+      | Carrier PRO Number      | 1487PONumberUpdated       |
+      | Carrier Tracking Number | 1487TrackingNumberUpdated |
+      | Driver                  | 1487DriverNameUpdated     |
+      | License                 | 1487LicenseNumberUpdated  |
+      | Supplier                | automation                |
+      | PO Number               | 1487PONumberUpdated       |
+      | PO Invoice Number       | 1487INVNumber             |
+      | Billing Client          | automation                |
+      | Note                    | NOTE UPDATED              |
     #----------Verify Custom Fields-----------------
     And I should verify custom fields label header "BooleanCustomField" contains "Yes"
     And I should verify the following custom field values in warehouse receipt details in DFP:
       #| Header              | Value         |
-      | BooleanCustomField  | Yes               |
-      | DateCustomField     | 01/25/2025        |
-      | DecimalCustomField  | 600              |
-      | IntegerCustomField  | 400                |
-      | MoneyCustomField    | USD 700            |
-      | PickListCustomField | Option2           |
-      | StringCustomField   | ShipperRefUpdated      |
+      | BooleanCustomField  | Yes                      |
+      | DateCustomField     | 01/25/2025               |
+      | DecimalCustomField  | 600                      |
+      | IntegerCustomField  | 400                      |
+      | MoneyCustomField    | USD 700                  |
+      | PickListCustomField | Option2                  |
+      | StringCustomField   | ShipperRefUpdated        |
       | GUIDWH              | GUIDUpdated              |
-      | LookupCutomsField   | automation        |
+      | LookupCutomsField   | automation               |
       | QATest              | QAAutomationTestsUpdated |
     #------Verify Parties in WH details page---------
     And I should verify the following parties in warehouse receipt details:
       #| Party Type | Party Name  |
       | Billing Client    | automation       |
       | Carrier           | CMA              |
-      | Consignee         | AgentDestination       |
+      | Consignee         | AgentDestination |
       | Destination Agent | AgentDestination |
       | Issued By         | Postgress SQL II |
       | Shipper           | automation       |

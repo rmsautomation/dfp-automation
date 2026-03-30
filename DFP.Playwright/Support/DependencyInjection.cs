@@ -121,6 +121,12 @@ namespace DFP.Playwright.Support
                 return new PortalRegisterPage(tc.Page!);
             });
 
+            services.AddScoped<InvoicePage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new InvoicePage(tc.Page!);
+            });
+
             return services;
         }
     }

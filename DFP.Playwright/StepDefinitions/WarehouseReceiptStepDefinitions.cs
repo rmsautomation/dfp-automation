@@ -35,8 +35,6 @@ namespace DFP.Playwright.StepDefinitions
         [Given("I set the warehouse receipt name to {string}")]
         public void ISetTheWarehouseReceiptNameTo(string name)
         {
-            // When called with an empty string, fall back to the WR name stored
-            // in shared context by the import step (e.g. "the transaction WH ... is imported via API").
             if (string.IsNullOrEmpty(name) &&
                 _tc.Data.TryGetValue("warehouseReceiptName", out var ctxName) &&
                 ctxName is string wrName &&
@@ -49,13 +47,15 @@ namespace DFP.Playwright.StepDefinitions
 
         [Given("I enter the warehouse receipt name in search field")]
         [When("I enter the warehouse receipt name in search field")]
+        [Then("I enter the warehouse receipt name in search field")]
         public async Task IEnterTheWarehouseReceiptNameInSearchField()
         {
             await _warehouseReceiptPage.EnterWarehouseReceiptNameInSearchFieldAsync();
         }
 
-        [Then("I enter the warehouse receipt name in search field in Cargo Detail")]
+        [Given("I enter the warehouse receipt name in search field in Cargo Detail")]
         [When("I enter the warehouse receipt name in search field in Cargo Detail")]
+        [Then("I enter the warehouse receipt name in search field in Cargo Detail")]
         public async Task IEnterTheWarehouseReceiptNameInCargoDetailSearchField()
         {
             await _warehouseReceiptPage.EnterWarehouseReceiptNameInCargoDetailSearchFieldAsync();
@@ -63,18 +63,32 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── Assertion steps ───────────────────────────────────────────────────────
 
+        [Given("the warehouse receipt should appear in the search results")]
+        [When("the warehouse receipt should appear in the search results")]
         [Then("the warehouse receipt should appear in the search results")]
         public async Task TheWarehouseReceiptShouldAppearInTheSearchResults()
         {
             await _warehouseReceiptPage.TheWarehouseReceiptShouldAppearInSearchResultsAsync();
         }
 
+        [Given("the warehouse receipt should appear in the search results in the List with text {string}")]
+        [When("the warehouse receipt should appear in the search results in the List with text {string}")]
+        [Then("the warehouse receipt should appear in the search results in the List with text {string}")]
+        public async Task TheWarehouseReceiptShouldAppearInTheSearchResultsInTheList(string text)
+        {
+            await _warehouseReceiptPage.TheWarehouseReceiptShouldAppearInSearchResultsInListAsync(text);
+        }
+
+        [Given("the warehouse receipt should not appear in the search results")]
+        [When("the warehouse receipt should not appear in the search results")]
         [Then("the warehouse receipt should not appear in the search results")]
         public async Task TheWarehouseReceiptShouldNotAppearInTheSearchResults()
         {
             await _warehouseReceiptPage.TheWarehouseReceiptShouldNotAppearInResultsAsync();
         }
 
+        [Given("the warehouse receipt should not be displayed in Cargo Detail")]
+        [When("the warehouse receipt should not be displayed in Cargo Detail")]
         [Then("the warehouse receipt should not be displayed in Cargo Detail")]
         public async Task TheWarehouseReceiptShouldNotBeDisplayedInCargoDetail()
         {
@@ -90,7 +104,10 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _warehouseReceiptPage.IClickOnTableViewButton();
         }
+
+        [Given("I select a view to edit")]
         [When("I select a view to edit")]
+        [Then("I select a view to edit")]
         public async Task ISelectAViewToEdit()
         {
             await _warehouseReceiptPage.ISelectAViewToEdit();
@@ -136,6 +153,8 @@ namespace DFP.Playwright.StepDefinitions
             await _warehouseReceiptPage.CloseCustomizeViewAsync();
         }
 
+        [Given("I should see the selected columns in the Table View")]
+        [When("I should see the selected columns in the Table View")]
         [Then("I should see the selected columns in the Table View")]
         public async Task IShouldSeeTheSelectedColumnsInTheTableView()
         {
@@ -161,17 +180,110 @@ namespace DFP.Playwright.StepDefinitions
 
         // ── TC2244: WH Cargo tab steps ────────────────────────────────────────────
 
+        [Given("I go to cargo tab")]
         [When("I go to cargo tab")]
         [Then("I go to cargo tab")]
         public async Task IGoToCargoTab()
             => await _warehouseReceiptPage.ClickCargoTabAsync();
 
+        [Given("I should see the cargo items page")]
+        [When("I should see the cargo items page")]
         [Then("I should see the cargo items page")]
         public async Task IShouldSeeTheCargoItemsPage()
             => await _warehouseReceiptPage.VerifyCargoItemsHeadingAsync();
 
+        [Given("I click on the {string} link in the cargo item details")]
         [When("I click on the {string} link in the cargo item details")]
+        [Then("I click on the {string} link in the cargo item details")]
         public async Task IClickOnTheLinkInTheCargoItemDetails(string linkType)
             => await _warehouseReceiptPage.ClickLinkInCargoDetailsAsync(linkType);
+
+        [Given("I select the warehouse receipt in the search results with text {string}")]
+        [When("I select the warehouse receipt in the search results with text {string}")]
+        [Then("I select the warehouse receipt in the search results with text {string}")]
+        public async Task ISelectTheWarehouseReceiptInTheSearchResultsWithText(string text)
+            => await _warehouseReceiptPage.SelectWarehouseReceiptByTextAsync(text);
+
+        [Given("the warehouse receipt details should be displayed with the name {string}")]
+        [When("the warehouse receipt details should be displayed with the name {string}")]
+        [Then("the warehouse receipt details should be displayed with the name {string}")]
+        public async Task TheWarehouseReceiptDetailsShouldBeDisplayedWithTheName(string name)
+            => await _warehouseReceiptPage.VerifyWarehouseReceiptDetailsHeadingAsync(name);
+
+        [Given("I should verify label header {string} contains {string}")]
+        [When("I should verify label header {string} contains {string}")]
+        [Then("I should verify label header {string} contains {string}")]
+        public async Task IShouldVerifyLabelHeaderContains(string labelText, string expectedValue)
+            => await _warehouseReceiptPage.VerifyLabelHeaderContainsAsync(labelText, expectedValue);
+
+        [Given("I should verify custom fields label header {string} contains {string}")]
+        [When("I should verify custom fields label header {string} contains {string}")]
+        [Then("I should verify custom fields label header {string} contains {string}")]
+        public async Task IShouldVerifyCustomFieldsLabelHeaderContains(string labelText, string expectedValue)
+            => await _warehouseReceiptPage.VerifyCustomFieldsLabelHeaderContainsAsync(labelText, expectedValue);
+
+        [Given("I should verify the following custom field values in warehouse receipt details in DFP:")]
+        [When("I should verify the following custom field values in warehouse receipt details in DFP:")]
+        [Then("I should verify the following custom field values in warehouse receipt details in DFP:")]
+        public async Task IShouldVerifyTheFollowingCustomFieldValuesInWarehouseReceiptDetails(Table dataTable)
+        {
+            var pairs = dataTable.Rows.Select(r => (labelText: r[0], expectedValue: r[1]));
+            await _warehouseReceiptPage.VerifyCustomFieldsLabelHeadersAsync(pairs);
+        }
+
+        [Given("I should verify the following label headers in warehouse receipt details:")]
+        [When("I should verify the following label headers in warehouse receipt details:")]
+        [Then("I should verify the following label headers in warehouse receipt details:")]
+        public async Task IShouldVerifyTheFollowingLabelHeadersInWarehouseReceiptDetails(Table dataTable)
+        {
+            var pairs = dataTable.Rows.Select(r => (labelText: r[0], expectedValue: r[1]));
+            foreach (var (labelText, expectedValue) in pairs)
+                await _warehouseReceiptPage.VerifyLabelHeaderContainsAsync(labelText, expectedValue);
+        }
+
+        [Given("I should verify the following parties in warehouse receipt details:")]
+        [When("I should verify the following parties in warehouse receipt details:")]
+        [Then("I should verify the following parties in warehouse receipt details:")]
+        public async Task IShouldVerifyTheFollowingPartiesInWarehouseReceiptDetails(Table dataTable)
+        {
+            var pairs = dataTable.Rows.Select(r => (partyType: r[0], partyName: r[1]));
+            await _warehouseReceiptPage.VerifyPartiesAsync(pairs);
+        }
+
+        [Given("I should see the amount {string} for the charge {string}")]
+        [When("I should see the amount {string} for the charge {string}")]
+        [Then("I should see the amount {string} for the charge {string}")]
+        public async Task IShouldSeeTheAmountForTheCharge(string amount, string chargeName)
+            => await _warehouseReceiptPage.VerifyChargeAmountAsync(amount, chargeName);
+
+        [Given("I select the pagination number {string}")]
+        [When("I select the pagination number {string}")]
+        [Then("I select the pagination number {string}")]
+        public async Task ISelectThePaginationNumber(string number)
+            => await _warehouseReceiptPage.SelectPaginationNumberAsync(number);
+
+        [Given("I should see the commodity {string} in cargo details warehouse")]
+        [When("I should see the commodity {string} in cargo details warehouse")]
+        [Then("I should see the commodity {string} in cargo details warehouse")]
+        public async Task IShouldSeeTheCommodityInCargoDetailsWarehouse(string commodity)
+            => await _warehouseReceiptPage.VerifyCommodityInCargoDetailsAsync(commodity);
+
+        [Given("I should see the total pieces {string} in cargo details warehouse")]
+        [When("I should see the total pieces {string} in cargo details warehouse")]
+        [Then("I should see the total pieces {string} in cargo details warehouse")]
+        public async Task IShouldSeeTheTotalPiecesInCargoDetailsWarehouse(string text)
+            => await _warehouseReceiptPage.VerifyTotalPiecesInCargoDetailsAsync(text);
+
+        [Given("I go to attachments tab")]
+        [When("I go to attachments tab")]
+        [Then("I go to attachments tab")]
+        public async Task IGoToAttachmentsTab()
+            => await _warehouseReceiptPage.ClickAttachmentsTabAsync();
+
+        [Given("I should see the uploaded file {string}")]
+        [When("I should see the uploaded file {string}")]
+        [Then("I should see the uploaded file {string}")]
+        public async Task IShouldSeeTheUploadedFile(string fileName)
+            => await _warehouseReceiptPage.VerifyUploadedFileAsync(fileName);
     }
 }

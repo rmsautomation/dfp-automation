@@ -52,7 +52,8 @@ namespace DFP.Playwright.Support
             services.AddScoped<WarehouseReceiptPage>(sp =>
             {
                 var tc = sp.GetRequiredService<TestContext>();
-                return new WarehouseReceiptPage(tc.Page!);
+                var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+                return new WarehouseReceiptPage(tc.Page!, baseUrl);
             });
 
             services.AddScoped<UsersHubPage>(sp =>
@@ -119,6 +120,19 @@ namespace DFP.Playwright.Support
             {
                 var tc = sp.GetRequiredService<TestContext>();
                 return new PortalRegisterPage(tc.Page!);
+            });
+
+            services.AddScoped<InvoicePage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                var baseUrl = Environment.GetEnvironmentVariable("BASE_URL") ?? "";
+                return new InvoicePage(tc.Page!, baseUrl);
+            });
+
+            services.AddScoped<LiveTrackPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new LiveTrackPage(tc.Page!);
             });
 
             return services;

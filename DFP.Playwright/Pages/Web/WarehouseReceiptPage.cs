@@ -11,9 +11,11 @@ namespace DFP.Playwright.Pages.Web
     {
         private string _warehouseReceiptName = string.Empty;
         private string _tableViewColumnName = string.Empty;
+        private readonly string _baseUrl;
 
-        public WarehouseReceiptPage(IPage page) : base(page)
+        public WarehouseReceiptPage(IPage page, string baseUrl) : base(page)
         {
+            _baseUrl = baseUrl.TrimEnd('/');
         }
 
         // ── Selectors ─────────────────────────────────────────────────────────────
@@ -108,17 +110,13 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task NavigateToWarehouseReceiptsListAsync()
         {
-            // Verified URL: /my-portal/warehouse-receipts (redirects to /list)
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/warehouse-receipts");
+            await Page.GotoAsync(_baseUrl + "/my-portal/warehouse-receipts");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task NavigateToCargoDetailPageAsync()
         {
-            // Verified URL: /my-portal/cargo-detail (Warehouse > Cargo Detail submenu)
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/cargo-detail");
+            await Page.GotoAsync(_baseUrl + "/my-portal/cargo-detail");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -209,6 +207,41 @@ namespace DFP.Playwright.Pages.Web
                 var searchButton = await TryFindLocatorAsync(SearchButtonSelectors, timeoutMs: 5000);
                 if (searchButton != null)
                     await ClickAndWaitForNetworkAsync(searchButton);
+            }
+        }
+
+        /// <summary>
+        /// Waits up to 5 seconds for a div containing <paramref name="text"/> to appear in the WR list.
+        /// If not found, clicks Search every 2 seconds for up to 3 minutes.
+        /// HTML: &lt;div&gt;automation&lt;/div&gt;
+        /// Uses contains() to tolerate partial/whitespace matches.
+        /// </summary>
+        public async Task TheWarehouseReceiptShouldAppearInSearchResultsInListAsync(string text)
+        {
+            const int initialWaitMs = 5000;
+            const int retryIntervalMs = 2000;
+            const int maxDurationMs = 180000; // 3 minutes
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
+
+            var resultDiv = Page.Locator($"//div[contains(normalize-space(),'{text}')]").First;
+
+            // Initial 5-second wait
+            await Page.WaitForTimeoutAsync(initialWaitMs);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            while (true)
+            {
+                if (await resultDiv.IsVisibleAsync())
+                    return;
+
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Element with text '{text}' did not appear in WR search results after 3 minutes. URL: {Page.Url}");
+
+                var searchButton = await TryFindLocatorAsync(SearchButtonSelectors, timeoutMs: 3000);
+                if (searchButton != null)
+                    await ClickAndWaitForNetworkAsync(searchButton);
+
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
             }
         }
 
@@ -430,6 +463,14 @@ namespace DFP.Playwright.Pages.Web
             "a.nav-link:has(svg[data-icon='list'])"
         ];
 
+        // Attachments nav tab: <a class="nav-link" href="...?view=attachments"><svg data-icon="paperclip"/> Attachments </a>
+        private static readonly string[] AttachmentsTabNavSelectors =
+        [
+            "//a[contains(@href,'?view=attachments')][.//svg[@data-icon='paperclip']]",
+            "//a[contains(@href,'?view=attachments')]",
+            "a.nav-link:has(svg[data-icon='paperclip'])"
+        ];
+
         // Cargo Items heading: <h5 class="font-weight-normal m-0">Cargo Items</h5>
         private const string CargoItemsHeadingSelector = "h5.font-weight-normal.m-0";
 
@@ -440,6 +481,16 @@ namespace DFP.Playwright.Pages.Web
         public async Task ClickCargoTabAsync()
         {
             var tab = await FindLocatorAsync(CargoTabNavSelectors, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(tab);
+        }
+
+        /// <summary>
+        /// Clicks the Attachments nav tab on the WH receipt detail page.
+        /// Verified from HTML: a.nav-link with href containing ?view=attachments and svg data-icon='paperclip'.
+        /// </summary>
+        public async Task ClickAttachmentsTabAsync()
+        {
+            var tab = await FindLocatorAsync(AttachmentsTabNavSelectors, timeoutMs: 15000);
             await ClickAndWaitForNavigationAsync(tab);
         }
 
@@ -466,6 +517,179 @@ namespace DFP.Playwright.Pages.Web
             var link = Page.Locator($"//a[contains(@href,'/{linkType}/')]").First;
             await WaitForEnabledAsync(link, timeoutMs: 15000);
             await ClickAndWaitForNavigationAsync(link);
+        }
+
+        // ── WR Search Results / Detail methods ───────────────────────────────────
+
+        /// <summary>
+        /// Clicks the WR row in the search results that exactly matches the given text.
+        /// HTML: <div class="...">automation</div> inside a WR list item.
+        /// Waits for the element to be enabled before clicking.
+        /// </summary>
+        public async Task SelectWarehouseReceiptByTextAsync(string text)
+        {
+            var item = Page.Locator($"//div[normalize-space(text())='{text}']").First;
+            await WaitForEnabledAsync(item, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(item);
+        }
+
+        /// <summary>
+        /// Waits for the WR detail page heading and verifies it contains "Warehouse receipt {name}".
+        /// If name is empty, falls back to the stored _warehouseReceiptName.
+        /// HTML: <h3 class="font-weight-normal"> Warehouse receipt TC923_3373 </h3>
+        /// </summary>
+        public async Task VerifyWarehouseReceiptDetailsHeadingAsync(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                name = _warehouseReceiptName;
+
+            var expected = $"Warehouse receipt {name}";
+            var heading = Page.Locator("h3.font-weight-normal").Filter(new LocatorFilterOptions { HasText = expected }).First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(heading, timeoutMs: 15000);
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Expected WR detail heading to contain '{expected}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Generic step: finds the label matching <paramref name="labelText"/> and verifies
+        /// its sibling div contains <paramref name="expectedValue"/>.
+        /// If <paramref name="expectedValue"/> is empty, falls back to the stored _warehouseReceiptName.
+        /// XPath pattern: //label[normalize-space()='{label}']/following-sibling::div[1]
+        /// </summary>
+        public async Task VerifyLabelHeaderContainsAsync(string labelText, string expectedValue)
+        {
+            if (string.IsNullOrEmpty(expectedValue))
+                expectedValue = _warehouseReceiptName;
+
+            var valueDiv = Page.Locator($"//label[normalize-space()='{labelText}']/following-sibling::div[1]").First;
+            await WaitForEnabledAsync(valueDiv, timeoutMs: 15000);
+            var actualText = (await valueDiv.InnerTextAsync()).Trim();
+            Assert.IsTrue(actualText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
+                $"Label '{labelText}': expected to contain '{expectedValue}' but found '{actualText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies a custom field inside &lt;qwyk-custom-fields-view&gt;.
+        /// HTML: label.small.font-weight-bold.m-0 + div.ng-star-inserted (sibling).
+        /// XPath: //qwyk-custom-fields-view//label[normalize-space()='{label}']/following-sibling::div[1]
+        /// </summary>
+        public async Task VerifyCustomFieldsLabelHeaderContainsAsync(string labelText, string expectedValue)
+        {
+            var valueDiv = Page.Locator(
+                $"//qwyk-custom-fields-view//label[normalize-space()='{labelText}']/following-sibling::div[1]").First;
+            await WaitForEnabledAsync(valueDiv, timeoutMs: 15000);
+            var actualText = (await valueDiv.InnerTextAsync()).Trim();
+            Assert.IsTrue(actualText.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
+                $"Custom field '{labelText}': expected to contain '{expectedValue}' but found '{actualText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies multiple custom fields inside &lt;qwyk-custom-fields-view&gt; using a data table.
+        /// Accepts pairs of (labelText, expectedValue).
+        /// </summary>
+        public async Task VerifyCustomFieldsLabelHeadersAsync(IEnumerable<(string labelText, string expectedValue)> pairs)
+        {
+            foreach (var (labelText, expectedValue) in pairs)
+                await VerifyCustomFieldsLabelHeaderContainsAsync(labelText, expectedValue);
+        }
+
+        /// <summary>
+        /// Verifies the total pieces text is visible in the WR cargo details.
+        /// HTML: &lt;div&gt;503 pieces&lt;/div&gt;
+        /// XPath: //div[normalize-space(text())='{text}']
+        /// </summary>
+        public async Task VerifyTotalPiecesInCargoDetailsAsync(string text)
+        {
+            var el = Page.Locator($"//div[normalize-space(text())='{text}']").First;
+            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await el.IsVisibleAsync(),
+                $"Total pieces '{text}' not found in cargo details. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies a commodity text is visible in the WR cargo details table.
+        /// HTML: &lt;div class="col-3"&gt; UpdateCommodity &lt;/div&gt; (note surrounding spaces — normalize-space handles it).
+        /// XPath: //div[contains(@class,'col-3') and normalize-space()='{commodity}']
+        /// </summary>
+        public async Task VerifyCommodityInCargoDetailsAsync(string commodity)
+        {
+            var cell = Page.Locator($"//div[contains(@class,'col-3') and normalize-space()='{commodity}']").First;
+            await WaitForEnabledAsync(cell, timeoutMs: 15000);
+            Assert.IsTrue(await cell.IsVisibleAsync(),
+                $"Commodity '{commodity}' not found in cargo details. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies a file name is visible in the attachments list.
+        /// HTML: &lt;div&gt;test.jpg&lt;/div&gt;
+        /// XPath: //div[normalize-space(text())='{fileName}']
+        /// </summary>
+        public async Task VerifyUploadedFileAsync(string fileName)
+        {
+            var fileItem = Page.Locator($"//div[normalize-space(text())='{fileName}']").First;
+            await fileItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await fileItem.IsVisibleAsync(),
+                $"Uploaded file '{fileName}' not found in the attachments list. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Selects a rows-per-page number from the paginator dropdown.
+        /// Clicks the chevron trigger inside p-paginator-rpp-options, then picks the matching option.
+        /// HTML: div.p-paginator-rpp-options > div[role="button"][aria-label="dropdown trigger"]
+        ///       li[role="option"] span containing the number text.
+        /// </summary>
+        public async Task SelectPaginationNumberAsync(string number)
+        {
+            var trigger = Page.Locator(
+                "//div[contains(@class,'p-paginator-rpp-options')]//div[@role='button' and @aria-label='dropdown trigger']").First;
+            await WaitForEnabledAsync(trigger, timeoutMs: 10000);
+            await trigger.ClickAsync();
+
+            var option = Page.Locator(
+                $"//li[@role='option'][.//span[normalize-space()='{number}']]").First;
+            await option.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 8000 });
+            await option.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Verifies a charge row contains the expected charge name and amount.
+        /// HTML: li.list-group-item > div.row > div.col-4 (name) + div.col-2.text-right (amount)
+        /// XPath: //li[.//div[col-4 and name]][.//div[text-right and amount]]
+        /// </summary>
+        public async Task VerifyChargeAmountAsync(string amount, string chargeName)
+        {
+            var chargeRow = Page.Locator(
+                $"//li[contains(@class,'list-group-item')]" +
+                $"[.//div[contains(@class,'col-4') and normalize-space()='{chargeName}']]" +
+                $"[.//div[contains(@class,'text-right') and normalize-space()='{amount}']]").First;
+            await WaitForEnabledAsync(chargeRow, timeoutMs: 15000);
+            Assert.IsTrue(await chargeRow.IsVisibleAsync(),
+                $"Charge '{chargeName}' with amount '{amount}' not found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies parties displayed inside &lt;qwyk-entities-index&gt; on the WR detail page.
+        /// HTML structure per party:
+        ///   &lt;li class="list-group-item"&gt;
+        ///     &lt;div class="small text-muted"&gt; Carrier &lt;/div&gt;   ← party type (has surrounding spaces)
+        ///     &lt;div class="text-truncate font-weight-bold"&gt;MSC&lt;/div&gt;  ← party name
+        ///   &lt;/li&gt;
+        /// </summary>
+        public async Task VerifyPartiesAsync(IEnumerable<(string partyType, string partyName)> pairs)
+        {
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            foreach (var (partyType, partyName) in pairs)
+            {
+                var partyItem = Page.Locator(
+                    $"//li[contains(@class,'list-group-item')]" +
+                    $"[.//div[contains(@class,'text-muted') and normalize-space()='{partyType}']]" +
+                    $"[.//div[contains(@class,'font-weight-bold') and normalize-space()='{partyName}']]").First;
+                await partyItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+                Assert.IsTrue(await partyItem.IsVisibleAsync(),
+                    $"Party '{partyType}: {partyName}' not found in the Parties section. URL: {Page.Url}");
+            }
         }
     }
 }

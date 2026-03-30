@@ -152,6 +152,9 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
+#line 9
+    await testRunner.GivenAsync("the transaction \"IN\" \"TC1083_1087\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 12
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -237,7 +240,7 @@ namespace DFP.Playwright.Features
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 48
-    await testRunner.AndAsync("I select the pagination number \"50\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 49
     await testRunner.AndAsync("I should see the uploaded file \"Testing Attachments.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

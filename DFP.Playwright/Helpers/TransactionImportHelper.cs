@@ -196,6 +196,10 @@ namespace DFP.Playwright.Helpers
             {
                 NormalizeShipment(doc, overrideGuid, overrideNumber);
             }
+            else if (string.Equals(type, "IN", StringComparison.OrdinalIgnoreCase))
+            {
+                NormalizeInvoice(doc, overrideGuid, overrideNumber);
+            }
             var xml = doc.ToString(SaveOptions.DisableFormatting);
 
             var req = new SetTransactionRequest
@@ -300,5 +304,44 @@ namespace DFP.Playwright.Helpers
             }
         }
 
+        private static void NormalizeInvoice(XDocument doc, string? overrideGuid, string? overrideNumber)
+        {
+            // XML structure: <Invoices><Invoice GUID="..." Type="IN">...</Invoice></Invoices>
+            // The GUID and Number are on the <Invoice> child element.
+            var ns = doc.Root?.Name.Namespace ?? XNamespace.None;
+            var invoiceEl = doc.Root?.Element(ns + "Invoice")
+                         ?? doc.Root?.Descendants().FirstOrDefault(x => x.Name.LocalName == "Invoice");
+            if (invoiceEl == null) return;
+
+            var now = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            if (!string.IsNullOrWhiteSpace(overrideGuid))
+            {
+                invoiceEl.SetAttributeValue("GUID", overrideGuid);
+
+                foreach (var el in invoiceEl.Descendants())
+                {
+                    if (el.Name.LocalName == "InvoiceGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OwnerGUID")
+                        el.Value = overrideGuid;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(overrideNumber))
+            {
+                foreach (var el in invoiceEl.Descendants())
+                {
+                    if (el.Name.LocalName == "Number")
+                        el.Value = overrideNumber;
+                }
+            }
+
+            foreach (var el in invoiceEl.Descendants())
+            {
+                if (el.Name.LocalName == "CreatedOn")
+                    el.Value = now;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DFP.Playwright.Helpers;
 using DFP.Playwright.Pages.Web.BasePages;
 
 namespace DFP.Playwright.Pages.Web
@@ -13,12 +14,21 @@ namespace DFP.Playwright.Pages.Web
         {
         }
 
+        // Returns the Hub base URL from HUB_BASE_URL env var,
+        // falling back to the current page's origin (works when Hub is already open).
+        private string HubOrigin()
+        {
+            var fromEnv = (Environment.GetEnvironmentVariable(Constants.HUB_BASE_URL) ?? "").TrimEnd('/');
+            return !string.IsNullOrEmpty(fromEnv)
+                ? fromEnv
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
+        }
+
         // ── Navigation ────────────────────────────────────────────────────────────
 
         public async Task NavigateToNotificationsAsync()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/administration/notifications");
+            await Page.GotoAsync(HubOrigin() + "/administration/notifications");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 

@@ -4,17 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
+using DFP.Playwright.Support;
+using TestContext = DFP.Playwright.Support.TestContext;
 
 namespace DFP.Playwright.Pages.Web
 {
     public sealed class InvoicePage : BasePage
     {
         private string _invoiceName = string.Empty;
-        private readonly string _baseUrl;
+        private readonly TestContext _tc;
 
-        public InvoicePage(IPage page, string baseUrl) : base(page)
+        public InvoicePage(IPage page, TestContext tc) : base(page)
         {
-            _baseUrl = baseUrl.TrimEnd('/');
+            _tc = tc;
         }
 
         // ── Selectors ─────────────────────────────────────────────────────────────
@@ -63,9 +65,17 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task NavigateToInvoicesListAsync()
         {
-            await Page.GotoAsync(_baseUrl + "/my-portal/invoices");
+            await Page.WaitForTimeoutAsync(5000);
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/invoices");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
+
+        // Returns the portal URL that was used at login time (set in TestContext).
+        // Falls back to the current page origin only if ActivePortalBaseUrl is not set.
+        private string PortalOrigin()
+            => !string.IsNullOrEmpty(_tc.ActivePortalBaseUrl)
+                ? _tc.ActivePortalBaseUrl
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
 
         // ── Tab navigation methods ────────────────────────────────────────────────
 

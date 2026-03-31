@@ -121,7 +121,7 @@ Feature: Invoices
       # | Header                  | Value                    |
       | Approval status | Approved                     |
       | Notes           | Mar30144433NotesNOTE UPDATED |
-    #----------Verify Custom Fields-----------------
+    #----------Verify UpdatedCustom Fields-----------------
     And I should verify the following custom field values in invoice details in DFP:
       #| Header              | Value         |
       | Boolean Custom Field  | Yes           |
@@ -130,13 +130,13 @@ Feature: Invoices
       | Money Custom Field    | USD 500       |
       | PickList Custom Field | Option2       |
       | String Custom Field   | StringUpdated |
-    #------Verify Event in Invoice details page---------
+    #------Verify Updated Event in Invoice details page---------
     Then I should see the event "Transaction Approved by Customer"
     Then I should see the event "Arrived at destination"
-    #------Verify charge in Invoice details page---------
+    #------Verify Updated charge in Invoice details page---------
     When I go to charges invoice tab in the invoice details page
     And I should see the amount "$10.00" for the charge "Security Surcharge"
-    #------Verify attachment in Invoice details page---------
+    #------Verify Updated attachment in Invoice details page---------
     When I go to attachments tab
     And I select the pagination number "25"
     And I should see the uploaded file "RoundPriceUpdated.xlsx"

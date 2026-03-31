@@ -19,6 +19,7 @@ namespace DFP.Playwright.StepDefinitions
         [Given("I login to Portal")]
         public async Task GivenILoginToPortal()
         {
+            await EnsurePageIsOpenAsync();
             var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
                           ?? Environment.GetEnvironmentVariable("BASE_URL")
                           ?? "";
@@ -32,6 +33,7 @@ namespace DFP.Playwright.StepDefinitions
             if (string.IsNullOrWhiteSpace(baseUrl))
                 throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
 
+            _tc.ActivePortalBaseUrl = baseUrl.TrimEnd('/');
             var login = new LoginPage(_tc.Page!, baseUrl);
             await login.NavigateAsync();
             await login.LoginToDFPAsync(username, password, searchLoginModal: true);
@@ -41,6 +43,7 @@ namespace DFP.Playwright.StepDefinitions
         [Given("I login to Portal with integration")]
         public async Task GivenILoginToPortalWithIntegration()
         {
+            await EnsurePageIsOpenAsync();
             var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_INT_BASE_URL)
                           ?? Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
                           ?? Environment.GetEnvironmentVariable("BASE_URL")
@@ -53,6 +56,7 @@ namespace DFP.Playwright.StepDefinitions
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("PORTAL_INT_USERNAME/PORTAL_INT_PASSWORD are required.");
 
+            _tc.ActivePortalBaseUrl = baseUrl.TrimEnd('/');
             var login = new LoginPage(_tc.Page!, baseUrl);
             await login.NavigateAsync();
             await login.LogoutIfLoggedInAsync();
@@ -309,6 +313,33 @@ namespace DFP.Playwright.StepDefinitions
             if (string.IsNullOrWhiteSpace(baseUrl))
                 throw new InvalidOperationException("BaseUrl is null/empty. Provide it via env.");
             return new LoginPage(_tc.Page!, baseUrl);
+        }
+
+        /// <summary>
+        /// Ensures _tc.Page is open and usable. In @API scenarios the page is created
+        /// but never navigated, and Playwright may close it after inactivity.
+        /// If the current page is closed, opens a new one from the existing context.
+        /// </summary>
+        private async Task EnsurePageIsOpenAsync()
+        {
+            if (_tc.Context == null)
+                throw new InvalidOperationException("BrowserContext is null — BeforeScenario did not run.");
+
+            bool needsNewPage = false;
+            if (_tc.Page == null)
+            {
+                needsNewPage = true;
+            }
+            else
+            {
+                try { _ = _tc.Page.Url; }
+                catch { needsNewPage = true; }
+            }
+
+            if (needsNewPage)
+            {
+                _tc.Page = await _tc.Context.NewPageAsync();
+            }
         }
 
         private static bool IsIntegration(string userType)

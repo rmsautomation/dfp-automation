@@ -3,25 +3,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
-using DFP.Playwright.Helpers;
+using DFP.Playwright.Support;
+using TestContext = DFP.Playwright.Support.TestContext;
 
 namespace DFP.Playwright.Pages.Web
 {
     public sealed class ReportsPage : BasePage
     {
-        public ReportsPage(IPage page) : base(page)
+        private readonly TestContext _tc;
+
+        public ReportsPage(IPage page, TestContext tc) : base(page)
         {
+            _tc = tc;
         }
 
-        private static string GetPortalBaseUrl()
-        {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                          ?? Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-            return baseUrl;
-        }
+        private string PortalOrigin()
+            => !string.IsNullOrEmpty(_tc.ActivePortalBaseUrl)
+                ? _tc.ActivePortalBaseUrl
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
 
         // ── Selectors ─────────────────────────────────────────────────────────────
 
@@ -87,8 +86,7 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheReportsPage()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -107,8 +105,7 @@ namespace DFP.Playwright.Pages.Web
         // Navigates directly to the Warehouse Receipts report URL — verified live via MCP
         public async Task NavigateToWarehouseReceiptsReportAsync()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports/warehouse-receipts");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports/warehouse-receipts");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -239,8 +236,7 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task IAlreadyClickOnSearchButtonInReportsSection()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports/shipments");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             var searchButton = await FindLocatorAsync(SearchButtonSelectors);

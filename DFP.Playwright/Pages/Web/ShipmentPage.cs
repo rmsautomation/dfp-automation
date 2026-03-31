@@ -208,14 +208,13 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] BookedQuotationLinkSelectors =
         [
-            "qwyk-quotation-card:has-text('Booked') a",
-            "qwyk-quotation-list-item:has-text('Booked') a",
-            "//article[contains(., 'Booked')]//a",
-            "//li[contains(., 'Booked')]//a",
-            "//*[contains(@class,'card')][contains(., 'Booked')]//a",
-            "//*[contains(@class,'item')][contains(., 'Booked')]//a",
-            "//*[contains(@class,'row')][contains(., 'Booked')]//a",
-            "//a[contains(@href,'/quotations/') and not(contains(@class,'nav-link'))]"
+            // Matches li containing 'Booked' text → gets the quotation link (UUID in href)
+            "li:has-text('Booked') a[href*='/my-portal/quotations/']",
+            "//li[contains(.,'Booked')]//a[contains(@href,'/my-portal/quotations/') and contains(@href,'-')]",
+            "//li[contains(.,'Booked')]//a[contains(@href,'/quotations/') and contains(@href,'-')]",
+            // Fallback: any quotation detail link (UUID contains hyphens — excludes nav links)
+            "a[href*='/my-portal/quotations/'][href*='-']",
+            "//a[contains(@href,'/my-portal/quotations/') and contains(@href,'-')]"
         ];
 
         private static readonly string[] DialogCloseButtonSelectors =
@@ -286,10 +285,12 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] ResetFiltersButtonSelectors =
         [
+            "button[type='reset']",
+            "button[type='reset'].btn",
             "internal:role=button[name='Reset'i]",
-            "//button[normalize-space(text())='Reset']",
-            "button:has-text('Reset')",
-            "//button[contains(normalize-space(text()),'Reset')]"
+            "//button[@type='reset']",
+            "//button[normalize-space()='Reset']",
+            "button:has-text('Reset')"
         ];
             private static readonly string[] FirstShipmentLinkSelectors =
         [
@@ -1221,7 +1222,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IResetSearchFilters()
         {
-            var resetButton = await FindLocatorAsync(ResetFiltersButtonSelectors);
+            var resetButton = await FindLocatorAsync(ResetFiltersButtonSelectors, timeoutMs: 120000);
+            await WaitForEnabledAsync(resetButton, timeoutMs: 120000);
             await ClickAndWaitForNetworkAsync(resetButton);
         }
 

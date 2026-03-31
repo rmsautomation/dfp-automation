@@ -708,7 +708,9 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IClickOnUploadButton()
             => await _shipmentPage.ClickUploadButtonAsync();
 
-        [Then("I should see the uploaded file {string}")]
+        [Given("I should see the uploaded file {string}"), Scope(Feature = "Shipments")]
+        [When("I should see the uploaded file {string}"), Scope(Feature = "Shipments")]
+        [Then("I should see the uploaded file {string}"), Scope(Feature = "Shipments")]
         public async Task IShouldSeeTheUploadedFile(string fileName)
             => await _shipmentPage.ShouldSeeUploadedFileAsync(fileName);
 

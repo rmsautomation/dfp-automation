@@ -9,6 +9,7 @@ Feature: Warehouse Receipts
   Scenario: Magaya to DFP - Warehouse Receipt - Exclude from Tracking = True
     # WR TC3907 was created in Magaya with Exclude from Tracking = True
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     # ── Verify the WR is not displayed in Warehouse Receipt List ─────────────
     Given I navigated to Warehouse Receipts List
     Given I set the warehouse receipt name to "TC3907"
@@ -30,6 +31,7 @@ Feature: Warehouse Receipts
   @5439 @login @INT
   Scenario: User edits a Table View and verifies selected columns
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I navigated to Warehouse Receipts List
     When I click on Table View in WH Receipt List
     And I select a view to edit
@@ -44,6 +46,7 @@ Feature: Warehouse Receipts
   Scenario: Verify Customs fields in Warehouse Receipt
     Given the transaction "WH" "TC3072" is imported via API
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     # ── Verify the WR Custom Fields are displayed in Warehouse Receipt List ─────────────
     Given I navigated to Warehouse Receipts List
     Given I set the warehouse receipt name to ""
@@ -71,6 +74,8 @@ Feature: Warehouse Receipts
     #-----------Magaya Steps--------------------------------------
     Given the transaction "WH" "TC923_3373" is imported via API
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
+    # ── Verify the WR is displayed in Warehouse Receipt List ─────────────
     # ── Verify the WR is displayed in Warehouse Receipt List ─────────────
     Given I navigated to Warehouse Receipts List
     Given I set the warehouse receipt name to "TC923_3373"
@@ -148,6 +153,7 @@ Feature: Warehouse Receipts
     #-----------Magaya Steps--------------------------------------
     Given the transaction "WH" "TC924" is imported via API
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     # ── Verify the WR is displayed in Warehouse Receipt List ─────────────
     Given I navigated to Warehouse Receipts List
     Given I set the warehouse receipt name to "TC924"

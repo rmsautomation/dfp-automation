@@ -40,6 +40,7 @@ Feature: Quotations
    @145 @NOINT @login
   Scenario: Portal Quotation - OCEAN Full FCL Buyer (Booked Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
+  Then the login dashboard should be visible
   Given I am on the Quotations List page
   When I store the initial total Notifications
   Then I click on Create Quotation button
@@ -104,6 +105,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
 @146 @NOINT @login
   Scenario: Portal Quotation - OCEAN Partial LCL Buyer (Requested status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
+  Then the login dashboard should be visible
   Given I am on the Quotations List page
   When I store the initial total Notifications
   Then I click on Create Quotation button
@@ -162,6 +164,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
   @149 @NOINT @login
   Scenario: Portal Quotation - Truck Full FTL Buyer (Requested Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
+  Then the login dashboard should be visible
   Given I am on the Quotations List page
   When I store the initial total Notifications
   Then I click on Create Quotation button
@@ -213,6 +216,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
 @150 @NOINT @login
   Scenario: Portal Quotation - Truck Partial LTL Seller (Requested Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
+  Then the login dashboard should be visible
   Given I am on the Quotations List page
   When I store the initial total Notifications
   Then I click on Create Quotation button
@@ -266,6 +270,7 @@ Given I login to Hub as user "aylin.rodriguez@magaya.com"
 @152 @NOINT @login
   Scenario:   152_Portal Quotation - AIR Buyer (Requested Status)
   Given I login to Portal as user "automationdfpowner@gmail.com"
+  Then the login dashboard should be visible
   Given I am on the Quotations List page
   When I store the initial total Notifications
   Then I click on Create Quotation button

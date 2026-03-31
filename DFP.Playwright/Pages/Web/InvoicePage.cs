@@ -116,9 +116,9 @@ namespace DFP.Playwright.Pages.Web
         // ── Assertion methods ─────────────────────────────────────────────────────
 
         /// <summary>
-        /// Waits up to 5s for a div with the given text to appear in the invoice list.
-        /// If not found, clicks Search every 2 seconds for up to 3 minutes.
-        /// HTML: &lt;div class="small"&gt;Invoice&lt;/div&gt;
+        /// Waits up to 3 minutes for an invoice row to appear, clicking Search every 2s while
+        /// "No Invoices found" is still visible. Once a real invoice row appears, clicks its link.
+        /// Avoids false positives from the static "Invoice number" column header.
         /// </summary>
         public async Task SelectInvoiceInSearchResultsWithTextAsync(string text)
         {
@@ -126,39 +126,33 @@ namespace DFP.Playwright.Pages.Web
             const int maxDurationMs = 180000;
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
-            var resultDiv = Page.Locator($"//div[contains(normalize-space(),'{text}')]").First;
-
-            // Check immediately first — only enter the retry loop if not yet visible
-            try
-            {
-                await resultDiv.WaitForAsync(new LocatorWaitForOptions
-                {
-                    State = WaitForSelectorState.Visible,
-                    Timeout = 5000
-                });
-                await resultDiv.ClickAsync();
-                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-                return;
-            }
-            catch (TimeoutException) { }
+            // Empty-state indicator shown when no results match the filter
+            var noResultsMsg = Page.Locator("h5:has-text('No Invoices found')");
+            // Actual invoice row link — excludes header (list-group-heading) and empty-state (text-center)
+            var invoiceLink = Page.Locator(
+                "li.list-group-item:not(.list-group-heading):not(.text-center) a[href*='/invoices/']"
+            ).First;
 
             while (true)
             {
                 if (DateTime.UtcNow >= deadline)
-                    Assert.Fail($"Invoice with text '{text}' not found in search results after 3 minutes. URL: {Page.Url}");
+                    Assert.Fail($"Invoice still shows 'No Invoices found' after 3 minutes. URL: {Page.Url}");
+
+                var noResultsVisible = await noResultsMsg.IsVisibleAsync();
+                var rowVisible = await invoiceLink.IsVisibleAsync();
+
+                if (!noResultsVisible && rowVisible)
+                {
+                    await invoiceLink.ClickAsync();
+                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                    return;
+                }
 
                 var searchButton = await TryFindLocatorAsync(SearchButtonSelectors, timeoutMs: 3000);
                 if (searchButton != null)
                     await ClickAndWaitForNetworkAsync(searchButton);
 
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
-
-                if (await resultDiv.IsVisibleAsync())
-                {
-                    await resultDiv.ClickAsync();
-                    await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-                    return;
-                }
             }
         }
 
@@ -183,8 +177,9 @@ namespace DFP.Playwright.Pages.Web
         /// <summary>
         /// Waits up to 5s for any element containing the given text to appear in the invoice list.
         /// If not found, clicks Search every 2 seconds for up to 3 minutes. Does NOT click the item.
-        /// HTML: &lt;div class="small"&gt;Invoice&lt;/div&gt; inside a list row.
-        /// XPath: //div[contains(normalize-space(),'{text}')]
+        /// Waits up to 3 minutes clicking Search every 2s while "No Invoices found" is shown.
+        /// Returns as soon as a real invoice row is visible. Does NOT click the row.
+        /// Avoids false positives from the static "Invoice number" column header.
         /// </summary>
         public async Task TheInvoiceShouldAppearInSearchResultsInListAsync(string text)
         {
@@ -192,33 +187,24 @@ namespace DFP.Playwright.Pages.Web
             const int maxDurationMs = 180000;
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
-            var resultDiv = Page.Locator($"//div[contains(normalize-space(),'{text}')]").First;
-
-            // Check immediately first — only enter the retry loop if not yet visible
-            try
-            {
-                await resultDiv.WaitForAsync(new LocatorWaitForOptions
-                {
-                    State = WaitForSelectorState.Visible,
-                    Timeout = 5000
-                });
-                return;
-            }
-            catch (TimeoutException) { }
+            var noResultsMsg = Page.Locator("h5:has-text('No Invoices found')");
+            var invoiceRow = Page.Locator(
+                "li.list-group-item:not(.list-group-heading):not(.text-center) a[href*='/invoices/']"
+            ).First;
 
             while (true)
             {
                 if (DateTime.UtcNow >= deadline)
-                    Assert.Fail($"Invoice with text '{text}' not found in search results after 3 minutes. URL: {Page.Url}");
+                    Assert.Fail($"Invoice still shows 'No Invoices found' after 3 minutes. URL: {Page.Url}");
+
+                if (!await noResultsMsg.IsVisibleAsync() && await invoiceRow.IsVisibleAsync())
+                    return;
 
                 var searchButton = await TryFindLocatorAsync(SearchButtonSelectors, timeoutMs: 3000);
                 if (searchButton != null)
                     await ClickAndWaitForNetworkAsync(searchButton);
 
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
-
-                if (await resultDiv.IsVisibleAsync())
-                    return;
             }
         }
 

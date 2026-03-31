@@ -15,7 +15,7 @@ Feature: Invoices
     # ── Verify the Invoice attachment is displayed in Invoice Details and the content is correct
     Given I navigated to Invoices List
     Given I set the invoice name to "TC1083_1087"
-    And I enter the invoice name "" in search field
+    And I enter the invoice name "TC1083_1087" in search field
     And I click on Search button
     Then the invoice should appear in the search results in the List with text "invoice"
     And I select the invoice in the search results with text "invoice"

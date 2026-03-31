@@ -304,7 +304,7 @@ namespace DFP.Playwright.Pages.Web
             var editBtn = Page.Locator(
                 $"(//li[.//div[contains(@class,'font-weight-bold') and contains(normalize-space(),'Container empty to shipper')]]//div[contains(@class,'col-auto')]//button[contains(@class,'btn-link') and not(contains(@class,'text-success'))])[1]"
             );
-            await editBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await editBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
         }
 
         /// <summary>

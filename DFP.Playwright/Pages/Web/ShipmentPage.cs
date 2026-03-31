@@ -970,6 +970,8 @@ namespace DFP.Playwright.Pages.Web
 
             var searchButton = await FindLocatorAsync(SearchSubmitButtonSelectors);
             await ClickAndWaitForNetworkAsync(searchButton);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await Page.WaitForTimeoutAsync(1000);
 
             // After filtering on the Shipments list, click the nav link to reload the filtered list.
             // Skip when called from /my-portal/reports/shipments — that URL also contains "shipments"

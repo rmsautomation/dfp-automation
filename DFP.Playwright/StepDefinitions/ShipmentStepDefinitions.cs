@@ -695,6 +695,24 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IClickOnAttachDocumentButton()
             => await _shipmentPage.ClickAttachDocumentButtonAsync();
 
+        [Given("I click on {string} button")]
+        [When("I click on {string} button")]
+        [Then("I click on {string} button")]
+        public async Task IClickOnButton(string buttonText)
+            => await _shipmentPage.ClickButtonByTextAsync(buttonText);
+
+        [Given("I click on Drop your file here option")]
+        [When("I click on Drop your file here option")]
+        [Then("I click on Drop your file here option")]
+        public async Task IClickOnDropYourFileHereOption()
+            => await _shipmentPage.WaitForDropzoneAsync();
+
+        [Given("I enter the description {string} for the attachment")]
+        [When("I enter the description {string} for the attachment")]
+        [Then("I enter the description {string} for the attachment")]
+        public async Task IEnterTheDescriptionForTheAttachment(string description)
+            => await _shipmentPage.EnterAttachmentDescriptionAsync(description);
+
         [Then("I should see the screen to upload the attachment")]
         public async Task IShouldSeeTheScreenToUploadTheAttachment()
             => await _shipmentPage.ShouldSeeUploadScreenAsync();

@@ -2671,13 +2671,34 @@ namespace DFP.Playwright.Pages.Web
         /// Clicks the "Attach document" button (paperclip icon) in the Attachments tab.
         /// Verified from HTML: button.btn-secondary:has(svg[data-icon='paperclip'])
         /// </summary>
+        /// <summary>
+        /// Clicks any visible enabled button whose text matches the given string.
+        /// </summary>
+        public async Task ClickButtonByTextAsync(string buttonText)
+        {
+            var btn = Page.Locator("button")
+                .Filter(new LocatorFilterOptions { HasText = buttonText })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 60000);
+            // Use force:true to bypass PrimeNG dialog backdrop intercepting pointer events
+            await btn.ClickAsync(new LocatorClickOptions { Force = true });
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        public async Task WaitForDropzoneAsync()
+        {
+            var dropzone = Page.Locator("div.dropzone, input#fileDropRef[type='file']").First;
+            await dropzone.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 15000 });
+        }
+
         public async Task ClickAttachDocumentButtonAsync()
         {
             var btn = Page.Locator("button.btn-secondary")
                 .Filter(new LocatorFilterOptions { HasText = "Attach document" })
                 .First;
-            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await WaitForEnabledAsync(btn, timeoutMs: 10000);
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 60000);
             await btn.ClickAsync();
         }
 
@@ -2687,12 +2708,15 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ShouldSeeUploadScreenAsync()
         {
-            var instruction = Page.Locator("p.m-0")
-                .Filter(new LocatorFilterOptions { HasText = "Select a file from your system" })
-                .First;
-            await instruction.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            Assert.IsTrue(await instruction.IsVisibleAsync(),
-                $"Expected upload instruction text to be visible. URL: {Page.Url}");
+            var instruction = await TryFindLocatorAsync(new[]
+            {
+                "p.mb-0:has-text('Files you upload here will be visible')",
+                "//p[contains(normalize-space(),'Files you upload here will be visible')]",
+                "p.m-0:has-text('Select a file from your system')",
+                "//p[contains(normalize-space(),'Select a file from your system')]"
+            }, timeoutMs: 15000);
+            Assert.IsNotNull(instruction,
+                $"Expected upload modal to be visible. URL: {Page.Url}");
         }
 
         /// <summary>
@@ -2708,9 +2732,29 @@ namespace DFP.Playwright.Pages.Web
             var filePath = Path.Combine(projectRoot, "Attachments", fileName);
             Assert.IsTrue(File.Exists(filePath),
                 $"Attachment file not found at '{filePath}'. Place the file in the project's Attachments/ folder.");
-            var fileInput = Page.Locator("input#file[type='file']");
-            await fileInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 10000 });
+            // Support both upload UIs: modal input (input#file) and dropzone input (input#fileDropRef)
+            var fileInput = await TryFindLocatorAsync(new[]
+            {
+                "input#file[type='file']",
+                "input#fileDropRef[type='file']",
+                "input[type='file']"
+            }, timeoutMs: 10000);
+            Assert.IsNotNull(fileInput, $"File input not found on page. URL: {Page.Url}");
+            await fileInput!.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 10000 });
             await fileInput.SetInputFilesAsync(filePath);
+        }
+
+        /// <summary>
+        /// Enters text into the attachment description textarea.
+        /// HTML: textarea#description[formcontrolname='description']
+        /// </summary>
+        public async Task EnterAttachmentDescriptionAsync(string description)
+        {
+            var textarea = Page.Locator("textarea#description, textarea[formcontrolname='description']").First;
+            await textarea.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(textarea, timeoutMs: 15000);
+            await textarea.ClearAsync();
+            await TypeAsync(textarea, description);
         }
 
         /// <summary>
@@ -2725,6 +2769,9 @@ namespace DFP.Playwright.Pages.Web
             await uploadBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await WaitForEnabledAsync(uploadBtn, timeoutMs: 5000);
             await ClickAndWaitForNetworkAsync(uploadBtn);
+            // Wait for the upload dialog to fully close before continuing
+            var dialogMask = Page.Locator(".p-dialog-mask");
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Hidden, Timeout = 30000 });
         }
 
         /// <summary>

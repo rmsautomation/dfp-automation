@@ -128,10 +128,8 @@ namespace DFP.Playwright.Pages.Web
 
             // Empty-state indicator shown when no results match the filter
             var noResultsMsg = Page.Locator("h5:has-text('No Invoices found')");
-            // Actual invoice row link — excludes header (list-group-heading) and empty-state (text-center)
-            var invoiceLink = Page.Locator(
-                "li.list-group-item:not(.list-group-heading):not(.text-center) a[href*='/invoices/']"
-            ).First;
+            // Actual invoice row: li with qwyk-invoices-list-view-item attribute (unique to real rows)
+            var invoiceRow = Page.Locator("li[qwyk-invoices-list-view-item]").First;
 
             while (true)
             {
@@ -139,11 +137,11 @@ namespace DFP.Playwright.Pages.Web
                     Assert.Fail($"Invoice still shows 'No Invoices found' after 3 minutes. URL: {Page.Url}");
 
                 var noResultsVisible = await noResultsMsg.IsVisibleAsync();
-                var rowVisible = await invoiceLink.IsVisibleAsync();
+                var rowVisible = await invoiceRow.IsVisibleAsync();
 
                 if (!noResultsVisible && rowVisible)
                 {
-                    await invoiceLink.ClickAsync();
+                    await invoiceRow.ClickAsync();
                     await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
                     return;
                 }
@@ -154,6 +152,18 @@ namespace DFP.Playwright.Pages.Web
 
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
             }
+        }
+
+        /// <summary>
+        /// Verifies a file name is visible in the invoice attachments list.
+        /// HTML: &lt;div&gt;test.jpg&lt;/div&gt; inside the attachments section.
+        /// </summary>
+        public async Task VerifyUploadedFileAsync(string fileName)
+        {
+            var fileItem = Page.Locator($"//div[normalize-space(text())='{fileName}']").First;
+            await fileItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await fileItem.IsVisibleAsync(),
+                $"Uploaded file '{fileName}' not found in the invoice attachments list. URL: {Page.Url}");
         }
 
         /// <summary>
@@ -188,9 +198,7 @@ namespace DFP.Playwright.Pages.Web
             var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
 
             var noResultsMsg = Page.Locator("h5:has-text('No Invoices found')");
-            var invoiceRow = Page.Locator(
-                "li.list-group-item:not(.list-group-heading):not(.text-center) a[href*='/invoices/']"
-            ).First;
+            var invoiceRow = Page.Locator("li[qwyk-invoices-list-view-item]").First;
 
             while (true)
             {

@@ -9,11 +9,13 @@ namespace DFP.Playwright.StepDefinitions
     public sealed class InvoiceStepDefinitions
     {
         private readonly InvoicePage _invoicePage;
+        private readonly ShipmentPage _shipmentPage;
         private readonly DFP.Playwright.Support.TestContext _tc;
 
-        public InvoiceStepDefinitions(InvoicePage invoicePage, DFP.Playwright.Support.TestContext tc)
+        public InvoiceStepDefinitions(InvoicePage invoicePage, ShipmentPage shipmentPage, DFP.Playwright.Support.TestContext tc)
         {
             _invoicePage = invoicePage;
+            _shipmentPage = shipmentPage;
             _tc = tc;
         }
 
@@ -67,6 +69,12 @@ namespace DFP.Playwright.StepDefinitions
         [Then("the invoice should appear in the search results in the List with text {string}")]
         public async Task TheInvoiceShouldAppearInTheSearchResultsInTheList(string text)
             => await _invoicePage.TheInvoiceShouldAppearInSearchResultsInListAsync(text);
+
+        [Given("I should see the uploaded file {string}"), Scope(Feature = "Invoices")]
+        [When("I should see the uploaded file {string}"), Scope(Feature = "Invoices")]
+        [Then("I should see the uploaded file {string}"), Scope(Feature = "Invoices")]
+        public async Task IShouldSeeTheUploadedFile(string fileName)
+            => await _invoicePage.VerifyUploadedFileAsync(fileName);
 
         [Given("the invoice details should be displayed with the name {string}")]
         [When("the invoice details should be displayed with the name {string}")]

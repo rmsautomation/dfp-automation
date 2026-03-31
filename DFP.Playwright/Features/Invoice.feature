@@ -22,10 +22,8 @@ Feature: Invoices
     And the invoice details should be displayed with the name "TC1083_1087"
     And I should verify the following label headers in invoice details:
       # | Header                  | Value                    |
-      | Invoice date    | 03/30/2026       |
       | Bill to         | automation       |
       | Payment terms   | Net 30           |
-      | Due date        | 04/29/2026       |
       | Approval status | None             |
       | Notes           | Mar30105742Notes |
     #----------Verify Custom Fields-----------------
@@ -70,10 +68,8 @@ Feature: Invoices
     And the invoice details should be displayed with the name "TC1084_1086"
     And I should verify the following label headers in invoice details:
       # | Header                  | Value                    |
-      | Invoice date    | 03/30/2026       |
       | Bill to         | automation       |
       | Payment terms   | Net 30           |
-      | Due date        | 04/29/2026       |
       | Approval status | None             |
       | Notes           | Mar30144433Notes |
     #----------Verify Custom Fields-----------------

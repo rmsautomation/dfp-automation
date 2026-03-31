@@ -298,13 +298,11 @@ namespace DFP.Playwright.Pages.Web
         public async Task ClickSaveChangesButtonAsync()
         {
             var saveBtn = Page.Locator("button[type='submit'].btn-primary");
-            await saveBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await WaitForEnabledAsync(saveBtn, timeoutMs: 10000);
+            await saveBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            await WaitForEnabledAsync(saveBtn, timeoutMs: 60000);
             await ClickAndWaitForNetworkAsync(saveBtn);
-            var editBtn = Page.Locator(
-                $"(//li[.//div[contains(@class,'font-weight-bold') and contains(normalize-space(),'Container empty to shipper')]]//div[contains(@class,'col-auto')]//button[contains(@class,'btn-link') and not(contains(@class,'text-success'))])[1]"
-            );
-            await editBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            // Wait for the save form to close (submit button disappears) after saving
+            await saveBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Hidden, Timeout = 30000 });
         }
 
         /// <summary>

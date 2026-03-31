@@ -452,6 +452,7 @@ Feature: Shipments
     And I Check the tracking is enabled for the shipment in the hub
     When I subscribe first container of current shipment to live tracking via API
     Then the container subscribe request should succeed
+    Given I log out from Hub
     Given I login to Portal as user "without Int"
     Then the login dashboard should be visible
     Given I navigated to Shipments List
@@ -853,14 +854,18 @@ Feature: Shipments
     And I should see the uploaded file "JSON_MAGAYA.json"
     And I should see the uploaded file "attachCommodity.pdf"
     #-------------------Upload Attachments in DFP DFPAttachment.jpg and DFPAttachPDF.pdf----------------
-    When I click on Attach document button
+    When I click on "Upload attachment" button
     Then I should see the screen to upload the attachment
+    Then I click on Drop your file here option
     When I select the file to upload "DFPAttachment.jpg"
+    Then I enter the description "DFPAttach" for the attachment
     Then I click on Upload button
     And I should see the uploaded file "DFPAttachment.jpg"
-    When I click on Attach document button
+    When I click on "Upload attachment" button
     Then I should see the screen to upload the attachment
+    Then I click on Drop your file here option
     When I select the file to upload "DFPAttachPDF.pdf"
+    Then I enter the description "DFPAttach" for the attachment
     Then I click on Upload button
     And I should see the uploaded file "DFPAttachPDF.pdf"
     #---------MAGAYA STEPS------------------------

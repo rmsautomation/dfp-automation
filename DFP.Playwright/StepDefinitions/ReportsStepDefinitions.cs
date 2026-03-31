@@ -1,4 +1,7 @@
+using Microsoft.Playwright;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Reqnroll;
+using System;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web;
 
@@ -11,6 +14,7 @@ namespace DFP.Playwright.StepDefinitions
         private readonly ReportsPage _reportsPage;
         private readonly ShipmentPage _shipmentPage;
         private readonly WarehouseReceiptPage _warehouseReceiptPage;
+        private IDownload? _lastDownload;
 
         public ReportsStepDefinitions(DFP.Playwright.Support.TestContext tc, ReportsPage reportsPage, ShipmentPage shipmentPage, WarehouseReceiptPage warehouseReceiptPage)
         {
@@ -37,6 +41,10 @@ namespace DFP.Playwright.StepDefinitions
         {
             await _reportsPage.IClickOnWarehouseReceiptsOption();
         }
+
+        [When("I click on \"Invoices\" option")]
+        public async Task IClickOnInvoicesOption()
+            => await _reportsPage.IClickOnInvoicesOption();
 
         [Given("I go to Reports Warehouse")]
         [When("I go to Reports Warehouse")]
@@ -124,6 +132,41 @@ namespace DFP.Playwright.StepDefinitions
         {
             var name = _warehouseReceiptPage.GetWarehouseReceiptName();
             await _reportsPage.TheNameShouldNotAppearInResults(name, "Warehouse Receipt");
+        }
+
+        [Given("I select saved reports with name {string}")]
+        [When("I select saved reports with name {string}")]
+        [Then("I select saved reports with name {string}")]
+        public async Task ISelectSavedReportsWithName(string name)
+            => await _reportsPage.SelectSavedReportAsync(name);
+
+        [Given("I should see the invoices in the reports Results")]
+        [When("I should see the invoices in the reports Results")]
+        [Then("I should see the invoices in the reports Results")]
+        public async Task IShouldSeeTheInvoicesInTheReportsResults()
+            => await _reportsPage.ShouldSeeInvoicesInReportResultsAsync();
+
+        // Scoped to Reports — handles both plain clicks (Search) and downloads (Download to Excel)
+        // without the dialog-open wait logic used by the global IClickOnButton in ShipmentStepDefinitions.
+        [Given("I click on {string} button"), Scope(Feature = "Reports")]
+        [When("I click on {string} button"), Scope(Feature = "Reports")]
+        [Then("I click on {string} button"), Scope(Feature = "Reports")]
+        public async Task IClickOnButtonReports(string buttonText)
+        {
+            if (buttonText.Contains("Download", StringComparison.OrdinalIgnoreCase))
+                _lastDownload = await _reportsPage.ClickDownloadToExcelAsync();
+            else
+                await _reportsPage.ClickButtonAsync(buttonText);
+        }
+
+        [Given("I should verify the downloaded excel contains {string} rows")]
+        [When("I should verify the downloaded excel contains {string} rows")]
+        [Then("I should verify the downloaded excel contains {string} rows")]
+        public async Task IShouldVerifyDownloadedExcelContainsRows(string expectedRows)
+        {
+            Assert.IsNotNull(_lastDownload,
+                "No Excel download captured. Run 'I click on Download to Excel button' before this step.");
+            await ReportsPage.VerifyExcelRowCountAsync(_lastDownload!, int.Parse(expectedRows));
         }
     }
 }

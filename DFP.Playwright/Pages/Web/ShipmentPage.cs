@@ -2676,14 +2676,19 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ClickButtonByTextAsync(string buttonText)
         {
+            // Wait for any existing PrimeNG dialog overlay to be gone before clicking
+            var dialogMask = Page.Locator(".p-dialog-mask");
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Hidden, Timeout = 15000 });
+
             var btn = Page.Locator("button")
                 .Filter(new LocatorFilterOptions { HasText = buttonText })
                 .First;
             await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
             await WaitForEnabledAsync(btn, timeoutMs: 60000);
-            // Use force:true to bypass PrimeNG dialog backdrop intercepting pointer events
-            await btn.ClickAsync(new LocatorClickOptions { Force = true });
-            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await btn.ClickAsync();
+
+            // Wait for the dialog to open (confirms the click triggered the dialog)
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
         }
 
         public async Task WaitForDropzoneAsync()

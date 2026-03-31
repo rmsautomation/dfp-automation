@@ -454,6 +454,28 @@ namespace DFP.Playwright.StepDefinitions
             await _loginPage.FillPortalUsernameAsync(resolved);
         }
 
+        [Given("I enter the created email {string} in the Portal")]
+        [When("I enter the created email {string} in the Portal")]
+        [Then("I enter the created email {string} in the Portal")]
+        public async Task IEnterTheCreatedEmailInThePortal(string email)
+        {
+            string resolved;
+            if (!string.IsNullOrEmpty(email))
+            {
+                resolved = email;
+            }
+            else if (_scenarioContext.TryGetValue("ContactEmail", out var ce) && ce is string contactEmail && !string.IsNullOrWhiteSpace(contactEmail))
+            {
+                resolved = contactEmail;
+            }
+            else
+            {
+                resolved = _scenarioContext["usernamePortal"]?.ToString() ?? "";
+            }
+            Console.WriteLine($"[TC1483] Portal email: {resolved}");
+            await _loginPage.FillPortalUsernameAsync(resolved);
+        }
+
         [Given("I enter the password {string} in the Portal")]
         [When("I enter the password {string} in the Portal")]
         [Then("I enter the password {string} in the Portal")]

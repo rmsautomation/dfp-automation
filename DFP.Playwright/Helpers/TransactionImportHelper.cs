@@ -109,7 +109,8 @@ namespace DFP.Playwright.Helpers
                 try
                 {
                     var doc = XDocument.Load(f);
-                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim();
+                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim()
+                              ?? doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "PartNumber")?.Value?.Trim();
                     if (!string.IsNullOrWhiteSpace(number) &&
                         string.Equals(NormalizeNumber(number), targetNumber, StringComparison.OrdinalIgnoreCase))
                     {

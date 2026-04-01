@@ -11705,7 +11705,7 @@ ZW50SWQ+PC9zaGlwbWVudElkPg0KCTxpc1Nwb3Q+dHJ1ZTwvaXNTcG90Pg0KPC9zaGlwUXVvdGU+
 				<IncludeInSED>false</IncludeInSED>
 				<IsContainer>false</IsContainer>
 				<WarehouseReceiptNumber>TC1593_1614</WarehouseReceiptNumber>
-				<CargoReleaseNumber>CR_TC1593_1614</CargoReleaseNumber>
+				<CargoReleaseNumber>TC1593_1614</CargoReleaseNumber>
 				<OutDate>2026-04-01T14:10:42-04:00</OutDate>
 				<OrderIndex>1</OrderIndex>
 				<IsPallet>false</IsPallet>
@@ -11851,7 +11851,7 @@ ZW50SWQ+PC9zaGlwbWVudElkPg0KCTxpc1Nwb3Q+dHJ1ZTwvaXNTcG90Pg0KPC9zaGlwUXVvdGU+
 				</EventDefinition>
 				<IncludeInTracking>true</IncludeInTracking>
 				<OwnerType>CR</OwnerType>
-				<OwnerNumber>CR_TC1593_1614</OwnerNumber>
+				<OwnerNumber>TC1593_1614</OwnerNumber>
 				<OwnerGUID>478edb8e-1495-4e1d-aabe-6eba27268755</OwnerGUID>
 			</Event>
 		</Events>

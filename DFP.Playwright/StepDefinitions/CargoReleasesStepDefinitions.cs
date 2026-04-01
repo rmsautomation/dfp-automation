@@ -67,6 +67,12 @@ namespace DFP.Playwright.StepDefinitions
             await _cargoReleasesPage.VerifyCRDetailsAsync(pairs);
         }
 
+        [Given("I should verify the status in {string}")]
+        [When("I should verify the status in {string}")]
+        [Then("I should verify the status in {string}")]
+        public async Task IShouldVerifyTheStatusIn(string status)
+            => await _cargoReleasesPage.VerifyStatusBadgeAsync(status);
+
         [Given("I should see the uploaded file {string}"), Scope(Feature = "CargoReleases")]
         [When("I should see the uploaded file {string}"), Scope(Feature = "CargoReleases")]
         [Then("I should see the uploaded file {string}"), Scope(Feature = "CargoReleases")]

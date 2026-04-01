@@ -173,6 +173,22 @@ namespace DFP.Playwright.Pages.Web
                 await VerifyCRDetailLabelAsync(label, value);
         }
 
+        // ── Status ────────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Verifies the status badge is visible with the given text.
+        /// HTML: span.badge.badge-secondary.font-weight-normal with text matching status
+        /// </summary>
+        public async Task VerifyStatusBadgeAsync(string status)
+        {
+            var badge = Page.Locator("span.badge.badge-secondary.font-weight-normal")
+                .Filter(new LocatorFilterOptions { HasText = status })
+                .First;
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await badge.IsVisibleAsync(),
+                $"Status badge '{status}' not found. URL: {Page.Url}");
+        }
+
         // ── Attachments ───────────────────────────────────────────────────────────
 
         /// <summary>

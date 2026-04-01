@@ -153,46 +153,49 @@ namespace DFP.Playwright.Features
 #line 11
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 13
-    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 12
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 14
-    await testRunner.GivenAsync("I set the warehouse receipt name to \"TC3907\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 15
-    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.GivenAsync("I set the warehouse receipt name to \"TC3907\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 17
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 18
     await testRunner.ThenAsync("the warehouse receipt should not appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 19
+#line 20
     await testRunner.GivenAsync("I navigated to Cargo Detail Page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 20
+#line 21
     await testRunner.ThenAsync("I enter the warehouse receipt name in search field in Cargo Detail", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 21
+#line 22
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 22
+#line 23
     await testRunner.ThenAsync("the warehouse receipt should not be displayed in Cargo Detail", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 24
+#line 25
     await testRunner.WhenAsync("I go to Reports Warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 25
+#line 26
     await testRunner.ThenAsync("I should see \"Generate Warehouse Receipts\" Report text", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 26
+#line 27
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 27
+#line 28
     await testRunner.WhenAsync("I see the Save report button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 29
     await testRunner.ThenAsync("the warehouse receipt name should not appear in the report results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -217,7 +220,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User edits a Table View and verifies selected columns", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 31
+#line 32
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -227,34 +230,37 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 32
+#line 33
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 33
-    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 34
-    await testRunner.WhenAsync("I click on Table View in WH Receipt List", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 35
-    await testRunner.AndAsync("I select a view to edit", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 36
-    await testRunner.AndAsync("I click on Configuration button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I click on Table View in WH Receipt List", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 37
-    await testRunner.AndAsync("I click on Columns tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I select a view to edit", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 38
-    await testRunner.AndAsync("I enter the column Name in the field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I click on Configuration button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 39
-    await testRunner.AndAsync("I select the column Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I click on Columns tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 40
-    await testRunner.AndAsync("I close the Customize View", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I enter the column Name in the field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 41
+    await testRunner.AndAsync("I select the column Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 42
+    await testRunner.AndAsync("I close the Customize View", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 43
     await testRunner.ThenAsync("I should see the selected columns in the Table View", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -281,7 +287,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify Customs fields in Warehouse Receipt", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 44
+#line 46
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -291,31 +297,34 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 45
+#line 47
     await testRunner.GivenAsync("the transaction \"WH\" \"TC3072\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 46
+#line 48
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 48
-    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 49
-    await testRunner.GivenAsync("I set the warehouse receipt name to \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 50
-    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 51
-    await testRunner.WhenAsync("I click on Table View in WH Receipt List", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 52
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.GivenAsync("I set the warehouse receipt name to \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 53
-    await testRunner.ThenAsync("the warehouse receipt should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 54
+    await testRunner.WhenAsync("I click on Table View in WH Receipt List", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 55
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 56
+    await testRunner.ThenAsync("the warehouse receipt should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 57
     await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
@@ -348,7 +357,7 @@ namespace DFP.Playwright.Features
                 table14.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
-#line 55
+#line 58
     await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table14, "And ");
 #line hidden
             }
@@ -377,7 +386,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("923_3373MagayaToQWYK_WarehouseReceipt", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 70
+#line 73
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -387,35 +396,38 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 72
+#line 75
     await testRunner.GivenAsync("the transaction \"WH\" \"TC923_3373\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 73
+#line 76
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 75
+#line 77
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 80
     await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 76
+#line 81
     await testRunner.GivenAsync("I set the warehouse receipt name to \"TC923_3373\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 77
+#line 82
     await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 78
+#line 83
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 79
+#line 84
     await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
                         "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 80
+#line 85
     await testRunner.AndAsync("I select the warehouse receipt in the search results with text \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 81
+#line 86
     await testRunner.AndAsync("the warehouse receipt details should be displayed with the name \"TC923_3373\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 82
+#line 87
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC923_3373\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
@@ -448,10 +460,10 @@ namespace DFP.Playwright.Features
                 table15.AddRow(new string[] {
                             "Note",
                             "1485WR created in Magaya"});
-#line 83
+#line 88
     await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table15, "And ");
 #line hidden
-#line 96
+#line 101
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table16 = new global::Reqnroll.Table(new string[] {
@@ -484,7 +496,7 @@ namespace DFP.Playwright.Features
                 table16.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTests"});
-#line 97
+#line 102
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
                         " DFP:", ((string)(null)), table16, "And ");
 #line hidden
@@ -509,70 +521,70 @@ namespace DFP.Playwright.Features
                 table17.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-#line 110
+#line 115
     await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table17, "And ");
 #line hidden
-#line 120
+#line 125
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 121
+#line 126
     await testRunner.ThenAsync("I should see the event \"Arrived at warehouse\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 123
+#line 128
     await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 124
+#line 129
     await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 125
+#line 130
     await testRunner.AndAsync("I should see the commodity \"UpdateCommodity\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 127
+#line 132
     await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 128
+#line 133
     await testRunner.AndAsync("I should see the amount \"$150.00\" for the charge \"Cartage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 130
+#line 135
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 131
+#line 136
     await testRunner.AndAsync("I select the pagination number \"50\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 132
-    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 133
-    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 135
-    await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 136
-    await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
 #line 137
-    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 138
-    await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 139
-    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 140
-    await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 141
-    await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 142
-    await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 143
-    await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 144
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 145
+    await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 146
+    await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 147
+    await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 148
+    await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 149
     await testRunner.AndAsync("I should see the uploaded file \"PDFDFP.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -599,7 +611,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("924_MagayaToQWYK_UpdateWR", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 147
+#line 152
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -609,35 +621,38 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 149
+#line 154
     await testRunner.GivenAsync("the transaction \"WH\" \"TC924\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 150
+#line 155
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 152
+#line 156
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 158
     await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 153
+#line 159
     await testRunner.GivenAsync("I set the warehouse receipt name to \"TC924\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 154
+#line 160
     await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 155
+#line 161
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 156
+#line 162
     await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
                         "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 157
+#line 163
     await testRunner.AndAsync("I select the warehouse receipt in the search results with text \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 158
+#line 164
     await testRunner.AndAsync("the warehouse receipt details should be displayed with the name \"TC924\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 159
+#line 165
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC924\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
@@ -670,10 +685,10 @@ namespace DFP.Playwright.Features
                 table18.AddRow(new string[] {
                             "Note",
                             "1487WR created in Magaya"});
-#line 160
+#line 166
     await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table18, "And ");
 #line hidden
-#line 173
+#line 179
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
@@ -706,7 +721,7 @@ namespace DFP.Playwright.Features
                 table19.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTests"});
-#line 174
+#line 180
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
                         " DFP:", ((string)(null)), table19, "And ");
 #line hidden
@@ -731,65 +746,65 @@ namespace DFP.Playwright.Features
                 table20.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-#line 187
+#line 193
     await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table20, "And ");
 #line hidden
-#line 197
+#line 203
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 198
+#line 204
     await testRunner.ThenAsync("I should see the event \"Arrived at warehouse\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 200
+#line 206
     await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 201
+#line 207
     await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 202
+#line 208
     await testRunner.AndAsync("I should see the commodity \"UpdateCommodity\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 204
+#line 210
     await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 205
+#line 211
     await testRunner.AndAsync("I should see the amount \"$150.00\" for the charge \"Cartage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 207
+#line 213
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 208
+#line 214
     await testRunner.AndAsync("I select the pagination number \"50\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 209
+#line 215
     await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 211
+#line 217
     await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 218
+#line 224
     await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 219
+#line 225
     await testRunner.GivenAsync("I set the warehouse receipt name to \"TC924UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 220
+#line 226
     await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 221
+#line 227
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 222
+#line 228
     await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
                         "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 223
+#line 229
     await testRunner.AndAsync("I select the warehouse receipt in the search results with text \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 224
+#line 230
     await testRunner.AndAsync("the warehouse receipt details should be displayed with the name \"TC924UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 225
+#line 231
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC924UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
@@ -822,10 +837,10 @@ namespace DFP.Playwright.Features
                 table21.AddRow(new string[] {
                             "Note",
                             "NOTE UPDATED"});
-#line 226
+#line 232
     await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table21, "And ");
 #line hidden
-#line 239
+#line 245
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
@@ -858,7 +873,7 @@ namespace DFP.Playwright.Features
                 table22.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTestsUpdated"});
-#line 240
+#line 246
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
                         " DFP:", ((string)(null)), table22, "And ");
 #line hidden
@@ -883,40 +898,40 @@ namespace DFP.Playwright.Features
                 table23.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-#line 253
+#line 259
     await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table23, "And ");
 #line hidden
-#line 263
+#line 269
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 264
+#line 270
     await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 266
+#line 272
     await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 267
+#line 273
     await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 268
+#line 274
     await testRunner.AndAsync("I should see the commodity \"UpdateCommodity\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 269
+#line 275
     await testRunner.AndAsync("I should see the total pieces \"503 pieces\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 271
+#line 277
     await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 272
+#line 278
     await testRunner.AndAsync("I should see the amount \"$200.00\" for the charge \"Storage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 274
+#line 280
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 275
+#line 281
     await testRunner.AndAsync("I select the pagination number \"50\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 276
+#line 282
     await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

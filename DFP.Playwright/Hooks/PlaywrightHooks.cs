@@ -34,7 +34,7 @@ namespace DFP.Playwright.Hooks
         public async Task BeforeScenario()
         {
             var browserName = Environment.GetEnvironmentVariable(Constants.BROWSER) ?? "chromium";
-            var headlessEnv = Environment.GetEnvironmentVariable(Constants.HEADLESS) ?? "true";
+            var headlessEnv = Environment.GetEnvironmentVariable(Constants.HEADLESS) ?? "false";
 
             var headless = !headlessEnv.Equals("false", StringComparison.OrdinalIgnoreCase);
 
@@ -150,6 +150,7 @@ namespace DFP.Playwright.Hooks
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 throw new InvalidOperationException("PORTAL_USERNAME/PORTAL_PASSWORD are required for auto-login.");
 
+            _tc.ActivePortalBaseUrl = baseUrl.TrimEnd('/');
             var login = new LoginPage(_tc.Page!, baseUrl);
 
             await login.NavigateAsync();

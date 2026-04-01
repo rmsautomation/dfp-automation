@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<Invoice Type="IN" GUID="9854816a-6a93-4743-8b48-8f9bf71f5ae8" xmlns="http://www.magaya.com/XMLSchema/V1">
+		<Number>TC1089</Number>
+		<CreatedBy GUID="d849225d-c910-4b8b-918b-3e461273e8c6">
+			<Type>Employee</Type>
+			<Name>Administrator</Name>
+			<CreatedOn>2025-04-22T17:34:44-04:00</CreatedOn>
+			<Email>magdfpstg@magaya.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsPrepaid>true</IsPrepaid>
+			<MobilePhone>7863333333</MobilePhone>
+		</CreatedBy>
+		<IssuedBy GUID="267c4164-7119-4328-9640-7fdb7add1ec2">
+			<Type>ForwardingAgent</Type>
+			<Name>Postgress SQL II</Name>
+			<CreatedOn>2025-04-22T17:34:44-04:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<NetworkID>38442</NetworkID>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsKnownShipper>true</IsKnownShipper>
+			<IsPrepaid>true</IsPrepaid>
+		</IssuedBy>
+		<Account>
+			<Type>AccountReceivable</Type>
+			<Name>Accounts Receivable</Name>
+			<Currency Code="USD">
+				<Name>United States Dollar</Name>
+				<ExchangeRate>1.00</ExchangeRate>
+				<DecimalPlaces>2</DecimalPlaces>
+				<IsHomeCurrency>true</IsHomeCurrency>
+			</Currency>
+		</Account>
+		<Entity GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Entity>
+		<CreatedOn>2026-03-31T11:06:22-04:00</CreatedOn>
+		<TotalAmount Currency="USD">100.00</TotalAmount>
+		<HomeCurrency Code="USD">
+			<Name>United States Dollar</Name>
+			<ExchangeRate>1.00</ExchangeRate>
+			<DecimalPlaces>2</DecimalPlaces>
+			<IsHomeCurrency>true</IsHomeCurrency>
+		</HomeCurrency>
+		<Currency Code="USD">
+			<Name>United States Dollar</Name>
+			<ExchangeRate>1.00</ExchangeRate>
+			<DecimalPlaces>2</DecimalPlaces>
+			<IsHomeCurrency>true</IsHomeCurrency>
+		</Currency>
+		<ExchangeRate>1.00</ExchangeRate>
+		<TotalAmountInCurrency Currency="USD">100.00</TotalAmountInCurrency>
+		<Charges>
+			<Charge GUID="48fb8fb7-be98-4182-9ab0-3fbe6f16bd22">
+				<Type>Standard</Type>
+				<Entity GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+					<Type>Client</Type>
+					<Name>automation</Name>
+					<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+					<Email>rmsautomation24@gmail.com</Email>
+					<PrimaryIdType>Other</PrimaryIdType>
+					<Balance Currency="USD">34845.00</Balance>
+					<TransactionDueDays>30</TransactionDueDays>
+					<IsBillable>true</IsBillable>
+					<PaymentTerms>
+						<Description>Net 30</Description>
+						<NetDueDays>30</NetDueDays>
+						<DiscountPercentage>0.00</DiscountPercentage>
+						<DiscountPaidDays>0</DiscountPaidDays>
+						<OperationType>All</OperationType>
+						<TransactionDate>Transaction</TransactionDate>
+					</PaymentTerms>
+					<IsPrepaid>true</IsPrepaid>
+				</Entity>
+				<Quantity>1.00</Quantity>
+				<Price Currency="USD">100.0000000</Price>
+				<HomeCurrency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</HomeCurrency>
+				<Amount Currency="USD">100.00</Amount>
+				<IsPrepaid>true</IsPrepaid>
+				<IsThirdPartyCharge>false</IsThirdPartyCharge>
+				<ChargeDefinition>
+					<Type>Other</Type>
+					<Description>Documentation</Description>
+					<Code>DOC</Code>
+					<AccountDefinition>
+						<Type>Income</Type>
+						<Name>Documentation</Name>
+						<Currency Code="USD">
+							<Name>United States Dollar</Name>
+							<ExchangeRate>1.00</ExchangeRate>
+							<DecimalPlaces>2</DecimalPlaces>
+							<IsHomeCurrency>true</IsHomeCurrency>
+						</Currency>
+					</AccountDefinition>
+					<Amount Currency="USD">0.00</Amount>
+					<Currency Code="USD">
+						<Name>United States Dollar</Name>
+						<ExchangeRate>1.00</ExchangeRate>
+						<DecimalPlaces>2</DecimalPlaces>
+						<IsHomeCurrency>true</IsHomeCurrency>
+					</Currency>
+					<Enforce3rdPartyBilling>false</Enforce3rdPartyBilling>
+				</ChargeDefinition>
+				<Status>Posted</Status>
+				<PriceInCurrency Currency="USD">100.0000000</PriceInCurrency>
+				<AmountInCurrency Currency="USD">100.00</AmountInCurrency>
+				<ExchangeRate>1.00</ExchangeRate>
+				<Currency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</Currency>
+				<ShowInDocuments>false</ShowInDocuments>
+				<IsCredit>false</IsCredit>
+				<IsFromSegment>false</IsFromSegment>
+				<Parent>
+					<GUID>bcc7ad55-f58e-46f4-b116-8f9bf71f5ae8</GUID>
+					<Type>Invoice</Type>
+				</Parent>
+			</Charge>
+		</Charges>
+		<DueDate>2026-04-30-04:00</DueDate>
+		<Notes>Mar31110620Notes</Notes>
+		<Status>Open</Status>
+		<IsPrepaid>true</IsPrepaid>
+		<IsPeriodic>false</IsPeriodic>
+		<IsPrinted>false</IsPrinted>
+		<IsFiscalPrinted>false</IsFiscalPrinted>
+		<Events>
+			<Event>
+				<Date>2026-03-31T11:06:27-04:00</Date>
+				<Details>Shipment has been set as in transit</Details>
+				<EventDefinition>
+					<Name>In Transit</Name>
+					<Details>Shipment has been set as in transit</Details>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>IN</OwnerType>
+				<OwnerNumber>TC1089</OwnerNumber>
+				<OwnerGUID>bcc7ad55-f58e-46f4-b116-8f9bf71f5ae8</OwnerGUID>
+			</Event>
+		</Events>
+		<HasAttachments>false</HasAttachments>
+		<PaymentTerms>Net 30</PaymentTerms>
+		<PaymentTermsRef>
+			<Description>Net 30</Description>
+			<NetDueDays>30</NetDueDays>
+			<DiscountPercentage>0.00</DiscountPercentage>
+			<DiscountPaidDays>0</DiscountPaidDays>
+			<OperationType>All</OperationType>
+			<TransactionDate>Transaction</TransactionDate>
+		</PaymentTermsRef>
+		<CustomFields>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Text</Type>
+					<InternalName>string_custom_field</InternalName>
+					<DisplayName>String Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<MaximumLength>100</MaximumLength>
+					<IsMultiline>false</IsMultiline>
+				</CustomFieldDefinition>
+				<Value>String Test</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Integer</Type>
+					<InternalName>integer_custom_field</InternalName>
+					<DisplayName>Integer Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>50</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Decimal</Type>
+					<InternalName>decimal_custom_field</InternalName>
+					<DisplayName>Decimal Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<Precision>2</Precision>
+				</CustomFieldDefinition>
+				<Value>50.50</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>PickList</Type>
+					<InternalName>picklist_custom_field</InternalName>
+					<DisplayName>PickList Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>Option1</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Logical</Type>
+					<InternalName>boolean_custom_field</InternalName>
+					<DisplayName>Boolean Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>false</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Date</Type>
+					<InternalName>date_custom_field</InternalName>
+					<DisplayName>Date Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<DateTimeFormat>false</DateTimeFormat>
+					<DateSystemTime>false</DateSystemTime>
+				</CustomFieldDefinition>
+				<Value>2025-01-16-04:00</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>Money</Type>
+					<InternalName>money_custom_field</InternalName>
+					<DisplayName>Money Custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+					<Precision>2</Precision>
+				</CustomFieldDefinition>
+				<Value>100.00 USD</Value>
+			</CustomField>
+			<CustomField>
+				<CustomFieldDefinition>
+					<Type>LookupAddress</Type>
+					<InternalName>lookup_custom_field</InternalName>
+					<DisplayName>Lookup custom Field</DisplayName>
+					<InternalUse>false</InternalUse>
+					<BuildReports>false</BuildReports>
+					<Inactive>false</Inactive>
+					<IsCalculated>false</IsCalculated>
+					<IsReadOnly>false</IsReadOnly>
+				</CustomFieldDefinition>
+				<Value>automation.</Value>
+				<RelatedObject>
+					<EntityAddress>
+						<Entity GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+							<Type>Client</Type>
+							<Name>automation</Name>
+							<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+							<Email>rmsautomation24@gmail.com</Email>
+							<PrimaryIdType>Other</PrimaryIdType>
+							<Balance Currency="USD">34845.00</Balance>
+							<TransactionDueDays>30</TransactionDueDays>
+							<IsBillable>true</IsBillable>
+							<PaymentTerms>
+								<Description>Net 30</Description>
+								<NetDueDays>30</NetDueDays>
+								<DiscountPercentage>0.00</DiscountPercentage>
+								<DiscountPaidDays>0</DiscountPaidDays>
+								<OperationType>All</OperationType>
+								<TransactionDate>Transaction</TransactionDate>
+							</PaymentTerms>
+							<IsPrepaid>true</IsPrepaid>
+						</Entity>
+					</EntityAddress>
+				</RelatedObject>
+			</CustomField>
+		</CustomFields>
+	</Invoice>

@@ -333,7 +333,7 @@ await testRunner.AndAsync("I click on Login to Magaya in the email", ((string)(n
 await testRunner.AndAsync("I should see the login page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 64
-await testRunner.WhenAsync("I enter the created username \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+await testRunner.WhenAsync("I enter the created email \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 65
 await testRunner.AndAsync("I enter the password \"\" in the Portal", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

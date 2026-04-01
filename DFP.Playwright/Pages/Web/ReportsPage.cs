@@ -1,27 +1,30 @@
 using Microsoft.Playwright;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DFP.Playwright.Pages.Web.BasePages;
-using DFP.Playwright.Helpers;
+using DFP.Playwright.Support;
+using TestContext = DFP.Playwright.Support.TestContext;
 
 namespace DFP.Playwright.Pages.Web
 {
     public sealed class ReportsPage : BasePage
     {
-        public ReportsPage(IPage page) : base(page)
+        private readonly TestContext _tc;
+
+        public ReportsPage(IPage page, TestContext tc) : base(page)
         {
+            _tc = tc;
         }
 
-        private static string GetPortalBaseUrl()
-        {
-            var baseUrl = Environment.GetEnvironmentVariable(Constants.PORTAL_BASE_URL)
-                          ?? Environment.GetEnvironmentVariable("BASE_URL")
-                          ?? "";
-            if (string.IsNullOrWhiteSpace(baseUrl))
-                throw new InvalidOperationException("PORTAL_BASE_URL (or BASE_URL) is required.");
-            return baseUrl;
-        }
+        private string PortalOrigin()
+            => !string.IsNullOrEmpty(_tc.ActivePortalBaseUrl)
+                ? _tc.ActivePortalBaseUrl
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
 
         // ── Selectors ─────────────────────────────────────────────────────────────
 
@@ -67,6 +70,14 @@ namespace DFP.Playwright.Pages.Web
             "button:has-text('Today')"
         };
 
+        // <a href="/my-portal/reports/invoices">Invoices</a>
+        private static readonly string[] InvoicesReportNavSelectors =
+        {
+            "a[href='/my-portal/reports/invoices']",
+            "//a[@href='/my-portal/reports/invoices']",
+            "//a[contains(@href,'/reports/invoices')]"
+        };
+
         // <button class="btn btn-primary">Search</button>
         private static readonly string[] SearchButtonSelectors =
         {
@@ -87,8 +98,7 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IAmOnTheReportsPage()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -107,8 +117,7 @@ namespace DFP.Playwright.Pages.Web
         // Navigates directly to the Warehouse Receipts report URL — verified live via MCP
         public async Task NavigateToWarehouseReceiptsReportAsync()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports/warehouse-receipts");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports/warehouse-receipts");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
@@ -239,12 +248,108 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task IAlreadyClickOnSearchButtonInReportsSection()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/reports/shipments");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/reports/shipments");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             var searchButton = await FindLocatorAsync(SearchButtonSelectors);
             await ClickAndWaitForNetworkAsync(searchButton);
+        }
+
+        public async Task IClickOnInvoicesOption()
+        {
+            var invoicesLink = await FindLocatorAsync(InvoicesReportNavSelectors);
+            await ClickAndWaitForNetworkAsync(invoicesLink);
+        }
+
+        /// <summary>
+        /// Clicks the ng-select "Saved reports" dropdown and selects the option matching the given name.
+        /// HTML: ng-select[name='selectedReport'] — opens options panel, clicks matching .ng-option
+        /// </summary>
+        public async Task SelectSavedReportAsync(string name)
+        {
+            var arrow = Page.Locator("ng-select[name='selectedReport'] .ng-arrow-wrapper");
+            await arrow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(arrow, timeoutMs: 10000);
+            await Page.WaitForTimeoutAsync(1000);
+            await arrow.ClickAsync();
+
+            var option = Page.Locator(".ng-option")
+                .Filter(new LocatorFilterOptions { HasText = name })
+                .First;
+            await option.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
+            await option.ClickAsync();
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        }
+
+        /// <summary>
+        /// Waits for at least one result row to appear in the report results table.
+        /// HTML: table tbody tr (data rows, not header)
+        /// </summary>
+        public async Task ShouldSeeInvoicesInReportResultsAsync()
+        {
+            var firstRow = Page.Locator("table tbody tr").First;
+            await firstRow.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 30000 });
+            var count = await Page.Locator("table tbody tr").CountAsync();
+            Assert.IsTrue(count > 0,
+                $"Expected invoice rows in report results but none found. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks a button by text. For non-dialog buttons (Search, etc.) in Reports.
+        /// </summary>
+        public async Task ClickButtonAsync(string buttonText)
+        {
+            var btn = Page.Locator("button")
+                .Filter(new LocatorFilterOptions { HasText = buttonText })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 15000);
+            await ClickAndWaitForNetworkAsync(btn);
+        }
+
+        /// <summary>
+        /// Clicks the "Download to Excel" button and captures the file download.
+        /// Uses Playwright RunAndWaitForDownloadAsync — same pattern as HubRadarPage.
+        /// </summary>
+        public async Task<IDownload> ClickDownloadToExcelAsync()
+        {
+            var btn = Page.Locator("button")
+                .Filter(new LocatorFilterOptions { HasText = "Download to Excel" })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 15000);
+            return await Page.RunAndWaitForDownloadAsync(() => btn.ClickAsync());
+        }
+
+        /// <summary>
+        /// Saves the download to a temp file, reads the xlsx via System.IO.Compression,
+        /// counts all rows in sheet1 (including header), and asserts the count equals expectedRows.
+        /// No extra NuGet needed — xlsx is a ZIP with XML inside.
+        /// </summary>
+        public static async Task VerifyExcelRowCountAsync(IDownload download, int expectedRows)
+        {
+            var tempPath = Path.Combine(Path.GetTempPath(), download.SuggestedFilename);
+            await download.SaveAsAsync(tempPath);
+
+            try
+            {
+                using var archive = ZipFile.OpenRead(tempPath);
+                var sheetEntry = archive.GetEntry("xl/worksheets/sheet1.xml")
+                    ?? throw new InvalidOperationException("sheet1.xml not found in downloaded xlsx.");
+
+                using var stream = sheetEntry.Open();
+                var doc = XDocument.Load(stream);
+                XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+                var rowCount = doc.Descendants(ns + "row").Count();
+
+                Assert.AreEqual(expectedRows, rowCount,
+                    $"Expected {expectedRows} rows in Excel but found {rowCount}. File: {download.SuggestedFilename}");
+            }
+            finally
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
         }
     }
 }

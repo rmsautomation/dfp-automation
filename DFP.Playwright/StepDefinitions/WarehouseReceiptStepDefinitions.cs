@@ -280,9 +280,9 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IGoToAttachmentsTab()
             => await _warehouseReceiptPage.ClickAttachmentsTabAsync();
 
-        [Given("I should see the uploaded file {string}")]
-        [When("I should see the uploaded file {string}")]
-        [Then("I should see the uploaded file {string}")]
+        [Given("I should see the uploaded file {string}"), Scope(Feature = "Warehouse Receipts")]
+        [When("I should see the uploaded file {string}"), Scope(Feature = "Warehouse Receipts")]
+        [Then("I should see the uploaded file {string}"), Scope(Feature = "Warehouse Receipts")]
         public async Task IShouldSeeTheUploadedFile(string fileName)
             => await _warehouseReceiptPage.VerifyUploadedFileAsync(fileName);
     }

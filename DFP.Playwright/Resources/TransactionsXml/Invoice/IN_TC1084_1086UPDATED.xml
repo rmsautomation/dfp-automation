@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Invoices xmlns="http://www.magaya.com/XMLSchema/V1">
-	<Invoice GUID="4b8f4dd3-59a1-45a2-8515-02c1be8332bd" Type="IN">
+<?xml version="1.0"?>
+<Invoice Type="IN" GUID="9854816a-6a93-45a2-45a2-094c93e648ae" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<Number>TC1084_1086UPDATED</Number>
 		<CreatedBy GUID="d849225d-c910-4b8b-918b-3e461273e8c6">
 			<Type>Employee</Type>
@@ -15777,4 +15776,4 @@ H/vFP/EvzMMT/An6P8j0yiiiv0U+GP/Z</Data>
 			</CustomField>
 		</CustomFields>
 	</Invoice>
-</Invoices>
+	

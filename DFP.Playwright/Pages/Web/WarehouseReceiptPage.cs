@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
+using DFP.Playwright.Support;
+using TestContext = DFP.Playwright.Support.TestContext;
 
 namespace DFP.Playwright.Pages.Web
 {
@@ -11,11 +13,11 @@ namespace DFP.Playwright.Pages.Web
     {
         private string _warehouseReceiptName = string.Empty;
         private string _tableViewColumnName = string.Empty;
-        private readonly string _baseUrl;
+        private readonly TestContext _tc;
 
-        public WarehouseReceiptPage(IPage page, string baseUrl) : base(page)
+        public WarehouseReceiptPage(IPage page, TestContext tc) : base(page)
         {
-            _baseUrl = baseUrl.TrimEnd('/');
+            _tc = tc;
         }
 
         // ── Selectors ─────────────────────────────────────────────────────────────
@@ -110,15 +112,21 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task NavigateToWarehouseReceiptsListAsync()
         {
-            await Page.GotoAsync(_baseUrl + "/my-portal/warehouse-receipts");
+            await Page.WaitForTimeoutAsync(5000);
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/warehouse-receipts");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 
         public async Task NavigateToCargoDetailPageAsync()
         {
-            await Page.GotoAsync(_baseUrl + "/my-portal/cargo-detail");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/cargo-detail");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
+
+        private string PortalOrigin()
+            => !string.IsNullOrEmpty(_tc.ActivePortalBaseUrl)
+                ? _tc.ActivePortalBaseUrl
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
 
         // ── State helpers ─────────────────────────────────────────────────────────
 

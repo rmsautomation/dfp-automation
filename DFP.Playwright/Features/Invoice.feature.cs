@@ -119,7 +119,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Invoice.feature.ndjson", 4);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Invoice.feature.ndjson", 5);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("36_1083_39_1087MagayaToDFP_InvoiceMagayaAttchment")]
@@ -168,7 +168,7 @@ namespace DFP.Playwright.Features
     await testRunner.GivenAsync("I set the invoice name to \"TC1083_1087\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 18
-    await testRunner.AndAsync("I enter the invoice name \"\" in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I enter the invoice name \"TC1083_1087\" in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 19
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -183,17 +183,11 @@ namespace DFP.Playwright.Features
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1083_1087\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
-                            "Invoice date",
-                            "03/30/2026"});
-                table1.AddRow(new string[] {
                             "Bill to",
                             "automation"});
                 table1.AddRow(new string[] {
                             "Payment terms",
                             "Net 30"});
-                table1.AddRow(new string[] {
-                            "Due date",
-                            "04/29/2026"});
                 table1.AddRow(new string[] {
                             "Approval status",
                             "None"});
@@ -206,9 +200,6 @@ namespace DFP.Playwright.Features
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Boolean Custom Field",
                             "No"});
-                table2.AddRow(new string[] {
-                            "Date Custom Field",
-                            "01/17/2025"});
                 table2.AddRow(new string[] {
                             "Decimal Custom Field",
                             "50.5"});
@@ -224,34 +215,34 @@ namespace DFP.Playwright.Features
                 table2.AddRow(new string[] {
                             "String Custom Field",
                             "String Test"});
-#line 32
+#line 30
     await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table2, "And ");
 #line hidden
-#line 42
+#line 39
     await testRunner.ThenAsync("I should see the event \"In Transit\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 44
+#line 41
     await testRunner.WhenAsync("I go to charges invoice tab in the invoice details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 42
     await testRunner.AndAsync("I should see the amount \"$100.00\" for the charge \"Documentation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 47
+#line 44
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 45
     await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 49
+#line 46
     await testRunner.AndAsync("I should see the uploaded file \"Testing Attachments.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 47
     await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 51
+#line 48
     await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 52
+#line 49
     await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -280,7 +271,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("37_1084_38_1086MagayaToDFP_UpdateInvoiceEventAut", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 55
+#line 52
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -290,60 +281,54 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 60
+#line 54
+    await testRunner.GivenAsync("the transaction \"IN\" \"TC1084_1086\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 57
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 61
+#line 58
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 64
+#line 61
     await testRunner.GivenAsync("I navigated to Invoices List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 65
+#line 62
     await testRunner.GivenAsync("I set the invoice name to \"TC1084_1086\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 66
+#line 63
     await testRunner.AndAsync("I enter the invoice name \"\" in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 67
+#line 64
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 68
+#line 65
     await testRunner.ThenAsync("the invoice should appear in the search results in the List with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 69
+#line 66
     await testRunner.AndAsync("I select the invoice in the search results with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 70
+#line 67
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1084_1086\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
-                            "Invoice date",
-                            "03/30/2026"});
-                table3.AddRow(new string[] {
                             "Bill to",
                             "automation"});
                 table3.AddRow(new string[] {
                             "Payment terms",
                             "Net 30"});
                 table3.AddRow(new string[] {
-                            "Due date",
-                            "04/29/2026"});
-                table3.AddRow(new string[] {
                             "Approval status",
                             "None"});
                 table3.AddRow(new string[] {
                             "Notes",
                             "Mar30144433Notes"});
-#line 71
+#line 68
     await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table3, "And ");
 #line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Boolean Custom Field",
                             "No"});
-                table4.AddRow(new string[] {
-                            "Date Custom Field",
-                            "01/17/2025"});
                 table4.AddRow(new string[] {
                             "Decimal Custom Field",
                             "50.5"});
@@ -359,77 +344,71 @@ namespace DFP.Playwright.Features
                 table4.AddRow(new string[] {
                             "String Custom Field",
                             "String Test"});
-#line 80
+#line 75
     await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table4, "And ");
 #line hidden
-#line 90
+#line 84
     await testRunner.ThenAsync("I should see the event \"In Transit\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 92
+#line 86
     await testRunner.WhenAsync("I go to charges invoice tab in the invoice details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 93
+#line 87
     await testRunner.AndAsync("I should see the amount \"$100.00\" for the charge \"Documentation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 95
+#line 89
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 96
+#line 90
     await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 97
+#line 91
     await testRunner.AndAsync("I should see the uploaded file \"Testing Attachments.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 98
+#line 92
     await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 99
+#line 93
     await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 100
+#line 94
     await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 102
+#line 96
     await testRunner.GivenAsync("I login to LiveTrack as user \"automation\" networkID \"38442\" and password \"\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 103
+#line 97
     await testRunner.WhenAsync("I go to Invoices in LiveTrack", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 105
+#line 99
     await testRunner.ThenAsync("I filter by number \"TC1084_1086\" in Livetrack", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 106
+#line 100
     await testRunner.ThenAsync("I click on OK button in Livetrack", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 107
+#line 101
     await testRunner.ThenAsync("I approve the \"automation\" invoice in LiveTrack with comment \"Approved in LiveTra" +
                         "ck\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 111
-    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 112
-    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 113
+#line 107
     await testRunner.GivenAsync("I navigated to Invoices List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 114
+#line 108
     await testRunner.GivenAsync("I set the invoice name to \"TC1084_1086UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 115
+#line 109
     await testRunner.AndAsync("I enter the invoice name \"\" in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 116
+#line 110
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 117
+#line 111
     await testRunner.ThenAsync("the invoice should appear in the search results in the List with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 118
+#line 112
     await testRunner.AndAsync("I select the invoice in the search results with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 119
+#line 113
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1084_1086UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
@@ -438,7 +417,7 @@ namespace DFP.Playwright.Features
                 table5.AddRow(new string[] {
                             "Notes",
                             "Mar30144433NotesNOTE UPDATED"});
-#line 120
+#line 114
     await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table5, "And ");
 #line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
@@ -459,29 +438,199 @@ namespace DFP.Playwright.Features
                 table6.AddRow(new string[] {
                             "String Custom Field",
                             "StringUpdated"});
-#line 125
+#line 119
     await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table6, "And ");
 #line hidden
-#line 134
+#line 128
     await testRunner.ThenAsync("I should see the event \"Transaction Approved by Customer\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 135
+#line 129
     await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 137
+#line 131
     await testRunner.WhenAsync("I go to charges invoice tab in the invoice details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 138
+#line 132
     await testRunner.AndAsync("I should see the amount \"$10.00\" for the charge \"Security Surcharge\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 140
+#line 134
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 141
+#line 135
     await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 142
+#line 136
     await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("40_1089_DFP_AddAttachments_VerifyMagaya")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("40_1089_DFP_AddAttachments_VerifyMagaya")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Invoices")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Invoices")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("1089")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task _40_1089_DFP_AddAttachments_VerifyMagaya()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "1089",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("40_1089_DFP_AddAttachments_VerifyMagaya", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 139
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 143
+    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 144
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 146
+    await testRunner.GivenAsync("I navigated to Invoices List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 147
+    await testRunner.GivenAsync("I set the invoice name to \"TC1089\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 148
+    await testRunner.AndAsync("I enter the invoice name \"TC1089\" in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 149
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 150
+    await testRunner.ThenAsync("the invoice should appear in the search results in the List with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 151
+    await testRunner.AndAsync("I select the invoice in the search results with text \"invoice\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 152
+    await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1089\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 154
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 155
+    await testRunner.AndAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 157
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 158
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 159
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 160
+    await testRunner.WhenAsync("I select the file to upload \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 161
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 162
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 163
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 165
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 166
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 167
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 168
+    await testRunner.WhenAsync("I select the file to upload \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 169
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 170
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 171
+    await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 173
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 174
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 175
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 176
+    await testRunner.WhenAsync("I select the file to upload \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 177
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 178
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 179
+    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 181
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 182
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 183
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 184
+    await testRunner.WhenAsync("I select the file to upload \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 185
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 186
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 187
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 189
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 190
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 191
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 192
+    await testRunner.WhenAsync("I select the file to upload \"Testing Attachments.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 193
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 194
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 195
+    await testRunner.AndAsync("I should see the uploaded file \"Testing Attachments.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

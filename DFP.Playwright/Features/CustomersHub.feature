@@ -61,7 +61,7 @@ Then I should receive an email with text "Your account has been created" in the 
 And I store the portal user password from the email
 And I click on Login to Magaya in the email
 And I should see the login page
-When I enter the created username "" in the Portal
+When I enter the created email "" in the Portal
 And I enter the password "" in the Portal
 And click on Sign in button
 Then the login dashboard should be visible

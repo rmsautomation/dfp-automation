@@ -4,6 +4,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DFP.Playwright.Pages.Web.BasePages;
+using DFP.Playwright.Support;
+using TestContext = DFP.Playwright.Support.TestContext;
 
 namespace DFP.Playwright.Pages.Web
 {
@@ -11,10 +13,17 @@ namespace DFP.Playwright.Pages.Web
     {
         // Stores the generated PO number for use across steps (e.g. buyer/supplier names derived from it).
         private string _poNumber = string.Empty;
+        private readonly TestContext _tc;
 
-        public PurchaseOrderPage(IPage page) : base(page)
+        public PurchaseOrderPage(IPage page, TestContext tc) : base(page)
         {
+            _tc = tc;
         }
+
+        private string PortalOrigin()
+            => !string.IsNullOrEmpty(_tc.ActivePortalBaseUrl)
+                ? _tc.ActivePortalBaseUrl
+                : new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
 
         // ── Navigation ────────────────────────────────────────────────────────────
 
@@ -23,8 +32,7 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task NavigateToPurchaseOrderListAsync()
         {
-            var origin = new Uri(Page.Url).GetLeftPart(UriPartial.Authority);
-            await Page.GotoAsync(origin + "/my-portal/orders/list");
+            await Page.GotoAsync(PortalOrigin() + "/my-portal/orders/list");
             await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         }
 

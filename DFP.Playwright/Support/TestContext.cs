@@ -14,6 +14,12 @@ namespace DFP.Playwright.Support
         public IBrowserContext? Context { get; set; }
         public IPage? Page { get; set; }
         public Dictionary<string, object> Data { get; } = new();
+
+        /// <summary>
+        /// Set at login time by LoginPortalHubStepDefinitions.
+        /// All portal pages use this as the base URL for navigation.
+        /// </summary>
+        public string ActivePortalBaseUrl { get; set; } = string.Empty;
     }
 }
 

@@ -144,6 +144,7 @@ Feature: Shipments
   @API @9634 @9652 @NOINT
   Scenario Outline: Hide_Unhide a shipment created from a quotation
     Given I login to Portal as user "without Int"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -253,6 +254,7 @@ Feature: Shipments
     Then the link requests should succeed
     # ── Verify PO Link in the shipment─────────
     Given I login to Portal as user "without Int"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     And I click on Show More filters
     And I click on List View button
@@ -347,6 +349,7 @@ Feature: Shipments
   Scenario: Magaya to DFP - Update House shipment - Exclude from Tracking = True
     # ──I have a House Shipment created in Magaya with enable the Exclude from Tracking option
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     # ── Verify the House Shipment is not displayed in the in List View─────────
     Given I navigated to Shipments List
     When I click on Show More filters
@@ -449,7 +452,9 @@ Feature: Shipments
     And I Check the tracking is enabled for the shipment in the hub
     When I subscribe first container of current shipment to live tracking via API
     Then the container subscribe request should succeed
+    Given I log out from Hub
     Given I login to Portal as user "without Int"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I click on Show More filters
     And I enter the shipment name in Shipment Reference field
@@ -478,6 +483,7 @@ Feature: Shipments
   Scenario: Status update - List View - Subscribe to notifications
     # ── Create shipment with Owner-------------------------------
     Given I login to Portal as user "automationdfpowner@gmail.com"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -500,6 +506,7 @@ Feature: Shipments
     Then I should be in login page
     # ── Suscribe shipment with suscriptordfpautomation@yopmail.com-------------------------------
     Given I login to Portal as user "suscriptordfpautomation@yopmail.com"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I click on Show More filters
     And I enter the shipment name in Shipment Reference field
@@ -556,6 +563,7 @@ Feature: Shipments
   Scenario:Parent-child tree structure - All permissions
     # ── Create quotation FCL in the Portal WITHOUT INT with a user whose Customer is defined as a Child ───────
     Given I login to Portal as user "child_noint@yopmail.com"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I click on Create Quotation button
     Then I should see the create Quotation Page
@@ -594,6 +602,7 @@ Feature: Shipments
     #----------Verify Quote and Booking using PARENT Login-----------------
     And I log out from Portal
     Given I login to Portal as user "aylin.rodriguez@magaya.com"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button
@@ -607,6 +616,7 @@ Feature: Shipments
     #------Create Shipment WITH ATTACHMENTS USING CHILD--------------------------
     And I log out from Portal
     Given I login to Portal as user "child_noint@yopmail.com"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -647,6 +657,7 @@ Feature: Shipments
     #----------Verify SH ATTACHMENTS AND PO USING PARENT-----------------
     And I log out from Portal
     Given I login to Portal as user "aylin.rodriguez@magaya.com"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button
@@ -662,6 +673,7 @@ Feature: Shipments
   Scenario: Shipment - Create a shipment - Verify Custom fields
     Given the transaction "SH" "TC5305" is imported via API
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     # ── Verify the SH Custom Fields are displayed in Shipment List ─────────────
     Given I navigated to Shipments List
     When I enter "TC5305" in Quick filter
@@ -689,6 +701,7 @@ Feature: Shipments
   Scenario: Integration - QWYK to Magaya - Shipment- Attach a jpg file_553
     #-------Create Shipment in Portal With attachments-----------------------
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -721,6 +734,7 @@ Feature: Shipments
   Scenario: 840_858_SHDFPToMagaya_UpdateBookingMagaya
     #-------Create Shipment in Portal With ALL INFO-----------------------
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -800,6 +814,7 @@ Feature: Shipments
   Scenario: 841_SHQWYKToMagayaShipmentSendAttcahment
     #-------Create Shipment in Portal With attachments-----------------------
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I am on the Quotations List page
     When I open the first quotation in Status Booked
     Then I should be on the Quotation Details page
@@ -839,14 +854,18 @@ Feature: Shipments
     And I should see the uploaded file "JSON_MAGAYA.json"
     And I should see the uploaded file "attachCommodity.pdf"
     #-------------------Upload Attachments in DFP DFPAttachment.jpg and DFPAttachPDF.pdf----------------
-    When I click on Attach document button
+    When I click on "Upload attachment" button
     Then I should see the screen to upload the attachment
+    Then I click on Drop your file here option
     When I select the file to upload "DFPAttachment.jpg"
+    Then I enter the description "DFPAttach" for the attachment
     Then I click on Upload button
     And I should see the uploaded file "DFPAttachment.jpg"
-    When I click on Attach document button
+    When I click on "Upload attachment" button
     Then I should see the screen to upload the attachment
+    Then I click on Drop your file here option
     When I select the file to upload "DFPAttachPDF.pdf"
+    Then I enter the description "DFPAttach" for the attachment
     Then I click on Upload button
     And I should see the uploaded file "DFPAttachPDF.pdf"
     #---------MAGAYA STEPS------------------------
@@ -861,6 +880,7 @@ Feature: Shipments
     #I store shipment reference and shipment name
     #-------Verify Shipment in Portal With attachments-----------------------
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button
@@ -1012,6 +1032,7 @@ Feature: Shipments
     #I store shipment reference and shipment name
     #-------Verify Shipment in Portal-----------------------
     Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
     Given I navigated to Shipments List
     When I enter the shipment Reference in Quick filter
     And I click on Search button

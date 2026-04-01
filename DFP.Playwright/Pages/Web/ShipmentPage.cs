@@ -208,14 +208,13 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] BookedQuotationLinkSelectors =
         [
-            "qwyk-quotation-card:has-text('Booked') a",
-            "qwyk-quotation-list-item:has-text('Booked') a",
-            "//article[contains(., 'Booked')]//a",
-            "//li[contains(., 'Booked')]//a",
-            "//*[contains(@class,'card')][contains(., 'Booked')]//a",
-            "//*[contains(@class,'item')][contains(., 'Booked')]//a",
-            "//*[contains(@class,'row')][contains(., 'Booked')]//a",
-            "//a[contains(@href,'/quotations/') and not(contains(@class,'nav-link'))]"
+            // Matches li containing 'Booked' text → gets the quotation link (UUID in href)
+            "li:has-text('Booked') a[href*='/my-portal/quotations/']",
+            "//li[contains(.,'Booked')]//a[contains(@href,'/my-portal/quotations/') and contains(@href,'-')]",
+            "//li[contains(.,'Booked')]//a[contains(@href,'/quotations/') and contains(@href,'-')]",
+            // Fallback: any quotation detail link (UUID contains hyphens — excludes nav links)
+            "a[href*='/my-portal/quotations/'][href*='-']",
+            "//a[contains(@href,'/my-portal/quotations/') and contains(@href,'-')]"
         ];
 
         private static readonly string[] DialogCloseButtonSelectors =
@@ -286,10 +285,12 @@ namespace DFP.Playwright.Pages.Web
 
         private static readonly string[] ResetFiltersButtonSelectors =
         [
+            "button[type='reset']",
+            "button[type='reset'].btn",
             "internal:role=button[name='Reset'i]",
-            "//button[normalize-space(text())='Reset']",
-            "button:has-text('Reset')",
-            "//button[contains(normalize-space(text()),'Reset')]"
+            "//button[@type='reset']",
+            "//button[normalize-space()='Reset']",
+            "button:has-text('Reset')"
         ];
             private static readonly string[] FirstShipmentLinkSelectors =
         [
@@ -969,6 +970,8 @@ namespace DFP.Playwright.Pages.Web
 
             var searchButton = await FindLocatorAsync(SearchSubmitButtonSelectors);
             await ClickAndWaitForNetworkAsync(searchButton);
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await Page.WaitForTimeoutAsync(1000);
 
             // After filtering on the Shipments list, click the nav link to reload the filtered list.
             // Skip when called from /my-portal/reports/shipments — that URL also contains "shipments"
@@ -1221,7 +1224,8 @@ namespace DFP.Playwright.Pages.Web
 
         public async Task IResetSearchFilters()
         {
-            var resetButton = await FindLocatorAsync(ResetFiltersButtonSelectors);
+            var resetButton = await FindLocatorAsync(ResetFiltersButtonSelectors, timeoutMs: 120000);
+            await WaitForEnabledAsync(resetButton, timeoutMs: 120000);
             await ClickAndWaitForNetworkAsync(resetButton);
         }
 
@@ -2667,13 +2671,39 @@ namespace DFP.Playwright.Pages.Web
         /// Clicks the "Attach document" button (paperclip icon) in the Attachments tab.
         /// Verified from HTML: button.btn-secondary:has(svg[data-icon='paperclip'])
         /// </summary>
+        /// <summary>
+        /// Clicks any visible enabled button whose text matches the given string.
+        /// </summary>
+        public async Task ClickButtonByTextAsync(string buttonText)
+        {
+            // Wait for any existing PrimeNG dialog overlay to be gone before clicking
+            var dialogMask = Page.Locator(".p-dialog-mask");
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Hidden, Timeout = 15000 });
+
+            var btn = Page.Locator("button")
+                .Filter(new LocatorFilterOptions { HasText = buttonText })
+                .First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 60000);
+            await btn.ClickAsync();
+
+            // Wait for the dialog to open (confirms the click triggered the dialog)
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+        }
+
+        public async Task WaitForDropzoneAsync()
+        {
+            var dropzone = Page.Locator("div.dropzone, input#fileDropRef[type='file']").First;
+            await dropzone.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 15000 });
+        }
+
         public async Task ClickAttachDocumentButtonAsync()
         {
             var btn = Page.Locator("button.btn-secondary")
                 .Filter(new LocatorFilterOptions { HasText = "Attach document" })
                 .First;
-            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            await WaitForEnabledAsync(btn, timeoutMs: 10000);
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 60000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 60000);
             await btn.ClickAsync();
         }
 
@@ -2683,12 +2713,15 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task ShouldSeeUploadScreenAsync()
         {
-            var instruction = Page.Locator("p.m-0")
-                .Filter(new LocatorFilterOptions { HasText = "Select a file from your system" })
-                .First;
-            await instruction.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
-            Assert.IsTrue(await instruction.IsVisibleAsync(),
-                $"Expected upload instruction text to be visible. URL: {Page.Url}");
+            var instruction = await TryFindLocatorAsync(new[]
+            {
+                "p.mb-0:has-text('Files you upload here will be visible')",
+                "//p[contains(normalize-space(),'Files you upload here will be visible')]",
+                "p.m-0:has-text('Select a file from your system')",
+                "//p[contains(normalize-space(),'Select a file from your system')]"
+            }, timeoutMs: 15000);
+            Assert.IsNotNull(instruction,
+                $"Expected upload modal to be visible. URL: {Page.Url}");
         }
 
         /// <summary>
@@ -2704,9 +2737,29 @@ namespace DFP.Playwright.Pages.Web
             var filePath = Path.Combine(projectRoot, "Attachments", fileName);
             Assert.IsTrue(File.Exists(filePath),
                 $"Attachment file not found at '{filePath}'. Place the file in the project's Attachments/ folder.");
-            var fileInput = Page.Locator("input#file[type='file']");
-            await fileInput.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 10000 });
+            // Support both upload UIs: modal input (input#file) and dropzone input (input#fileDropRef)
+            var fileInput = await TryFindLocatorAsync(new[]
+            {
+                "input#file[type='file']",
+                "input#fileDropRef[type='file']",
+                "input[type='file']"
+            }, timeoutMs: 10000);
+            Assert.IsNotNull(fileInput, $"File input not found on page. URL: {Page.Url}");
+            await fileInput!.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Attached, Timeout = 10000 });
             await fileInput.SetInputFilesAsync(filePath);
+        }
+
+        /// <summary>
+        /// Enters text into the attachment description textarea.
+        /// HTML: textarea#description[formcontrolname='description']
+        /// </summary>
+        public async Task EnterAttachmentDescriptionAsync(string description)
+        {
+            var textarea = Page.Locator("textarea#description, textarea[formcontrolname='description']").First;
+            await textarea.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(textarea, timeoutMs: 15000);
+            await textarea.ClearAsync();
+            await TypeAsync(textarea, description);
         }
 
         /// <summary>
@@ -2721,6 +2774,9 @@ namespace DFP.Playwright.Pages.Web
             await uploadBtn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 10000 });
             await WaitForEnabledAsync(uploadBtn, timeoutMs: 5000);
             await ClickAndWaitForNetworkAsync(uploadBtn);
+            // Wait for the upload dialog to fully close before continuing
+            var dialogMask = Page.Locator(".p-dialog-mask");
+            await dialogMask.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Hidden, Timeout = 30000 });
         }
 
         /// <summary>

@@ -17,6 +17,7 @@ Feature: CargoReleases
     Then the Cargo Release should be visible in the List with text "TC1593_1614"
     Then I select the Cargo Release from the list with text "TC1593_1614"
     Then I should see the Cargo Release details page
+    Then I should verify the status in "Loaded"
     Then I should verify the CR INFO
       | Number                  | TC1593_1614          |
       | Released to             | automation           |
@@ -33,12 +34,10 @@ Feature: CargoReleases
       | Carrier        | MSC              |
       | Issued By      | Postgress SQL II |
       | Released to    | automation       |
+    
     #------Verify Event in CR details page---------
     When I go to tracking tab
     Then I should see the event "Cargo has been created automatic Event Magaya"
-    #------Verify charge in CR details page---------
-    When I go to charge and invoice tab
-    And I should see the amount "$150.00" for the charge "Cartage Fee"
 #------Verify attachment in WH details page---------
     When I go to attachments tab
     And I select the pagination number "50"

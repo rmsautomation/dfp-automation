@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ItemDefinitions xmlns="http://www.magaya.com/XMLSchema/V1">
-	<ItemDefinition GUID="e4a711ab-cb55-4d17-ad30-25ecff73c7d6" Type="IV">
+<?xml version="1.0"?>
+<ItemDefinition Type="IV" GUID="e4a711ab-cb55-4d17-ad30-25ecff73c7d6" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<CreatedOn>2026-04-01T11:18:20-04:00</CreatedOn>
 		<PartNumber>TC1308</PartNumber>
 		<Description>Updated</Description>
@@ -67,4 +66,3 @@
 		</CommodityType>
 		<ItemType>StockItem</ItemType>
 	</ItemDefinition>
-</ItemDefinitions>

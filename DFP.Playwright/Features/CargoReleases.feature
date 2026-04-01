@@ -4,10 +4,10 @@ Feature: CargoReleases
     I want to access to Cargo Releases in the Portal and verify that the information is correct
 
   @1593 @1614 @INT @login
-  Scenario: 1593_1614_CRWithWRAutomaticEvent
+  Scenario:1593_1614_CRWithWRAutomaticEvent
     #-------Create WH in Magaya-----------
     Given the transaction "WH" "TC1593_1614" is imported via API
-    Given the transaction "CR" "TC1593_46_1614" is imported via API
+    Given the transaction "CR" "TC1593_1614" is imported via API
     Given I login to Portal as user "with Int"
     Then the login dashboard should be visible
     Given I am on the Cargo Releases page

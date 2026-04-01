@@ -34,11 +34,11 @@ Feature: CargoReleases
       | Carrier        | MSC              |
       | Issued By      | Postgress SQL II |
       | Released to    | automation       |
-    
+
     #------Verify Event in CR details page---------
     When I go to tracking tab
     Then I should see the event "Cargo has been created automatic Event Magaya"
-#------Verify attachment in WH details page---------
+    #------Verify attachment in CR details page---------
     When I go to attachments tab
     And I select the pagination number "50"
     #------Verify ALL the uploaded files in attachments tab---------
@@ -60,3 +60,75 @@ Feature: CargoReleases
     Then I should verify the WH "TC1593_1614" is linked to CR
     When I click on the WH Link "TC1593_1614" in the cargo details page
     Then the warehouse receipt details should be displayed with the name "TC1593_1614"
+
+  @1594 @1599 @INT @login
+  Scenario:1594_1599MagayaToQWYK_UpdateCR
+    Given the transaction "WH" "TC1594_1599" is imported via API
+    Given the transaction "CR" "TC1594_1599" is imported via API
+    Given I login to Portal as user "with Int"
+    Then the login dashboard should be visible
+    Given I am on the Cargo Releases page
+    Then the Cargo Releases page should be visible
+    Given I search for the Cargo Release with value "TC1594_1599"
+    Then I click on "Search" button
+    Then the Cargo Release should be visible in the List with text "TC1594_1599"
+    Then I select the Cargo Release from the list with text "TC1594_1599"
+    Then I should see the Cargo Release details page
+    Then I should verify the status in "Loaded"
+    Then I should verify the CR INFO
+      | Number                  | TC1594_1599          |
+      | Released to             | automation           |
+      | Carrier PRO Number      | PRONumber            |
+      | Carrier Tracking Number | TrackingNumber       |
+      | Driver                  | DriversName          |
+      | License                 | DriversLicenseNumber |
+      | Carrier Name            | MSC                  |
+      | PO Number               | PONumber             |
+    #------Verify Parties in CR details page---------
+    And I should verify the following parties in warehouse receipt details:
+      #| Party Type | Party Name  |
+      | Billing Client | automation       |
+      | Carrier        | MSC              |
+      | Issued By      | Postgress SQL II |
+      | Released to    | automation       |
+    #------Verify Event in CR details page---------
+    When I go to tracking tab
+    Then I should see the event "Cargo has been created automatic Event Magaya"
+    #------MAGAYA STEPS---------
+    #Update the CR in Magaya with new information ----------------
+    #-------------Verify UPDATED IN DFP----------------
+    Given I am on the Cargo Releases page
+    Then the Cargo Releases page should be visible
+    Given I search for the Cargo Release with value "TC_1594_1599UPDATED"
+    Then I click on "Search" button
+    Then the Cargo Release should be visible in the List with text "TC_1594_1599UPDATED"
+    Then I select the Cargo Release from the list with text "TC_1594_1599UPDATED"
+    Then I should see the Cargo Release details page
+    Then I should verify the status in "Loaded"
+    Then I should verify the CR INFO
+      | Number                  | TC_1594_1599UPDATED         |
+      | Released to             | automation                  |
+      | Carrier PRO Number      | PRONumberUpdated            |
+      | Carrier Tracking Number | TrackingNumberUpdated       |
+      | Driver                  | DriversNameUpdated          |
+      | License                 | DriversLicenseNumberUpdated |
+      | PO Number               | PONumberUpdated             |
+      | Notes                   | NOTE UPDATED                |
+    #------Verify Parties in CR details page---------
+    And I should verify the following parties in warehouse receipt details:
+      #| Party Type | Party Name  |
+      | Billing Client | automation       |
+      | Carrier        | CMA              |
+      | Issued By      | Postgress SQL II |
+      | Released to    | automation       |
+    #------Verify Event in CR details page---------
+    When I go to tracking tab
+    Then I should see the event "Arrived at destination"
+    #------Verify charge in CR details page---------
+    When I go to charge and invoice tab
+    Then I should see the amount "$200.00" for the charge "Storage Fee"
+    #------Verify attachment in CR details page---------
+    When I go to attachments tab
+    And I select the pagination number "50"
+    #------Verify ALL the uploaded files in attachments tab---------
+    And I should see the uploaded file "RoundPriceUpdated.xlsx"

@@ -179,32 +179,32 @@ namespace DFP.Playwright.Features
 #line 17
     await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "Part number",
                             "Mar31155414InvItem"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Model",
                             "Mar31155415InvModel"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Description",
                             "Mar31155415InvDescription"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Manufacturer",
                             "automation"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Customer",
                             "automation"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Amount per pallet",
                             "10"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Packaging",
                             "Pallet"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Commodity type",
                             "Freight All Kinds"});
 #line 18
-    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table1, "Then ");
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table3, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -268,32 +268,32 @@ namespace DFP.Playwright.Features
 #line 39
     await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Part number",
                             "TC1308"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Model",
                             "Apr01111816InvModel"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Description",
                             "Apr01111816InvDescription"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Manufacturer",
                             "automation"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Customer",
                             "automation"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Amount per pallet",
                             "10"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Packaging",
                             "Pallet"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Commodity type",
                             "Freight All Kinds"});
 #line 40
-    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table2, "Then ");
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table4, "Then ");
 #line hidden
 #line 52
     await testRunner.GivenAsync("I am on the Inventory page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
@@ -316,35 +316,35 @@ namespace DFP.Playwright.Features
 #line 58
     await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Part number",
                             "TC1308"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Model",
                             "Updated"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Description",
                             "Updated"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Notes",
                             "InventoryItemUpdated"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Manufacturer",
                             "automation"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Customer",
                             "automation"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Amount per pallet",
                             "500"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Packaging",
                             "Package"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Commodity type",
                             "Freight All Kinds"});
 #line 59
-    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table3, "Then ");
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table5, "Then ");
 #line hidden
 #line 69
     await testRunner.ThenAsync("I should verify the total pieces in the inventory item details page is \"100\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -374,17 +374,17 @@ namespace DFP.Playwright.Features
 #line 77
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC1308"});
-                table4.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-                table4.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Billing Client",
                             "automation"});
 #line 78
-    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table4, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table6, "And ");
 #line hidden
 #line 83
     await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

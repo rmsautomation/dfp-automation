@@ -2,7 +2,7 @@
 	<CargoRelease GUID="478edb8e-1495-4e1d-aabe-6eba27268755" Type="CR" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<CreatedOn>2026-04-01T14:10:42-04:00</CreatedOn>
 		<ReleaseDate>2026-04-01T14:10:42-04:00</ReleaseDate>
-		<Number>CR_TC1593_1614</Number>
+		<Number>TC1593_1614</Number>
 		<CreatedByName>Administrator</CreatedByName>
 		<Version>103</Version>
 		<IssuedByName>Postgress SQL II</IssuedByName>

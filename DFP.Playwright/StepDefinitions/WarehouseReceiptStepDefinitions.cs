@@ -210,6 +210,18 @@ namespace DFP.Playwright.StepDefinitions
         public async Task TheWarehouseReceiptDetailsShouldBeDisplayedWithTheName(string name)
             => await _warehouseReceiptPage.VerifyWarehouseReceiptDetailsHeadingAsync(name);
 
+        [Given("I should see the warehouse receipt details page")]
+        [When("I should see the warehouse receipt details page")]
+        [Then("I should see the warehouse receipt details page")]
+        public async Task IShouldSeeTheWarehouseReceiptDetailsPage()
+            => await _warehouseReceiptPage.VerifyWarehouseReceiptDetailsHeadingAsync("");
+
+        [Given("I should see the warehouse receipt number {string} in the details page")]
+        [When("I should see the warehouse receipt number {string} in the details page")]
+        [Then("I should see the warehouse receipt number {string} in the details page")]
+        public async Task IShouldSeeTheWarehouseReceiptNumberInTheDetailsPage(string number)
+            => await _warehouseReceiptPage.VerifyWarehouseReceiptDetailsHeadingAsync(number);
+
         [Given("I should verify label header {string} contains {string}")]
         [When("I should verify label header {string} contains {string}")]
         [Then("I should verify label header {string} contains {string}")]

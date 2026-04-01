@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ItemDefinitions xmlns="http://www.magaya.com/XMLSchema/V1">
-	<ItemDefinition GUID="a1a0810b-3c4d-4d75-a1a9-727f4803a75f" Type="IV">
+<?xml version="1.0"?>
+<ItemDefinition Type="IV" GUID="9854816a-6a93-4d75-8b48-094c93e648ae" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<CreatedOn>2026-03-31T15:54:17-04:00</CreatedOn>
 		<PartNumber>MAR31155414INVITEM</PartNumber>
 		<Description>Mar31155415InvDescription</Description>
@@ -66,4 +65,3 @@
 		</CommodityType>
 		<ItemType>StockItem</ItemType>
 	</ItemDefinition>
-</ItemDefinitions>

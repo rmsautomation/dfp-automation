@@ -1,11 +1,11 @@
 @QInventory
 Feature: Inventory
-  As a user
-  I want to manage inventory in the DFP Portal
+    As a user
+    I want to manage inventory in the DFP Portal
 
   @1307 @INT @login
   Scenario: 42_1307_MagayaToQWYK_InventoryItem
-  #Given the transaction "IV" "Mar31155414InvItem" is imported via API
+    Given the transaction "IV" "Mar31155414InvItem" is imported via API
     Given I login to Portal as user "with Int"
     Then the login dashboard should be visible
     Given I am on the Inventory page

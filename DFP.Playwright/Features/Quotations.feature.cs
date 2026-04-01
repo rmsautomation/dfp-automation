@@ -530,18 +530,18 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
 #line 126
   await testRunner.AndAsync("I select the Package \"Pallet\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table8.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 127
-  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table8, "And ");
+  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table13, "And ");
 #line hidden
 #line 130
   await testRunner.AndAsync("I select the accesorials \"Refrigerated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -882,18 +882,18 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
 #line 237
   await testRunner.AndAsync("I select the Package \"Bag\" for LTL", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 238
-  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table9, "And ");
+  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table14, "And ");
 #line hidden
 #line 241
   await testRunner.WhenAsync("I click on Create quotation from details", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -1054,18 +1054,18 @@ await testRunner.GivenAsync("I login to Hub as user \"aylin.rodriguez@magaya.com
 #line 290
   await testRunner.AndAsync("I select the Package \"Crate\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table10.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 291
-  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table10, "And ");
+  await testRunner.AndAsync("I enter the following cargo details:", ((string)(null)), table15, "And ");
 #line hidden
 #line 294
   await testRunner.WhenAsync("I click on Create quotation from details", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

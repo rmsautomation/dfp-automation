@@ -66,5 +66,26 @@ namespace DFP.Playwright.StepDefinitions
             var pairs = dataTable.Rows.Select(r => (label: r[0], value: r[1]));
             await _inventoryPage.VerifyInventoryDetailsAsync(pairs);
         }
+
+        [Given("I should verify the total pieces in the inventory item details page is {string}")]
+        [When("I should verify the total pieces in the inventory item details page is {string}")]
+        [Then("I should verify the total pieces in the inventory item details page is {string}")]
+        [Given("I should verify the total pieces in the cargo details is {string}")]
+        [When("I should verify the total pieces in the cargo details is {string}")]
+        [Then("I should verify the total pieces in the cargo details is {string}")]
+        public async Task IShouldVerifyTheTotalPieces(string expectedCount)
+            => await _inventoryPage.VerifyTotalPiecesAsync(expectedCount);
+
+        [Given("I click on On Hand icon")]
+        [When("I click on On Hand icon")]
+        [Then("I click on On Hand icon")]
+        public async Task IClickOnOnHandIcon()
+            => await _inventoryPage.ClickOnHandIconAsync();
+
+        [Given("I should see the text {string} in the cargo items column")]
+        [When("I should see the text {string} in the cargo items column")]
+        [Then("I should see the text {string} in the cargo items column")]
+        public async Task IShouldSeeTheTextInTheCargoItemsColumn(string expectedText)
+            => await _inventoryPage.VerifyCargoItemsColumnTextAsync(expectedText);
     }
 }

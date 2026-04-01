@@ -118,17 +118,17 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Inventory.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Inventory.feature.ndjson", 5);
         }
         
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("42_1307_MagayaToQWYK_InventoryItem")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("42_1307_MagayaToQWYK_InventoryItem")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("1307_MagayaToQWYK_InventoryItem")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("1307_MagayaToQWYK_InventoryItem")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Inventory")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QInventory")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("1307")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task _42_1307_MagayaToQWYK_InventoryItem()
+        public async global::System.Threading.Tasks.Task _1307_MagayaToQWYK_InventoryItem()
         {
             string[] tagsOfScenario = new string[] {
                     "1307",
@@ -136,7 +136,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("42_1307_MagayaToQWYK_InventoryItem", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1307_MagayaToQWYK_InventoryItem", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 7
@@ -205,6 +205,335 @@ namespace DFP.Playwright.Features
                             "Freight All Kinds"});
 #line 18
     await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table1, "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("1308_MagayaToQWYK_UpdateInvItem")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("1308_MagayaToQWYK_UpdateInvItem")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Inventory")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QInventory")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("1308")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task _1308_MagayaToQWYK_UpdateInvItem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "1308",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1308_MagayaToQWYK_UpdateInvItem", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 29
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 31
+    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 32
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 33
+    await testRunner.GivenAsync("I am on the Inventory page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 34
+    await testRunner.ThenAsync("the inventory page should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 35
+    await testRunner.GivenAsync("I search for the inventory item \"Part number\" with value \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 36
+    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 37
+    await testRunner.ThenAsync("the inventory item should be visible in the List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 38
+    await testRunner.ThenAsync("I select the inventory item from the list with text \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 39
+    await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Part number",
+                            "TC1308"});
+                table2.AddRow(new string[] {
+                            "Model",
+                            "Apr01111816InvModel"});
+                table2.AddRow(new string[] {
+                            "Description",
+                            "Apr01111816InvDescription"});
+                table2.AddRow(new string[] {
+                            "Manufacturer",
+                            "automation"});
+                table2.AddRow(new string[] {
+                            "Customer",
+                            "automation"});
+                table2.AddRow(new string[] {
+                            "Amount per pallet",
+                            "10"});
+                table2.AddRow(new string[] {
+                            "Packaging",
+                            "Pallet"});
+                table2.AddRow(new string[] {
+                            "Commodity type",
+                            "Freight All Kinds"});
+#line 40
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table2, "Then ");
+#line hidden
+#line 52
+    await testRunner.GivenAsync("I am on the Inventory page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 53
+    await testRunner.ThenAsync("the inventory page should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 54
+    await testRunner.GivenAsync("I search for the inventory item \"Part number\" with value \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 55
+    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 56
+    await testRunner.ThenAsync("the inventory item should be visible in the List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 57
+    await testRunner.ThenAsync("I select the inventory item from the list with text \"Updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 58
+    await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Part number",
+                            "TC1308"});
+                table3.AddRow(new string[] {
+                            "Model",
+                            "Updated"});
+                table3.AddRow(new string[] {
+                            "Description",
+                            "Updated"});
+                table3.AddRow(new string[] {
+                            "Notes",
+                            "InventoryItemUpdated"});
+                table3.AddRow(new string[] {
+                            "Manufacturer",
+                            "automation"});
+                table3.AddRow(new string[] {
+                            "Customer",
+                            "automation"});
+                table3.AddRow(new string[] {
+                            "Amount per pallet",
+                            "500"});
+                table3.AddRow(new string[] {
+                            "Packaging",
+                            "Package"});
+                table3.AddRow(new string[] {
+                            "Commodity type",
+                            "Freight All Kinds"});
+#line 59
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table3, "Then ");
+#line hidden
+#line 69
+    await testRunner.ThenAsync("I should verify the total pieces in the inventory item details page is \"100\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 70
+    await testRunner.ThenAsync("I click on On Hand icon", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 71
+    await testRunner.GivenAsync("I set the warehouse receipt name to \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 72
+    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 73
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 74
+    await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
+                        "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 75
+    await testRunner.AndAsync("I select the warehouse receipt in the search results with text \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 76
+    await testRunner.AndAsync("the warehouse receipt details should be displayed with the name \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 77
+    await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                            "Number",
+                            "TC1308"});
+                table4.AddRow(new string[] {
+                            "Supplier",
+                            "automation"});
+                table4.AddRow(new string[] {
+                            "Billing Client",
+                            "automation"});
+#line 78
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table4, "And ");
+#line hidden
+#line 83
+    await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 84
+    await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 85
+    await testRunner.ThenAsync("I should see the commodity \"Updated\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 86
+    await testRunner.ThenAsync("I should verify the total pieces in the cargo details is \"100\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 87
+    await testRunner.ThenAsync("I should see the text \"TC1308\" in the cargo items column", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 88
+    await testRunner.ThenAsync("I should see the text \"100x Package\" in the cargo items column", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("AylinINventoryUpdated")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("AylinINventoryUpdated")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Inventory")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("QInventory")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("test")]
+        public async global::System.Threading.Tasks.Task AylinINventoryUpdated()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "test"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "2";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("AylinINventoryUpdated", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 91
+    this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 92
+    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 93
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 94
+    await testRunner.GivenAsync("I am on the Inventory page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 95
+    await testRunner.ThenAsync("the inventory page should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 96
+    await testRunner.GivenAsync("I search for the inventory item \"Part number\" with value \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 97
+    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 98
+    await testRunner.ThenAsync("the inventory item should be visible in the List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 99
+    await testRunner.ThenAsync("I select the inventory item from the list with text \"Updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 100
+    await testRunner.ThenAsync("I should see the inventory item details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                            "Part number",
+                            "TC1308"});
+                table5.AddRow(new string[] {
+                            "Model",
+                            "Updated"});
+                table5.AddRow(new string[] {
+                            "Description",
+                            "Updated"});
+                table5.AddRow(new string[] {
+                            "Notes",
+                            "InventoryItemUpdated"});
+                table5.AddRow(new string[] {
+                            "Manufacturer",
+                            "automation"});
+                table5.AddRow(new string[] {
+                            "Customer",
+                            "automation"});
+                table5.AddRow(new string[] {
+                            "Amount per pallet",
+                            "500"});
+                table5.AddRow(new string[] {
+                            "Packaging",
+                            "Package"});
+                table5.AddRow(new string[] {
+                            "Commodity type",
+                            "Freight All Kinds"});
+#line 101
+    await testRunner.ThenAsync("I should verify the following inventory item details:", ((string)(null)), table5, "Then ");
+#line hidden
+#line 111
+    await testRunner.ThenAsync("I should verify the total pieces in the inventory item details page is \"100\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 112
+    await testRunner.ThenAsync("I click on On Hand icon", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 113
+    await testRunner.GivenAsync("I set the warehouse receipt name to \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 114
+    await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
+                        "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 115
+    await testRunner.AndAsync("I select the warehouse receipt in the search results with text \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 116
+    await testRunner.AndAsync("the warehouse receipt details should be displayed with the name \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 117
+    await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC1308\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
+                            "Number",
+                            "TC1308"});
+                table6.AddRow(new string[] {
+                            "Supplier",
+                            "automation"});
+                table6.AddRow(new string[] {
+                            "Billing Client",
+                            "automation"});
+#line 118
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table6, "And ");
+#line hidden
+#line 123
+    await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 124
+    await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 125
+    await testRunner.ThenAsync("I should see the commodity \"Updated\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 126
+    await testRunner.ThenAsync("I should see the text \"TC1308\" in the cargo items column", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 127
+    await testRunner.ThenAsync("I should see the text \"100x Package\" in the cargo items column", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

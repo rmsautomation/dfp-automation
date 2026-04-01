@@ -176,5 +176,52 @@ namespace DFP.Playwright.Pages.Web
             foreach (var (label, value) in pairs)
                 await VerifyInventoryDetailLabelAsync(label, value);
         }
+
+        /// <summary>
+        /// Verifies the total pieces badge shows the expected count.
+        /// HTML: span.p-badge.p-component with text matching expectedCount
+        /// </summary>
+        public async Task VerifyTotalPiecesAsync(string expectedCount)
+        {
+            var badge = Page.Locator("span.p-badge.p-component")
+                .Filter(new LocatorFilterOptions { HasText = expectedCount })
+                .First;
+            await badge.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var actualText = (await badge.InnerTextAsync()).Trim();
+            Assert.AreEqual(expectedCount, actualText,
+                $"Expected total pieces badge to show '{expectedCount}' but found '{actualText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifies that at least one cargo item row (li[qwyk-cargo-items-index-list-item]) contains the given text.
+        /// HTML: li.list-group-item[qwyk-cargo-items-index-list-item] > div.row > div.col-*
+        /// </summary>
+        public async Task VerifyCargoItemsColumnTextAsync(string expectedText)
+        {
+            var item = Page.Locator("li[qwyk-cargo-items-index-list-item]")
+                .Filter(new LocatorFilterOptions { HasText = expectedText })
+                .First;
+            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await item.IsVisibleAsync(),
+                $"Expected to find cargo item containing '{expectedText}'. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Clicks the On Hand p-avatar icon (hand-holding-box).
+        /// HTML: p-avatar > div > fa-icon > svg[data-icon='hand-holding-box']
+        /// </summary>
+        public async Task ClickOnHandIconAsync()
+        {
+            var avatar = await TryFindLocatorAsync(new[]
+            {
+                "p-avatar:has(svg[data-icon='hand-holding-box'])",
+                "//p-avatar[.//*[@data-icon='hand-holding-box']]",
+                "div.p-avatar:has(svg[data-icon='hand-holding-box'])"
+            }, timeoutMs: 15000);
+
+            Assert.IsNotNull(avatar, $"On Hand icon (hand-holding-box) not found. URL: {Page.Url}");
+            await WaitForEnabledAsync(avatar!, timeoutMs: 10000);
+            await ClickAndWaitForNetworkAsync(avatar!);
+        }
     }
 }

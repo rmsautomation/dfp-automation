@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WarehouseReceipts xmlns="http://www.magaya.com/XMLSchema/V1">
+	<WarehouseReceipt GUID="d8a859b6-a9ec-4d00-a1e8-4b6b228efbb3" Type="WH">
+		<CreatedOn>2026-04-01T11:40:43-04:00</CreatedOn>
+		<Number>TC1308</Number>
+		<CreatedByName>Administrator</CreatedByName>
+		<Version>104</Version>
+		<IssuedByName>Postgress SQL II</IssuedByName>
+		<IssuedBy GUID="267c4164-7119-4328-9640-7fdb7add1ec2">
+			<Type>ForwardingAgent</Type>
+			<Name>Postgress SQL II</Name>
+			<CreatedOn>2025-04-22T17:34:44-04:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<NetworkID>38442</NetworkID>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsKnownShipper>true</IsKnownShipper>
+			<IsPrepaid>true</IsPrepaid>
+		</IssuedBy>
+		<ShipperName>automation</ShipperName>
+		<Shipper GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Shipper>
+		<ConsigneeName>automation</ConsigneeName>
+		<Consignee GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Consignee>
+		<Items>
+			<Item GUID="35123fb1-28f2-4053-bc52-fdfbe7040e33" Type="WI">
+				<Version>105</Version>
+				<Status>OnHand</Status>
+				<Pieces>100</Pieces>
+				<Description>Updated</Description>
+				<PieceQuantity>0.00</PieceQuantity>
+				<IsSummarized>false</IsSummarized>
+				<WarehouseReceiptGUID>d8a859b6-a9ec-4d00-a1e8-4b6b228efbb3</WarehouseReceiptGUID>
+				<PackageName>Package</PackageName>
+				<WHRItemID>1</WHRItemID>
+				<LocationCode>RCV01</LocationCode>
+				<Length Unit="in">40.00</Length>
+				<Height Unit="in">50.00</Height>
+				<Width Unit="in">40.00</Width>
+				<Weight Unit="lb">1000.00</Weight>
+				<ContainedPiecesWeightIncluded>true</ContainedPiecesWeightIncluded>
+				<Volume Unit="ft3">4629.63000000000010913936</Volume>
+				<VolumeWeight Unit="vlb">48192.77493975900142686442</VolumeWeight>
+				<PieceWeight Unit="lb">10.00</PieceWeight>
+				<PieceVolume Unit="ft3">46.29999999999999715783</PieceVolume>
+				<Package>
+					<Type>Package</Type>
+					<Code>PKG</Code>
+					<Name>Package</Name>
+				</Package>
+				<QuantityUnit>Box</QuantityUnit>
+				<Model>Updated</Model>
+				<PartNumber>TC1308</PartNumber>
+				<ItemDefinition GUID="e4a711ab-cb55-4d17-ad30-25ecff73c7d6" Type="IV">
+					<CreatedOn>2026-04-01T11:18:20-04:00</CreatedOn>
+					<PartNumber>TC1308</PartNumber>
+					<Description>Updated</Description>
+					<Model>Updated</Model>
+					<Pieces>100</Pieces>
+					<AmountPerPallet>500</AmountPerPallet>
+					<PiecesInCompoundItems>0</PiecesInCompoundItems>
+					<ArrivingPiecesInCompoundItems>0</ArrivingPiecesInCompoundItems>
+					<AvailablePiecesForSale>100</AvailablePiecesForSale>
+					<Client GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+						<Type>Client</Type>
+						<Name>automation</Name>
+						<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+						<Email>rmsautomation24@gmail.com</Email>
+						<PrimaryIdType>Other</PrimaryIdType>
+						<Balance Currency="USD">34845.00</Balance>
+						<TransactionDueDays>30</TransactionDueDays>
+						<IsBillable>true</IsBillable>
+						<PaymentTerms>
+							<Description>Net 30</Description>
+							<NetDueDays>30</NetDueDays>
+							<DiscountPercentage>0.00</DiscountPercentage>
+							<DiscountPaidDays>0</DiscountPaidDays>
+							<OperationType>All</OperationType>
+							<TransactionDate>Transaction</TransactionDate>
+						</PaymentTerms>
+						<IsPrepaid>true</IsPrepaid>
+					</Client>
+					<Manufacturer GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+						<Type>Client</Type>
+						<Name>automation</Name>
+						<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+						<Email>rmsautomation24@gmail.com</Email>
+						<PrimaryIdType>Other</PrimaryIdType>
+						<Balance Currency="USD">34845.00</Balance>
+						<TransactionDueDays>30</TransactionDueDays>
+						<IsBillable>true</IsBillable>
+						<PaymentTerms>
+							<Description>Net 30</Description>
+							<NetDueDays>30</NetDueDays>
+							<DiscountPercentage>0.00</DiscountPercentage>
+							<DiscountPaidDays>0</DiscountPaidDays>
+							<OperationType>All</OperationType>
+							<TransactionDate>Transaction</TransactionDate>
+						</PaymentTerms>
+						<IsPrepaid>true</IsPrepaid>
+					</Manufacturer>
+					<Package>
+						<Type>Package</Type>
+						<Code>PKG</Code>
+						<Name>Package</Name>
+					</Package>
+					<InventoryType>FIFO</InventoryType>
+					<Notes>InventoryItemUpdated</Notes>
+					<Length Unit="in">40.00</Length>
+					<Height Unit="in">50.00</Height>
+					<Width Unit="in">40.00</Width>
+					<Weight Unit="lb">10.00</Weight>
+					<Volume Unit="ft3">46.29999999999999715783</Volume>
+					<UnitOfMeasurement>Box</UnitOfMeasurement>
+					<CommodityTypeName>Freight All Kinds</CommodityTypeName>
+					<CommodityType Code="FAK">
+						<Description>Freight All Kinds</Description>
+					</CommodityType>
+					<ItemType>StockItem</ItemType>
+				</ItemDefinition>
+				<Location Code="RCV01">
+					<Description>Receiving</Description>
+					<Type>Receiving</Type>
+					<WarehouseZoneName>Default Zone</WarehouseZoneName>
+					<IsDisabled>false</IsDisabled>
+				</Location>
+				<IncludeInSED>false</IncludeInSED>
+				<IsContainer>false</IsContainer>
+				<WarehouseReceiptNumber>TC1308</WarehouseReceiptNumber>
+				<IsPallet>false</IsPallet>
+				<IsOverstock>false</IsOverstock>
+				<NotLoaded>false</NotLoaded>
+				<InTask>false</InTask>
+				<CommodityTypeName>Freight All Kinds</CommodityTypeName>
+				<Manufacturer GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+					<Type>Client</Type>
+					<Name>automation</Name>
+					<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+					<Email>rmsautomation24@gmail.com</Email>
+					<PrimaryIdType>Other</PrimaryIdType>
+					<Balance Currency="USD">34845.00</Balance>
+					<TransactionDueDays>30</TransactionDueDays>
+					<IsBillable>true</IsBillable>
+					<PaymentTerms>
+						<Description>Net 30</Description>
+						<NetDueDays>30</NetDueDays>
+						<DiscountPercentage>0.00</DiscountPercentage>
+						<DiscountPaidDays>0</DiscountPaidDays>
+						<OperationType>All</OperationType>
+						<TransactionDate>Transaction</TransactionDate>
+					</PaymentTerms>
+					<IsPrepaid>true</IsPrepaid>
+				</Manufacturer>
+				<EntryDate>2026-04-01T11:40:43-04:00</EntryDate>
+			</Item>
+		</Items>
+		<MeasurementUnits>
+			<LengthUnit>in</LengthUnit>
+			<VolumeUnit>ft3</VolumeUnit>
+			<WeightUnit>lb</WeightUnit>
+			<VolumeWeightUnit>vlb</VolumeWeightUnit>
+			<AreaUnit>ft2</AreaUnit>
+			<LengthPrecision>2</LengthPrecision>
+			<VolumePrecision>2</VolumePrecision>
+			<WeightPrecision>2</WeightPrecision>
+			<VolumeWeightPrecision>2</VolumeWeightPrecision>
+			<AreaPrecision>2</AreaPrecision>
+			<VolumeWeightFactor>166.00</VolumeWeightFactor>
+		</MeasurementUnits>
+		<CreatorNetworkID>38442</CreatorNetworkID>
+		<TotalPieces>100</TotalPieces>
+		<TotalWeight Unit="lb">1000.00</TotalWeight>
+		<TotalVolume Unit="ft3">4629.63000000000010913936</TotalVolume>
+		<TotalVolumeWeight Unit="vlb">48192.77493975900142686442</TotalVolumeWeight>
+		<ChargeableWeight Unit="lb">48192.77493975900142686442</ChargeableWeight>
+		<Events>
+			<Event>
+				<Date>2026-04-01T11:41:08-04:00</Date>
+				<EventDefinition>
+					<Name>Arrived at warehouse</Name>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>WH</OwnerType>
+				<OwnerNumber>TC1308</OwnerNumber>
+				<OwnerGUID>d8a859b6-a9ec-4d00-a1e8-4b6b228efbb3</OwnerGUID>
+			</Event>
+		</Events>
+		<TotalValue Currency="USD">0.00</TotalValue>
+		<SupplierName>automation</SupplierName>
+		<Supplier GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Supplier>
+		<Status>OnHand</Status>
+		<HasAttachments>false</HasAttachments>
+		<BillingClient GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</BillingClient>
+		<LastItemID>1</LastItemID>
+		<IsOnline>false</IsOnline>
+		<IsLiquidated>false</IsLiquidated>
+	</WarehouseReceipt>
+</WarehouseReceipts>

@@ -790,6 +790,7 @@ Feature: Shipments
     When I go to Tracking tab
     Then I should see the event "Arrived at destination"
     And I click on Attahments tab
+    And I select the pagination number "25"
     And I should see the uploaded file "RoundPriceUpdated.xlsx"
     And I should see the uploaded file "DOCDFP.docx"
     And I should see the uploaded file "PDFDFP.pdf"

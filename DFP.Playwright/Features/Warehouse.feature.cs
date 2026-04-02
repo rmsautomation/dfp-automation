@@ -327,38 +327,38 @@ namespace DFP.Playwright.Features
 #line 57
     await testRunner.AndAsync("I check the custom field \"StringCustomField\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table28 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
                             "StringCustomField",
                             "STRINGCUSTOMFIELD3072"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "BooleanCustomField",
                             "No"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "IntegerCustomField",
                             "3072"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "DecimalCustomField",
                             "30.72"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "PickListCustomField",
                             "Option1"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "DateCustomField",
                             "02/24/2026"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "MoneyCustomField",
                             "USD 30.72"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "LookupCutomsField",
                             "automationUpdated"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "QATest",
                             "QATEST3072"});
-                table28.AddRow(new string[] {
+                table34.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
 #line 58
-    await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table28, "And ");
+    await testRunner.AndAsync("I check the following custom field values in the table view:", ((string)(null)), table34, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -430,99 +430,99 @@ namespace DFP.Playwright.Features
 #line 87
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC923_3373\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table29 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC923_3373"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Carrier PRO Number",
                             "1485PONumber"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "1485TrackingNumber"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Driver",
                             "1485DriverName"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "License",
                             "1485LicenseNumber"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "PO Number",
                             "1485PONumber"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "PO Invoice Number",
                             "1485INVNumber"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Billing Client",
                             "automation"});
-                table29.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Note",
                             "1485WR created in Magaya"});
 #line 88
-    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table29, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table35, "And ");
 #line hidden
 #line 101
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table30 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
                             "BooleanCustomField",
                             "Yes"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "DateCustomField",
                             "01/25/2025"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "DecimalCustomField",
                             "0.5"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "IntegerCustomField",
                             "10"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "MoneyCustomField",
                             "USD 50"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "PickListCustomField",
                             "Option1"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "StringCustomField",
                             "StringCustom"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "LookupCutomsField",
                             "automation"});
-                table30.AddRow(new string[] {
+                table36.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTests"});
 #line 102
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
-                        " DFP:", ((string)(null)), table30, "And ");
+                        " DFP:", ((string)(null)), table36, "And ");
 #line hidden
-                global::Reqnroll.Table table31 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Carrier",
                             "MSC"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Consignee",
                             "automation"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Destination Agent",
                             "AgentDestination"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Shipper",
                             "automation"});
-                table31.AddRow(new string[] {
+                table37.AddRow(new string[] {
                             "Supplier",
                             "automation"});
 #line 115
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table31, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table37, "And ");
 #line hidden
 #line 125
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -655,99 +655,99 @@ namespace DFP.Playwright.Features
 #line 165
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC924\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table32 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table38 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC924"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Carrier PRO Number",
                             "1487PONumber"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "1487TrackingNumber"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Driver",
                             "1487DriverName"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "License",
                             "1487LicenseNumber"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "PO Number",
                             "1487PONumber"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "PO Invoice Number",
                             "1487INVNumber"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Billing Client",
                             "automation"});
-                table32.AddRow(new string[] {
+                table38.AddRow(new string[] {
                             "Note",
                             "1487WR created in Magaya"});
 #line 166
-    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table32, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table38, "And ");
 #line hidden
 #line 179
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table33 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table39 = new global::Reqnroll.Table(new string[] {
                             "BooleanCustomField",
                             "Yes"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "DateCustomField",
                             "01/25/2025"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "DecimalCustomField",
                             "0.5"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "IntegerCustomField",
                             "10"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "MoneyCustomField",
                             "USD 50"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "PickListCustomField",
                             "Option1"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "StringCustomField",
                             "StringCustom"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "GUIDWH",
                             "GUID"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "LookupCutomsField",
                             "automation"});
-                table33.AddRow(new string[] {
+                table39.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTests"});
 #line 180
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
-                        " DFP:", ((string)(null)), table33, "And ");
+                        " DFP:", ((string)(null)), table39, "And ");
 #line hidden
-                global::Reqnroll.Table table34 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table40 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Carrier",
                             "MSC"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Consignee",
                             "automation"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Destination Agent",
                             "AgentDestination"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Shipper",
                             "automation"});
-                table34.AddRow(new string[] {
+                table40.AddRow(new string[] {
                             "Supplier",
                             "automation"});
 #line 193
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table34, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table40, "And ");
 #line hidden
 #line 203
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -807,99 +807,99 @@ namespace DFP.Playwright.Features
 #line 231
     await testRunner.AndAsync("I should verify label header \"Number\" contains \"TC924UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table41 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC924UPDATED"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Carrier PRO Number",
                             "1487PONumberUpdated"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "1487TrackingNumberUpdated"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Driver",
                             "1487DriverNameUpdated"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "License",
                             "1487LicenseNumberUpdated"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Supplier",
                             "automation"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "PO Number",
                             "1487PONumberUpdated"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "PO Invoice Number",
                             "1487INVNumber"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Billing Client",
                             "automation"});
-                table35.AddRow(new string[] {
+                table41.AddRow(new string[] {
                             "Note",
                             "NOTE UPDATED"});
 #line 232
-    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table35, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in warehouse receipt details:", ((string)(null)), table41, "And ");
 #line hidden
 #line 245
     await testRunner.AndAsync("I should verify custom fields label header \"BooleanCustomField\" contains \"Yes\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table36 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table42 = new global::Reqnroll.Table(new string[] {
                             "BooleanCustomField",
                             "Yes"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "DateCustomField",
                             "01/25/2025"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "DecimalCustomField",
                             "600"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "IntegerCustomField",
                             "400"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "MoneyCustomField",
                             "USD 700"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "PickListCustomField",
                             "Option2"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "StringCustomField",
                             "ShipperRefUpdated"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "GUIDWH",
                             "GUIDUpdated"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "LookupCutomsField",
                             "automation"});
-                table36.AddRow(new string[] {
+                table42.AddRow(new string[] {
                             "QATest",
                             "QAAutomationTestsUpdated"});
 #line 246
     await testRunner.AndAsync("I should verify the following custom field values in warehouse receipt details in" +
-                        " DFP:", ((string)(null)), table36, "And ");
+                        " DFP:", ((string)(null)), table42, "And ");
 #line hidden
-                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table43 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Carrier",
                             "CMA"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Consignee",
                             "AgentDestination"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Destination Agent",
                             "AgentDestination"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Shipper",
                             "automation"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Supplier",
                             "automation"});
 #line 259
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table37, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table43, "And ");
 #line hidden
 #line 269
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

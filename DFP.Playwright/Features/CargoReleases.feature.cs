@@ -119,7 +119,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CargoReleases.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CargoReleases.feature.ndjson", 6);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("1593_1614_CRWithWRAutomaticEvent")]
@@ -517,7 +517,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1612_QWYKToMagayaCR_Attachments", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1612_QWYKToMagayaCR_Attachments", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 137
@@ -530,6 +530,12 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
+#line 138
+    await testRunner.GivenAsync("the transaction \"WH\" \"TC1612\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 139
+    await testRunner.GivenAsync("the transaction \"CR\" \"TC1612\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 140
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -567,7 +573,7 @@ namespace DFP.Playwright.Features
     await testRunner.AndAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 153
-   await testRunner.ThenAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 156
     await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -694,6 +700,174 @@ namespace DFP.Playwright.Features
 #line hidden
 #line 202
     await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("2210_QWYKMagayaCRCargoLinked")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("2210_QWYKMagayaCRCargoLinked")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CargoReleases")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CargoReleases")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("2210")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
+        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
+        public async global::System.Threading.Tasks.Task _2210_QWYKMagayaCRCargoLinked()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "2210",
+                    "INT",
+                    "login"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "3";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("2210_QWYKMagayaCRCargoLinked", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 207
+  this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 210
+    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 211
+    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 212
+    await testRunner.GivenAsync("I am on the Cargo Releases page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 213
+    await testRunner.ThenAsync("the Cargo Releases page should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 215
+    await testRunner.WhenAsync("I click on \"Create\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 216
+    await testRunner.ThenAsync("I should select \"New Cargo Release\" option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 217
+    await testRunner.ThenAsync("I should see the Create Cargo Release page with text \"New Cargo Release\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 218
+    await testRunner.ThenAsync("I should select Release at \"Now\" option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 219
+    await testRunner.ThenAsync("I should enter the name \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 220
+    await testRunner.ThenAsync("I should select the country \"Algeria\" for the CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 221
+    await testRunner.WhenAsync("I click on \"Next\" button in the Create Cargo Release page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 222
+    await testRunner.ThenAsync("I enter the Warehouse receipt with number \"TC2210\" in the Available cargo section" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 223
+    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 224
+    await testRunner.ThenAsync("I select the item with number \"TC2210\" in the List in the Available cargo section" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 225
+    await testRunner.WhenAsync("I click on \"Load selected items\" button in the Create Cargo Release page step2", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 226
+    await testRunner.ThenAsync("the item is loaded with text \"UpdateCommodity\" in the Create Cargo Release page s" +
+                        "tep2", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 227
+    await testRunner.WhenAsync("I click on Next button in the Create Cargo Release page step2", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 228
+    await testRunner.WhenAsync("I click on \"Send Cargo Release\" button in the Create Cargo Release page step3", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 229
+    await testRunner.ThenAsync("I should see the text \"Your cargo release was received!\" in the confirmation mess" +
+                        "age", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 230
+    await testRunner.ThenAsync("I store the Cargo Release number", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 231
+    await testRunner.WhenAsync("I click on \"Continue to cargo release\" button in the confirmation message", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 233
+    await testRunner.ThenAsync("I should see the Cargo Release details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 234
+    await testRunner.ThenAsync("I should verify the status in \"Loaded\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                            "Number",
+                            "{cr_id}"});
+                table7.AddRow(new string[] {
+                            "Released to",
+                            "automation"});
+#line 235
+    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table7, "Then ");
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "Billing Client",
+                            "automation"});
+                table8.AddRow(new string[] {
+                            "Released to",
+                            "automation"});
+#line 239
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table8, "And ");
+#line hidden
+#line 244
+    await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 245
+    await testRunner.ThenAsync("I should see the event \"Cargo has been created automatic Event Magaya\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 247
+    await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 248
+    await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 249
+    await testRunner.ThenAsync("I should see the commodity \"UpdateCommodity\" in cargo details warehouse", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 251
+    await testRunner.ThenAsync("I should verify the WH \"TC2210\" is linked to CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 252
+    await testRunner.ThenAsync("I should verify the PK \"TC2210\" is linked to CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 253
+    await testRunner.WhenAsync("I click on the WH Link \"TC2210\" in the cargo details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 254
+    await testRunner.ThenAsync("the warehouse receipt details should be displayed with the name \"TC2210\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 255
+    await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 256
+    await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 257
+    await testRunner.ThenAsync("I should verify the CR \"{cr_id}\" is linked to WH", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 258
+    await testRunner.ThenAsync("I should verify the PK \"TC2210\" is linked to CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 259
+    await testRunner.WhenAsync("I click on the PK Link \"TC2210\" in the cargo details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 260
+    await testRunner.ThenAsync("I should see the pickup order details page with the name \"TC2210\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

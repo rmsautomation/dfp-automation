@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<WarehouseReceipts xmlns="http://www.magaya.com/XMLSchema/V1">
-	<WarehouseReceipt GUID="393c118d-f1d8-4145-a029-84de7fc95987" Type="WH">
+<?xml version="1.0"?>
+	<WarehouseReceipt GUID="393c118d-f1d8-4145-a029-84de7fc95987" Type="WH" xmlns="http://www.magaya.com/XMLSchema/V1">
 		<CreatedOn>2026-03-30T07:31:46-04:00</CreatedOn>
 		<Number>TC924</Number>
 		<CreatedByName>Administrator</CreatedByName>
@@ -1840,4 +1839,3 @@ dWC/3mn/AIl+Zz4v/d6no/yPTKKKK/Qz4c//2Q==</Data>
 			</CustomField>
 		</CustomFields>
 	</WarehouseReceipt>
-</WarehouseReceipts>

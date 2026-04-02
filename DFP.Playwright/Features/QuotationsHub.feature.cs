@@ -448,18 +448,18 @@ namespace DFP.Playwright.Features
 #line 99
     await testRunner.AndAsync("I select the Package \"Carton\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table10.AddRow(new string[] {
+                table22.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 100
-    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table10, "And ");
+    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table22, "And ");
 #line hidden
 #line 103
     await testRunner.AndAsync("I select additionals \"Refrigerated\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -572,18 +572,18 @@ namespace DFP.Playwright.Features
 #line 135
     await testRunner.AndAsync("I select the Package \"Pallet\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table11.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 136
-    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table11, "And ");
+    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table23, "And ");
 #line hidden
 #line 139
     await testRunner.AndAsync("I select additionals \"Require origin charges\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -712,18 +712,18 @@ namespace DFP.Playwright.Features
 #line 177
     await testRunner.AndAsync("I select the Package \"Bag\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
                             "Weight",
                             "Length",
                             "Width",
                             "Height"});
-                table12.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "10",
                             "10",
                             "10",
                             "10"});
 #line 178
-    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table12, "And ");
+    await testRunner.AndAsync("I enter the following cargo details in the Hub:", ((string)(null)), table24, "And ");
 #line hidden
 #line 181
     await testRunner.AndAsync("I select additionals \"Refrigerated\" in the Hub", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

@@ -133,6 +133,18 @@ namespace DFP.Playwright.Support
                 return new LiveTrackPage(tc.Page!);
             });
 
+            services.AddScoped<InventoryPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new InventoryPage(tc.Page!, tc);
+            });
+
+            services.AddScoped<CargoReleasesPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new CargoReleasesPage(tc.Page!, tc);
+            });
+
             return services;
         }
     }

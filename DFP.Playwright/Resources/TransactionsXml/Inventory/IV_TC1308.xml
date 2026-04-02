@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<ItemDefinition Type="IV" GUID="e4a711ab-6a93-4d75-8b48-094c93e648ae" xmlns="http://www.magaya.com/XMLSchema/V1">
+		<CreatedOn>2026-04-01T11:18:20-04:00</CreatedOn>
+		<PartNumber>TC1308</PartNumber>
+		<Description>Apr01111816InvDescription</Description>
+		<Model>Apr01111816InvModel</Model>
+		<Pieces>0</Pieces>
+		<AmountPerPallet>10</AmountPerPallet>
+		<PiecesInCompoundItems>0</PiecesInCompoundItems>
+		<ArrivingPiecesInCompoundItems>0</ArrivingPiecesInCompoundItems>
+		<AvailablePiecesForSale>0</AvailablePiecesForSale>
+		<Client GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Client>
+		<Manufacturer GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34845.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Manufacturer>
+		<Package>
+			<Type>Pallet</Type>
+			<Code>PLT</Code>
+			<Name>Pallet</Name>
+		</Package>
+		<InventoryType>FIFO</InventoryType>
+		<Length Unit="in">40.00</Length>
+		<Height Unit="in">50.00</Height>
+		<Width Unit="in">40.00</Width>
+		<Weight Unit="lb">10.00</Weight>
+		<Volume Unit="ft3">46.29999999999999715783</Volume>
+		<UnitOfMeasurement>Box</UnitOfMeasurement>
+		<CommodityTypeName>Freight All Kinds</CommodityTypeName>
+		<CommodityType Code="FAK">
+			<Description>Freight All Kinds</Description>
+		</CommodityType>
+		<ItemType>StockItem</ItemType>
+	</ItemDefinition>

@@ -109,7 +109,8 @@ namespace DFP.Playwright.Helpers
                 try
                 {
                     var doc = XDocument.Load(f);
-                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim();
+                    var number = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "Number")?.Value?.Trim()
+                              ?? doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "PartNumber")?.Value?.Trim();
                     if (!string.IsNullOrWhiteSpace(number) &&
                         string.Equals(NormalizeNumber(number), targetNumber, StringComparison.OrdinalIgnoreCase))
                     {
@@ -200,6 +201,12 @@ namespace DFP.Playwright.Helpers
             {
                 NormalizeInvoice(doc, overrideGuid, overrideNumber);
             }
+            else
+            {
+                // Generic normalization for IV, CR, SO, PK, PO, BK, QT and any future types.
+                // Sets the GUID on the root element so AfterScenario cleanup can delete the record.
+                NormalizeGuid(doc, overrideGuid);
+            }
             var xml = doc.ToString(SaveOptions.DisableFormatting);
 
             var req = new SetTransactionRequest
@@ -214,6 +221,17 @@ namespace DFP.Playwright.Helpers
 
             if (res.@return != api_session_error.no_error)
                 throw new InvalidOperationException($"SetTransaction failed. Type={type}, File={transactionXmlPath}, Error={res.@return}, Msg={res.error_desc}");
+        }
+
+        private static void NormalizeGuid(XDocument doc, string? overrideGuid)
+        {
+            if (string.IsNullOrWhiteSpace(overrideGuid)) return;
+
+            var root = doc.Root;
+            if (root == null) return;
+
+            // Set GUID on the root element (covers IV, CR, SO, PK, PO, BK, QT, etc.)
+            root.SetAttributeValue("GUID", overrideGuid);
         }
 
         private static string NormalizeNumber(string? s)

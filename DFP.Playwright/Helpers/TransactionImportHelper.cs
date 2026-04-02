@@ -19,6 +19,7 @@ namespace DFP.Playwright.Helpers
             ["Cargo Release"] = "CR",
             ["Sales Orders"] = "SO",
             ["Pickup Orders"] = "PK",
+            ["Payments"] = "PM",
             ["Purchase Orders"] = "PO",
             ["Booking"] = "BK",
             ["Quotations"] = "QT",

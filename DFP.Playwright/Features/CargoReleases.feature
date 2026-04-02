@@ -206,7 +206,7 @@ Feature: CargoReleases
     @2210 @INT @login
   Scenario:2210_QWYKMagayaCRCargoLinked
     Given the transaction "WH" "TC2210" is imported via API
-    Given the transaction "CR" "TC2210" is imported via API
+    Given the transaction "PK" "TC2210" is imported via API
     Given I login to Portal as user "with Int"
     Then the login dashboard should be visible
     Given I am on the Cargo Releases page

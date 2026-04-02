@@ -201,9 +201,17 @@ namespace DFP.Playwright.Helpers
             {
                 NormalizeInvoice(doc, overrideGuid, overrideNumber);
             }
+            else if (string.Equals(type, "PK", StringComparison.OrdinalIgnoreCase))
+            {
+                NormalizePickupOrder(doc, overrideGuid, overrideNumber);
+            }
+            else if (string.Equals(type, "CR", StringComparison.OrdinalIgnoreCase))
+            {
+                NormalizeCargoRelease(doc, overrideGuid, overrideNumber);
+            }
             else
             {
-                // Generic normalization for IV, CR, SO, PK, PO, BK, QT and any future types.
+                // Generic normalization for IV, SO, PO, BK, QT and any future types.
                 // Sets the GUID on the root element so AfterScenario cleanup can delete the record.
                 NormalizeGuid(doc, overrideGuid);
             }
@@ -221,6 +229,82 @@ namespace DFP.Playwright.Helpers
 
             if (res.@return != api_session_error.no_error)
                 throw new InvalidOperationException($"SetTransaction failed. Type={type}, File={transactionXmlPath}, Error={res.@return}, Msg={res.error_desc}");
+        }
+
+        private static void NormalizePickupOrder(XDocument doc, string? overrideGuid, string? overrideNumber)
+        {
+            var root = doc.Root;
+            if (root == null) return;
+
+            var now = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            if (!string.IsNullOrWhiteSpace(overrideGuid))
+            {
+                root.SetAttributeValue("GUID", overrideGuid);
+
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "PickupOrderGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OwnerGUID")
+                        el.Value = overrideGuid;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(overrideNumber))
+            {
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "Number")
+                        el.Value = overrideNumber;
+                    if (el.Name.LocalName == "PickupOrderNumber")
+                        el.Value = overrideNumber;
+                }
+            }
+
+            foreach (var el in root.Descendants())
+            {
+                if (el.Name.LocalName == "CreatedOn" && el.Parent?.Name.LocalName == root.Name.LocalName)
+                    el.Value = now;
+            }
+        }
+
+        private static void NormalizeCargoRelease(XDocument doc, string? overrideGuid, string? overrideNumber)
+        {
+            var root = doc.Root;
+            if (root == null) return;
+
+            var now = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+
+            if (!string.IsNullOrWhiteSpace(overrideGuid))
+            {
+                root.SetAttributeValue("GUID", overrideGuid);
+
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "CargoReleaseGUID")
+                        el.Value = overrideGuid;
+                    if (el.Name.LocalName == "OwnerGUID")
+                        el.Value = overrideGuid;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(overrideNumber))
+            {
+                foreach (var el in root.Descendants())
+                {
+                    if (el.Name.LocalName == "Number")
+                        el.Value = overrideNumber;
+                    if (el.Name.LocalName == "CargoReleaseNumber")
+                        el.Value = overrideNumber;
+                }
+            }
+
+            foreach (var el in root.Descendants())
+            {
+                if (el.Name.LocalName == "CreatedOn" && el.Parent?.Name.LocalName == root.Name.LocalName)
+                    el.Value = now;
+            }
         }
 
         private static void NormalizeGuid(XDocument doc, string? overrideGuid)

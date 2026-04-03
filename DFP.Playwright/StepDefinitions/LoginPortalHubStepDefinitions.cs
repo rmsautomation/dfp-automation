@@ -115,6 +115,7 @@ namespace DFP.Playwright.StepDefinitions
                           ?? Environment.GetEnvironmentVariable("BASE_URL")
                           ?? "");
             await login.WaitForDashboardAsync();
+            await login.DismissCookieBannerAsync();
         }
 
         [When("I log out")]

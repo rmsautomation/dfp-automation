@@ -254,6 +254,20 @@ namespace DFP.Playwright.Pages.Web.BasePages
             }
         }
 
+        // Dismisses the cookie consent banner (cc-window library) if it is visible.
+        // Uses DispatchEventAsync to bypass the banner's own pointer-event interception.
+        // HTML: <a aria-label="dismiss cookie message" role="button" class="cc-btn cc-dismiss">Got it!</a>
+        // Note: the element is an <a> with role="button", NOT a <button> tag.
+        public async Task DismissCookieBannerIfVisibleAsync()
+        {
+            var banner = Page.Locator("a[aria-label='dismiss cookie message']").First;
+            if (await banner.CountAsync() > 0 && await banner.IsVisibleAsync())
+            {
+                await banner.DispatchEventAsync("click");
+                await Page.WaitForTimeoutAsync(300);
+            }
+        }
+
         public async Task<string> GetAlertTextAsync()
         {
             var tcs = new TaskCompletionSource<string>();

@@ -428,6 +428,10 @@ namespace DFP.Playwright.Pages.Web
             throw new TimeoutException($"Dashboard or logged-in state not reached within {timeoutMs}ms.");
         }
 
+        // Called after WaitForDashboardAsync confirms the portal is loaded.
+        public async Task DismissCookieBannerAsync()
+            => await DismissCookieBannerIfVisibleAsync();
+
         public async Task ClickContinueToDashboardButtonAsync()
         {
             try

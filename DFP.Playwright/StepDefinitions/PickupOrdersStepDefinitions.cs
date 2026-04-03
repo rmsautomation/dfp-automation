@@ -56,6 +56,30 @@ namespace DFP.Playwright.StepDefinitions
         public async Task IShouldSeeThePickupOrderDetailsPage(string number)
             => await _pickupOrdersPage.VerifyPickupOrderDetailsPageAsync(number);
 
+        [Given("I select {string} option"), Scope(Feature = "Pickup Orders")]
+        [When("I select {string} option"), Scope(Feature = "Pickup Orders")]
+        [Then("I select {string} option"), Scope(Feature = "Pickup Orders")]
+        public async Task ISelectOption(string optionText)
+            => await _pickupOrdersPage.SelectPdfOptionAsync(optionText);
+
+        [Given("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]
+        [When("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]
+        [Then("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]
+        public async Task IClickOnPdfButtonInPickupOrderDetails()
+            => await _pickupOrdersPage.ClickPdfButtonAsync();
+
+        [Given("I store the total pieces in cargo details for the pickup order"), Scope(Feature = "Pickup Orders")]
+        [When("I store the total pieces in cargo details for the pickup order"), Scope(Feature = "Pickup Orders")]
+        [Then("I store the total pieces in cargo details for the pickup order"), Scope(Feature = "Pickup Orders")]
+        public async Task IStoreTheTotalPiecesInCargoDetails()
+            => await _pickupOrdersPage.StoreTotalPiecesAsync();
+
+        [Given("I should verify the total pieces in the PDF match with the total pieces for the pickup order"), Scope(Feature = "Pickup Orders")]
+        [When("I should verify the total pieces in the PDF match with the total pieces for the pickup order"), Scope(Feature = "Pickup Orders")]
+        [Then("I should verify the total pieces in the PDF match with the total pieces for the pickup order"), Scope(Feature = "Pickup Orders")]
+        public async Task IShouldVerifyTotalPiecesInPdf()
+            => await _pickupOrdersPage.VerifyTotalPiecesInPdfAsync();
+
         [Given("I should see the uploaded file {string}"), Scope(Feature = "Pickup Orders")]
         [When("I should see the uploaded file {string}"), Scope(Feature = "Pickup Orders")]
         [Then("I should see the uploaded file {string}"), Scope(Feature = "Pickup Orders")]

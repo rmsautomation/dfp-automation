@@ -119,7 +119,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Payments.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Payments.feature.ndjson", 4);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("1790_MagayaQWYK_CreatePayment")]
@@ -185,32 +185,32 @@ namespace DFP.Playwright.Features
 #line 18
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1790\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$100.00"});
-                table19.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "Reference",
                             "TC1790"});
-                table19.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table19.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table19.AddRow(new string[] {
+                table21.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 19
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table19, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table21, "Then ");
 #line hidden
-                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1790"});
-                table20.AddRow(new string[] {
+                table22.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 25
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table20, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table22, "Then ");
 #line hidden
 #line 28
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -237,7 +237,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1792_MagayaQWYKUpdatePayment", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1792_MagayaQWYKUpdatePayment", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 32
@@ -250,6 +250,12 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
+#line 33
+    await testRunner.GivenAsync("the transaction \"IN\" \"TC1792\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 34
+    await testRunner.GivenAsync("the transaction \"PM\" \"TC1792\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 35
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -279,32 +285,32 @@ namespace DFP.Playwright.Features
 #line 43
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1792\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$100.00"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Reference",
                             "TC1792"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 44
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table21, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table23, "Then ");
 #line hidden
-                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1792"});
-                table22.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 50
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table22, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table24, "Then ");
 #line hidden
 #line 53
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -335,38 +341,38 @@ namespace DFP.Playwright.Features
 #line 64
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1792UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$200.00"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Credit amount",
                             "$100.00"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Reference",
                             "TC1792UPDATED"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Notes",
                             "Payment created in Magaya-Updated"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 65
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table23, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table25, "Then ");
 #line hidden
-                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1792"});
-                table24.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 73
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table24, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table26, "Then ");
 #line hidden
 #line 77
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -402,132 +408,6 @@ namespace DFP.Playwright.Features
     await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 88
-    await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("1792_up")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("1792_up")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Payments")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("Payments")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("test")]
-        public async global::System.Threading.Tasks.Task _1792_Up()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "test"};
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1792_up", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 91
-  this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 92
-  await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 93
-    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 94
-    await testRunner.GivenAsync("I am on the Payments page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 95
-    await testRunner.ThenAsync("I should see the Payments list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 96
-    await testRunner.ThenAsync("I enter the Payment number \"TC1792UPDATED\" in the payments section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 97
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 98
-    await testRunner.ThenAsync("I should see the payment with number \"TC1792UPDATED\" in the List in the Available" +
-                        " payments section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 99
-    await testRunner.ThenAsync("I select the payment with number \"TC1792UPDATED\" in the List in the Available pay" +
-                        "ments section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 100
-    await testRunner.ThenAsync("I should see the details of the payment with number \"TC1792UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
-                            "Total amount",
-                            "$200.00"});
-                table25.AddRow(new string[] {
-                            "Credit amount",
-                            "$100.00"});
-                table25.AddRow(new string[] {
-                            "Reference",
-                            "TC1792UPDATED"});
-                table25.AddRow(new string[] {
-                            "Payer",
-                            "automation"});
-                table25.AddRow(new string[] {
-                            "Notes",
-                            "Payment created in Magaya-Updated"});
-                table25.AddRow(new string[] {
-                            "Cusotm Field Integer",
-                            "50"});
-                table25.AddRow(new string[] {
-                            "Custom Field Text",
-                            "QA Automation"});
-#line 101
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table25, "Then ");
-#line hidden
-                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
-                            "Invoice number",
-                            "TC1792"});
-                table26.AddRow(new string[] {
-                            "Amount",
-                            "$100.00"});
-#line 109
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table26, "Then ");
-#line hidden
-#line 113
-    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 114
-    await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 115
-    await testRunner.ThenAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 116
-    await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 117
-    await testRunner.AndAsync("I should see the uploaded file \"PDFDFP.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 118
-    await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 119
-    await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 120
-    await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 121
-    await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 122
-    await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 123
-    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 124
     await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }

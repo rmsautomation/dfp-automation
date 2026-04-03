@@ -182,41 +182,41 @@ namespace DFP.Playwright.Features
 #line 22
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1083_1087\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
                             "Bill to",
                             "automation"});
-                table13.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "Payment terms",
                             "Net 30"});
-                table13.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "Approval status",
                             "None"});
-                table13.AddRow(new string[] {
+                table15.AddRow(new string[] {
                             "Notes",
                             "Mar30105742Notes"});
 #line 23
-    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table13, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table15, "And ");
 #line hidden
-                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table16 = new global::Reqnroll.Table(new string[] {
                             "Boolean Custom Field",
                             "No"});
-                table14.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "Decimal Custom Field",
                             "50.5"});
-                table14.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "Integer Custom Field",
                             "50"});
-                table14.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "Money Custom Field",
                             "USD 100"});
-                table14.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "PickList Custom Field",
                             "Option1"});
-                table14.AddRow(new string[] {
+                table16.AddRow(new string[] {
                             "String Custom Field",
                             "String Test"});
 #line 30
-    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table14, "And ");
+    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table16, "And ");
 #line hidden
 #line 39
     await testRunner.ThenAsync("I should see the event \"In Transit\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -311,41 +311,41 @@ namespace DFP.Playwright.Features
 #line 67
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1084_1086\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table15 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
                             "Bill to",
                             "automation"});
-                table15.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "Payment terms",
                             "Net 30"});
-                table15.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "Approval status",
                             "None"});
-                table15.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "Notes",
                             "Mar30144433Notes"});
 #line 68
-    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table15, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table17, "And ");
 #line hidden
-                global::Reqnroll.Table table16 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
                             "Boolean Custom Field",
                             "No"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Decimal Custom Field",
                             "50.5"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Integer Custom Field",
                             "50"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Money Custom Field",
                             "USD 100"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "PickList Custom Field",
                             "Option1"});
-                table16.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "String Custom Field",
                             "String Test"});
 #line 75
-    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table16, "And ");
+    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table18, "And ");
 #line hidden
 #line 84
     await testRunner.ThenAsync("I should see the event \"In Transit\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -411,35 +411,35 @@ namespace DFP.Playwright.Features
 #line 113
     await testRunner.AndAsync("the invoice details should be displayed with the name \"TC1084_1086UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
                             "Approval status",
                             "Approved"});
-                table17.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "Notes",
                             "Mar30144433NotesNOTE UPDATED"});
 #line 114
-    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table17, "And ");
+    await testRunner.AndAsync("I should verify the following label headers in invoice details:", ((string)(null)), table19, "And ");
 #line hidden
-                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
                             "Boolean Custom Field",
                             "Yes"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "Decimal Custom Field",
                             "150.5"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "Integer Custom Field",
                             "150"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "Money Custom Field",
                             "USD 500"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "PickList Custom Field",
                             "Option2"});
-                table18.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "String Custom Field",
                             "StringUpdated"});
 #line 119
-    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table18, "And ");
+    await testRunner.AndAsync("I should verify the following custom field values in invoice details in DFP:", ((string)(null)), table20, "And ");
 #line hidden
 #line 128
     await testRunner.ThenAsync("I should see the event \"Transaction Approved by Customer\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

@@ -519,8 +519,8 @@ namespace DFP.Playwright.Pages.Web
                 if (await match.CountAsync() > 0 && await match.IsVisibleAsync())
                     return;
 
-                await Page.ReloadAsync();
-                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+                await Page.ReloadAsync(new PageReloadOptions { Timeout = 60000 });
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 60000 });
                 await Page.WaitForTimeoutAsync(retryIntervalMs);
             }
         }

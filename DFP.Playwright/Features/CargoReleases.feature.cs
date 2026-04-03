@@ -188,47 +188,47 @@ namespace DFP.Playwright.Features
 #line 20
     await testRunner.ThenAsync("I should verify the status in \"Loaded\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC1593_1614"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Released to",
                             "automation"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Carrier PRO Number",
                             "PRONumber"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "TrackingNumber"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Driver",
                             "DriversName"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "License",
                             "DriversLicenseNumber"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "Carrier Name",
                             "MSC"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "PO Number",
                             "PONumber"});
 #line 21
-    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table3, "Then ");
+    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table5, "Then ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table4.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Carrier",
                             "MSC"});
-                table4.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table4.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Released to",
                             "automation"});
 #line 31
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table4, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table6, "And ");
 #line hidden
 #line 39
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -363,47 +363,47 @@ namespace DFP.Playwright.Features
 #line 77
     await testRunner.ThenAsync("I should verify the status in \"Loaded\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC1594_1599"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Released to",
                             "automation"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Carrier PRO Number",
                             "PRONumber"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "TrackingNumber"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Driver",
                             "DriversName"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "License",
                             "DriversLicenseNumber"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "Carrier Name",
                             "MSC"});
-                table5.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "PO Number",
                             "PONumber"});
 #line 78
-    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table5, "Then ");
+    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table7, "Then ");
 #line hidden
-                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table6.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "Carrier",
                             "MSC"});
-                table6.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table6.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "Released to",
                             "automation"});
 #line 88
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table6, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table8, "And ");
 #line hidden
 #line 95
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -435,47 +435,47 @@ namespace DFP.Playwright.Features
 #line 107
     await testRunner.ThenAsync("I should verify the status in \"Loaded\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "TC_1594_1599UPDATED"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Released to",
                             "automation"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Carrier PRO Number",
                             "PRONumberUpdated"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Carrier Tracking Number",
                             "TrackingNumberUpdated"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Driver",
                             "DriversNameUpdated"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "License",
                             "DriversLicenseNumberUpdated"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "PO Number",
                             "PONumberUpdated"});
-                table7.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "Notes",
                             "NOTE UPDATED"});
 #line 108
-    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table7, "Then ");
+    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table9, "Then ");
 #line hidden
-                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Carrier",
                             "CMA"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Issued By",
                             "Postgress SQL II"});
-                table8.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Released to",
                             "automation"});
 #line 118
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table8, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table10, "And ");
 #line hidden
 #line 125
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -812,23 +812,23 @@ namespace DFP.Playwright.Features
 #line 234
     await testRunner.ThenAsync("I should verify the status in \"Loaded\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "Number",
                             "{cr_id}"});
-                table9.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "Released to",
                             "automation"});
 #line 235
-    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table9, "Then ");
+    await testRunner.ThenAsync("I should verify the CR INFO", ((string)(null)), table11, "Then ");
 #line hidden
-                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
                             "Billing Client",
                             "automation"});
-                table10.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "Released to",
                             "automation"});
 #line 239
-    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table10, "And ");
+    await testRunner.AndAsync("I should verify the following parties in warehouse receipt details:", ((string)(null)), table12, "And ");
 #line hidden
 #line 244
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

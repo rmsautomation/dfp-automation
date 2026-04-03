@@ -73,18 +73,24 @@ namespace DFP.Playwright.Pages.Web
                 .Filter(new LocatorFilterOptions { HasText = parentType })
                 .First;
 
-            // Retry clicking the dropdown until the desired item appears (dropdown may not open on first click)
+            // Retry clicking the dropdown until the desired item appears (dropdown may not open on first click).
+            // After each click, poll every 200ms for up to 3s before retrying the click.
             while (true)
             {
                 if (DateTime.UtcNow >= deadline)
                     Assert.Fail($"Dropdown item '{parentType}' did not appear after 2 minutes. URL: {Page.Url}");
 
                 await dropdown.ClickAsync();
-                await Page.WaitForTimeoutAsync(retryIntervalMs);
 
-                if (await item.CountAsync() > 0 && await item.IsVisibleAsync())
-                    break;
+                var pollDeadline = DateTime.UtcNow.AddMilliseconds(3000);
+                while (DateTime.UtcNow < pollDeadline)
+                {
+                    if (await item.CountAsync() > 0 && await item.IsVisibleAsync())
+                        goto itemFound;
+                    await Page.WaitForTimeoutAsync(200);
+                }
             }
+            itemFound:
 
             await item.ClickAsync();
 
@@ -118,13 +124,31 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task VerifySearchResultAsync(string description, string status)
         {
+            const int retryIntervalMs = 2000;
+            const int maxDurationMs = 180000;
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
+
             var row = Page.Locator("tbody[role='rowgroup'] tr")
                 .Filter(new LocatorFilterOptions { HasText = description })
                 .Filter(new LocatorFilterOptions { HasText = status })
                 .First;
-            await row.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 30000 });
-            Assert.IsTrue(await row.IsVisibleAsync(),
-                $"Expected row with description '{description}' and status '{status}'. URL: {Page.Url}");
+
+            while (true)
+            {
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Row with description '{description}' and status '{status}' did not appear after 3 minutes. URL: {Page.Url}");
+
+                if (await row.CountAsync() > 0 && await row.IsVisibleAsync())
+                    return;
+
+                var searchBtn = Page.Locator("button")
+                    .Filter(new LocatorFilterOptions { HasText = "Search" })
+                    .First;
+                if (await searchBtn.CountAsync() > 0 && await searchBtn.IsVisibleAsync())
+                    await ClickAndWaitForNetworkAsync(searchBtn);
+
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+            }
         }
 
         // ── Cargo Release search ──────────────────────────────────────────────────

@@ -79,6 +79,18 @@ namespace DFP.Playwright.StepDefinitions
             await _warehouseReceiptPage.TheWarehouseReceiptShouldAppearInSearchResultsInListAsync(text);
         }
 
+        [Given("I click on the warehouse receipt with number {string} in the search results list")]
+        [When("I click on the warehouse receipt with number {string} in the search results list")]
+        [Then("I click on the warehouse receipt with number {string} in the search results list")]
+        public async Task IClickOnTheWarehouseReceiptWithNumberInList(string number)
+            => await _warehouseReceiptPage.ClickWarehouseReceiptInListAsync(number);
+
+        [Given("I should see the quantity is {string} in the warehouse details page")]
+        [When("I should see the quantity is {string} in the warehouse details page")]
+        [Then("I should see the quantity is {string} in the warehouse details page")]
+        public async Task IShouldSeeTheQuantityInWarehouseDetailsPage(string quantity)
+            => await _warehouseReceiptPage.VerifyQuantityAsync(quantity);
+
         [Given("the warehouse receipt should not appear in the search results")]
         [When("the warehouse receipt should not appear in the search results")]
         [Then("the warehouse receipt should not appear in the search results")]

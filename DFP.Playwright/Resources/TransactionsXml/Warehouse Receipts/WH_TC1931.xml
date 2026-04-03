@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+	<WarehouseReceipt GUID="e0985d5e-e99c-4edf-af4e-73d6dad8f767" Type="WH" xmlns="http://www.magaya.com/XMLSchema/V1">
+		<CreatedOn>2026-04-03T10:16:25-04:00</CreatedOn>
+		<Number>TC1931</Number>
+		<CreatedByName>Administrator</CreatedByName>
+		<Version>104</Version>
+		<IssuedByName>Postgress SQL II</IssuedByName>
+		<IssuedBy GUID="267c4164-7119-4328-9640-7fdb7add1ec2">
+			<Type>ForwardingAgent</Type>
+			<Name>Postgress SQL II</Name>
+			<CreatedOn>2025-04-22T17:34:44-04:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<NetworkID>38442</NetworkID>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsKnownShipper>true</IsKnownShipper>
+			<IsPrepaid>true</IsPrepaid>
+		</IssuedBy>
+		<ShipperName>automation</ShipperName>
+		<Shipper GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34745.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Shipper>
+		<ConsigneeName>automation</ConsigneeName>
+		<Consignee GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34745.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Consignee>
+		<DestinationAgentName>destinationAgent</DestinationAgentName>
+		<DestinationAgent GUID="bbc2fdc7-555c-48c0-bc1a-10c6d6af999a">
+			<Type>ForwardingAgent</Type>
+			<Name>destinationAgent</Name>
+			<CreatedOn>2025-02-18T16:28:14-05:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</DestinationAgent>
+		<CarrierName>MSC</CarrierName>
+		<Carrier GUID="412e67e1-53f8-4010-82fe-560f4c916be9">
+			<Type>Carrier</Type>
+			<Name>MSC</Name>
+			<CreatedOn>2025-05-13T14:30:42-04:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsPrepaid>true</IsPrepaid>
+			<CarrierInfo>
+				<CarrierTypeCode>Ground</CarrierTypeCode>
+			</CarrierInfo>
+		</Carrier>
+		<Notes>PO created in Magaya</Notes>
+		<Items>
+			<Item GUID="c8c6f3ad-76fb-47f2-b0d6-54e633bef279" Type="WI">
+				<Version>105</Version>
+				<Status>OnHand</Status>
+				<Pieces>1</Pieces>
+				<Description>UpdateCommodity</Description>
+				<PieceQuantity>10.00</PieceQuantity>
+				<IsSummarized>false</IsSummarized>
+				<WarehouseReceiptGUID>e0985d5e-e99c-4edf-af4e-73d6dad8f767</WarehouseReceiptGUID>
+				<PickupOrderGUID>ce3ac7a5-e0d8-44c6-9df4-cf3982a80838</PickupOrderGUID>
+				<WHRItemID>1</WHRItemID>
+				<LocationCode>RCV01</LocationCode>
+				<Length Unit="in">0.00</Length>
+				<Height Unit="in">0.00</Height>
+				<Width Unit="in">0.00</Width>
+				<Weight Unit="lb">0.00</Weight>
+				<ContainedPiecesWeightIncluded>true</ContainedPiecesWeightIncluded>
+				<Volume Unit="ft3">0.00</Volume>
+				<VolumeWeight Unit="vlb">0.00</VolumeWeight>
+				<PieceWeight Unit="lb">0.00</PieceWeight>
+				<PieceVolume Unit="ft3">0.00</PieceVolume>
+				<Currency Code="USD">
+					<Name>United States Dollar</Name>
+					<ExchangeRate>1.00</ExchangeRate>
+					<DecimalPlaces>2</DecimalPlaces>
+					<IsHomeCurrency>true</IsHomeCurrency>
+				</Currency>
+				<UnitaryValue Currency="USD">40.00</UnitaryValue>
+				<TotalValue Currency="USD">400.00</TotalValue>
+				<PartNumber>100</PartNumber>
+				<ItemDefinition GUID="114d4d6b-2612-4e49-b81f-8a67e2f277b1" Type="IV">
+					<CreatedOn>2025-01-21T14:32:04-05:00</CreatedOn>
+					<PartNumber>100</PartNumber>
+					<Description>UpdateCommodity</Description>
+					<Pieces>12631</Pieces>
+					<ArrivingPieces>89614</ArrivingPieces>
+					<PiecesInCompoundItems>0</PiecesInCompoundItems>
+					<ArrivingPiecesInCompoundItems>0</ArrivingPiecesInCompoundItems>
+					<AvailablePiecesForSale>12631</AvailablePiecesForSale>
+					<InventoryType>FIFO</InventoryType>
+					<ItemType>StockItem</ItemType>
+				</ItemDefinition>
+				<Location Code="RCV01">
+					<Description>Receiving</Description>
+					<Type>Receiving</Type>
+					<WarehouseZoneName>Default Zone</WarehouseZoneName>
+					<IsDisabled>false</IsDisabled>
+				</Location>
+				<IncludeInSED>false</IncludeInSED>
+				<IsContainer>false</IsContainer>
+				<WarehouseReceiptNumber>TC1931</WarehouseReceiptNumber>
+				<PickupOrderNumber>TC1931</PickupOrderNumber>
+				<IsPallet>false</IsPallet>
+				<IsOverstock>false</IsOverstock>
+				<NotLoaded>false</NotLoaded>
+				<InTask>false</InTask>
+				<EntryDate>2026-04-03T10:16:25-04:00</EntryDate>
+			</Item>
+		</Items>
+		<MeasurementUnits>
+			<LengthUnit>in</LengthUnit>
+			<VolumeUnit>ft3</VolumeUnit>
+			<WeightUnit>lb</WeightUnit>
+			<VolumeWeightUnit>vlb</VolumeWeightUnit>
+			<AreaUnit>ft2</AreaUnit>
+			<LengthPrecision>2</LengthPrecision>
+			<VolumePrecision>2</VolumePrecision>
+			<WeightPrecision>2</WeightPrecision>
+			<VolumeWeightPrecision>2</VolumeWeightPrecision>
+			<AreaPrecision>2</AreaPrecision>
+			<VolumeWeightFactor>166.00</VolumeWeightFactor>
+		</MeasurementUnits>
+		<CreatorNetworkID>38442</CreatorNetworkID>
+		<TotalPieces>1</TotalPieces>
+		<TotalWeight Unit="lb">0.00</TotalWeight>
+		<TotalVolume Unit="ft3">0.00</TotalVolume>
+		<TotalVolumeWeight Unit="vlb">0.00</TotalVolumeWeight>
+		<ChargeableWeight Unit="lb">0.00</ChargeableWeight>
+		<Events>
+			<Event>
+				<Date>2026-04-03T10:13:06-04:00</Date>
+				<Details>Shipment has been set as in transit</Details>
+				<EventDefinition>
+					<Name>In Transit</Name>
+					<Details>Shipment has been set as in transit</Details>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>PK</OwnerType>
+				<OwnerNumber>TC1931</OwnerNumber>
+				<OwnerGUID>ce3ac7a5-e0d8-44c6-9df4-cf3982a80838</OwnerGUID>
+			</Event>
+			<Event>
+				<Date>2026-04-03T10:13:21-04:00</Date>
+				<Details>Automatic Event, PickUp Order has been created</Details>
+				<EventDefinition>
+					<Name>Picked up</Name>
+					<Details>Automatic Event, PickUp Order has been created</Details>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>PK</OwnerType>
+				<OwnerNumber>TC1931</OwnerNumber>
+				<OwnerGUID>ce3ac7a5-e0d8-44c6-9df4-cf3982a80838</OwnerGUID>
+			</Event>
+			<Event>
+				<Date>2026-04-03T10:16:26-04:00</Date>
+				<EventDefinition>
+					<Name>Arrived at warehouse</Name>
+					<IncludeInTracking>true</IncludeInTracking>
+				</EventDefinition>
+				<IncludeInTracking>true</IncludeInTracking>
+				<OwnerType>WH</OwnerType>
+				<OwnerNumber>TC1931</OwnerNumber>
+				<OwnerGUID>e0985d5e-e99c-4edf-af4e-73d6dad8f767</OwnerGUID>
+			</Event>
+		</Events>
+		<TotalValue Currency="USD">400.00</TotalValue>
+		<SupplierName>automation</SupplierName>
+		<Supplier GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34745.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</Supplier>
+		<CarrierTrackingNumber>TrackingNumber797</CarrierTrackingNumber>
+		<CarrierPRONumber>PRONumber797</CarrierPRONumber>
+		<DriverName>DriversName797</DriverName>
+		<DriverLicenseNumber>DriversLicenseNumber797</DriverLicenseNumber>
+		<Status>OnHand</Status>
+		<HasAttachments>false</HasAttachments>
+		<CarrierBookingNumber>BookingNumer797</CarrierBookingNumber>
+		<MainCarrier GUID="494f5fa6-7f7d-4fd2-9e11-818fa5be81ed">
+			<Type>Carrier</Type>
+			<Name>MSC</Name>
+			<CreatedOn>2025-01-24T16:28:29-05:00</CreatedOn>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<IsPrepaid>true</IsPrepaid>
+			<CarrierInfo>
+				<CarrierTypeCode>Ocean</CarrierTypeCode>
+			</CarrierInfo>
+		</MainCarrier>
+		<BillingClient GUID="67c504cf-1c77-4f7c-a3f3-0ed404de988d">
+			<Type>Client</Type>
+			<Name>automation</Name>
+			<CreatedOn>2025-01-08T14:25:27-05:00</CreatedOn>
+			<Email>rmsautomation24@gmail.com</Email>
+			<PrimaryIdType>Other</PrimaryIdType>
+			<Balance Currency="USD">34745.00</Balance>
+			<TransactionDueDays>30</TransactionDueDays>
+			<IsBillable>true</IsBillable>
+			<PaymentTerms>
+				<Description>Net 30</Description>
+				<NetDueDays>30</NetDueDays>
+				<DiscountPercentage>0.00</DiscountPercentage>
+				<DiscountPaidDays>0</DiscountPaidDays>
+				<OperationType>All</OperationType>
+				<TransactionDate>Transaction</TransactionDate>
+			</PaymentTerms>
+			<IsPrepaid>true</IsPrepaid>
+		</BillingClient>
+		<LastItemID>1</LastItemID>
+		<IsOnline>false</IsOnline>
+		<IsLiquidated>false</IsLiquidated>
+	</WarehouseReceipt>

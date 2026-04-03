@@ -185,32 +185,32 @@ namespace DFP.Playwright.Features
 #line 18
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1790\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table21 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$100.00"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Reference",
                             "TC1790"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table21.AddRow(new string[] {
+                table23.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 19
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table21, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table23, "Then ");
 #line hidden
-                global::Reqnroll.Table table22 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1790"});
-                table22.AddRow(new string[] {
+                table24.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 25
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table22, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table24, "Then ");
 #line hidden
 #line 28
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -285,32 +285,32 @@ namespace DFP.Playwright.Features
 #line 43
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1792\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table23 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$100.00"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Reference",
                             "TC1792"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table23.AddRow(new string[] {
+                table25.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 44
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table23, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table25, "Then ");
 #line hidden
-                global::Reqnroll.Table table24 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1792"});
-                table24.AddRow(new string[] {
+                table26.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 50
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table24, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table26, "Then ");
 #line hidden
 #line 53
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -341,38 +341,38 @@ namespace DFP.Playwright.Features
 #line 64
     await testRunner.ThenAsync("I should see the details of the payment with number \"TC1792UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table27 = new global::Reqnroll.Table(new string[] {
                             "Total amount",
                             "$200.00"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Credit amount",
                             "$100.00"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Reference",
                             "TC1792UPDATED"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Payer",
                             "automation"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Notes",
                             "Payment created in Magaya-Updated"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Cusotm Field Integer",
                             "50"});
-                table25.AddRow(new string[] {
+                table27.AddRow(new string[] {
                             "Custom Field Text",
                             "QA Automation"});
 #line 65
-    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table25, "Then ");
+    await testRunner.ThenAsync("I should verify the Payment INFO", ((string)(null)), table27, "Then ");
 #line hidden
-                global::Reqnroll.Table table26 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table28 = new global::Reqnroll.Table(new string[] {
                             "Invoice number",
                             "TC1792"});
-                table26.AddRow(new string[] {
+                table28.AddRow(new string[] {
                             "Amount",
                             "$100.00"});
 #line 73
-    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table26, "Then ");
+    await testRunner.ThenAsync("I should verify the Invoices section in the payment details page", ((string)(null)), table28, "Then ");
 #line hidden
 #line 77
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

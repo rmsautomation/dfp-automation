@@ -118,7 +118,7 @@ namespace DFP.Playwright.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CargoDetail.feature.ndjson", 5);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/CargoDetail.feature.ndjson", 4);
         }
         
         [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("2058_CargoDetailRelatedToPO_WR_and_CR")]
@@ -401,7 +401,7 @@ namespace DFP.Playwright.Features
                     "login"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "1";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1931_CargoDetail_UpdateCD", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("1931_CargoDetail_UpdateCD", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 101
@@ -414,6 +414,12 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
+#line 102
+    await testRunner.GivenAsync("the transaction \"WH\" \"TC1931\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 103
+    await testRunner.GivenAsync("the transaction \"PK\" \"TC1931\" is imported via API", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
 #line 104
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -620,7 +626,8 @@ namespace DFP.Playwright.Features
                         "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 185
-    await testRunner.ThenAsync("I click on the warehouse receipt with number \"TC1931\" in the search results list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("I click on the warehouse receipt with number \"automation\" in the search results l" +
+                        "ist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 186
     await testRunner.ThenAsync("the warehouse receipt details should be displayed with the name \"TC1931\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -636,190 +643,33 @@ namespace DFP.Playwright.Features
                         "use", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 190
-    await testRunner.ThenAsync("I should verify the CR \"{cr_id}\" is linked to WH", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 191
-    await testRunner.ThenAsync("I should verify the PK \"TC1931\" is linked to CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 192
-    await testRunner.WhenAsync("I click on the PK Link \"TC1931\" in the cargo details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 193
-    await testRunner.ThenAsync("I should see the pickup order details page with the name \"TC1931\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 195
-    await testRunner.GivenAsync("I am on the Pickup Orders page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 196
-    await testRunner.ThenAsync("I should see the Pickup Orders list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 197
-    await testRunner.ThenAsync("I enter the Pickup Order number \"TC1931\" in the Pickup Orders section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 198
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 199
-    await testRunner.ThenAsync("I should see the Pickup Order with number \"TC1931\" in the List in the Available P" +
-                        "ickup Orders section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute("Test1931_CargoDetail_UpdateCD_VerifyInMagaya")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Test1931_CargoDetail_UpdateCD_VerifyInMagaya")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Cargo Details")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("CargoDetail")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("1931")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("INT")]
-        [global::Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("login")]
-        public async global::System.Threading.Tasks.Task Test1931_CargoDetail_UpdateCD_VerifyInMagaya()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "1931",
-                    "INT",
-                    "login"};
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            string pickleIndex = "2";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Test1931_CargoDetail_UpdateCD_VerifyInMagaya", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
-            string[] tagsOfRule = ((string[])(null));
-            global::Reqnroll.RuleInfo ruleInfo = null;
-#line 204
-    this.ScenarioInitialize(scenarioInfo, ruleInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                await testRunner.SkipScenarioAsync();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 205
-    await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 206
-    await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 207
-    await testRunner.GivenAsync("I am on the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 208
-    await testRunner.ThenAsync("I should see the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 210
-    await testRunner.ThenAsync("I search for Parent \"Pickup Order\" with number \"TC1931\" in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 211
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 212
-    await testRunner.ThenAsync("I should see the search result with the description \"AUTOMATIONCARGODETAILUPDATED" +
-                        "\" and status \"Loaded\" in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 213
-    await testRunner.ThenAsync("I click on \"Reset\" button in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 215
-    await testRunner.ThenAsync("I search for Parent \"Warehouse Receipt\" with number \"TC1931\" in the Cargo Detail " +
-                        "page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 216
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 217
-    await testRunner.ThenAsync("I should see the search result with the description \"AUTOMATIONCARGODETAILUPDATED" +
-                        "\" and status \"Loaded\" in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 218
-    await testRunner.ThenAsync("I click on \"Reset\" button in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 220
-    await testRunner.ThenAsync("I search for Parent \"Cargo Release\" with number \"729\" in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 221
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 222
-    await testRunner.ThenAsync("I should see the search result with the description \"AUTOMATIONCARGODETAILUPDATED" +
-                        "\" and status \"Loaded\" in the Cargo Detail page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 224
-    await testRunner.GivenAsync("I am on the Cargo Releases page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 225
-    await testRunner.ThenAsync("the Cargo Releases page should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 226
-    await testRunner.ThenAsync("I enter the Cargo Release number \"729\" in the Cargo Releases search section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 227
-    await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 228
-    await testRunner.ThenAsync("I should see the Cargo Release with number \"729\" in the List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 230
-    await testRunner.GivenAsync("I navigated to Warehouse Receipts List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 231
-    await testRunner.GivenAsync("I set the warehouse receipt name to \"TC1931\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 232
-    await testRunner.AndAsync("I enter the warehouse receipt name in search field", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 233
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 234
-    await testRunner.ThenAsync("the warehouse receipt should appear in the search results in the List with text \"" +
-                        "automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 236
-    await testRunner.ThenAsync("I click on the warehouse receipt with number \"automation\" in the search results l" +
-                        "ist", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 237
-    await testRunner.ThenAsync("the warehouse receipt details should be displayed with the name \"TC1931\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 238
-    await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 239
-    await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 240
-    await testRunner.ThenAsync("I should see the commodity \"AUTOMATIONCARGODETAILUPDATED\" in cargo details wareho" +
-                        "use", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 241
     await testRunner.ThenAsync("I should see the quantity is \"5000\" in the warehouse details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 242
-    await testRunner.ThenAsync("I should verify the CR \"729\" is linked to WH", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 191
+    await testRunner.ThenAsync("I should verify the CR \"{cr_id}\" is linked to WH", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 243
+#line 192
     await testRunner.ThenAsync("I should verify the PK \"TC1931\" is linked to CR", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 244
+#line 193
     await testRunner.WhenAsync("I click on the PK Link \"TC1931\" in the cargo details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 245
+#line 194
     await testRunner.ThenAsync("I should see the pickup order details page with the name \"TC1931\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 247
+#line 196
     await testRunner.GivenAsync("I am on the Pickup Orders page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 248
+#line 197
     await testRunner.ThenAsync("I should see the Pickup Orders list", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 249
+#line 198
     await testRunner.ThenAsync("I enter the Pickup Order number \"TC1931\" in the Pickup Orders section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 250
+#line 199
     await testRunner.ThenAsync("I click on \"Search\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 251
+#line 200
     await testRunner.ThenAsync("I should see the Pickup Order with number \"TC1931\" in the List in the Available P" +
                         "ickup Orders section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden

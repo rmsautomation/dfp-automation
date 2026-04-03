@@ -198,3 +198,4 @@ Feature: Cargo Details
     Then I enter the Pickup Order number "TC1931" in the Pickup Orders section
     Then I click on "Search" button
     Then I should see the Pickup Order with number "TC1931" in the List in the Available Pickup Orders section
+    #------IMPORTANT DELETE CR IN MAGAYA----------------------

@@ -88,14 +88,94 @@ namespace DFP.Playwright.Pages.Web
         /// Waits for a pickup order list item containing the given number to be visible.
         /// HTML: li[qwyk-pickup-orders-index-list-item]
         /// </summary>
-        public async Task VerifyPickupOrderVisibleInListAsync(string number)
+        /// <summary>
+        /// Da click en el item de la lista que contiene el número indicado.
+        /// HTML: li[qwyk-pickup-orders-index-list-item]
+        /// </summary>
+        /// <summary>
+        /// Verifica que un archivo subido sea visible en la lista de adjuntos.
+        /// HTML: div con el nombre del archivo
+        /// </summary>
+        public async Task VerifyUploadedFileAsync(string fileName)
+        {
+            var fileItem = Page.Locator($"//div[normalize-space(text())='{fileName}']").First;
+            await fileItem.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await fileItem.IsVisibleAsync(),
+                $"Archivo '{fileName}' no encontrado en los adjuntos. URL: {Page.Url}");
+        }
+
+        /// <summary>
+        /// Verifica label/valor en el summary del Pickup Order.
+        /// HTML: label.small.font-weight-bold seguido de div con el valor.
+        /// XPath: //label[normalize-space()='{label}']/following-sibling::div[1]
+        /// </summary>
+        public async Task VerifyPickupOrderDetailLabelAsync(string label, string expectedValue)
+        {
+            var valueEl = Page.Locator(
+                $"//label[normalize-space()='{label}']/following-sibling::div[1]"
+            ).First;
+            await valueEl.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            var actual = (await valueEl.InnerTextAsync()).Trim();
+            Assert.IsTrue(actual.Contains(expectedValue, StringComparison.OrdinalIgnoreCase),
+                $"Label '{label}': expected '{expectedValue}' but got '{actual}'. URL: {Page.Url}");
+        }
+
+        public async Task VerifyPickupOrderDetailsAsync(IEnumerable<(string label, string value)> pairs)
+        {
+            foreach (var (label, value) in pairs)
+                await VerifyPickupOrderDetailLabelAsync(label, value);
+        }
+
+        /// <summary>
+        /// Verifica que el heading "Pickup Order {number}" sea visible en la página de detalles.
+        /// HTML: h3.font-weight-normal "Pickup Order TC1875_1880"
+        /// </summary>
+        public async Task VerifyPickupOrderDetailsPageAsync(string number)
+        {
+            var heading = Page.Locator("h3.font-weight-normal")
+                .Filter(new LocatorFilterOptions { HasText = number })
+                .First;
+            await heading.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await heading.IsVisibleAsync(),
+                $"Pickup Order details heading with '{number}' not visible. URL: {Page.Url}");
+        }
+
+        public async Task ClickPickupOrderInListAsync(string number)
         {
             var item = Page.Locator("li[qwyk-pickup-orders-index-list-item]")
                 .Filter(new LocatorFilterOptions { HasText = number })
                 .First;
-            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 30000 });
-            Assert.IsTrue(await item.IsVisibleAsync(),
-                $"Expected Pickup Order '{number}' in list. URL: {Page.Url}");
+            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(item, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(item);
+        }
+
+        public async Task VerifyPickupOrderVisibleInListAsync(string number)
+        {
+            const int retryIntervalMs = 2000;
+            const int maxDurationMs = 180000;
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
+
+            var item = Page.Locator("li[qwyk-pickup-orders-index-list-item]")
+                .Filter(new LocatorFilterOptions { HasText = number })
+                .First;
+
+            while (true)
+            {
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Pickup Order '{number}' did not appear in list after 3 minutes. URL: {Page.Url}");
+
+                if (await item.CountAsync() > 0 && await item.IsVisibleAsync())
+                    return;
+
+                var searchBtn = Page.Locator("button")
+                    .Filter(new LocatorFilterOptions { HasText = "Search" })
+                    .First;
+                if (await searchBtn.CountAsync() > 0 && await searchBtn.IsVisibleAsync())
+                    await ClickAndWaitForNetworkAsync(searchBtn);
+
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+            }
         }
     }
 }

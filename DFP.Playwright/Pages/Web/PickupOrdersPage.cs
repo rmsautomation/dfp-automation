@@ -279,6 +279,68 @@ namespace DFP.Playwright.Pages.Web
             return Task.CompletedTask;
         }
 
+        // ── Pagination ────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the "Last Page" paginator button if it is enabled.
+        /// HTML: button.p-paginator-last
+        /// </summary>
+        public async Task GoToLastPageAsync()
+        {
+            await DismissCookieBannerIfVisibleAsync();
+
+            var btn = Page.Locator("button.p-paginator-last").First;
+            await btn.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(btn, timeoutMs: 15000);
+            await btn.ScrollIntoViewIfNeededAsync();
+            await ClickAndWaitForNetworkAsync(btn);
+        }
+
+        /// <summary>
+        /// Selects the rows-per-page option from the PrimeNG paginator dropdown.
+        /// Uses ScrollIntoViewIfNeeded + JS click to avoid Chrome download bar overlap.
+        /// HTML: p-dropdown inside p-paginator, li.p-dropdown-item with the number text.
+        /// </summary>
+        public async Task SelectPaginationNumberAsync(string number)
+        {
+            await DismissCookieBannerIfVisibleAsync();
+
+            const int maxWaitMs = 30000;
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxWaitMs);
+
+            // Target the chevron trigger inside the rows-per-page dropdown (p-paginator-rpp-options),
+            // NOT the jump-to-page dropdown (p-paginator-page-options) which is the first dropdown.
+            var trigger = Page.Locator("div.p-paginator-rpp-options div.p-dropdown-trigger[role='button']").First;
+            await trigger.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(trigger, timeoutMs: 15000);
+            await trigger.ScrollIntoViewIfNeededAsync();
+
+            var option = Page.Locator("p-dropdownitem li.p-dropdown-item")
+                .Filter(new LocatorFilterOptions { HasText = number })
+                .First;
+
+            // Retry clicking the trigger until the desired option appears in the overlay panel
+            while (true)
+            {
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Pagination option '{number}' did not appear after 30 seconds. URL: {Page.Url}");
+
+                await trigger.ClickAsync();
+
+                var pollDeadline = DateTime.UtcNow.AddMilliseconds(3000);
+                while (DateTime.UtcNow < pollDeadline)
+                {
+                    if (await option.CountAsync() > 0 && await option.IsVisibleAsync())
+                        goto optionFound;
+                    await Page.WaitForTimeoutAsync(200);
+                }
+            }
+            optionFound:
+
+            await option.DispatchEventAsync("click");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 15000 });
+        }
+
         // ── Attachments ───────────────────────────────────────────────────────────
 
         /// <summary>

@@ -62,6 +62,18 @@ namespace DFP.Playwright.StepDefinitions
         public async Task ISelectOption(string optionText)
             => await _pickupOrdersPage.SelectPdfOptionAsync(optionText);
 
+        [Given("I select the pagination number {string}"), Scope(Feature = "Pickup Orders")]
+        [When("I select the pagination number {string}"), Scope(Feature = "Pickup Orders")]
+        [Then("I select the pagination number {string}"), Scope(Feature = "Pickup Orders")]
+        public async Task ISelectThePaginationNumber(string number)
+            => await _pickupOrdersPage.SelectPaginationNumberAsync(number);
+
+        [Given("I should go to the last page of the cargo items"), Scope(Feature = "Pickup Orders")]
+        [When("I should go to the last page of the cargo items"), Scope(Feature = "Pickup Orders")]
+        [Then("I should go to the last page of the cargo items"), Scope(Feature = "Pickup Orders")]
+        public async Task IShouldGoToTheLastPageOfCargoItems()
+            => await _pickupOrdersPage.GoToLastPageAsync();
+
         [Given("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]
         [When("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]
         [Then("I click on PDF button in the pickup order details"), Scope(Feature = "Pickup Orders")]

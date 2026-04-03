@@ -2207,29 +2207,29 @@ namespace DFP.Playwright.Features
 #line 683
     await testRunner.AndAsync("I select the \"DefaultWithcustom\" column view", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table43 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
                             "Exworks"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Boolean",
                             "Yes"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "DFP Shipper Reference",
                             "SHIPPER5305"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "DFP Consignee Reference",
                             "CONSIGNEEREF5305"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "DFP Payment terms",
                             "COLLECT"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Shipper Reference",
                             "SHIPPER5305"});
-                table37.AddRow(new string[] {
+                table43.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});
 #line 684
-    await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table37, "And ");
+    await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table43, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

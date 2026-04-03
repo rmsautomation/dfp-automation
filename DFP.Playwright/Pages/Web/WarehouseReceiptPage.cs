@@ -616,16 +616,25 @@ namespace DFP.Playwright.Pages.Web
         }
 
         /// <summary>
-        /// Verifies a commodity text is visible in the WR cargo details table.
-        /// HTML: &lt;div class="col-3"&gt; UpdateCommodity &lt;/div&gt; (note surrounding spaces — normalize-space handles it).
-        /// XPath: //div[contains(@class,'col-3') and normalize-space()='{commodity}']
+        /// Verifies a commodity text is visible in the WR cargo details.
+        /// Tries three selectors in order until one is visible within 15 seconds:
+        ///   1. li[qwyk-cargo-items-index-list-item] containing commodity text
+        ///   2. //div[contains(@class,'col-3') and normalize-space()='{commodity}'] (original)
+        ///   3. //div[contains(@class,'col-3') and contains(.,'Quantity:') and contains(.,'{commodity}')] (new)
         /// </summary>
         public async Task VerifyCommodityInCargoDetailsAsync(string commodity)
         {
-            var cell = Page.Locator($"//div[contains(@class,'col-3') and normalize-space()='{commodity}']").First;
-            await WaitForEnabledAsync(cell, timeoutMs: 15000);
-            Assert.IsTrue(await cell.IsVisibleAsync(),
+            var found = await TryFindLocatorAsync(new[]
+            {
+                $"li[qwyk-cargo-items-index-list-item]:has-text(\"{commodity}\")",
+                $"//div[contains(@class,'col-3') and normalize-space()='{commodity}']",
+                $"//div[contains(@class,'col-3') and contains(.,'Quantity:') and contains(.,'{commodity}')]"
+            }, timeoutMs: 15000);
+
+            Assert.IsNotNull(found,
                 $"Commodity '{commodity}' not found in cargo details. URL: {Page.Url}");
+            Assert.IsTrue(await found!.IsVisibleAsync(),
+                $"Commodity '{commodity}' not visible in cargo details. URL: {Page.Url}");
         }
 
         /// <summary>
@@ -698,6 +707,36 @@ namespace DFP.Playwright.Pages.Web
                 Assert.IsTrue(await partyItem.IsVisibleAsync(),
                     $"Party '{partyType}: {partyName}' not found in the Parties section. URL: {Page.Url}");
             }
+        }
+
+        // ── Quantity ──────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Verifies a "Quantity: {value}" span is visible in the cargo items list.
+        /// HTML: span "Quantity: 5000" inside div.col-3.small
+        /// </summary>
+        public async Task VerifyQuantityAsync(string quantity)
+        {
+            var span = Page.Locator($"span").Filter(new LocatorFilterOptions { HasText = $"Quantity: {quantity}" }).First;
+            await span.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            Assert.IsTrue(await span.IsVisibleAsync(),
+                $"Quantity '{quantity}' not found. URL: {Page.Url}");
+        }
+
+        // ── List item click ───────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Clicks the warehouse receipt list item that contains the given number.
+        /// HTML: li[qwyk-warehouse-receipts-index-list-item] — number may be CSS-truncated but DOM has full text.
+        /// </summary>
+        public async Task ClickWarehouseReceiptInListAsync(string number)
+        {
+            var item = Page.Locator("li[qwyk-warehouse-receipts-index-list-item]")
+                .Filter(new LocatorFilterOptions { HasText = number })
+                .First;
+            await item.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
+            await WaitForEnabledAsync(item, timeoutMs: 15000);
+            await ClickAndWaitForNavigationAsync(item);
         }
     }
 }

@@ -145,6 +145,24 @@ namespace DFP.Playwright.Support
                 return new CargoReleasesPage(tc.Page!, tc);
             });
 
+            services.AddScoped<PaymentsPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new PaymentsPage(tc.Page!, tc);
+            });
+
+            services.AddScoped<CargoDetailPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new CargoDetailPage(tc.Page!, tc);
+            });
+
+            services.AddScoped<PickupOrdersPage>(sp =>
+            {
+                var tc = sp.GetRequiredService<TestContext>();
+                return new PickupOrdersPage(tc.Page!, tc);
+            });
+
             return services;
         }
     }

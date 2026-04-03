@@ -2207,29 +2207,29 @@ namespace DFP.Playwright.Features
 #line 683
     await testRunner.AndAsync("I select the \"DefaultWithcustom\" column view", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table25 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
                             "INCO Terms",
                             "Exworks"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Boolean",
                             "Yes"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "DFP Shipper Reference",
                             "SHIPPER5305"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "DFP Consignee Reference",
                             "CONSIGNEEREF5305"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "DFP Payment terms",
                             "COLLECT"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Shipper Reference",
                             "SHIPPER5305"});
-                table25.AddRow(new string[] {
+                table35.AddRow(new string[] {
                             "Shipment Guid",
                             "GUID5305"});
 #line 684
-    await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table25, "And ");
+    await testRunner.AndAsync("I check the following custom field values in the table view for shipment", ((string)(null)), table35, "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -2514,60 +2514,63 @@ namespace DFP.Playwright.Features
     await testRunner.AndAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 793
-    await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I select the pagination number \"25\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 794
-    await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 795
-    await testRunner.AndAsync("I should see the uploaded file \"PDFDFP.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 796
-    await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"PDFDFP.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 797
-    await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 798
-    await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 799
-    await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 800
-    await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 801
-    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 802
-    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 803
-    await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 804
-    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 805
-    await testRunner.ThenAsync("I should see the commodity \"UpdateCommodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 806
-    await testRunner.AndAsync("I should see the Remarks Instructions contains \"UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("I should see the commodity \"UpdateCommodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 807
-    await testRunner.AndAsync("I should see the shipper contains \"Updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the Remarks Instructions contains \"UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 808
-    await testRunner.AndAsync("I should see billing client contains \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see the shipper contains \"Updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 809
-    await testRunner.AndAsync("I should see link entities shipper contains \"updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should see billing client contains \"automation\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 810
-    await testRunner.WhenAsync("I go to Charge and Invoices tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("I should see link entities shipper contains \"updated\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 811
+    await testRunner.WhenAsync("I go to Charge and Invoices tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 812
     await testRunner.ThenAsync("I should see the charge \"Storage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2592,7 +2595,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("841_SHQWYKToMagayaShipmentSendAttcahment", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 814
+#line 815
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2602,145 +2605,145 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 816
+#line 817
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 817
+#line 818
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 818
+#line 819
     await testRunner.GivenAsync("I am on the Quotations List page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 819
+#line 820
     await testRunner.WhenAsync("I open the first quotation in Status Booked", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 820
+#line 821
     await testRunner.ThenAsync("I should be on the Quotation Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 821
+#line 822
     await testRunner.WhenAsync("I click the \"Offers\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 822
+#line 823
     await testRunner.ThenAsync("the list of the offers should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 823
+#line 824
     await testRunner.WhenAsync("I click on Book Now button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 824
+#line 825
     await testRunner.ThenAsync("a confirmation dialog should appear", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 825
+#line 826
     await testRunner.WhenAsync("I confirm the shipment creation", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 826
+#line 827
     await testRunner.ThenAsync("I should be on the Shipment Details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 827
+#line 828
     await testRunner.ThenAsync("I store the shipment id from the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 828
+#line 829
     await testRunner.AndAsync("I store shipment Name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 829
+#line 830
     await testRunner.WhenAsync("I click on Send Booking button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 830
+#line 831
     await testRunner.ThenAsync("I should click on Go To Shipment button to see the shipment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 831
+#line 832
     await testRunner.AndAsync("the shipment should display the shipment name", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 837
+#line 838
     await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 838
+#line 839
     await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 839
+#line 840
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 842
+#line 843
     await testRunner.AndAsync("the shipment should appear in the search results with text \"UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 843
+#line 844
     await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 844
+#line 845
     await testRunner.WhenAsync("I click on Attahments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 845
+#line 846
     await testRunner.AndAsync("I should see the uploaded file \"DOCDFP.docx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 846
+#line 847
     await testRunner.AndAsync("I should see the uploaded file \"PDFDFP.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 847
+#line 848
     await testRunner.AndAsync("I should see the uploaded file \"XLSDFP.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 848
+#line 849
     await testRunner.AndAsync("I should see the uploaded file \"CSVDFP.csv\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 849
+#line 850
     await testRunner.AndAsync("I should see the uploaded file \"TXT_MAGAYA.txt\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 850
+#line 851
     await testRunner.AndAsync("I should see the uploaded file \"MSGDFP.msg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 851
+#line 852
     await testRunner.AndAsync("I should see the uploaded file \"XML_MAGAYA.xml\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 852
+#line 853
     await testRunner.AndAsync("I should see the uploaded file \"test1.png\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 853
+#line 854
     await testRunner.AndAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 854
+#line 855
     await testRunner.AndAsync("I should see the uploaded file \"JSON_MAGAYA.json\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 855
+#line 856
     await testRunner.AndAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 857
-    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
 #line 858
-    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 859
-    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 860
-    await testRunner.WhenAsync("I select the file to upload \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 861
-    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 862
-    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 863
-    await testRunner.AndAsync("I should see the uploaded file \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 864
-    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 865
     await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 866
+#line 860
     await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 867
-    await testRunner.WhenAsync("I select the file to upload \"DFPAttachPDF.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 861
+    await testRunner.WhenAsync("I select the file to upload \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 868
+#line 862
     await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 869
+#line 863
     await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+#line 864
+    await testRunner.AndAsync("I should see the uploaded file \"DFPAttachment.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 865
+    await testRunner.WhenAsync("I click on \"Upload attachment\" button", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 866
+    await testRunner.ThenAsync("I should see the screen to upload the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 867
+    await testRunner.ThenAsync("I click on Drop your file here option", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 868
+    await testRunner.WhenAsync("I select the file to upload \"DFPAttachPDF.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 869
+    await testRunner.ThenAsync("I enter the description \"DFPAttach\" for the attachment", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
 #line 870
+    await testRunner.ThenAsync("I click on Upload button", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 871
     await testRunner.AndAsync("I should see the uploaded file \"DFPAttachPDF.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -2765,7 +2768,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("2244_AirShipment_UpdateMasterHouse", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 875
+#line 876
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2775,377 +2778,377 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 882
+#line 883
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 883
+#line 884
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 884
-    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 885
-    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 886
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 890
-    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 891
-    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 892
-    await testRunner.ThenAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 893
-    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 894
-    await testRunner.AndAsync("I should see the shipper \"SHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 895
-    await testRunner.AndAsync("I should see the consignee \"CONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 896
-    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 897
-    await testRunner.ThenAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 898
-    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 899
-    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 900
-    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 901
-    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 902
-    await testRunner.ThenAsync("I should see the commodity \"Automation Commodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 907
-    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 908
     await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 909
+#line 887
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 913
-    await testRunner.ThenAsync("the shipment should appear in the search results with text \"WithHouse\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 891
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 914
-    await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 915
+#line 892
     await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 916
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 893
+    await testRunner.ThenAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 917
-    await testRunner.AndAsync("I store the shipmentId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 918
-    await testRunner.AndAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 919
-    await testRunner.ThenAsync("I store the master total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 920
-    await testRunner.AndAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 921
-    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 922
-    await testRunner.AndAsync("I store the houseId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 924
-    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 925
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 926
-    await testRunner.AndAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 927
+#line 894
     await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 928
+#line 895
+    await testRunner.AndAsync("I should see the shipper \"SHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 896
+    await testRunner.AndAsync("I should see the consignee \"CONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 897
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 929
+#line 898
+    await testRunner.ThenAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 899
     await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 930
-    await testRunner.AndAsync("I should see the uploaded file \"Arrival Notice - Air - Unrated.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 931
+#line 900
     await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 932
+#line 901
     await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+#line 902
+    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 903
+    await testRunner.ThenAsync("I should see the commodity \"Automation Commodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 908
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 909
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 910
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 914
+    await testRunner.ThenAsync("the shipment should appear in the search results with text \"WithHouse\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 915
+    await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 916
+    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 917
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 918
+    await testRunner.AndAsync("I store the shipmentId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 919
+    await testRunner.AndAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 920
+    await testRunner.ThenAsync("I store the master total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 921
+    await testRunner.AndAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 922
+    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 923
+    await testRunner.AndAsync("I store the houseId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 925
+    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 926
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 927
+    await testRunner.AndAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 928
+    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 929
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 930
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 931
+    await testRunner.AndAsync("I should see the uploaded file \"Arrival Notice - Air - Unrated.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 932
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
 #line 933
-    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 934
-    await testRunner.ThenAsync("I should see the house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 935
-    await testRunner.AndAsync("I store house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.ThenAsync("I should see the house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 936
+    await testRunner.AndAsync("I store house total pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 937
     await testRunner.AndAsync("I verify the house total pieces is  Expected HousePIeces+1= Master Shipment total" +
                         " pieces", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 937
+#line 938
     await testRunner.AndAsync("I should see the house was created in DFP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 939
+#line 940
     await testRunner.WhenAsync("I click on \"warehouse-receipts\" link in the House SH details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 940
+#line 941
     await testRunner.ThenAsync("I should see the \"Warehouse receipt\" details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 941
+#line 942
     await testRunner.AndAsync("I should see the correct \"WH\" GUID in the URL", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 942
+#line 943
     await testRunner.WhenAsync("I go to cargo tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 943
+#line 944
     await testRunner.ThenAsync("I should see the cargo items page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 944
+#line 945
     await testRunner.AndAsync("I click on the \"shipments\" link in the cargo item details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 945
+#line 946
     await testRunner.AndAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 946
+#line 947
     await testRunner.AndAsync("I should see shipmentId", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 947
+#line 948
     await testRunner.AndAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 948
-    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
 #line 949
-    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 950
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 955
-    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 951
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 956
-    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 957
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 958
-    await testRunner.ThenAsync("the shipment should appear in the search results with text \"UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 959
-    await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 960
-    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 961
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 962
-    await testRunner.AndAsync("I should see the origin \"New York\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 963
-    await testRunner.AndAsync("I should see the destination \"Rotterdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 964
-    await testRunner.AndAsync("I should see the shipper \"UPDATEDSHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 965
-    await testRunner.AndAsync("I should see the consignee \"UPDATEDCONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 966
-    await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 967
-    await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 968
-    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 969
-    await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 970
-    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 971
-    await testRunner.ThenAsync("I should see the commodity \"UpdateCommodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 972
-    await testRunner.AndAsync("I should see the description contains \"Description of Goods UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 973
-    await testRunner.AndAsync("I should see panel \"COLLECT\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 974
-    await testRunner.AndAsync("I should see the GUID \"ShipmentGuidUPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 975
-    await testRunner.AndAsync("I should see the shipmentRef contains \"UPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 976
-    await testRunner.AndAsync("I should see the link entities contains \"Updated\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 978
-    await testRunner.WhenAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 979
-    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 980
-    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 981
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 982
-    await testRunner.AndAsync("I should see the origin \"New York\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 983
-    await testRunner.AndAsync("I should see the destination \"Rotterdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 984
-    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 985
-    await testRunner.ThenAsync("I should see the link entities contains \"Updated\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 990
     await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 991
+#line 957
     await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 992
+#line 958
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 993
-    await testRunner.ThenAsync("the shipment should appear in the search results with text \"UPDATEDHOUSE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 959
+    await testRunner.ThenAsync("the shipment should appear in the search results with text \"UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 994
+#line 960
     await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 995
+#line 961
     await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 996
+#line 962
     await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 997
-    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 998
-    await testRunner.ThenAsync("I should see the commodity \"houseUpdatedDescription\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 999
-    await testRunner.AndAsync("I store the master total pieces after updating the house", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1000
-    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1001
-    await testRunner.AndAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1003
-    await testRunner.WhenAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1004
-    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1005
-    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1006
-    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1007
+#line 963
     await testRunner.AndAsync("I should see the origin \"New York\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1008
+#line 964
     await testRunner.AndAsync("I should see the destination \"Rotterdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1009
+#line 965
     await testRunner.AndAsync("I should see the shipper \"UPDATEDSHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1010
+#line 966
     await testRunner.AndAsync("I should see the consignee \"UPDATEDCONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1011
+#line 967
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 1012
+#line 968
     await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 1013
+#line 969
     await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 1014
+#line 970
     await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1015
-    await testRunner.AndAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1016
+#line 971
     await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 1017
-    await testRunner.ThenAsync("I should see the commodity \"houseUpdatedDescription\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 972
+    await testRunner.ThenAsync("I should see the commodity \"UpdateCommodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 1018
-    await testRunner.AndAsync("I store the house total pieces after updating the house", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 973
+    await testRunner.AndAsync("I should see the description contains \"Description of Goods UPDATED\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1019
-    await testRunner.AndAsync("And I should see the description contains \"General Goods UPDATEDSHIPMENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1020
+#line 974
     await testRunner.AndAsync("I should see panel \"COLLECT\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1021
-    await testRunner.AndAsync("I should see panel \"Test\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1022
+#line 975
     await testRunner.AndAsync("I should see the GUID \"ShipmentGuidUPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1023
+#line 976
     await testRunner.AndAsync("I should see the shipmentRef contains \"UPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1024
+#line 977
     await testRunner.AndAsync("I should see the link entities contains \"Updated\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
+#line 979
+    await testRunner.WhenAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 980
+    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 981
+    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 982
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 983
+    await testRunner.AndAsync("I should see the origin \"New York\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 984
+    await testRunner.AndAsync("I should see the destination \"Rotterdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 985
+    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 986
+    await testRunner.ThenAsync("I should see the link entities contains \"Updated\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 991
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 992
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 993
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 994
+    await testRunner.ThenAsync("the shipment should appear in the search results with text \"UPDATEDHOUSE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 995
+    await testRunner.AndAsync("I should see the Master SH icon in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 996
+    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 997
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 998
+    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 999
+    await testRunner.ThenAsync("I should see the commodity \"houseUpdatedDescription\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1000
+    await testRunner.AndAsync("I store the master total pieces after updating the house", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1001
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1002
+    await testRunner.AndAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1004
+    await testRunner.WhenAsync("I go to House tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1005
+    await testRunner.ThenAsync("I should see the House SH linked to the Master SH contains \"HAWB\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1006
+    await testRunner.WhenAsync("I click on the houseId in the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1007
+    await testRunner.ThenAsync("I should see the shipment details page", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1008
+    await testRunner.AndAsync("I should see the origin \"New York\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1009
+    await testRunner.AndAsync("I should see the destination \"Rotterdam\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1010
+    await testRunner.AndAsync("I should see the shipper \"UPDATEDSHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1011
+    await testRunner.AndAsync("I should see the consignee \"UPDATEDCONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1012
+    await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1013
+    await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1014
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1015
+    await testRunner.AndAsync("I should see the uploaded file \"RoundPriceUpdated.xlsx\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1016
+    await testRunner.AndAsync("I should see the uploaded file \"attachCommodity.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1017
+    await testRunner.WhenAsync("I go to booking details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1018
+    await testRunner.ThenAsync("I should see the commodity \"houseUpdatedDescription\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1019
+    await testRunner.AndAsync("I store the house total pieces after updating the house", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1020
+    await testRunner.AndAsync("And I should see the description contains \"General Goods UPDATEDSHIPMENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1021
+    await testRunner.AndAsync("I should see panel \"COLLECT\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1022
+    await testRunner.AndAsync("I should see panel \"Test\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1023
+    await testRunner.AndAsync("I should see the GUID \"ShipmentGuidUPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1024
+    await testRunner.AndAsync("I should see the shipmentRef contains \"UPDATED\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
 #line 1025
-    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.AndAsync("I should see the link entities contains \"Updated\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 1026
-    await testRunner.ThenAsync("I should see the charge \"Storage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 1027
+    await testRunner.ThenAsync("I should see the charge \"Storage Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1028
     await testRunner.AndAsync("I verify the master total pieces after updating the house", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
@@ -3170,7 +3173,7 @@ namespace DFP.Playwright.Features
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("859_MagayaToQWYKAddAutomaticEvent", "", tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
-#line 1030
+#line 1031
   this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3180,106 +3183,106 @@ namespace DFP.Playwright.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 1034
+#line 1035
     await testRunner.GivenAsync("I login to Portal as user \"with Int\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 1035
+#line 1036
     await testRunner.ThenAsync("the login dashboard should be visible", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 1036
-    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
 #line 1037
-    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 1038
-    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1039
-    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1040
-    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1041
-    await testRunner.ThenAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1042
-    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1043
-    await testRunner.AndAsync("I should see the shipper \"SHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1044
-    await testRunner.AndAsync("I should see the consignee \"CONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1045
-    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1046
-    await testRunner.ThenAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1047
-    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1048
-    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1049
-    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1050
-    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1051
-    await testRunner.ThenAsync("I should see the commodity \"Automation Commodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1052
-    await testRunner.AndAsync("I should see the link entities contains \"Air\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1053
-    await testRunner.AndAsync("I should see the GUID \"ShipmentGuid\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1054
-    await testRunner.AndAsync("I should see the shipmentRef in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1055
-    await testRunner.AndAsync("I should see panel \"PREPAID\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 1056
-    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 1057
-    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 1062
-    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 1063
     await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 1064
+#line 1039
     await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1065
-    await testRunner.ThenAsync("the shipment should appear in the search results with text \"EVENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 1040
+    await testRunner.ThenAsync("the shipment should appear in the search results", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 1066
+#line 1041
     await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
+#line 1042
+    await testRunner.ThenAsync("I should see the origin \"Los Angeles\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1043
+    await testRunner.AndAsync("I should see the destination \"Shanghai\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1044
+    await testRunner.AndAsync("I should see the shipper \"SHIPPER\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1045
+    await testRunner.AndAsync("I should see the consignee \"CONSIGNEE\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1046
+    await testRunner.WhenAsync("I go to attachments tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1047
+    await testRunner.ThenAsync("I should see the uploaded file \"test.jpg\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1048
+    await testRunner.AndAsync("I should see the uploaded file \"test2.pdf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1049
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1050
+    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1051
+    await testRunner.WhenAsync("I go to Booking Details tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1052
+    await testRunner.ThenAsync("I should see the commodity \"Automation Commodity\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1053
+    await testRunner.AndAsync("I should see the link entities contains \"Air\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1054
+    await testRunner.AndAsync("I should see the GUID \"ShipmentGuid\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1055
+    await testRunner.AndAsync("I should see the shipmentRef in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1056
+    await testRunner.AndAsync("I should see panel \"PREPAID\" in the booking details", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1057
+    await testRunner.WhenAsync("I go to charge and invoice tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1058
+    await testRunner.ThenAsync("I should see the charge \"Crating Fee\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1063
+    await testRunner.GivenAsync("I navigated to Shipments List", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 1064
+    await testRunner.WhenAsync("I enter the shipment Reference in Quick filter", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 1065
+    await testRunner.AndAsync("I click on Search button", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 1066
+    await testRunner.ThenAsync("the shipment should appear in the search results with text \"EVENT\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
 #line 1067
-    await testRunner.AndAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.WhenAsync("I open the tagged shipment details view", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 1068
-    await testRunner.ThenAsync("I should see the event \"In Transit\" in the tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.AndAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 1069
+    await testRunner.ThenAsync("I should see the event \"In Transit\" in the tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 1070
     await testRunner.AndAsync("I should see the event \"Shipment has been set as in transit\" in the tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 1074
+#line 1075
     await testRunner.WhenAsync("I go to tracking tab", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 1075
+#line 1076
     await testRunner.ThenAsync("I should see the event \"Arrived at destination\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

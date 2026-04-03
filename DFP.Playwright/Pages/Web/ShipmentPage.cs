@@ -3095,10 +3095,23 @@ namespace DFP.Playwright.Pages.Web
         /// </summary>
         public async Task VerifyTrackingEventAsync(string eventText)
         {
-            var el = Page.Locator($"//div[contains(normalize-space(),{ToXPathLiteral(eventText)})]").First;
-            await el.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = 15000 });
-            Assert.IsTrue(await el.IsVisibleAsync(),
-                $"Tracking event '{eventText}' is not visible. URL: {Page.Url}");
+            const int retryIntervalMs = 2000;
+            const int maxDurationMs = 180000;
+            var deadline = DateTime.UtcNow.AddMilliseconds(maxDurationMs);
+
+            while (true)
+            {
+                if (DateTime.UtcNow >= deadline)
+                    Assert.Fail($"Tracking event '{eventText}' did not appear after 3 minutes. URL: {Page.Url}");
+
+                var el = Page.Locator($"//div[contains(normalize-space(),{ToXPathLiteral(eventText)})]").First;
+                if (await el.CountAsync() > 0 && await el.IsVisibleAsync())
+                    return;
+
+                await Page.ReloadAsync(new PageReloadOptions { Timeout = 60000 });
+                await Page.WaitForLoadStateAsync(LoadState.NetworkIdle, new PageWaitForLoadStateOptions { Timeout = 60000 });
+                await Page.WaitForTimeoutAsync(retryIntervalMs);
+            }
         }
 
         // ── Booking Details tab methods ───────────────────────────────────────────
